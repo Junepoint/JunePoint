@@ -283,6 +283,13 @@
 /**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**/
 
+.web3-card-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .web3-section {
     background: var(--primary-green);
     padding: 80px 0;
@@ -391,10 +398,11 @@
     transform: translate(-50%, -50%);
     width: 52px;
     height: 52px;
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 3;
+    pointer-events: none; /* optional: allows clicks through icon */
   }
   
   .web3-icon svg {
