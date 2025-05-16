@@ -14,6 +14,8 @@
   }
   
   body {
+    background: url("/svgs/junepoint_background.svg") no-repeat;
+    background-size: cover;
     line-height: 1.6;
     color: var(--text-light);
     font-family: 'Alata', Arial, sans-serif;
@@ -59,7 +61,7 @@
     margin-right: auto; /* Added for left alignment */
     padding-left: 15%; /* Added for left offset */
     z-index: 3
-}
+} 
 
 .hero-title {
     font-size: 3.2rem;
