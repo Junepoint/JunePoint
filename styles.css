@@ -32,7 +32,6 @@
 
 .navbar {
     padding: 20px;
-    background-color: rgb(12, 49, 39, 0.8);
     z-index: 1000; /* Ensure it stays on top */
     padding-left: 15%;
 }
@@ -46,7 +45,6 @@
 
 .hero {
     height: 90vh;
-    background-color: rgb(12, 49, 39, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -173,7 +171,6 @@
 /**//**//**//**//**//**//**//**//**//**/
 .digital-solutions {
     position: relative;
-    background: var(--primary-green);
     padding: 8rem 2rem 6rem;
     z-index: 1;
   }
@@ -287,7 +284,6 @@
 
 /* ===== Web3 Section Styles ===== */
 .web3-section {
-  background: var(--primary-green);
   padding: 80px 0;
   display: flex;
   justify-content: center;
@@ -460,7 +456,6 @@
 /**//**//**//**//**//**//**//**//**//**/
 
 .web4-section {
-  background: var(--primary-green, #14372e);
   min-height: 100vh;
   padding: 0;
   display: flex;
