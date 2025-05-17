@@ -499,7 +499,7 @@
 .web4-card {
   background: #232f2b;
   border-radius: 0;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* box shadow always visible */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   width: 390px;
   min-height: 570px;
@@ -510,7 +510,7 @@
 }
 
 .web4-card:hover {
-  transform: scale(1.06); /* only scale on hover */
+  transform: scale(1.06);
   z-index: 2;
 }
 
@@ -518,7 +518,10 @@
   height: 200px;
   background-size: cover;
   background-position: center;
-  background-color: #e1e1e1;
+  position: relative;
+  /* Gradient overlay for fade effect */
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
 
 .web4-card-content {
@@ -527,10 +530,11 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background: linear-gradient(180deg, rgba(35,47,43,0.96) 65%, #232f2b 100%);
-  position: relative;
-  min-height: 260px;
+  background: linear-gradient(180deg, rgba(35,47,43,0.9) 0%, #232f2b 100%);
+  margin-top: -40px; /* Overlap image */
   color: #fff;
+  position: relative;
+  z-index: 1;
 }
 
 .web4-card-content h3 {
@@ -580,7 +584,11 @@
   .web4-card-image {
     height: 150px;
   }
+  .web4-card-content {
+    margin-top: -30px;
+  }
 }
+
 @media (max-width: 1000px) {
   .web4-cards {
     flex-direction: column;
@@ -594,5 +602,9 @@
   .web4-label {
     margin-left: 0;
     margin-bottom: 20px;
+  }
+  .web4-card-content {
+    margin-top: -20px;
+    padding: 24px 20px 20px 20px;
   }
 }
