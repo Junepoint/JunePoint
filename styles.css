@@ -455,6 +455,31 @@
 /**//**//**//**//**//**//**//**//**//**/
 /**//**//**//**//**//**//**//**//**//**/
 
+.web4-card-image {
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  z-index: 1;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+
+.web4-card-image video {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Rest of original Web4 CSS remains unchanged */
 .web4-section {
   min-height: 100vh;
   padding: 0;
@@ -514,27 +539,19 @@
   z-index: 2;
 }
 
-.web4-card-image {
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  /* Gradient overlay for fade effect */
-  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-}
-
 .web4-card-content {
   padding: 32px 28px 28px 28px;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background: linear-gradient(180deg, rgba(35,47,43,0.9) 0%, #232f2b 100%);
-  margin-top: -40px; /* Overlap image */
+  background: linear-gradient(180deg, rgba(35,47,43,0.45) 0%, rgba(35,47,43,0.75) 100%);
+  margin-top: -40px;
   color: #fff;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(2px);
 }
 
 .web4-card-content h3 {
@@ -572,7 +589,15 @@
   box-shadow: 0 4px 16px rgba(226,201,140,0.18);
 }
 
-/* Responsive adjustments */
+.web4-card:hover .web4-card-content {
+  background: linear-gradient(180deg, rgba(35,47,43,0.7) 0%, #232f2b 100%);
+}
+
+.web4-card:hover .web4-card-image {
+  -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+}
+
 @media (max-width: 1350px) {
   .web4-cards-wrapper {
     max-width: 1000px;
