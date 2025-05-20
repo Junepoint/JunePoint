@@ -16,6 +16,7 @@
 body {
   background: url("/svgs/junepoint_background.svg") no-repeat;
   background-size: cover;
+  width: 100%;
   line-height: 1.6;
   color: var(--text-light);
 }
@@ -32,34 +33,198 @@ body {
   text-decoration: none;
 }
 
-/* Hero Section */
+/* Hero Section Modifications */
 .hero {
-  height: 90vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
+  padding: 0;
+  padding-bottom: 4rem;
 }
+
+.hero-wrapper {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  padding: 0 15%;
+  padding-right: 5%;
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  justify-content: space-between;
+  transform: translateY(-5%); /* Pulls content upward */
+}
+
 .hero-content {
-  max-width: 1100px;
-  margin-right: auto;
-  padding-left: 15%;
-  z-index: 3;
+  flex: 1;
+  max-width: 800px;
+  margin-left: auto;
 }
+
 .hero-title {
   font-size: 3.2rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  text-align: left;
-}
-.hero-subtitle {
-  font-size: 1.4rem;
   margin-bottom: 2rem;
-  line-height: 1.6;
-  max-width: 700px;
-  text-align: left;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: 1.6rem;
+  margin-bottom: 3rem;
+  line-height: 1.7;
+  max-width: 800px;
+}
+
+/* Email Section Modifications */
+.email-us-section {
+  flex: 0 0 720px;
+  margin-left: auto;
+  transform: translateX(5%);
+}
+
+.email-us-container {
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 720px;
+}
+
+.email-us-title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.email-us-description {
+  font-size: 1.2rem; 
+  margin-bottom: 3rem;
+}
+
+/* Form Elements */
+.email-us-input,
+.email-us-textarea {
+  padding: 1rem 1.4rem;
+  font-size: 1.1rem;
+}
+
+.email-us-btn {
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1400px) {
+  .hero-wrapper {
+    padding: 0 10%;
+    padding-right: 5%;
+  }
+  
+  .email-us-section {
+    flex: 0 0 680px;
+    transform: translateX(3%);
+  }
+}
+
+@media (max-width: 1300px) {
+  .hero {
+    min-height: fit-content;
+    padding: 4rem 0;
+  }
+
+  .hero-wrapper {
+    flex-direction: column;
+    padding: 0 8%;
+    transform: none;
+    gap: 3rem;
+  }
+  
+  .hero-content {
+    text-align: center;
+    margin-left: 0;
+    max-width: 100%;
+  }
+  
+  .email-us-section {
+    flex: 1;
+    max-width: 800px;
+    margin-left: 0;
+    transform: none;
+    width: 100%;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 5rem 0;
+  }
+  
+  .hero-wrapper {
+    padding: 0 5%;
+    gap: 2rem;
+  }
+  
+  .email-us-container {
+    padding: 2.5rem 1.8rem;
+  }
+  
+  .email-us-title {
+    font-size: 2.2rem;
+  }
+  
+  .email-us-description {
+    font-size: 1.1rem;
+  }
+  
+  .email-us-input,
+  .email-us-textarea {
+    padding: 0.9rem 1.2rem;
+    font-size: 1rem;
+  }
+  
+  .email-us-btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: fit-content;
+    padding: 2rem 0;
+  }
+
+  .hero-wrapper {
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .email-us-container {
+    padding: 2rem 1.2rem;
+  }
+  
+  .email-us-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .email-us-btn {
+    width: 100%;
+  }
 }
 .cta-button {
   display: inline-block;
@@ -199,7 +364,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 7rem;
+  margin: 7rem;
 }
 
 .email-us-container {
@@ -555,6 +720,7 @@ body {
   flex-direction: column;
   transition: transform 0.25s cubic-bezier(.4,0,.2,1);
   position: relative;
+  border-radius: 16px;
 }
 .web4-card:hover {
   transform: scale(1.06);
@@ -824,7 +990,8 @@ body {
 /* 768px: hero, navbar, and cards scale down */
 @media (max-width: 768px) {
   .hero { height: 70vh; }
-  .hero-title { font-size: 2rem; }
+  .hero-title { font-size: 2.3rem; }
+  .digital-solutions h2 { font-size: 2.3rem; }
   .hero-subtitle { font-size: 1rem; }
   .cta-button { padding: 12px 24px; }
   .hero-content { padding-left: 5%; text-align: left; }
@@ -834,7 +1001,7 @@ body {
 
 /* 600px: further scaling for mobile */
 @media (max-width: 600px) {
-  .hero-title { font-size: 1.3rem; }
+  .hero-title { font-size: 2.3rem; }
   .hero-subtitle { font-size: 0.95rem; }
   .cta-button { padding: 10px 16px; font-size: 1rem; }
   .services-grid, .web4-cards { flex-direction: column; gap: 1.2rem; padding: 0 1rem; }
