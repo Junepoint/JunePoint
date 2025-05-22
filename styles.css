@@ -1,9 +1,9 @@
 :root {
-  --primary-green: #0c3127;
-  --primary-tan: #f0d08a;
-  --text-light: #ffffff;
+  --primary-yellow: #e5d18bff;
+  --primary-tan: #c1a770;
+  --text-dark: #000000;
   --hover-tan: #e6c78c;
-  --card-bg: #00180e;
+  --card-bg: #000000;
 }
 
 * {
@@ -17,7 +17,7 @@ body {
   background: url("/svgs/junepoint_background.svg") no-repeat;
   background-size: cover;
   line-height: 1.6;
-  color: var(--text-light);
+  color: var(--text-dark);
 }
 
 /* Navbar */
@@ -26,7 +26,7 @@ body {
   z-index: 1000;
 }
 .junepoint-logo {
-  color: var(--text-light);
+  color: var(--text-dark);
   font-size: 2.5rem;
   font-weight: bold;
   text-decoration: none;
@@ -34,12 +34,13 @@ body {
 
 /* Hero Section */
 .hero {
-  height: 90vh;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 1;
+  margin-bottom: 20px;
 }
 .hero-content {
   max-width: 1100px;
@@ -51,13 +52,14 @@ body {
   font-size: 3.2rem;
   margin-bottom: 1.5rem;
   line-height: 1.2;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.778);
   text-align: left;
 }
 .hero-subtitle {
   font-size: 1.4rem;
   margin-bottom: 2rem;
   line-height: 1.6;
+  text-shadow: 2px 2px 10px rgb(255, 255, 255);
   max-width: 700px;
   text-align: left;
 }
@@ -65,13 +67,14 @@ body {
   display: inline-block;
   padding: 15px 30px;
   background-color: var(--primary-tan);
-  color: var(--primary-green);
+  color: var(--text-dark);
   text-decoration: none;
   border-radius: 100px;
   font-weight: bold;
   transition: all 0.3s ease;
   border: 2px solid transparent;
   margin-left: 0;
+  margin-bottom: 15px;
   position: relative;
   overflow: hidden;
   background-image: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--hover-tan), var(--primary-tan));
@@ -107,19 +110,21 @@ body {
   }
   
   .digital-solutions h2 {
-    color: #fff;
+    color: var(--text-dark);
     font-size: 3.2rem;
     text-align: center;
     margin-bottom: 1.2rem;
+    text-shadow: 2px 2px 4px rgb(255, 255, 255);
     font-weight: bold;
     letter-spacing: 0.01em;
   }
   
   .services-description {
-    color: #fff;
+    color: var(--text-dark);
     font-size: 1.2rem;
     max-width: 800px;
     margin: 0 auto 3rem;
+    text-shadow: 3px 3px 6px rgb(255, 255, 255);
     text-align: center;
     opacity: 0.9;
     line-height: 1.7;
@@ -222,7 +227,7 @@ body {
 }
 
 .email-us-description {
-  color: var(--text-light);
+  color: var(--text-dark);
   font-size: 1.12rem;
   opacity: 0.95;
   margin-bottom: 2rem;
@@ -266,7 +271,7 @@ body {
   outline: none;
   font-size: 1.08rem;
   background: #14372e;
-  color: var(--text-light);
+  color: var(--text-dark);
   transition: box-shadow 0.2s, border 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   margin-bottom: 0.2rem;
@@ -291,7 +296,7 @@ body {
   border-radius: 30px;
   border: none;
   background: var(--primary-tan);
-  color: var(--primary-green);
+  color: var(--primary-yellow);
   font-weight: bold;
   font-size: 1.08rem;
   cursor: pointer;
@@ -393,11 +398,11 @@ body {
   margin-bottom: 18px;
   font-size: 1.6rem;
   font-weight: bold;
-  color: var(--text-light);
+  color: var(--text-dark);
   letter-spacing: 0.01em;
 }
 .web3-card p {
-  color: var(--text-light);
+  color: var(--text-dark);
   font-size: 1.08rem;
   line-height: 1.5;
   font-weight: 400;
@@ -407,7 +412,7 @@ body {
 .web3-card-btn {
   align-self: center;
   background: var(--primary-tan);
-  color: var(--primary-green);
+  color: var(--primary-yellow);
   font-weight: 500;
   font-size: 1rem;
   padding: 8px 22px;
@@ -635,8 +640,8 @@ body {
 }
 
 .site-footer {
-  background: var(--primary-green);
-  color: var(--text-light);
+  background: var(--primary-yellow);
+  color: var(--text-dark);
   box-shadow: 0 -8px 32px -8px rgba(0,0,0,0.22); /* Top shadow */
   padding: 0;
   width: 100%;
