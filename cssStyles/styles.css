@@ -1,9 +1,11 @@
 :root {
-  --primary-yellow: #e5d18bff;
-  --primary-tan: #c1a770;
+  --primary-yellow: #a9c5d9;
+  --primary-tan: #3c6989;
   --text-dark: #000000;
+  --text-light: #ffff;
   --hover-tan: #e6c78c;
-  --card-bg: #000000;
+  --card-bg: #a9c5d9;
+  --random: #d2ecff;
 }
 
 * {
@@ -18,7 +20,7 @@ body {
   background-size: cover;
   width: 100%;
   line-height: 1.6;
-  color: var(--text-dark);
+  color: var(--text-light);
 }
 
 /* Navbar */
@@ -27,7 +29,7 @@ body {
   z-index: 1000;
 }
 .junepoint-logo {
-  color: var(--text-dark);
+  color: var(--text-light);
   font-size: 2.5rem;
   font-weight: bold;
   text-decoration: none;
@@ -230,7 +232,7 @@ body {
   display: inline-block;
   padding: 15px 30px;
   background-color: var(--primary-tan);
-  color: var(--text-dark);
+  color: var(--text-light);
   text-decoration: none;
   border-radius: 100px;
   font-weight: bold;
@@ -273,21 +275,21 @@ body {
   }
   
   .digital-solutions h2 {
-    color: var(--text-dark);
+    color: var(--text-light);
     font-size: 3.2rem;
     text-align: center;
     margin-bottom: 1.2rem;
-    text-shadow: 2px 2px 4px rgb(255, 255, 255);
+    text-shadow: 2px 2px 4px rgb(0, 0, 0);
     font-weight: bold;
     letter-spacing: 0.01em;
   }
   
   .services-description {
-    color: var(--text-dark);
+    color: var(--text-light);
     font-size: 1.2rem;
     max-width: 800px;
     margin: 0 auto 3rem;
-    text-shadow: 3px 3px 6px rgb(255, 255, 255);
+    text-shadow: 3px 3px 6px rgb(0, 0, 0);
     text-align: center;
     opacity: 0.9;
     line-height: 1.7;
@@ -302,7 +304,7 @@ body {
   }
   
   .service-card {
-    background: var(--card-bg);
+    background: #96b8d1ff;
     border: none;
     padding: 2.5rem 2.5rem 2rem 2.5rem;
     border-radius: 16px;
@@ -313,7 +315,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+    box-shadow: 0 6px 32px rgba(0,0,0,0.22);
     position: relative;
     margin-top: 40px; /* Makes room for icon overlap */
   }
@@ -322,7 +324,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #193E34;
+    background: #a9c5d9;
     border-radius: 12px;
     width: 56px;
     height: 56px;
@@ -343,7 +345,8 @@ body {
   }
   
   .service-card h3 {
-    color: #fff;
+    color: var(--primary-tan);
+    text-shadow: 3px 3px 6px rgb(126, 126, 126);
     font-size: 1.6rem;
     font-weight: bold;
     text-align: center;
@@ -354,6 +357,7 @@ body {
   
   .service-card p {
     color: #fff;
+    text-shadow: 3px 3px 6px rgb(0, 0, 0);
     font-size: 1.1rem;
     line-height: 1.4;
     text-align: center;
@@ -433,7 +437,7 @@ body {
   border: none;
   outline: none;
   font-size: 1.08rem;
-  background: #14372e;
+  background: var(--primary-tan);
   color: var(--text-dark);
   transition: box-shadow 0.2s, border 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
@@ -441,10 +445,15 @@ body {
   resize: none;
 }
 
+.email-us-row ::placeholder, 
+.email-us-field ::placeholder{
+  color: var(--text-light);
+}
+
 .email-us-input:focus,
 .email-us-textarea:focus {
   border: 2px solid var(--primary-tan);
-  background: #193E34;
+  background: var(--primary-yellow);
 }
 
 .email-us-textarea {
@@ -459,7 +468,7 @@ body {
   border-radius: 30px;
   border: none;
   background: var(--primary-tan);
-  color: var(--primary-yellow);
+  color: var(--text-light);
   font-weight: bold;
   font-size: 1.08rem;
   cursor: pointer;
@@ -476,7 +485,7 @@ body {
 }
 
 .email-us-note {
-  color: #d6cfae;
+  color: var(--text-dark);
   font-size: 0.98rem;
   margin-top: 1rem;
   opacity: 0.8;
@@ -540,7 +549,7 @@ body {
 }
 .web3-card {
   position: relative;
-  background: var(--card-bg);
+  background: var(--primary-tan);
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.09);
   padding: 54px 32px 36px 32px;
@@ -561,11 +570,11 @@ body {
   margin-bottom: 18px;
   font-size: 1.6rem;
   font-weight: bold;
-  color: var(--text-dark);
+  color: var(--random);
   letter-spacing: 0.01em;
 }
 .web3-card p {
-  color: var(--text-dark);
+  color: var(--text-light);
   font-size: 1.08rem;
   line-height: 1.5;
   font-weight: 400;
@@ -587,16 +596,14 @@ body {
   margin-top: 8px;
 }
 .web3-card-btn:hover {
-  background: #f3e1b5;
-  color: #14372e;
-  box-shadow: 0 4px 16px rgba(226,201,140,0.18);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.18);
 }
 .web3-card::before {
   content: "";
   position: absolute;
   top: 0; left: -100%;
   width: 100%; height: 100%;
-  background: linear-gradient(90deg,rgba(240,208,138,0) 0%,rgba(240,208,138,0.25) 50%,rgba(240,208,138,0) 100%);
+  background: linear-gradient(90deg,rgba(255, 255, 255, 0) 0%,rgba(169, 197, 217,0.25) 50%,rgba(255, 255, 255, 0) 100%);
   filter: blur(25px);
   opacity: 0;
   animation: unified-wave 4s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -610,7 +617,7 @@ body {
 .web3-card-wrapper:nth-child(odd) .web3-card::before { animation-delay: 0s; }
 .web3-card-wrapper:nth-child(even) .web3-card::before { animation-delay: 2s; }
 .web3-card:hover, .web3-card:focus-within {
-  box-shadow: 0 12px 32px rgba(0,0,0,0.18), 0 0 0 2px var(--primary-tan, #f0d08a);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.18), 0 0 0 2px var(--text-light, #a9c5d9);
   transform: translateY(-6px) scale(1.03);
 }
 .web3-card:hover .web3-icon svg, .web3-card:focus-within .web3-icon svg {
@@ -631,6 +638,7 @@ body {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.22);
 }
 .web3-icon svg {
   width: 52px; height: 52px;
@@ -687,8 +695,8 @@ body {
   align-items: center;
 }
 .web4-label {
-  background: rgba(222, 199, 135, 0.18);
-  color: var(--primary-tan);
+  background: var(--primary-tan);
+  color: var(--text-light);
   font-weight: 600;
   font-size: 1rem;
   padding: 6px 18px;
@@ -712,7 +720,7 @@ body {
   flex-wrap: nowrap;
 }
 .web4-card {
-  background: #232f2b;
+  background: var(--primary-tan);
   border-radius: 0;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -755,7 +763,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background: linear-gradient(180deg, rgba(35,47,43,0.45) 0%, rgba(35,47,43,0.75) 100%);
+  background: linear-gradient(180deg, rgba(60, 105, 137, 0.45) 0%, rgba(60, 105, 137, 0.75) 100%);
   margin-top: -40px;
   color: #fff;
   position: relative;
@@ -779,8 +787,8 @@ body {
 }
 .web4-card-btn {
   align-self: flex-start;
-  background: var(--primary-tan);
-  color: #232f2b;
+  background: var(--primary-yellow);
+  color: var(--text-light);
   font-weight: 500;
   font-size: 1rem;
   padding: 8px 22px;
@@ -791,12 +799,11 @@ body {
   border: none;
 }
 .web4-card-btn:hover {
-  background: #f3e1b5;
-  color: #14372e;
+  color: #3c6989;
   box-shadow: 0 4px 16px rgba(226,201,140,0.18);
 }
 .web4-card:hover .web4-card-content {
-  background: linear-gradient(180deg, rgba(35,47,43,0.7) 0%, #232f2b 100%);
+  background: linear-gradient(180deg, rgba(60, 105, 137,0.7) 0%, #3c6989 100%);
 }
 .web4-card:hover .web4-card-image {
   -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
@@ -832,7 +839,7 @@ body {
 }
 
 .footer-links a {
-  color: var(--primary-tan);
+  color: var(--text-light);
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: 600;
@@ -845,7 +852,7 @@ body {
 }
 
 .footer-copyright {
-  color: #e6e6e6;
+  color: var(--text-light);
   font-size: 1rem;
   opacity: 0.8;
   margin-bottom: 0.5rem;
