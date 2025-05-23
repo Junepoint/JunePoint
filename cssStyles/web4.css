@@ -1,0 +1,153 @@
+:root {
+  --primary-blue: #3c6989;
+  --text-dark: #000000;
+  --text-light: #ffff;
+  --hover-blue: #a9c5d9;
+  --hover-white: #fff;
+  --card-back: #a9c5d9;
+  --bg-color: #6a7985;
+  --random: #d2ecff;
+  --label-color: #6a7985;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Alata', Arial, sans-serif;
+}
+
+/* Web4 Section */
+.web4-section {
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.web4-cards-wrapper {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.web4-label {
+  background: var(--label-color);
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 6px 18px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+  margin-left: 0;
+  width: max-content;
+  text-align: center;
+  align-self: center;
+  display: block;
+}
+.web4-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+.web4-card {
+  background: var(--primary-blue);
+  border-radius: 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  width: 390px;
+  min-height: 700px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  border-radius: 16px;
+}
+.web4-card:hover {
+  transform: scale(1.06);
+  z-index: 2;
+}
+.web4-card-image {
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  z-index: 1;
+  overflow: hidden;
+  top: 0; left: 0;
+}
+.web4-card-image video {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  position: absolute;
+  overflow: hidden;
+  top: 0; left: 0;
+  z-index: 1;
+}
+.web4-card-content {
+  padding: 32px 28px 28px 28px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(180deg, rgba(60, 105, 137, 0.45) 0%, rgba(60, 105, 137, 0.75) 100%);
+  margin-top: -40px;
+  color: #fff;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(2px);
+  overflow: visible;
+}
+.web4-card-content h3 {
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.web4-card-content p {
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.web4-card-btn {
+  align-self: flex-start;
+  background: var(--primary-yellow);
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 22px;
+  border-radius: 22px;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: none;
+}
+.web4-card-btn:hover {
+  color: #3c6989;
+  box-shadow: 0 4px 16px rgba(226,201,140,0.18);
+}
+.web4-card:hover .web4-card-content {
+  background: linear-gradient(180deg, rgba(60, 105, 137,0.7) 0%, #3c6989 100%);
+}
+.web4-card:hover .web4-card-image {
+  -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+}

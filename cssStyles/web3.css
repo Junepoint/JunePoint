@@ -1,0 +1,167 @@
+:root {
+  --primary-blue: #3c6989;
+  --text-dark: #000000;
+  --text-light: #ffff;
+  --hover-blue: #a9c5d9;
+  --hover-white: #fff;
+  --card-back: #a9c5d9;
+  --bg-color: #6a7985;
+  --random: #d2ecff;
+  --label-color: #6a7985;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Alata', Arial, sans-serif;
+}
+
+.web3-section {
+  padding: 80px 0;
+  display: flex;
+  justify-content: center;
+}
+.web3-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  grid-template-rows: repeat(2, 1fr);
+  gap: 48px 48px;
+  width: 90vw;
+  max-width: 1200px;
+  perspective: 1200px;
+}
+.web3-card-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+}
+.web3-card {
+  position: relative;
+  background: var(--bg-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+  padding: 54px 32px 36px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 250px;   /* <<< Ensures all cards are at least this tall */
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+  transition: box-shadow 0.3s, transform 0.2s;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+.web3-card h3 {
+  margin-top: 36px;
+  margin-bottom: 18px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--random);
+  letter-spacing: 0.01em;
+}
+.web3-card p {
+  color: var(--text-light);
+  font-size: 1.08rem;
+  line-height: 1.5;
+  font-weight: 400;
+  flex: 1 1 auto; /* This makes the paragraph grow to fill space */
+  margin-bottom: 24px;
+}
+.web3-card-btn {
+  align-self: center;
+  background: var(--primary-blue);
+  color: var(--primary-yellow);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 22px;
+  border-radius: 22px;
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: none;
+  margin-top: 8px;
+}
+.web3-card-btn:hover {
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.18);
+}
+.web3-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg,rgba(255, 255, 255, 0) 0%,rgba(169, 197, 217,0.25) 50%,rgba(255, 255, 255, 0) 100%);
+  filter: blur(25px);
+  opacity: 0;
+  animation: unified-wave 4s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+@keyframes unified-wave {
+  0% { left: -100%; opacity: 0; }
+  15% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+.web3-card-wrapper:nth-child(odd) .web3-card::before { animation-delay: 0s; }
+.web3-card-wrapper:nth-child(even) .web3-card::before { animation-delay: 2s; }
+.web3-card:hover, .web3-card:focus-within {
+  box-shadow: 0 12px 32px rgba(0,0,0,0.18), 0 0 0 2px var(--text-light, #a9c5d9);
+  transform: translateY(-6px) scale(1.03);
+}
+.web3-card:hover .web3-icon svg, .web3-card:focus-within .web3-icon svg {
+  animation: icon-pulse 0.6s;
+}
+@keyframes icon-pulse {
+  0% { transform: scale(1);}
+  50% { transform: scale(1.13);}
+  100% { transform: scale(1);}
+}
+.web3-icon {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px; height: 52px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.22);
+}
+.web3-icon svg {
+  width: 52px; height: 52px;
+  display: block;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1000px) {
+  .web3-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 24px 24px;
+    max-width: 98vw;
+  }
+  .web3-card {
+    min-height: 300px;
+    padding: 40px 20px 28px 20px;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 700px) {
+  .web3-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 20px;
+    width: 100vw;
+    padding: 0 6vw;
+  }
+  .web3-card {
+    min-height: 220px;
+    padding: 32px 10px 24px 10px;
+    max-width: 100vw;
+  }
+}

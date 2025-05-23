@@ -1,0 +1,116 @@
+:root {
+  --primary-blue: #3c6989;
+  --text-dark: #000000;
+  --text-light: #ffff;
+  --hover-blue: #a9c5d9;
+  --hover-white: #fff;
+  --card-back: #a9c5d9;
+  --bg-color: #6a7985;
+  --random: #d2ecff;
+  --label-color: #6a7985;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Alata', Arial, sans-serif;
+}
+
+/* Digital Solutions Section */
+.digital-solutions {
+    position: relative;
+    padding: transparent;
+    z-index: 1;
+  }
+  
+  .digital-solutions h2 {
+    color: var(--text-light);
+    font-size: 3.2rem;
+    text-align: center;
+    margin-bottom: 1.2rem;
+    text-shadow: 2px 2px 4px rgb(0, 0, 0);
+    font-weight: bold;
+    letter-spacing: 0.01em;
+  }
+  
+  .services-description {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-shadow: 3px 3px 6px rgb(0, 0, 0);
+    text-align: center;
+    opacity: 0.9;
+    line-height: 1.7;
+  }
+  
+  .services-grid {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    padding: 0 2rem 4rem;
+    flex-wrap: wrap;
+  }
+  
+  .service-card {
+    background: var(--bg-color);
+    border: none;
+    padding: 2.5rem 2.5rem 2rem 2.5rem;
+    border-radius: 16px;
+    height: auto;
+    min-width: 380px;
+    max-width: 400px;
+    flex: 1 1 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.22);
+    position: relative;
+    margin-top: 40px; /* Makes room for icon overlap */
+  }
+  
+  .service-card-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--text-light);
+    border-radius: 12px;
+    width: 56px;
+    height: 56px;
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    z-index: 2;
+  }
+  
+  .service-card-icon svg {
+    display: block;
+    width: 28px;
+    height: 28px;
+    stroke: var(--bg-color);
+    fill: none;
+  }
+  
+  .service-card h3 {
+    color: var(--text-light);
+    text-shadow: 3px 3px 6px rgb(0, 0, 0);
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.1rem;
+    margin-top: 1.8rem;
+    letter-spacing: 0.01em;
+  }
+  
+  .service-card p {
+    color: var(--text-light);
+    text-shadow: 3px 3px 6px rgb(0, 0, 0);
+    font-size: 1.1rem;
+    line-height: 1.4;
+    text-align: center;
+    margin: 0;
+    font-weight: 500;
+}

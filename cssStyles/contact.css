@@ -1,9 +1,13 @@
 :root {
-  --primary-green: #0c3127;
-  --primary-tan: #f0d08a;
-  --text-light: #ffffff;
-  --hover-tan: #e6c78c;
-  --card-bg: #00180e;
+  --primary-blue: #3c6989;
+  --text-dark: #000000;
+  --text-light: #ffff;
+  --hover-blue: #a9c5d9;
+  --hover-white: #fff;
+  --card-back: #a9c5d9;
+  --bg-color: #6a7985;
+  --random: #d2ecff;
+  --label-color: #6a7985;
 }
 
 * {
@@ -105,7 +109,7 @@ body {
   border: none;
   outline: none;
   font-size: 1.08rem;
-  background: #14372e;
+  background: var(--hover-blue);
   color: var(--text-light);
   transition: box-shadow 0.2s, border 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
@@ -116,7 +120,7 @@ body {
 .contact-form input:focus,
 .contact-form textarea:focus {
   border: 2px solid var(--primary-tan);
-  background: #193E34;
+  background: var();
 }
 
 .contact-form textarea {
@@ -130,8 +134,8 @@ body {
   padding: 0.85rem 1.8rem;
   border-radius: 30px;
   border: none;
-  background: var(--primary-tan);
-  color: var(--primary-green);
+  background: var(--bg-color);
+  color: var(--t);
   font-weight: bold;
   font-size: 1.08rem;
   cursor: pointer;
@@ -143,8 +147,6 @@ body {
 
 .contact-form button:hover,
 .contact-form button:focus {
-  background: var(--hover-tan);
-  color: #0c3127;
   box-shadow: 0 4px 16px rgba(226,201,140,0.18);
 }
 
