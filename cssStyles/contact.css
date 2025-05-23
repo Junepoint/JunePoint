@@ -63,7 +63,7 @@ body {
 .contact-section {
   max-width: 800px;
   margin: 2.5rem auto 0 auto;
-  background: var(--card-bg);
+  background: var(); /*EMAIL BACKGROUND-SET TO BLANK GIVES BACKROUND AFFECT SET TO COLOR FOR DIFFERNT BACKROUND*/
   border-radius: 18px;
   box-shadow: 0 6px 32px rgba(0,0,0,0.11);
   padding: 2.5rem 2.5rem 2rem 2.5rem;
@@ -71,7 +71,7 @@ body {
 }
 
 .contact-section h2 {
-  color: var(--primary-tan);
+  color: var(--text-light);
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 0.7rem;
@@ -94,7 +94,7 @@ body {
 }
 
 .contact-form label {
-  color: var(--primary-tan);
+  color: var(--text-light);
   font-size: 1rem;
   font-weight: 600;
   text-align: left;
@@ -119,7 +119,7 @@ body {
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border: 2px solid var(--primary-tan);
+  border: 2px solid var(--hover-blue);
   background: var();
 }
 
@@ -135,7 +135,7 @@ body {
   border-radius: 30px;
   border: none;
   background: var(--bg-color);
-  color: var(--t);
+  color: var(--text-light);
   font-weight: bold;
   font-size: 1.08rem;
   cursor: pointer;
@@ -151,7 +151,7 @@ body {
 }
 
 .contact-note {
-  color: #d6cfae;
+  color: var(--text-light);
   font-size: 0.98rem;
   margin-top: 1rem;
   opacity: 0.8;
@@ -212,7 +212,7 @@ body {
 }
 
 .footer-links a {
-  color: var(--primary-tan);
+  color: var(--text-light);
   text-decoration: none;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -221,7 +221,7 @@ body {
 
 .footer-links a:hover,
 .footer-links a:focus {
-  color: var(--hover-tan);
+  color: var(--hover-blue);
 }
 
 .footer-copyright {
@@ -256,7 +256,7 @@ body {
   position: fixed;
   z-index: 9999;
   inset: 0;
-  background: var(--primary-green);
+  background: var(--primary-blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -264,7 +264,7 @@ body {
 }
 
 .preloader-spinner {
-  border: 5px solid #f0d08a;
+  border: 5px solid var(--primary-blue);
   border-top: 5px solid #fff;
   border-radius: 50%;
   width: 54px;
