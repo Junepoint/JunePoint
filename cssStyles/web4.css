@@ -151,3 +151,113 @@
   -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
 }
+
+/* --- Responsive Breakpoints --- */
+
+/* 1350px: shrink cards but keep row layout, force equal and taller height */
+@media (max-width: 1350px) {
+  .web4-cards-wrapper {
+    max-width: 1000px;
+  }
+  .web4-card {
+    width: 340px;
+    min-height: 700px;
+    height: 700px;
+  }
+  .web4-card-image {
+    height: 180px;
+  }
+  .web4-card-content {
+    margin-top: -24px;
+  }
+}
+
+/* 1000px: stack cards vertically, center label above cards, keep equal and taller height */
+@media (max-width: 1000px) {
+  .web4-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+  }
+  .web4-card {
+    width: 90vw;
+    max-width: 420px;
+    min-height: 550px;
+    height: 650px;
+  }
+  .web4-card-content {
+    margin-top: -24px;
+  }
+  .web4-label {
+    margin-left: 0;
+    align-self: center;
+    text-align: center;
+    margin-bottom: 24px;
+    width: max-content;
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .web4-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 90%;
+  }
+}
+
+/* 900px: services grid stacks, web3 grid stacks */
+@media (max-width: 900px) {
+  .services-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  .service-card {
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+  }
+  .web3-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 32px;
+  }
+  .web3-card {
+    width: 100%;
+  }
+  .web3-card-wrapper:nth-child(n) .web3-card::before { animation-delay: 0s !important; }
+  .web3-card-wrapper:nth-child(1) .web3-card::before { animation-delay: 0s; }
+  .web3-card-wrapper:nth-child(2) .web3-card::before { animation-delay: 1s; }
+  .web3-card-wrapper:nth-child(3) .web3-card::before { animation-delay: 2s; }
+  .web3-card-wrapper:nth-child(4) .web3-card::before { animation-delay: 3s; }
+}
+
+/* 768px: hero, navbar, and cards scale down */
+@media (max-width: 768px) {
+  .hero { height: 70vh; }
+  .hero-title { font-size: 2.3rem; }
+  .digital-solutions h2 { font-size: 2.3rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .cta-button { padding: 12px 24px; }
+  .hero-content { padding-left: 5%; text-align: left; }
+  .navbar { padding-left: 5%; }
+  .junepoint-logo { font-size: 1.5rem; }
+}
+
+/* 600px: further scaling for mobile */
+@media (max-width: 600px) {
+  .hero-title { font-size: 2.3rem; }
+  .hero-subtitle { font-size: 0.95rem; }
+  .cta-button { padding: 10px 16px; font-size: 1rem; }
+  .services-grid, .web4-cards { flex-direction: column; gap: 1.2rem; padding: 0 1rem; }
+  .service-card, .web4-card { min-width: 0; max-width: 100%; width: 100%; margin: 0 auto 1.5rem; }
+  .navbar, .hero-content { padding-left: 3%; padding-right: 3%; }
+  .web4-label { font-size: 0.95rem; }
+  .web4-card {
+    min-height: 600px;
+    height: 600px;
+  }
+}

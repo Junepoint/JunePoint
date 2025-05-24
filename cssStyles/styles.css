@@ -1,7 +1,8 @@
+/* styles.css - Consolidated Core Styles */
 :root {
   --primary-blue: #3c6989;
-  --text-dark: #000000;
-  --text-light: #ffff;
+  --text-dark: #000;
+  --text-light: #fff;
   --hover-blue: #a9c5d9;
   --hover-white: #fff;
   --card-back: #a9c5d9;
@@ -20,16 +21,17 @@
 body {
   background: url("/svgs/junepoint_background.svg") no-repeat;
   background-size: cover;
-  width: 100%;
-  line-height: 1.6;
   color: var(--text-light);
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-/* Navbar */
+/* Navigation */
 .navbar {
   padding: 20px 0 20px 15%;
   z-index: 1000;
 }
+
 .junepoint-logo {
   color: var(--text-light);
   font-size: 2.5rem;
@@ -37,7 +39,7 @@ body {
   text-decoration: none;
 }
 
-/* Curve Divider */
+/* Curve Divider (Keep if used in HTML) */
 .curve-divider {
   position: absolute;
   bottom: -1px;
@@ -47,48 +49,17 @@ body {
   z-index: 2;
   pointer-events: none;
 }
+
 .curve-divider svg {
   display: block;
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0px -8px 16px rgba(0,0,0,0.22));
+  filter: drop-shadow(0 -8px 16px rgba(0,0,0,0.22));
 }
 
-/* Responsive Design */
-@media (max-width: 900px) {
-  .email-us-container {
-    max-width: 98vw;
-    padding: 2rem 1rem 1.2rem 1rem;
-    margin: 3rem;
-  }
-  .email-us-row {
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .email-us-title {
-    font-size: 1.3rem;
-  }
-  .email-us-description {
-    font-size: 1rem;
-  }
-  .email-us-input,
-  .email-us-textarea,
-  .email-us-btn {
-    font-size: 1rem;
-    padding: 0.7rem 1rem;
-  }
-  .email-us-row {
-    flex-direction: column;
-    gap: 0.7rem;
-  }
-}
-
+/* Footer */
 .site-footer {
   color: var(--text-light);
-  padding: 0;
   width: 100%;
   min-height: 40vh;
   display: flex;
@@ -100,12 +71,10 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem 2rem 2rem;
+  padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  height: 100%;
 }
 
 .footer-links {
@@ -117,51 +86,25 @@ body {
 .footer-links a {
   color: var(--text-light);
   text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: 600;
   transition: color 0.2s;
-  letter-spacing: 0.03em;
 }
 
 .footer-links a:hover {
   color: var(--hover-blue);
 }
 
-.footer-copyright {
-  color: var(--primary-blue);
-  font-size: 1rem;
-  opacity: 0.8;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-@media (max-width: 700px) {
-  .site-footer {
-    min-height: 28vh;
-  }
-  .footer-content {
-    padding: 2rem 1rem 1rem 1rem;
-  }
-  .footer-links {
-    gap: 1.2rem;
-    font-size: 1rem;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1.2rem;
-  }
-}
-
-/* Preloader overlay */
+/* Preloader */
 #preloader {
   position: fixed;
-  z-index: 9999;
   inset: 0;
-  background: var(--primary-blue, #0c3127);
+  z-index: 9999;
+  background: var(--primary-blue);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: opacity 0.7s;
 }
+
 .preloader-spinner {
   border: 5px solid #f0d08a;
   border-top: 5px solid #fff;
@@ -170,132 +113,65 @@ body {
   height: 54px;
   animation: spin 1s linear infinite;
 }
+
+/* Animations */
 @keyframes spin {
-  to { transform: rotate(360deg);}
-}
-.preloader-fade {
-  opacity: 0;
-  pointer-events: none;
+  to { transform: rotate(360deg); }
 }
 
-/* On-scroll animation */
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
-}
-.animate-on-scroll.animated {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes unified-wave {
+  0% { left: -100%; opacity: 0; }
+  15% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
 }
 
-
-/* --- Responsive Breakpoints --- */
-
-/* 1350px: shrink cards but keep row layout, force equal and taller height */
-@media (max-width: 1350px) {
-  .web4-cards-wrapper {
-    max-width: 1000px;
-  }
-  .web4-card {
-    width: 340px;
-    min-height: 700px;
-    height: 700px;
-  }
-  .web4-card-image {
-    height: 180px;
-  }
-  .web4-card-content {
-    margin-top: -24px;
+/* Responsive Breakpoints */
+@media (max-width: 1400px) {
+  .hero-wrapper {
+    padding: 0 10%;
   }
 }
 
-/* 1000px: stack cards vertically, center label above cards, keep equal and taller height */
+@media (max-width: 1300px) {
+  .hero {
+    padding: 4rem 0;
+    min-height: fit-content;
+  }
+}
+
 @media (max-width: 1000px) {
-  .web4-cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-    width: 100%;
+  .web3-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.3rem;
+  }
+  
+  .junepoint-logo {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-links {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
   .web4-card {
     width: 90vw;
-    max-width: 420px;
-    min-height: 550px;
-    height: 650px;
-  }
-  .web4-card-content {
-    margin-top: -24px;
-  }
-  .web4-label {
-    margin-left: 0;
-    align-self: center;
-    text-align: center;
-    margin-bottom: 24px;
-    width: max-content;
-    display: block;
-  }
-}
-
-@media (max-width: 600px) {
-  .web4-cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-    width: 90%;
-  }
-}
-
-/* 900px: services grid stacks, web3 grid stacks */
-@media (max-width: 900px) {
-  .services-grid {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-  .service-card {
-    max-width: 100%;
-    width: 100%;
-    min-width: 0;
-  }
-  .web3-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-    gap: 32px;
-  }
-  .web3-card {
-    width: 100%;
-  }
-  .web3-card-wrapper:nth-child(n) .web3-card::before { animation-delay: 0s !important; }
-  .web3-card-wrapper:nth-child(1) .web3-card::before { animation-delay: 0s; }
-  .web3-card-wrapper:nth-child(2) .web3-card::before { animation-delay: 1s; }
-  .web3-card-wrapper:nth-child(3) .web3-card::before { animation-delay: 2s; }
-  .web3-card-wrapper:nth-child(4) .web3-card::before { animation-delay: 3s; }
-}
-
-/* 768px: hero, navbar, and cards scale down */
-@media (max-width: 768px) {
-  .hero { height: 70vh; }
-  .hero-title { font-size: 2.3rem; }
-  .digital-solutions h2 { font-size: 2.3rem; }
-  .hero-subtitle { font-size: 1rem; }
-  .cta-button { padding: 12px 24px; }
-  .hero-content { padding-left: 5%; text-align: left; }
-  .navbar { padding-left: 5%; }
-  .junepoint-logo { font-size: 1.5rem; }
-}
-
-/* 600px: further scaling for mobile */
-@media (max-width: 600px) {
-  .hero-title { font-size: 2.3rem; }
-  .hero-subtitle { font-size: 0.95rem; }
-  .cta-button { padding: 10px 16px; font-size: 1rem; }
-  .services-grid, .web4-cards { flex-direction: column; gap: 1.2rem; padding: 0 1rem; }
-  .service-card, .web4-card { min-width: 0; max-width: 100%; width: 100%; margin: 0 auto 1.5rem; }
-  .navbar, .hero-content { padding-left: 3%; padding-right: 3%; }
-  .web4-label { font-size: 0.95rem; }
-  .web4-card {
     min-height: 600px;
-    height: 600px;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar, .hero-content {
+    padding-left: 3%;
+    padding-right: 3%;
   }
 }

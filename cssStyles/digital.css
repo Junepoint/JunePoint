@@ -114,3 +114,22 @@
     margin: 0;
     font-weight: 500;
 }
+
+@media (max-width: 900px) {
+  .services-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  .service-card {
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .digital-solutions h2 {
+    font-size: 2.3rem;
+  }
+}

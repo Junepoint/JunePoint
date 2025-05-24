@@ -165,3 +165,13 @@
     max-width: 100vw;
   }
 }
+
+@media (max-width: 900px) {
+  .web3-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .web3-card-wrapper:nth-child(n) .web3-card::before { 
+    animation-delay: 0s !important; 
+  }
+}
