@@ -39,6 +39,26 @@ body {
   text-decoration: none;
 }
 
+/* Responsive centering for Google reCAPTCHA widget */
+.g-recaptcha {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  margin: 0 auto 1.2rem auto;
+}
+
+@media (max-width: 500px) {
+  .g-recaptcha {
+    transform: scale(0.88);
+    -webkit-transform: scale(0.88);
+    transform-origin: center;
+    -webkit-transform-origin: center;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
 /* Curve Divider (Keep if used in HTML) */
 .curve-divider {
   position: absolute;
