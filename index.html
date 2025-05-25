@@ -12,12 +12,37 @@
     <link rel="stylesheet" href="cssStyles/digital.css">
     <link rel="stylesheet" href="cssStyles/web3.css">
     <link rel="stylesheet" href="cssStyles/web4.css">
+    <link rel="stylesheet" href="cssStyles/nav.css">
     <link rel="preload" href="cssStyles/styles.css" as="style">
     <link rel="preload" href="script.js" as="script">   
     <meta name="description" content="JunePoint offers expert web design services in Seminole, FL. Create beautiful, results-driven websites for your business today.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <nav class="main-navbar open">
+    <button class="nav-arrow" aria-label="Close Navigation">
+      <span class="icon-arrow">
+        <!-- Left Arrow SVG -->
+        <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="24 10 14 19 24 28"></polyline>
+        </svg>
+      </span>
+      <span class="icon-x">
+        <!-- X SVG -->
+        <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="12" x2="26" y2="26"/>
+          <line x1="12" y1="26" x2="26" y2="12"/>
+        </svg>
+      </span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>  
+
     <div class="navbar">
       <object type="image/svg+xml" data="svgs/junepoint_logoname_simple.svg" class="logo">
           <a href="index.html" class="junepoint-logo">JunePoint</a> <!-- fallback image in CSS -->
@@ -249,7 +274,9 @@
       </div>
     </section>
 
-    <script src="script.js"></script>
+    <script src="jsFunctions/script.js"></script>
+    <script src="jsFunctions/nav.js"></script>
+    <script src="jsFunctions/preload.js"></script>
 
     <footer class="site-footer">
       <div class="footer-content">
