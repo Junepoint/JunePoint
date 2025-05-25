@@ -49,12 +49,12 @@ body {
 
 .junepoint-logo-btn:focus,
 .junepoint-logo-btn:hover {
-  box-shadow: 0 0 0 4px rgba(240, 208, 138, 0.27);
-  background: rgba(240, 208, 138, 0.08);
+  box-shadow: 0 0 0 4px rgba(125, 163, 237, 0.22);
+  background: rgba(125, 163, 237, 0.08);
 }
 
 .logo {
-  width: 160px;
+  width: 350px;
   height: auto;
   display: block;
 }
@@ -193,12 +193,12 @@ body {
 
 .footer-logo-link:focus,
 .footer-logo-link:hover {
-  box-shadow: 0 0 0 4px #f0d08a44;
-  background: rgba(240, 208, 138, 0.08);
+  box-shadow: 0 0 0 4px rgba(125, 163, 237, 0.22);
+  background: rgba(125, 163, 237, 0.08);
 }
 
 .footer-logo-img {
-  width: 170px;
+  width: 280px;
   height: auto;
   display: block;
 }
@@ -237,7 +237,7 @@ body {
     padding: 1.2rem 1rem 1.2rem 1rem;
   }
   .footer-logo-img {
-    width: 120px;
+    width: 230px;
   }
   .footer-links {
     gap: 1.2rem;
@@ -301,7 +301,7 @@ body {
   }
   
   .logo {
-    width: 120px;
+    width: 270px;
   }
   
   .footer-content {

@@ -5,9 +5,34 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Contact Us | JunePoint</title>
   <link rel="stylesheet" href="cssStyles/contact.css">
+  <link rel="stylesheet" href="cssStyles/nav.css">
   <script src="preload.js"></script>
 </head>
 <body>
+    <nav class="main-navbar open">
+        <button class="nav-arrow" aria-label="Close Navigation">
+          <span class="icon-arrow">
+            <!-- Left Arrow SVG -->
+            <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="24 10 14 19 24 28"></polyline>
+            </svg>
+          </span>
+          <span class="icon-x">
+            <!-- X SVG -->
+            <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="12" x2="26" y2="26"/>
+              <line x1="12" y1="26" x2="26" y2="12"/>
+            </svg>
+          </span>
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>  
+
     <main>
         <div class="logo-header">
             <a href="index.html" class="junepoint-logo-btn" aria-label="Go to homepage">
@@ -51,5 +76,7 @@
         </div>
     </div>
     </footer>
+
+    <script src="jsFunctions/nav.js"></script>
 </body>
 </html>
