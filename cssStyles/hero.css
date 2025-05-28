@@ -29,6 +29,7 @@
 
 .hero-content {
   flex: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.381);
   max-width: 800px;
   margin-left: auto;
 }
