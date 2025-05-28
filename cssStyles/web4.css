@@ -243,7 +243,8 @@
   .hero-subtitle { font-size: 0.95rem; }
   .cta-button { padding: 10px 16px; font-size: 1rem; }
   .services-grid, .web4-cards { flex-direction: column; gap: 1.2rem; padding: 0 1rem; }
-  .service-card, .web4-card { min-width: 0; max-width: 75%; width: 75%; max-width: 60%; width: 60%; max-height: 60%; height: 60%; margin: 0 auto 1.5rem; }
+  .web4-card { min-width: 0; max-width: 100%; width: 100%; max-height: 60%; height: 60%; margin: 0 auto 1.5rem; }
+  .service-card { min-width: 0; max-width: 75%; width: 75%; max-height: 20%; height: 20%; margin: 0 auto 1.5rem; }
   .navbar, .hero-content { padding-left: 3%; padding-right: 3%; }
   .web4-label { font-size: 0.95rem; }
   .web4-card {

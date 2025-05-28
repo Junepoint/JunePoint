@@ -79,6 +79,10 @@ body {
   flex-direction: column;
   align-items: stretch;
   gap: 1.1rem;
+  ::placeholder {
+    color: var(--text-light);
+    opacity: 1;
+  }
 }
 
 .contact-form label {
