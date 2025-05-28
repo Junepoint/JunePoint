@@ -182,6 +182,32 @@
     <!--Start Of Next Section-->
     <!--Start Of Next Section-->
     <!--Start Of Next Section-->
+<div class="slide-container" style="display: flex; align-items: center; justify-content: center;">
+  <img class="slide" src="/assets/testimage.png" style="height: 50%; width: 50%; "/>
+  <img class="slide" src="/assets/portfolio.mp4" style="height: 50%; width: 50%; "/>
+  <img class="slide" src="/assets/testimage.png" style="height: 50%; width: 50%; "/>
+  <img class="slide" src="/assets/portfolio.mp4" style="height: 50%; width: 50%; "/>
+
+    <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+    <button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
+</div>
+  <script>
+    var slideIndex = 0;
+carousel();
+
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("slide");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > x.length) {slideIndex = 1}
+  x[slideIndex-1].style.display = "block";
+  setTimeout(carousel, 5000); // Change image every 5 seconds
+}
+  </script>
+</div>
 
     <section class="web4-section">
       <div class="web4-cards-wrapper">
