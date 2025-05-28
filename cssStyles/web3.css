@@ -1,15 +1,3 @@
-:root {
-  --primary-blue: #3c6989;
-  --text-dark: #000000;
-  --text-light: #ffff;
-  --hover-blue: #a9c5d9;
-  --hover-white: #fff;
-  --card-back: #a9c5d9;
-  --bg-color: #6a7985;
-  --random: #d2ecff;
-  --label-color: #6a7985;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -42,7 +30,7 @@
   position: relative;
   background: var(--bg-color);
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.09);
   padding: 54px 32px 36px 32px;
   text-align: center;
   display: flex;
@@ -87,7 +75,7 @@
   margin-top: 8px;
 }
 .web3-card-btn:hover {
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.18);
 }
 .web3-card::before {
   content: "";
@@ -108,7 +96,7 @@
 .web3-card-wrapper:nth-child(odd) .web3-card::before { animation-delay: 0s; }
 .web3-card-wrapper:nth-child(even) .web3-card::before { animation-delay: 2s; }
 .web3-card:hover, .web3-card:focus-within {
-  box-shadow: 0 12px 32px rgba(0,0,0,0.18), 0 0 0 2px var(--text-light, #a9c5d9);
+  box-shadow: 0 12px 22px rgba(0,0,0,0.18), 0 0 0 2px var(--text-light, #a9c5d9);
   transform: translateY(-6px) scale(1.03);
 }
 .web3-card:hover .web3-icon svg, .web3-card:focus-within .web3-icon svg {
@@ -129,7 +117,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.22);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
 }
 .web3-icon svg {
   width: 52px; height: 52px;

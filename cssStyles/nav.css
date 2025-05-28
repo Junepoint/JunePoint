@@ -1,11 +1,3 @@
-:root {
-    --primary-blue: #3c6989;
-    --hover-blue: #a9c5d9;
-    --neutral-bg: #f4f4f6;
-    --neutral-border: #e0e0e6;
-    --nav-height: 64px;
-  }
-  
   .main-navbar {
     position: fixed;
     top: 0;
@@ -115,7 +107,7 @@
     background: var(--neutral-bg);
     border: 2px solid var(--neutral-border);
     border-radius: 20px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.06);
     padding: 0.2rem 2rem;
     justify-content: flex-end;
     align-items: center;
