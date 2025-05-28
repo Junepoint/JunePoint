@@ -117,7 +117,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
+
 }
 .web3-icon svg {
   width: 52px; height: 52px;
