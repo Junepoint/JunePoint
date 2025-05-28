@@ -1,17 +1,3 @@
-:root {
-  --primary-blue: #3c6989;
-  --text-dark: #000000;
-  --text-light: #ffff;
-  --hover-blue: #a9c5d9;
-  --hover-white: #fff;
-  --card-back: #a9c5d9;
-  --bg-color: #6a7985;
-  --random: #d2ecff;
-  --label-color: #6a7985;
-  --primary-tan: #c1a770;
-  --hover-tan: #e6c78c;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -43,6 +29,7 @@
 
 .hero-content {
   flex: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.381);
   max-width: 800px;
   margin-left: auto;
 }
@@ -62,7 +49,7 @@
 
 /* Email Us Section */
 .email-us-section {
-  padding: 4rem 0 3rem 0;
+  padding: 4rem 1rem 3rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,11 +59,11 @@
 .email-us-container {
   background: var(--card-back);
   border-radius: 18px;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.11);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.607);
   padding: 2.5rem 2.5rem 2rem 2.5rem;
   max-width: 800px;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto;
   text-align: center;
 }
 
@@ -352,5 +339,5 @@
   background-color: var(--text-light); /* Changed from --hover-white */
   color: var(--text-dark); /* Changed from --text-dark */
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.524);
 }

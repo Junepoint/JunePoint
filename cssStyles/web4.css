@@ -1,15 +1,3 @@
-:root {
-  --primary-blue: #3c6989;
-  --text-dark: #000000;
-  --text-light: #ffff;
-  --hover-blue: #a9c5d9;
-  --hover-white: #fff;
-  --card-back: #a9c5d9;
-  --bg-color: #6a7985;
-  --random: #d2ecff;
-  --label-color: #6a7985;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -64,7 +52,7 @@
 .web4-card {
   background: var(--primary-blue);
   border-radius: 0;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   width: 390px;
   min-height: 700px;
@@ -142,7 +130,7 @@
 }
 .web4-card-btn:hover {
   color: #3c6989;
-  box-shadow: 0 4px 16px rgba(226,201,140,0.18);
+  box-shadow: 0 4px 6px rgba(226,201,140,0.18);
 }
 .web4-card:hover .web4-card-content {
   background: linear-gradient(180deg, rgba(60, 105, 137,0.7) 0%, #3c6989 100%);
@@ -216,8 +204,10 @@
     gap: 2rem;
   }
   .service-card {
-    max-width: 100%;
-    width: 100%;
+    max-width: 60%;
+    width: 60%;
+    max-height: 60%;
+    height: 60%;
     min-width: 0;
   }
   .web3-grid {
@@ -253,7 +243,7 @@
   .hero-subtitle { font-size: 0.95rem; }
   .cta-button { padding: 10px 16px; font-size: 1rem; }
   .services-grid, .web4-cards { flex-direction: column; gap: 1.2rem; padding: 0 1rem; }
-  .service-card, .web4-card { min-width: 0; max-width: 100%; width: 100%; margin: 0 auto 1.5rem; }
+  .service-card, .web4-card { min-width: 0; max-width: 75%; width: 75%; max-width: 60%; width: 60%; max-height: 60%; height: 60%; margin: 0 auto 1.5rem; }
   .navbar, .hero-content { padding-left: 3%; padding-right: 3%; }
   .web4-label { font-size: 0.95rem; }
   .web4-card {

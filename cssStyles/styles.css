@@ -1,14 +1,18 @@
-/* styles.css - Consolidated Core Styles */
 :root {
   --primary-blue: #3c6989;
   --text-dark: #000;
   --text-light: #fff;
-  --hover-blue: #a9c5d9;
+  --hover-blue: #7aadd2;
   --hover-white: #fff;
-  --card-back: #a9c5d9;
-  --bg-color: #6a7985;
+  --card-back: #92c2e4;
+  --bg-color: #437196;
   --random: #d2ecff;
-  --label-color: #6a7985;
+  --label-color: #275c88;
+  --neutral-bg: #f4f4f6;
+  --neutral-border: #e0e0e6;
+  --nav-height: 64px;
+  --primary-tan: #c1a770;
+  --hover-tan: #e6c78c;
 }
 
 * {
