@@ -79,12 +79,14 @@
 
 .slide-overlay h3 {
   font-size: 1.8rem;
+  text-shadow: 1px 1px #000;
   margin-bottom: 0.8rem;
   font-weight: 600;
 }
 
 .slide-overlay p {
   font-size: 1.1rem;
+  text-shadow: 1px 1px #000;
   opacity: 0.9;
   margin-bottom: 1.5rem;
   max-width: 600px;

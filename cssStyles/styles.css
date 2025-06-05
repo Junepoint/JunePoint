@@ -85,7 +85,7 @@ body {
 .site-footer {
   color: var(--text-light);
   width: 100%;
-  min-height: 40vh;
+  min-height: 15vh;
   display: flex;
   align-items: flex-end;
   margin-top: 4rem;
