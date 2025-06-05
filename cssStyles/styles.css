@@ -123,19 +123,23 @@ body {
   inset: 0;
   z-index: 9999;
   background: var(--primary-blue);
+  background-size: 1400% 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: opacity 0.7s;
+  animation: rainbow-bg 3s linear infinite;
 }
 
 .preloader-spinner {
-  border: 5px solid #f0d08a;
+  position: relative;
+  border: 5px solid rgba(255, 255, 255, 0.2);
   border-top: 5px solid #fff;
   border-radius: 50%;
   width: 54px;
   height: 54px;
-  animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite, rainbow-border 3s linear infinite;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Animations */
@@ -143,11 +147,19 @@ body {
   to { transform: rotate(360deg); }
 }
 
-@keyframes unified-wave {
-  0% { left: -100%; opacity: 0; }
-  15% { opacity: 1; }
-  70% { opacity: 1; }
-  100% { left: 100%; opacity: 0; }
+@keyframes rainbow-bg {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes rainbow-border {
+  0% { border-top-color: hsl(0, 100%, 50%); }
+  16% { border-top-color: hsl(30, 100%, 50%); }
+  33% { border-top-color: hsl(60, 100%, 50%); }
+  50% { border-top-color: hsl(120, 100%, 50%); }
+  66% { border-top-color: hsl(240, 100%, 50%); }
+  83% { border-top-color: hsl(270, 100%, 50%); }
+  100% { border-top-color: hsl(300, 100%, 50%); }
 }
 
 /* Responsive Breakpoints */
