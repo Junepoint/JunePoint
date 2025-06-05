@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="cssStyles/web3.css">
     <link rel="stylesheet" href="cssStyles/web4.css">
     <link rel="stylesheet" href="cssStyles/nav.css">
+    <link rel="stylesheet" href="cssStyles/slider.css">
     <link rel="preload" href="cssStyles/styles.css" as="style">
     <link rel="preload" href="script.js" as="script">   
     <meta name="description" content="JunePoint offers expert web design services in Seminole, FL. Create beautiful, results-driven websites for your business today.">
@@ -182,87 +183,77 @@
     <!--Start Of Next Section-->
     <!--Start Of Next Section-->
     <!--Start Of Next Section-->
-<div class="slide-container" style="display: flex; align-items: center; justify-content: center;">
-  <img class="slide" src="/assets/testimage.png" style="height: 50%; width: 50%; "/>
-  <img class="slide" src="/assets/portfolio.mp4" style="height: 50%; width: 50%; "/>
-  <img class="slide" src="/assets/testimage.png" style="height: 50%; width: 50%; "/>
-  <img class="slide" src="/assets/portfolio.mp4" style="height: 50%; width: 50%; "/>
-
-    <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-    <button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
-</div>
-  <script>
-    var slideIndex = 0;
-carousel();
-
-function carousel() {
-  var i;
-  var x = document.getElementsByClassName("slide");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  slideIndex++;
-  if (slideIndex > x.length) {slideIndex = 1}
-  x[slideIndex-1].style.display = "block";
-  setTimeout(carousel, 5000); // Change image every 5 seconds
-}
-  </script>
-</div>
-
-    <section class="web4-section">
-      <div class="web4-cards-wrapper">
-        <div class="web4-label">Innovative Results</div>
-        <div class="web4-cards">
-          <!-- Card 1 -->
-          <div class="web4-card">
-            <div class="web4-card-image" 
-                role="img"
-                aria-label="Mobile and desktop views of responsive website">
-                <img src='/assets/PlaceholderPic.jpg'/>
-            </div>
-            <div class="web4-card-content">
-              <h3>E-commerce Platform Revamp</h3>
-              <p>
-                We transformed a local retailer’s online presence by revamping their outdated e-commerce platform. Our design team integrated a sleek, modern interface, improved user experience and increased sales conversion by 30%. The project included mobile optimization, secure checkout solutions, and enhanced site navigation.
-              </p>
-              <a href="#portfolio" class="web4-card-btn">View Our Portfolio</a>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="web4-card">
-            <div class="web4-card-image" 
-                role="img"
-                aria-label="Mobile and desktop views of responsive website">
-                <img src='/assets/PlaceholderPic.jpg'/>
-            </div>
-            <div class="web4-card-content">
-              <h3>Responsive Website Redesign</h3>
-              <p>
-                Our team completely redesigned a manufacturing company’s website to ensure compatibility with all devices. By implementing a responsive layout and optimizing loading speeds, we enhanced user engagement and reduced the bounce rate by 25%. The project emphasized usability and visual appeal, aligning with the client's branding goals.
-              </p>
-              <a href="#portfolio" class="web4-card-btn">View Our Portfolio</a>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="web4-card">
-            <div class="web4-card-image" role="img" aria-label="Portfolio example">
-              <video autoplay muted loop playsinline>
-                <source src="assets/portfolio.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="web4-card-content">
-              <h3>Custom Portfolio Development</h3>
-              <p>
-                Here's one of our developers professional portfolio website. The project focused on creating an interactive enviroment to showcase the developer's skills in HTML, CSS, JS, and Three.JS. By incorporating custom design elements and user-friendly navigation, the website effectively highlights the developers creativity and increased their exposure to new clients.
-              </p>
-              <a href="https://jackabeyta.com" class="web4-card-btn">View Our Portfolio</a>
-            </div>
+<section class="portfolio-slider">
+  <h2 class="portfolio-title">Our Portfolio</h2>
+  <div class="slider-container">
+    <div class="slider-wrapper">
+      <!-- Slide 1: E-commerce Platform -->
+      <div class="slide">
+        <div class="slide-content">
+          <img src="/assets/testimage.png" alt="E-commerce Platform Revamp">
+          <div class="slide-overlay">
+            <h3>Whitlock Opticians & Daughters</h3>
+            <p>Multi-page websites for small business, such as Optometrists, Chiropractors, Orthodontists, and more. </p>
+            <a href="#portfolio" class="slide-btn">View Project</a>
           </div>
         </div>
       </div>
-    </section>
+      
+      <!-- Slide 2: Responsive Website -->
+      <div class="slide">
+        <div class="slide-content">
+          <img src="/assets/testimage.png" alt="Responsive Website Redesign">
+          <div class="slide-overlay">
+            <h3>ICO Emergency</h3>
+            <p>SEO for niche websites such as phone applications, games, and local organizations.</p>
+            <a href="#portfolio" class="slide-btn">View Project</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 3: Portfolio Development -->
+      <div class="slide">
+        <div class="slide-content">
+          <video autoplay muted loop playsinline>
+            <source src="/assets/portfolio.mp4" type="video/mp4">
+          </video>
+          <div class="slide-overlay">
+            <h3>Custom Portfolio Development</h3>
+            <p>Interactive developer portfolio with Three.js animations</p>
+            <a href="https://jackabeyta.com" class="slide-btn">View Project</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 4: Marketing Platform -->
+      <div class="slide">
+        <div class="slide-content">
+          <img src="/assets/testimage.png" alt="Marketing Platform">
+          <div class="slide-overlay">
+            <h3>Marketing Platform</h3>
+            <p>Digital marketing solution with analytics dashboard</p>
+            <a href="#portfolio" class="slide-btn">View Project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation arrows -->
+    <button class="slider-arrow prev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3c6989" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    <button class="slider-arrow next" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3c6989" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+    
+    <!-- Dots navigation -->
+    <div class="slider-dots"></div>
+  </div>
+</section>
 
     <!--Start Of Next Section-->
     <!--Start Of Next Section-->
@@ -333,6 +324,7 @@ function carousel() {
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="jsFunctions/email-send.js"></script>
+    <script src="jsFunctions/slider.js"></script>
 
     <footer class="site-footer">
       <div class="footer-content">
