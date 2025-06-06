@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Services | JunePoint</title>
+  <link rel="stylesheet" href="cssStyles/nav.css" />
+  <link rel="stylesheet" href="cssStyles/service.css" />
+  <link rel="stylesheet" href="cssStyles/star-trails.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: url('/svgs/junepoint_background.svg') no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
 </head>
-    <body>
+<body>
+  <!-- Shooting stars -->
+  <div class="stars-overlay"></div>
 
-<!--=================== Nav Section ===========================-->
-        
-<nav class="main-navbar open">
+  <!-- Navigation -->
+  <nav class="main-navbar open">
     <button class="nav-arrow" aria-label="Close Navigation">
       <span class="icon-arrow">
-        <!-- Left Arrow SVG -->
         <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="24 10 14 19 24 28"></polyline>
         </svg>
       </span>
       <span class="icon-x">
-        <!-- X SVG -->
         <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="12" x2="26" y2="26"/>
           <line x1="12" y1="26" x2="26" y2="12"/>
@@ -28,31 +38,107 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="services.html">Services</a></li>
+      <li><a href="service.html" class="active">Services</a></li>
       <li><a href="about.html">About</a></li>
     </ul>
-  </nav>  
+  </nav>
 
+  <!-- Services header -->
+  <header class="services-header">
+    <div class="header-content">
+      <h1>What We Offer at JunePoint</h1>
+      <p>Professional, front-end focused websites tailored for your needs—from individuals to businesses.</p>
+    </div>
+  </header>
 
-<!--=================== Javascripts ===========================-->
+  <!-- Services list -->
+  <section class="services-container">
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-user"></i></div>
+      <h3>Personal Websites</h3>
+      <p>Perfect for freelancers, creators, or professionals looking to showcase their personal brand.</p>
+      <ul>
+        <li>Custom design and branding</li>
+        <li>Blog and media integration</li>
+        <li>Contact forms</li>
+        <li>Responsive layouts</li>
+      </ul>
+    </div>
 
-    <script src="jsFunctions/script.js"></script>
-    <script src="jsFunctions/preload.js"></script>
-    <script src="jsFunctions/nav.js"></script>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-briefcase"></i></div>
+      <h3>Business Websites</h3>
+      <p>Clean, responsive websites for small and medium businesses to professionally represent your brand online.</p>
+      <ul>
+        <li>Service pages</li>
+        <li>Team and about sections</li>
+        <li>Contact information</li>
+        <li>Fast and mobile-ready</li>
+      </ul>
+    </div>
 
-<!--=================== Footer Section ===========================-->
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+      <h3>Portfolio Websites</h3>
+      <p>Beautifully crafted portfolios to show off work, testimonials, and past projects.</p>
+      <ul>
+        <li>Project galleries</li>
+        <li>Visual storytelling</li>
+        <li>Media-rich layouts</li>
+        <li>Client showcase</li>
+      </ul>
+    </div>
 
-        <footer class="site-footer">
-            <div class="footer-content">
-              <nav class="footer-links">
-                <a href="#services">Services</a>
-                <a href="#portfolio">Portfolio</a>
-                <a href="contact.html">Contact</a>
-              </nav>
-            <div class="footer-copyright">
-          &copy; 2025 JunePoint. All rights reserved.
-        </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-info-circle"></i></div>
+      <h3>Informational Sites</h3>
+      <p>Great for dog daycares, clothing stores, or communities looking to share details and promote events.</p>
+      <ul>
+        <li>Multi-page navigation</li>
+        <li>FAQs and about pages</li>
+        <li>Map and contact integrations</li>
+        <li>Event and news updates</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-utensils"></i></div>
+      <h3>Food & Sales Websites</h3>
+      <p>Ideal for showcasing menus, offerings, and business details—excluding cart/payment systems.</p>
+      <ul>
+        <li>Menu sections</li>
+        <li>Gallery & location maps</li>
+        <li>Visual branding</li>
+        <li>Reservation/contact setup</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Let's Build Something Together</h2>
+      <p>We specialize in front-end solutions that help your vision shine. Reach out to start your project today.</p>
+      <a href="contact.html" class="cta-button">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer" style="background: linear-gradient(to right, #3c6989, #2a5a7a); color: white;">
+    <div class="footer-content">
+      <nav class="footer-links">
+        <a href="index.html#services">Services</a>
+        <a href="index.html#portfolio">Portfolio</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer-copy">
+        &copy; 2025 JunePoint. All rights reserved.
       </div>
-    </footer>
-    </body>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="jsFunctions/star-trails.js"></script>
+  <script src="jsFunctions/nav.js"></script>
+</body>
 </html>
