@@ -94,7 +94,7 @@
   /* Nav links group */
   .nav-links {
     position: fixed;
-    top: 18px;
+    top: 21.5px;
     right: 90px; /* space for arrow */
     display: flex;
     gap: 2.2rem;

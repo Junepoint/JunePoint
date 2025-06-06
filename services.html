@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Services | JunePoint</title>
-  <link rel="stylesheet" href="cssStyles/nav.css" />
-  <link rel="stylesheet" href="cssStyles/service.css" />
-  <link rel="stylesheet" href="cssStyles/star-trails.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      background: url('/svgs/junepoint_background.svg') no-repeat center center fixed;
-      background-size: cover;
-    }
-  </style>
+  <link rel="stylesheet" href="cssStyles/nav.css">
+  <link rel="stylesheet" href="cssStyles/service.css">
+  <link rel="stylesheet" href="cssStyles/styles.css">
+  <link rel="stylesheet" href="cssStyles/shooting-stars.css"> <!-- Updated CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+  <script src="jsFunctions/shooting-stars.js" defer></script>
 </head>
 <body>
-  <!-- Shooting stars -->
+  <!-- Shooting stars overlay -->
   <div class="stars-overlay"></div>
 
   <!-- Navigation -->
   <nav class="main-navbar open">
     <button class="nav-arrow" aria-label="Close Navigation">
       <span class="icon-arrow">
+        <!-- Left Arrow SVG -->
         <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="24 10 14 19 24 28"></polyline>
         </svg>
       </span>
       <span class="icon-x">
+        <!-- X SVG -->
         <svg viewBox="0 0 38 38" fill="none" stroke="#3c6989" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="12" x2="26" y2="26"/>
           <line x1="12" y1="26" x2="26" y2="12"/>
@@ -38,107 +38,162 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="service.html" class="active">Services</a></li>
+      <li><a href="services.html">Services</a></li>
       <li><a href="about.html">About</a></li>
     </ul>
-  </nav>
+  </nav>  
 
-  <!-- Services header -->
+  <div class="navbar">
+    <object type="image/svg+xml" data="svgs/junepoint_logoname_simple.svg" class="logo">
+        <a href="index.html" class="junepoint-logo">JunePoint</a> <!-- fallback image in CSS -->
+    </object>           
+  </div>
+
+  <!-- Services Header -->
   <header class="services-header">
     <div class="header-content">
-      <h1>What We Offer at JunePoint</h1>
-      <p>Professional, front-end focused websites tailored for your needs—from individuals to businesses.</p>
+      <h1>Our Professional Services</h1>
+      <p>Crafting digital experiences that elevate your brand and engage your audience</p>
     </div>
   </header>
 
-  <!-- Services list -->
+  <!-- Services Section -->
   <section class="services-container">
     <div class="service-card">
-      <div class="service-icon"><i class="fas fa-user"></i></div>
+      <div class="service-icon">
+        <i class="fas fa-user"></i>
+      </div>
       <h3>Personal Websites</h3>
-      <p>Perfect for freelancers, creators, or professionals looking to showcase their personal brand.</p>
+      <p>Showcase your unique identity with a custom personal website. Perfect for freelancers, artists, and individuals looking to establish their digital presence.</p>
       <ul>
-        <li>Custom design and branding</li>
-        <li>Blog and media integration</li>
+        <li>Portfolio showcases</li>
+        <li>Blog integration</li>
+        <li>Personal branding</li>
         <li>Contact forms</li>
-        <li>Responsive layouts</li>
       </ul>
     </div>
 
     <div class="service-card">
-      <div class="service-icon"><i class="fas fa-briefcase"></i></div>
+      <div class="service-icon">
+        <i class="fas fa-building"></i>
+      </div>
       <h3>Business Websites</h3>
-      <p>Clean, responsive websites for small and medium businesses to professionally represent your brand online.</p>
+      <p>Professional websites designed to represent your company effectively. We create responsive, modern sites that communicate your brand values.</p>
       <ul>
-        <li>Service pages</li>
-        <li>Team and about sections</li>
-        <li>Contact information</li>
-        <li>Fast and mobile-ready</li>
+        <li>Company information</li>
+        <li>Service listings</li>
+        <li>Team profiles</li>
+        <li>Responsive design</li>
       </ul>
     </div>
 
     <div class="service-card">
-      <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+      <div class="service-icon">
+        <i class="fas fa-briefcase"></i>
+      </div>
       <h3>Portfolio Websites</h3>
-      <p>Beautifully crafted portfolios to show off work, testimonials, and past projects.</p>
+      <p>Showcase your work in style. We design portfolio websites that highlight your achievements and attract potential clients or employers.</p>
       <ul>
         <li>Project galleries</li>
-        <li>Visual storytelling</li>
-        <li>Media-rich layouts</li>
-        <li>Client showcase</li>
+        <li>Case studies</li>
+        <li>Skills showcase</li>
+        <li>Testimonial sections</li>
       </ul>
     </div>
 
     <div class="service-card">
-      <div class="service-icon"><i class="fas fa-info-circle"></i></div>
-      <h3>Informational Sites</h3>
-      <p>Great for dog daycares, clothing stores, or communities looking to share details and promote events.</p>
+      <div class="service-icon">
+        <i class="fas fa-info-circle"></i>
+      </div>
+      <h3>Informational Websites</h3>
+      <p>Create engaging online resources for your organization, community group, or initiative with our custom informational websites.</p>
       <ul>
+        <li>Resource libraries</li>
+        <li>FAQ sections</li>
+        <li>Event calendars</li>
         <li>Multi-page navigation</li>
-        <li>FAQs and about pages</li>
-        <li>Map and contact integrations</li>
-        <li>Event and news updates</li>
       </ul>
     </div>
 
     <div class="service-card">
-      <div class="service-icon"><i class="fas fa-utensils"></i></div>
-      <h3>Food & Sales Websites</h3>
-      <p>Ideal for showcasing menus, offerings, and business details—excluding cart/payment systems.</p>
+      <div class="service-icon">
+        <i class="fas fa-utensils"></i>
+      </div>
+      <h3>Restaurant & Food Service</h3>
+      <p>Delicious websites for food businesses. Showcase your menu, location, and ambiance with beautiful photography and intuitive design.</p>
       <ul>
-        <li>Menu sections</li>
-        <li>Gallery & location maps</li>
-        <li>Visual branding</li>
-        <li>Reservation/contact setup</li>
+        <li>Menu displays</li>
+        <li>Online reservations</li>
+        <li>Gallery sections</li>
+        <li>Location maps</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <i class="fas fa-paint-brush"></i>
+      </div>
+      <h3>Frontend Development</h3>
+      <p>Custom frontend solutions that bring your vision to life. We specialize in creating engaging, interactive user experiences.</p>
+      <ul>
+        <li>Interactive elements</li>
+        <li>Responsive layouts</li>
+        <li>Animation effects</li>
+        <li>Cross-browser compatibility</li>
       </ul>
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- Process Section -->
+  <section class="process-section">
+    <h2>Our Development Process</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-number">1</div>
+        <h3>Discovery</h3>
+        <p>We learn about your goals, audience, and requirements</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">2</div>
+        <h3>Design</h3>
+        <p>We create wireframes and visual designs for approval</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">3</div>
+        <h3>Development</h3>
+        <p>We build your website with clean, efficient code</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">4</div>
+        <h3>Launch</h3>
+        <p>We deploy your site and ensure everything works perfectly</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
   <section class="cta-section">
     <div class="cta-content">
-      <h2>Let's Build Something Together</h2>
-      <p>We specialize in front-end solutions that help your vision shine. Reach out to start your project today.</p>
-      <a href="contact.html" class="cta-button">Contact Us</a>
+      <h2>Ready to Elevate Your Online Presence?</h2>
+      <p>Contact us today to discuss your project and get a personalized quote</p>
+      <a href="contact.html" class="cta-button">Get Started</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="site-footer" style="background: linear-gradient(to right, #3c6989, #2a5a7a); color: white;">
+  <footer class="site-footer">
     <div class="footer-content">
       <nav class="footer-links">
         <a href="index.html#services">Services</a>
         <a href="index.html#portfolio">Portfolio</a>
         <a href="contact.html">Contact</a>
       </nav>
-      <div class="footer-copy">
+      <div class="footer-copyright">
         &copy; 2025 JunePoint. All rights reserved.
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="jsFunctions/star-trails.js"></script>
   <script src="jsFunctions/nav.js"></script>
 </body>
 </html>

@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const dot = document.createElement('span');
     dot.classList.add('slider-dot');
     if (index === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goToSlide(index));
+    dot.addEventListener('click', (e) => {
+      goToSlide(index);
+      e.currentTarget.blur();  // Remove focus state after click
+    });
     dotsContainer.appendChild(dot);
   });
   
@@ -58,17 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(autoSlideInterval);
   }
   
-  // Event listeners
-  prevBtn.addEventListener('click', () => {
+  // Event listeners with blur
+  prevBtn.addEventListener('click', (e) => {
     prevSlide();
     stopAutoSlide();
     startAutoSlide();
+    e.currentTarget.blur();  // Remove focus state
   });
   
-  nextBtn.addEventListener('click', () => {
+  nextBtn.addEventListener('click', (e) => {
     nextSlide();
     stopAutoSlide();
     startAutoSlide();
+    e.currentTarget.blur();  // Remove focus state
   });
   
   // Initialize
@@ -116,4 +121,19 @@ document.addEventListener('DOMContentLoaded', () => {
       startAutoSlide();
     }
   });
+  
+  // Create wave effect on text
+  const swipeText = document.querySelector('.swipe-text span');
+  if (swipeText) {
+    const text = swipeText.textContent;
+    swipeText.innerHTML = '';
+    
+    text.split('').forEach((char, index) => {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = char;
+        span.style.setProperty('--index', index);
+        swipeText.appendChild(span);
+    });
+  }
 });
