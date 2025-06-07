@@ -1,28 +1,7 @@
-/* Slider styles */
+/* Updated slider.css */
 .portfolio-slider {
-  padding: 4rem 2rem;
+  padding: 4rem 1rem; /* Reduced padding for mobile */
   text-align: center;
-}
-
-.portfolio-title {
-  font-size: 2.2rem;
-  color: var(--text-light);
-  margin-bottom: 2.5rem;
-  font-weight: 600;
-  position: relative;
-  display: inline-block;
-}
-
-.portfolio-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: var(--text-light);
-  border-radius: 2px;
 }
 
 .slider-container {
@@ -71,10 +50,12 @@
   left: 0;
   right: 0;
   background: linear-gradient(to top, rgba(28, 52, 73, 0.9), transparent);
-  padding: 2.5rem 2rem;
+  padding: 1.5rem 1rem; /* Reduced padding */
   color: white;
   text-align: left;
   transition: transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .slide-overlay h3 {
@@ -90,6 +71,10 @@
   opacity: 0.9;
   margin-bottom: 1.5rem;
   max-width: 600px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 999; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
 }
 
 .slide-btn {
@@ -102,6 +87,7 @@
   font-weight: 500;
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  align-self: flex-start; /* Better alignment */
 }
 
 .slide-btn:hover {
@@ -112,9 +98,9 @@
 
 .slider-arrow {
   position: absolute;
-  top: 50%;
+  top: 10%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.22);
   border: none;
   width: 55px;
   height: 55px;
@@ -133,6 +119,12 @@
   transform: translateY(-50%) scale(1.1);
 }
 
+/* Remove default focus outlines */
+.slider-arrow:focus,
+.slider-dot:focus {
+  outline: none;
+}
+
 .slider-arrow svg {
   width: 26px;
   height: 26px;
@@ -148,7 +140,7 @@
 
 .slider-dots {
   position: absolute;
-  bottom: 25px;
+  bottom: 15px; /* Moved up to avoid text */
   left: 0;
   right: 0;
   display: flex;
@@ -180,11 +172,15 @@
   .slide-overlay h3 {
     font-size: 1.6rem;
   }
+
+  .slider-arrow {
+    top: 25%; /* Positioned higher */
+  }
 }
 
 @media (max-width: 768px) {
   .portfolio-slider {
-    padding: 3rem 1.5rem;
+    padding: 2rem 1rem; /* Reduced padding */
   }
   
   .portfolio-title {
@@ -192,50 +188,128 @@
   }
   
   .slider-wrapper {
-    height: 400px;
+    height: 380px; /* Reduced height */
   }
   
   .slider-arrow {
-    width: 45px;
-    height: 45px;
+    width: 40px; /* Smaller arrows */
+    height: 40px;
+    top: 40%; /* Moved up */
   }
   
   .slide-overlay {
-    padding: 1.8rem 1.5rem;
+    padding: 1rem; /* Reduced padding */
   }
   
   .slide-overlay h3 {
-    font-size: 1.4rem;
+    font-size: 1.3rem; /* Smaller heading */
+    margin-bottom: 0.5rem;
   }
   
   .slide-overlay p {
-    font-size: 1rem;
-    margin-bottom: 1.2rem;
+    font-size: 0.95rem; /* Smaller text */
+    margin-bottom: 1rem;
+    -webkit-line-clamp: 2; /* Limit to 2 lines on tablet */
+  }
+  
+  .slide-btn {
+    padding: 8px 18px;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 576px) {
   .slider-wrapper {
-    height: 320px;
+    height: 300px; /* Reduced height for mobile */
   }
   
   .slider-arrow {
-    width: 40px;
-    height: 40px;
+    width: 35px; /* Even smaller arrows */
+    height: 35px;
+    top: 10%; /* Positioned higher */
+  }
+  
+  .prev {
+    left: 8px; /* Closer to edge */
+  }
+  
+  .next {
+    right: 8px; /* Closer to edge */
   }
   
   .slide-overlay {
-    padding: 1.2rem;
+    padding: 0.8rem; /* Minimal padding */
   }
   
   .slide-overlay h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* Smaller heading */
+    margin-bottom: 0.3rem;
+  }
+  
+  .slide-overlay p {
+    font-size: 0.85rem; /* Smaller text */
     margin-bottom: 0.5rem;
+    -webkit-line-clamp: 9999; /* Limit to 2 lines */
+    line-height: 1.3; /* Tighter line spacing */
   }
   
   .slide-btn {
-    vertical-align: top;
-    padding: 8px 18px;
-    font-size: 0.9rem;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+  
+  .slider-dots {
+    bottom: 8px; /* Higher position */
+  }
+  
+  .slider-dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.swipe-indicator {
+  display: none;
+  text-align: center;
+  padding: 15px 0;
+  color: white;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.swipe-indicator span {
+  position: relative;
+  z-index: 2;
+  padding: 0 15px;
+}
+
+.swipe-indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.3) 50%, 
+      transparent 100%);
+  transform: translateY(-50%);
+  animation: glow-swipe 3s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes glow-swipe {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+@media (max-width: 768px) {
+  .swipe-indicator {
+      display: block;
   }
 }
