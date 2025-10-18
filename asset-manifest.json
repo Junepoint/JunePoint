@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/JunePoint/static/css/main.08a8cde5.css",
+    "main.js": "/JunePoint/static/js/main.8104d535.js",
+    "index.html": "/JunePoint/index.html",
+    "main.08a8cde5.css.map": "/JunePoint/static/css/main.08a8cde5.css.map",
+    "main.8104d535.js.map": "/JunePoint/static/js/main.8104d535.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.08a8cde5.css",
+    "static/js/main.8104d535.js"
+  ]
+}
