@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, Code, Palette, Menu, X, ChevronDown, Smartphone, Globe, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles, Code, Palette, Menu, X, ChevronDown, Smartphone, Globe, Zap, Linkedin, Github, ExternalLink } from 'lucide-react';
 
 export default function JunePointLanding() {
   const [scrollY, setScrollY] = useState(0);
@@ -85,6 +85,47 @@ export default function JunePointLanding() {
     "Clerk", "NeonDB", "Google Cloud", "Vercel", "Tailwind CSS"
   ];
 
+  const team = [
+    {
+      name: "Jackson Abeyta",
+      role: "Full-Stack Developer",
+      bio: "Specializing in design systems and accessibility. Love turning complex problems into beautiful, intuitive interfaces. 2+ years of experience building with react, react native, and node",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      linkedin: "https://linkedin.com/in/jackson-abeyta",
+      github: "https://github.com/jack-jackk",
+      website: "https://jackabeyta.com"
+    },
+    {
+      name: "Alexander Pace",
+      role: "Full-Stack Developer",
+      bio: "Passionate about creating seamless user experiences and scalable backend systems. 1+ years building React and Node.js applications.",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+      linkedin: "https://www.linkedin.com/in/alexander-pace-0648b6270/",
+      github: "https://github.com/snf-alex",
+      website: "https://snf-alex.github.io/PortfolioWebsiteV2/"
+    },
+  ];
+
+  const projects = [
+    {
+      title: "iCO Emergency - Safety Tracking App",
+      description: "A comprehensive safety tracking application that provides real-time emergency response, location sharing, and safety check-ins. Built with React Native for cross-platform deployment on iOS and Android.",
+      image: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&h=500&fit=crop",
+      tech: ["React Native", "Expo", "NeonDB", "Google Cloud Platform"],
+      liveUrl: "https://icoemergency.com",
+      status: "Beta"
+    },
+    {
+      title: "BurnJournals - Digital Wellness Platform",
+      description: "An innovative journaling platform designed for personal reflection and mental wellness. Features secure, private journaling with mood tracking, insights, and a beautiful, intuitive interface.",
+      image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=500&fit=crop",
+      tech: ["React Native", "Expo"],
+      liveUrl: "https://burnjournals.com",
+      githubUrl: "https://github.com/jack-jackk/burnjournal",
+      status: "Live"
+    }
+  ];
+
   return (
     <div className="bg-white text-slate-800 min-h-screen overflow-hidden">
       {/* Animated Background */}
@@ -124,6 +165,8 @@ export default function JunePointLanding() {
           
           <div className="hidden md:flex gap-8 items-center">
             <a href="#services" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">Services</a>
+            <a href="#projects" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">Projects</a>
+            <a href="#about" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">About</a>
             <a href="#process" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">Process</a>
             <a href="#contact" className="px-6 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full hover:shadow-lg hover:shadow-blue-500/50 transition-all font-medium">
               Get Started
@@ -142,6 +185,8 @@ export default function JunePointLanding() {
           <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-slate-200/50">
             <div className="px-6 py-4 flex flex-col gap-4">
               <a href="#services" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">Services</a>
+              <a href="#projects" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">Projects</a>
+              <a href="#about" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">About</a>
               <a href="#process" className="text-slate-600 hover:text-blue-600 transition-colors font-medium">Process</a>
               <a href="#contact" className="text-center px-6 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full font-medium">
                 Get Started
@@ -259,6 +304,153 @@ export default function JunePointLanding() {
                 
                 <div className="flex items-center text-blue-600 group-hover:translate-x-2 transition-transform duration-300 font-medium">
                   Learn more <ArrowRight className="w-4 h-4 ml-2" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="relative py-32 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">
+              Our <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">Projects</span>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              Real-world applications we've built and deployed. Each project showcases our commitment to quality and innovation.
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {projects.map((project, idx) => (
+              <div
+                key={idx}
+                className="group relative bg-white border border-slate-200 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500"
+                style={{ animation: `fadeInUp 0.6s ease-out ${idx * 0.2}s backwards` }}
+              >
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Project Image */}
+                  <div className="relative h-80 md:h-auto overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-4 right-4 px-4 py-2 bg-green-500 text-white text-sm font-bold rounded-full shadow-lg">
+                      {project.status}
+                    </div>
+                  </div>
+
+                  {/* Project Info */}
+                  <div className="p-8 md:p-12 flex flex-col justify-center">
+                    <h3 className="text-3xl font-bold mb-4 text-slate-900">{project.title}</h3>
+                    <p className="text-slate-600 text-lg leading-relaxed mb-6">{project.description}</p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.tech.map((tech, techIdx) => (
+                        <span 
+                          key={techIdx}
+                          className="px-3 py-1 bg-blue-50 text-blue-600 text-sm font-medium rounded-full"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-4">
+                      <a 
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        View Live
+                      </a>
+                      {project.githubUrl && (
+                        <a 
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 rounded-full font-semibold hover:bg-slate-200 transition-all"
+                        >
+                          <Github className="w-4 h-4" />
+                          Source Code
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section id="about" className="relative py-32 px-6 bg-gradient-to-b from-white via-slate-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">
+              Meet the <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">Team</span>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              A passionate group of developers and designers dedicated to crafting exceptional digital experiences.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {team.map((member, idx) => (
+              <div
+                key={idx}
+                className="group relative bg-white border border-slate-200 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500"
+                style={{ animation: `fadeInUp 0.6s ease-out ${idx * 0.15}s backwards` }}
+              >
+                <div className="relative h-80 overflow-hidden">
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                </div>
+
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold mb-2 text-slate-900">{member.name}</h3>
+                  <p className="text-blue-600 font-semibold mb-4">{member.role}</p>
+                  <p className="text-slate-600 leading-relaxed mb-6">{member.bio}</p>
+                  
+                  <div className="flex gap-4">
+                    <a 
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors"
+                      aria-label="LinkedIn"
+                    >
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a 
+                      href={member.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-slate-100 text-slate-700 rounded-full hover:bg-slate-200 transition-colors"
+                      aria-label="GitHub"
+                    >
+                      <Github className="w-5 h-5" />
+                    </a>
+                    <a 
+                      href={member.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-cyan-50 text-cyan-600 rounded-full hover:bg-cyan-100 transition-colors"
+                      aria-label="Website"
+                    >
+                      <ExternalLink className="w-5 h-5" />
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
