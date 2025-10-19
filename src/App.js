@@ -69,7 +69,7 @@ export default function JunePointLanding() {
       title: "Local Cross-Platform Mobile Apps", 
       desc: "Journaling, task managers, and productivity apps.",
       color: "from-sky-500 to-blue-700",
-      tech: "React • Firebase • Vercel"
+      tech: "Expo • EAS"
     }
   ];
 
@@ -90,8 +90,8 @@ export default function JunePointLanding() {
     {
       name: "Jackson Abeyta",
       role: "Full-Stack Developer",
-      bio: "Specializing in design systems and accessibility. Love turning complex problems into beautiful, intuitive interfaces. 2+ years of experience building with react, react native, and node",
-      image: "../public/imgs/1687980330059.jpeg",
+      bio: "Specializing in design systems and accessibility. Loves turning complex problems into beautiful, intuitive interfaces. 2+ years of experience building with React, React Native, Node.js, Express, and PostgreSQL",
+      image: "/imgs/1687980330059.jpeg",
       linkedin: "https://linkedin.com/in/jackson-abeyta",
       github: "https://github.com/jack-jackk",
       website: "https://jackabeyta.com"
@@ -100,7 +100,7 @@ export default function JunePointLanding() {
       name: "Alexander Pace",
       role: "Full-Stack Developer",
       bio: "Passionate about creating seamless user experiences and scalable backend systems. 1+ years building React and Node.js applications.",
-      image: "../public/imgs/1746383200322.jpeg",
+      image: "/imgs/1746383200322.jpeg",
       linkedin: "https://www.linkedin.com/in/alexander-pace-0648b6270/",
       github: "https://github.com/snf-alex",
       website: "https://snf-alex.github.io/PortfolioWebsiteV2/"
@@ -110,7 +110,7 @@ export default function JunePointLanding() {
   const projects = [
     {
       title: "iCO Emergency - Safety Tracking App",
-      description: "A comprehensive safety tracking application that provides real-time emergency data, location sharing, and safety check-ins. Built with React Native for cross-platform deployment on iOS and Android.",
+      description: "A privacy-based safety tracking application that gives real-time emergency data, constant location tracking, but temporary location sharing, and safety check-ins. Built with React Native for cross-platform deployment on iOS and Android.",
       image: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&h=500&fit=crop",
       tech: ["React Native", "Expo", "NeonDB", "Google Cloud Platform"],
       liveUrl: "https://icoemergency.com",
@@ -118,9 +118,9 @@ export default function JunePointLanding() {
     },
     {
       title: "BurnJournals - Digital Wellness Platform",
-      description: "An innovative journaling platform designed for personal reflection and mental wellness. Features secure, private journaling with mood tracking, insights, and a beautiful, intuitive interface.",
+      description: "An innovative journaling platform designed for personal reflection and mental wellness. Features secure, private journaling with a scramble & burn feature, daily tasks, and a beautiful, intuitive interface.",
       image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=500&fit=crop",
-      tech: ["React Native", "Expo"],
+      tech: ["EAS", "Expo"],
       liveUrl: "https://burnjournals.com",
       githubUrl: "https://github.com/jack-jackk/burnjournal",
       status: "Live"
