@@ -117,7 +117,7 @@ export default function JunePointLanding() {
       status: "Beta"
     },
     {
-      title: "BurnJournals - Digital Wellness Platform",
+      title: "BurnJournals - a Therapeutic Journaling App",
       description: "An innovative journaling platform designed for personal reflection and mental wellness. Features secure, private journaling with a scramble & burn feature, daily tasks, and a beautiful, intuitive interface.",
       image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=500&fit=crop",
       tech: ["EAS", "Expo"],
