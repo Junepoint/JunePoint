@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/JunePoint/static/css/main.5907daad.css",
-    "main.js": "/JunePoint/static/js/main.b029e661.js",
-    "index.html": "/JunePoint/index.html",
-    "main.5907daad.css.map": "/JunePoint/static/css/main.5907daad.css.map",
-    "main.b029e661.js.map": "/JunePoint/static/js/main.b029e661.js.map"
+    "main.css": "/static/css/main.5907daad.css",
+    "main.js": "/static/js/main.b029e661.js",
+    "index.html": "/index.html",
+    "main.5907daad.css.map": "/static/css/main.5907daad.css.map",
+    "main.b029e661.js.map": "/static/js/main.b029e661.js.map"
   },
   "entrypoints": [
     "static/css/main.5907daad.css",
