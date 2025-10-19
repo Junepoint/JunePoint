@@ -32,9 +32,9 @@ export default function JunePointLanding() {
     { 
       icon: <Sparkles className="w-6 h-6" />, 
       title: "Personal Websites", 
-      desc: "Custom portfolio and personal branding sites built with React, featuring stunning galleries and blog integration",
+      desc: "Custom portfolio and personal branding sites built with React, featuring stunning galleries and contact integration",
       color: "from-blue-400 to-blue-600",
-      tech: "React • Next.js • Tailwind"
+      tech: "React • TailwindCSS • JavaScript"
     },
     { 
       icon: <Code className="w-6 h-6" />, 
@@ -45,29 +45,29 @@ export default function JunePointLanding() {
     },
     { 
       icon: <Smartphone className="w-6 h-6" />, 
-      title: "Cross-Platform Mobile Apps", 
+      title: "Full-stack Cross-Platform Mobile Apps", 
       desc: "Native-quality iOS and Android apps from a single codebase using React Native and Expo",
       color: "from-sky-400 to-blue-600",
-      tech: "React Native • Expo • Clerk"
+      tech: "React Native • Expo • NeonDB • GCP • Clerk" 
     },
     { 
       icon: <Globe className="w-6 h-6" />, 
-      title: "Full-Stack Applications", 
-      desc: "Complete web and mobile solutions with authentication, databases, and cloud deployment",
+      title: "Video Games", 
+      desc: "2D Platformers, 2D Topdown Adventures, and 3D Puzzle Games",
       color: "from-cyan-400 to-blue-600",
-      tech: "React • NeonDB • Google Cloud"
+      tech: "Godot • Blender • Unreal Engine"
     },
     { 
       icon: <Palette className="w-6 h-6" />, 
-      title: "Portfolio Websites", 
-      desc: "Showcase your work with interactive case studies, project galleries, and client testimonials",
+      title: "Photo Galleries", 
+      desc: "Showcase your photos with interactive layouts, smooth animations, and timeline navigation",
       color: "from-blue-600 to-indigo-600",
-      tech: "React • Framer Motion • CMS"
+      tech: "React • Node.js • Google Cloud Storage • PostgreSQL"
     },
     { 
       icon: <Zap className="w-6 h-6" />, 
-      title: "Informational Platforms", 
-      desc: "Resource libraries, FAQ sections, and event calendars with real-time updates",
+      title: "Local Cross-Platform Mobile Apps", 
+      desc: "Journaling, task managers, and productivity apps.",
       color: "from-sky-500 to-blue-700",
       tech: "React • Firebase • Vercel"
     }
@@ -81,8 +81,9 @@ export default function JunePointLanding() {
   ];
 
   const technologies = [
-    "React", "React Native", "Expo", "Next.js", "TypeScript",
-    "Clerk", "NeonDB", "Google Cloud", "Vercel", "Tailwind CSS"
+    "React", "React Native", "Expo", "Node.js", "TypeScript",
+    "Clerk", "NeonDB", "Google Cloud", "Vercel", "Tailwind CSS", 
+    "C#", ".NET MAUI", "PostgreSQL", "Godot", "Unreal Engine"
   ];
 
   const team = [
@@ -90,7 +91,7 @@ export default function JunePointLanding() {
       name: "Jackson Abeyta",
       role: "Full-Stack Developer",
       bio: "Specializing in design systems and accessibility. Love turning complex problems into beautiful, intuitive interfaces. 2+ years of experience building with react, react native, and node",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      image: "../public/imgs/1687980330059.jpeg",
       linkedin: "https://linkedin.com/in/jackson-abeyta",
       github: "https://github.com/jack-jackk",
       website: "https://jackabeyta.com"
@@ -99,7 +100,7 @@ export default function JunePointLanding() {
       name: "Alexander Pace",
       role: "Full-Stack Developer",
       bio: "Passionate about creating seamless user experiences and scalable backend systems. 1+ years building React and Node.js applications.",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+      image: "../public/imgs/1746383200322.jpeg",
       linkedin: "https://www.linkedin.com/in/alexander-pace-0648b6270/",
       github: "https://github.com/snf-alex",
       website: "https://snf-alex.github.io/PortfolioWebsiteV2/"
@@ -109,7 +110,7 @@ export default function JunePointLanding() {
   const projects = [
     {
       title: "iCO Emergency - Safety Tracking App",
-      description: "A comprehensive safety tracking application that provides real-time emergency response, location sharing, and safety check-ins. Built with React Native for cross-platform deployment on iOS and Android.",
+      description: "A comprehensive safety tracking application that provides real-time emergency data, location sharing, and safety check-ins. Built with React Native for cross-platform deployment on iOS and Android.",
       image: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&h=500&fit=crop",
       tech: ["React Native", "Expo", "NeonDB", "Google Cloud Platform"],
       liveUrl: "https://icoemergency.com",
