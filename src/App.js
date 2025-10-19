@@ -5,6 +5,7 @@ export default function JunePointLanding() {
   const [scrollY, setScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeService, setActiveService] = useState(0);
+  const [carouselIndices, setCarouselIndices] = useState({});
 
   useEffect(() => {
     let ticking = false;
@@ -25,6 +26,22 @@ export default function JunePointLanding() {
     const interval = setInterval(() => {
       setActiveService((prev) => (prev + 1) % 6);
     }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Carousel auto-rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCarouselIndices((prev) => {
+        const newIndices = { ...prev };
+        // Rotate each project's carousel
+        projects.forEach((project, idx) => {
+          const currentIndex = prev[idx] || 0;
+          newIndices[idx] = (currentIndex + 1) % project.images.length;
+        });
+        return newIndices;
+      });
+    }, 4000); // Change image every 4 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -111,15 +128,27 @@ export default function JunePointLanding() {
     {
       title: "iCO Emergency - Safety Tracking App",
       description: "A privacy-based safety tracking application that gives real-time emergency data, constant location tracking, but temporary location sharing, and safety check-ins. Built with React Native for cross-platform deployment on iOS and Android.",
-      image: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&h=500&fit=crop",
+      images: [
+        "/imgs/iCO-1.png",
+        "/imgs/iCO-2.png",
+        "/imgs/iCO-3.png",
+        "/imgs/iCO-4.png",
+        "/imgs/iCO-5.png",
+        "/imgs/iCO-6.png"
+      ],
       tech: ["React Native", "Expo", "NeonDB", "Google Cloud Platform"],
       liveUrl: "https://icoemergency.com",
       status: "Beta"
     },
     {
-      title: "BurnJournals - a Therapeutic Journaling App",
+      title: "Burn Journal - a Therapeutic Journaling App",
       description: "An innovative journaling platform designed for personal reflection and mental wellness. Features secure, private journaling with a scramble & burn feature, daily tasks, and a beautiful, intuitive interface.",
-      image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=500&fit=crop",
+      images: [
+        "/imgs/Burn-1-portrait.png",
+        "/imgs/Burn-2-portrait.png",
+        "/imgs/Burn-3-portrait.png",
+        "/imgs/Burn-4-portrait.png"
+      ],
       tech: ["EAS", "Expo"],
       liveUrl: "https://burnjournals.com",
       githubUrl: "https://github.com/jack-jackk/burnjournal",
@@ -332,15 +361,35 @@ export default function JunePointLanding() {
                 style={{ animation: `fadeInUp 0.6s ease-out ${idx * 0.2}s backwards` }}
               >
                 <div className="grid md:grid-cols-2 gap-8">
-                  {/* Project Image */}
-                  <div className="relative h-80 md:h-auto overflow-hidden">
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4 px-4 py-2 bg-green-500 text-white text-sm font-bold rounded-full shadow-lg">
+                  {/* Project Carousel */}
+                  <div className="relative h-80 md:h-auto overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                    <div className="absolute inset-0 flex items-center justify-center p-8">
+                      {project.images.map((img, imgIdx) => (
+                        <img 
+                          key={imgIdx}
+                          src={img} 
+                          alt={`${project.title} screenshot ${imgIdx + 1}`}
+                          className={`absolute h-full w-auto object-contain transition-opacity duration-1000 ${
+                            (carouselIndices[idx] || 0) === imgIdx ? 'opacity-100' : 'opacity-0'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <div className="absolute top-4 right-4 px-4 py-2 bg-green-500 text-white text-sm font-bold rounded-full shadow-lg z-10">
                       {project.status}
+                    </div>
+                    {/* Carousel indicators */}
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+                      {project.images.map((_, imgIdx) => (
+                        <div 
+                          key={imgIdx}
+                          className={`h-2 rounded-full transition-all duration-500 ${
+                            (carouselIndices[idx] || 0) === imgIdx 
+                              ? 'w-8 bg-white' 
+                              : 'w-2 bg-white/50'
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
 
