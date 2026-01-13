@@ -3,6 +3,7 @@ import { ExternalLink, Github } from 'lucide-react';
 
 export default function ProjectDisplay({ projects, title, description }) {
   const [carouselIndices, setCarouselIndices] = useState({});
+  const [loadedImages, setLoadedImages] = useState({});
 
   // Carousel auto-rotation
   useEffect(() => {
@@ -46,14 +47,22 @@ export default function ProjectDisplay({ projects, title, description }) {
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Project Carousel */}
                 <div className="relative h-80 md:h-auto overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <div className="absolute inset-0 flex items-center justify-center p-8 overflow-hidden">
+                  {/* Loading skeleton */}
+                  {!loadedImages[`${idx}-0`] && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                     {project.images.map((img, imgIdx) => (
                       <img 
                         key={imgIdx}
                         src={img} 
                         alt={`${project.title} screenshot ${imgIdx + 1}`}
-                        className={`absolute h-[106%] w-auto object-cover object-bottom transition-opacity duration-500 ${
-                          (carouselIndices[idx] || 0) === imgIdx ? 'opacity-100' : 'opacity-0'
+                        loading={imgIdx === 0 ? "eager" : "lazy"}
+                        onLoad={() => setLoadedImages(prev => ({ ...prev, [`${idx}-${imgIdx}`]: true }))}
+                        className={`absolute h-[106%] w-auto object-cover object-bottom transition-opacity duration-300 ${
+                          (carouselIndices[idx] || 0) === imgIdx && loadedImages[`${idx}-${imgIdx}`] ? 'opacity-100' : 'opacity-0'
                         }`}
                       />
                     ))}
