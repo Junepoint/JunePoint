@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>Color Contrast Checker — WCAG AA &amp; AAA Ratios</title>
+    <meta name="description" content="Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes." />
+    <link rel="canonical" href="https://junepoint.com/tools/color-contrast-checker/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="Color Contrast Checker — WCAG AA &amp; AAA Ratios" />
+    <meta property="og:description" content="Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes." />
+    <meta property="og:url" content="https://junepoint.com/tools/color-contrast-checker/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-04-02" />
+    <meta property="article:modified_time" content="2026-08-21" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="Color Contrast Checker — WCAG AA &amp; AAA Ratios" />
+    <meta name="twitter:description" content="Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#alexander-pace",
+      "name": "Alexander Pace",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Alexander works across React and Node.js applications with a focus on backend systems and user experience. He covers front-end technique, CSS and the business-software research on this site.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://www.linkedin.com/in/alexander-pace-0648b6270/",
+        "https://github.com/snf-alex",
+        "https://snf-alex.github.io/PortfolioWebsiteV2/"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://junepoint.com/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Colour Contrast Checker",
+          "item": "https://junepoint.com/tools/color-contrast-checker/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://junepoint.com/tools/color-contrast-checker/#app",
+      "name": "Colour Contrast Checker",
+      "description": "Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes.",
+      "url": "https://junepoint.com/tools/color-contrast-checker/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/tools/color-contrast-checker/#article",
+      "headline": "Colour Contrast Checker",
+      "name": "Color Contrast Checker — WCAG AA & AAA Ratios",
+      "description": "Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes.",
+      "datePublished": "2026-04-02",
+      "dateModified": "2026-08-21",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/tools/color-contrast-checker/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#alexander-pace"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "color contrast checker, wcag contrast ratio, accessibility contrast, aa aaa contrast, contrast ratio calculator",
+      "articleSection": "Free Tools"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/tools/color-contrast-checker/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What contrast ratio do I actually need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "4.5:1 for normal text, 3:1 for large text and for UI components such as borders, icons and focus rings. That is WCAG level AA, which is the level referenced by accessibility law in the EU, UK and US."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do logos and brand marks need to pass?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. WCAG explicitly exempts logotypes and incidental text. The exemption is narrow, though — it does not extend to a tagline set in body copy, or to navigation styled in brand colours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does contrast apply to dark mode separately?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and it must be checked separately. Inverting a palette does not preserve contrast ratios, because luminance is non-linear. A pairing that comfortably passes in light mode can fail in dark mode, which is why the swap button above is worth using on every colour pair you ship."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What about text over a photograph?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The ratio has to hold over every part of the image the text sits on, which in practice means adding a semi-transparent scrim or a gradient overlay. Testing against one sampled pixel is not enough — check the lightest region the text crosses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is APCA something I should switch to now?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not for compliance. APCA is a substantially better perceptual model and worth understanding, but it is still in development for WCAG 3 and no regulation references it. Design to WCAG 2.2 AA today; treat APCA as a tiebreaker when the 2.x formula gives an answer that plainly contradicts your eyes."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier3">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Colour Contrast Checker</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">Accessibility</p>
+      <h1>Colour Contrast Checker</h1>
+      <p class="jp-standfirst">Enter two colours and get the exact contrast ratio, which WCAG levels it passes, and a one-click nudge to the nearest shade that passes.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#alexander-pace">Alexander Pace</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published April 2, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 21, 2026</span></div>
+    </header>
+
+    
+    
+<div class="jp-tool">
+  <div class="jp-tool-grid">
+    <div>
+      <div class="jp-field">
+        <label for="cx-fg">Foreground (text)</label>
+        <input class="jp-input" type="text" id="cx-fg" value="#6b7f99" spellcheck="false" />
+        <input class="jp-range" type="color" id="cx-fg-picker" value="#6b7f99" aria-label="Pick foreground colour" />
+      </div>
+      <div class="jp-field">
+        <label for="cx-bg">Background</label>
+        <input class="jp-input" type="text" id="cx-bg" value="#ffffff" spellcheck="false" />
+        <input class="jp-range" type="color" id="cx-bg-picker" value="#ffffff" aria-label="Pick background colour" />
+      </div>
+      <div class="jp-toolbar">
+        <button class="jp-btn jp-btn--ghost" type="button" id="cx-swap">Swap</button>
+        <button class="jp-btn" type="button" id="cx-fix">Fix to AA</button>
+      </div>
+      <p class="jp-status" id="cx-fix-note" aria-live="polite">&nbsp;</p>
+    </div>
+
+    <div>
+      <div class="jp-swatch" id="cx-preview" style="height:auto;padding:1rem;display:block">
+        <p style="font-size:1.55rem;font-weight:700;margin:0 0 .4rem">Large heading text</p>
+        <p style="font-size:1rem;font-weight:400;margin:0 0 .4rem">Normal body text at 16px, which is the size most of your interface actually uses.</p>
+        <p style="font-size:.8rem;margin:0">Small print at 12.8px.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="jp-stat jp-stat--primary" style="margin-bottom:.75rem">
+        <p class="jp-stat-label">Contrast ratio</p>
+        <p class="jp-stat-value" id="cx-ratio">—</p>
+        <p class="jp-stat-sub" id="cx-ratio-sub">&nbsp;</p>
+      </div>
+      <dl class="jp-kv" id="cx-levels"></dl>
+    </div>
+  </div>
+</div>
+    
+
+    <article class="jp-article">
+      <h2 id="the-thresholds-and-what-counts-as-large">The thresholds, and what counts as &quot;large&quot;</h2>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Level</th><th scope="col">Applies to</th><th scope="col">Minimum ratio</th></tr></thead><tbody><tr><th scope="row">AA</th><td>Normal text</td><td>4.5:1</td></tr><tr><th scope="row">AA</th><td>Large text</td><td>3:1</td></tr><tr><th scope="row">AA</th><td>UI components and meaningful graphics</td><td>3:1</td></tr><tr><th scope="row">AAA</th><td>Normal text</td><td>7:1</td></tr><tr><th scope="row">AAA</th><td>Large text</td><td>4.5:1</td></tr></tbody></table></div>
+<p><strong>Large text</strong> means at least 18pt (24px), or 14pt (18.66px) when bold. Below that, the 4.5:1 requirement applies — and this is where most designs fail, because the small grey timestamps, captions and helper text are exactly the elements that get styled by eye late in a project.</p>
+<p>The <strong>3:1 requirement for UI components</strong> is the one teams miss most often. It came in with WCAG 2.1 and covers input borders, focus indicators, toggle states and icons that carry meaning. A form field with a <code>#e5e7eb</code> border on white sits at about 1.2:1 — invisible to a lot of people, and a straightforward failure.</p>
+<h2 id="why-aa-is-the-number-that-matters">Why AA is the number that matters</h2>
+<p>AA is the level written into law. The European Accessibility Act, the EN 301 549 standard behind EU public-sector procurement, Section 508 in the United States and the UK’s Public Sector Bodies Accessibility Regulations all reference WCAG level AA. ADA settlements in the US have consistently used AA as the remediation standard.</p>
+<p>AAA is a worthwhile goal for body text and genuinely helps readers with low vision, but WCAG itself does not recommend it as a blanket requirement for entire sites — some content simply cannot reach it.</p>
+<h2 id="where-designs-usually-fail">Where designs usually fail</h2>
+<ul><li><strong>Placeholder text.</strong> Browser defaults are around 3:1. If a placeholder is doing real work — and it should not be, use a label — it needs to pass.</li><li><strong>Disabled controls.</strong> WCAG exempts them, so they are technically compliant at any contrast. They are still frequently unreadable, and users cannot tell &quot;disabled&quot; from &quot;broken&quot;.</li><li><strong>Text over images.</strong> The ratio changes across the image. A scrim, a gradient overlay or a solid text panel is the reliable fix; picking a colour that works over the average is not.</li><li><strong>Brand colours on white.</strong> A great many corporate blues and greens land between 3:1 and 4.5:1. Darken the shade for text and keep the original for large display type and logos, which are exempt.</li><li><strong>Light-grey secondary text.</strong> <code>#999999</code> on white is 2.85:1 and fails. <code>#767676</code> is 4.54:1 and passes. That is the smallest change that fixes the most common violation on the web.</li><li><strong>Dark mode, assumed rather than checked.</strong> Pure white on pure black is 21:1 and causes halation for readers with astigmatism. Off-white on very dark grey reads better and still passes comfortably.</li></ul>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">The greys worth memorising (on white)</p>
+        <p><code>#767676</code> = 4.54:1, the lightest grey that passes AA for body text. <code>#595959</code> = 7.0:1, the lightest that passes AAA. <code>#949494</code> = 3.0:1, the lightest usable for large text and UI borders. Anything lighter than #767676 for small text is a failure.</p>
+      </aside>
+<h2 id="how-the-ratio-is-calculated">How the ratio is calculated</h2>
+<p>Contrast ratio is defined as <code>(L1 + 0.05) / (L2 + 0.05)</code>, where L1 and L2 are the relative luminances of the lighter and darker colours. Luminance itself is a weighted sum of the gamma-corrected channels:</p>
+<pre class="jp-code" data-lang="javascript"><code>function luminance([r, g, b]) {
+  const [R, G, B] = [r, g, b].map(c =&gt; {
+    const s = c / 255;
+    return s &lt;= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B;   // green dominates
+}</code></pre>
+<p>The green coefficient of 0.7152 reflects how much more sensitive human vision is to green than to blue. It also explains a result that surprises people: pure blue <code>#0000ff</code> on white is only 8.6:1, while pure yellow <code>#ffff00</code> on white is 1.07:1 and effectively invisible.</p>
+<p>The ratio ranges from 1:1 (identical colours) to 21:1 (pure black on pure white).</p>
+<aside class="jp-note jp-note--info">
+        <p class="jp-note-title">This formula has known flaws</p>
+        <p>WCAG 2.x contrast is a simple model and it is wrong at the edges — it is notably unreliable for dark backgrounds and for thin fonts. <strong>APCA</strong>, the successor being developed for WCAG 3, models perceived lightness far more accurately. It is not yet a standard and not yet a legal requirement, so WCAG 2.x remains what you must comply with today.</p>
+      </aside>
+<h2 id="contrast-is-necessary-but-not-sufficient">Contrast is necessary but not sufficient</h2>
+<p>Passing 4.5:1 does not make an interface accessible. Two adjacent failures commonly ship alongside good contrast:</p>
+<ol><li><strong>Colour used as the only signal.</strong> Red for errors and green for success fails for roughly one in twelve men with colour vision deficiency. Add an icon, a label or a pattern — WCAG 1.4.1 requires it regardless of contrast.</li><li><strong>Missing focus indicators.</strong> Keyboard users need to see where they are. <code>outline: none</code> without a replacement is one of the most damaging single lines of CSS on the web, and the indicator itself must clear 3:1 against the adjacent colour.</li></ol>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>What contrast ratio do I actually need?</h3></summary>
+              <div class="jp-faq-answer"><p>4.5:1 for normal text, 3:1 for large text and for UI components such as borders, icons and focus rings. That is WCAG level AA, which is the level referenced by accessibility law in the EU, UK and US.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Do logos and brand marks need to pass?</h3></summary>
+              <div class="jp-faq-answer"><p>No. WCAG explicitly exempts logotypes and incidental text. The exemption is narrow, though — it does not extend to a tagline set in body copy, or to navigation styled in brand colours.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Does contrast apply to dark mode separately?</h3></summary>
+              <div class="jp-faq-answer"><p>Yes, and it must be checked separately. Inverting a palette does not preserve contrast ratios, because luminance is non-linear. A pairing that comfortably passes in light mode can fail in dark mode, which is why the swap button above is worth using on every colour pair you ship.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What about text over a photograph?</h3></summary>
+              <div class="jp-faq-answer"><p>The ratio has to hold over every part of the image the text sits on, which in practice means adding a semi-transparent scrim or a gradient overlay. Testing against one sampled pixel is not enough — check the lightest region the text crosses.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Is APCA something I should switch to now?</h3></summary>
+              <div class="jp-faq-answer"><p>Not for compliance. APCA is a substantially better perceptual model and worth understanding, but it is still in development for WCAG 3 and no regulation references it. Design to WCAG 2.2 AA today; treat APCA as a tiebreaker when the 2.x formula gives an answer that plainly contradicts your eyes.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/guides/css-grid-vs-flexbox/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>CSS Grid vs Flexbox</h3>
+        <p>The one-dimensional / two-dimensional rule, plus copy-paste patterns for holy grail, card grids and sidebars.</p>
+      </a><a class="jp-card" href="/tools/regex-tester/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Regex Tester</h3>
+        <p>Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser.</p>
+      </a><a class="jp-card" href="/guides/http-status-codes-explained/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>HTTP status codes, and which to actually use</h3>
+        <p>401 vs 403, 301 vs 308, 400 vs 422 — the distinctions that matter, and the codes worth using.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#the-thresholds-and-what-counts-as-large">The thresholds, and what counts as &quot;large&quot;</a></li><li><a href="#why-aa-is-the-number-that-matters">Why AA is the number that matters</a></li><li><a href="#where-designs-usually-fail">Where designs usually fail</a></li><li><a href="#how-the-ratio-is-calculated">How the ratio is calculated</a></li><li><a href="#contrast-is-necessary-but-not-sufficient">Contrast is necessary but not sufficient</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Free Tools</h2>
+        <ul><li><a href="/tools/saas-seat-cost-calculator/">SaaS Seat Cost Calculator</a></li><li><a href="/tools/cloud-cost-calculator/">Cloud Cost Calculator</a></li><li><a href="/tools/cron-expression-generator/">Cron Expression Generator</a></li><li><a href="/tools/mortgage-payoff-calculator/">Mortgage Payoff Calculator</a></li><li><a href="/tools/color-contrast-checker/">Colour Contrast Checker</a></li><li><a href="/tools/jwt-decoder/">JWT Decoder</a></li></ul>
+      </div>
+</aside>
+</div>
+<script>
+(function () {
+  var fg = document.getElementById('cx-fg');
+  var bg = document.getElementById('cx-bg');
+  var fgPicker = document.getElementById('cx-fg-picker');
+  var bgPicker = document.getElementById('cx-bg-picker');
+  var preview = document.getElementById('cx-preview');
+
+  var NAMED = { white: '#ffffff', black: '#000000', red: '#ff0000', blue: '#0000ff', green: '#008000' };
+
+  function parse(value) {
+    var text = String(value).trim().toLowerCase();
+    if (NAMED[text]) text = NAMED[text];
+
+    var rgb = /^rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/.exec(text);
+    if (rgb) return [+rgb[1], +rgb[2], +rgb[3]];
+
+    var hex = text.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c; }).join('');
+    if (!/^[0-9a-f]{6}$/.test(hex)) return null;
+    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)];
+  }
+
+  function toHex(rgb) {
+    return '#' + rgb.map(function (c) {
+      return Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, '0');
+    }).join('');
+  }
+
+  // WCAG 2.x relative luminance.
+  function luminance(rgb) {
+    var channels = rgb.map(function (c) {
+      var s = c / 255;
+      return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+  }
+
+  function ratio(a, b) {
+    var la = luminance(a), lb = luminance(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  }
+
+  function badge(pass) {
+    return '<span class="jp-badge jp-badge--' + (pass ? 'pass">PASS' : 'fail">FAIL') + '</span>';
+  }
+
+  function render() {
+    var f = parse(fg.value), b = parse(bg.value);
+    var levels = document.getElementById('cx-levels');
+    if (!f || !b) {
+      document.getElementById('cx-ratio').textContent = '—';
+      document.getElementById('cx-ratio-sub').textContent = 'Enter a hex or rgb() colour';
+      levels.innerHTML = '';
+      return;
+    }
+
+    fgPicker.value = toHex(f);
+    bgPicker.value = toHex(b);
+    preview.style.background = toHex(b);
+    preview.style.color = toHex(f);
+
+    var r = ratio(f, b);
+    document.getElementById('cx-ratio').textContent = r.toFixed(2) + ':1';
+    document.getElementById('cx-ratio-sub').textContent =
+      r >= 7 ? 'Passes everything' : r >= 4.5 ? 'Passes AA for all text' :
+      r >= 3 ? 'Large text and UI only' : 'Fails every threshold';
+
+    levels.innerHTML =
+      '<dt>AA · normal text</dt><dd>' + badge(r >= 4.5) + ' needs 4.5:1</dd>' +
+      '<dt>AA · large text</dt><dd>' + badge(r >= 3) + ' needs 3:1</dd>' +
+      '<dt>AA · UI &amp; graphics</dt><dd>' + badge(r >= 3) + ' needs 3:1</dd>' +
+      '<dt>AAA · normal text</dt><dd>' + badge(r >= 7) + ' needs 7:1</dd>' +
+      '<dt>AAA · large text</dt><dd>' + badge(r >= 4.5) + ' needs 4.5:1</dd>';
+  }
+
+  // Walk the foreground toward black or white — whichever direction the
+  // background is further from — until it clears 4.5:1.
+  document.getElementById('cx-fix').addEventListener('click', function () {
+    var f = parse(fg.value), b = parse(bg.value);
+    var note = document.getElementById('cx-fix-note');
+    if (!f || !b) return;
+    if (ratio(f, b) >= 4.5) { note.textContent = 'Already passes AA — nothing to change.'; note.className = 'jp-status jp-status--ok'; return; }
+
+    var target = luminance(b) > 0.5 ? [0, 0, 0] : [255, 255, 255];
+    for (var step = 1; step <= 100; step++) {
+      var t = step / 100;
+      var candidate = f.map(function (c, i) { return c + (target[i] - c) * t; });
+      if (ratio(candidate, b) >= 4.5) {
+        fg.value = toHex(candidate);
+        render();
+        note.textContent = 'Adjusted to ' + toHex(candidate) + ' — nearest shade in the same hue family that passes AA.';
+        note.className = 'jp-status jp-status--ok';
+        return;
+      }
+    }
+    note.textContent = 'No shade of this colour reaches 4.5:1 on that background. Change the background instead.';
+    note.className = 'jp-status jp-status--err';
+  });
+
+  document.getElementById('cx-swap').addEventListener('click', function () {
+    var a = fg.value; fg.value = bg.value; bg.value = a; render();
+  });
+
+  fg.addEventListener('input', render);
+  bg.addEventListener('input', render);
+  fgPicker.addEventListener('input', function () { fg.value = fgPicker.value; render(); });
+  bgPicker.addEventListener('input', function () { bg.value = bgPicker.value; render(); });
+  render();
+})();</script>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>

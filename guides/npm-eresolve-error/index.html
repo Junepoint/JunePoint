@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>Fix npm ERESOLVE: Unable to Resolve Dependency Tree</title>
+    <meta name="description" content="What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes." />
+    <link rel="canonical" href="https://junepoint.com/guides/npm-eresolve-error/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="Fix npm ERESOLVE: Unable to Resolve Dependency Tree" />
+    <meta property="og:description" content="What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes." />
+    <meta property="og:url" content="https://junepoint.com/guides/npm-eresolve-error/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-02-05" />
+    <meta property="article:modified_time" content="2026-08-14" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="Fix npm ERESOLVE: Unable to Resolve Dependency Tree" />
+    <meta name="twitter:description" content="What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Developer Guides",
+          "item": "https://junepoint.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Fixing npm ERESOLVE dependency conflicts",
+          "item": "https://junepoint.com/guides/npm-eresolve-error/"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/guides/npm-eresolve-error/#article",
+      "headline": "Fixing npm ERESOLVE dependency conflicts",
+      "name": "Fix npm ERESOLVE: Unable to Resolve Dependency Tree",
+      "description": "What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes.",
+      "datePublished": "2026-02-05",
+      "dateModified": "2026-08-14",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/guides/npm-eresolve-error/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "npm eresolve, unable to resolve dependency tree, legacy-peer-deps, npm peer dependency conflict, npm install error",
+      "articleSection": "Developer Guides"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/guides/npm-eresolve-error/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is --legacy-peer-deps safe to use permanently?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It works, and plenty of large projects run this way. The cost is that you lose peer-dependency checking entirely, so a genuinely incompatible package installs without complaint. Treat it as technical debt with a note explaining why it is there, not as a settled configuration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between --force and --legacy-peer-deps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "--legacy-peer-deps ignores peer dependency rules, reverting to npm 6 behaviour. --force tells npm to write a dependency tree it has already judged invalid, which can produce duplicate copies of a framework in one bundle. Reach for --legacy-peer-deps first; --force is rarely the right tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why did this start after upgrading Node?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because a Node upgrade brings a new npm. npm 6 ignored peer conflicts silently; npm 7 and later enforce them. The conflict was almost certainly present before — you are only now being told about it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I delete package-lock.json?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not routinely — it is what makes builds reproducible. Deleting and regenerating it is a legitimate troubleshooting step when the tree is genuinely corrupt, but it should be a deliberate action followed by a full test run, not a reflex."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do yarn or pnpm avoid this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They handle it differently rather than avoiding it. Yarn Classic warns instead of failing; Yarn Berry and pnpm both enforce peer dependencies, pnpm particularly strictly. The underlying incompatibility exists regardless of which client reports it."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier2">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">Fixing npm ERESOLVE dependency conflicts</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">Troubleshooting</p>
+      <h1>Fixing npm ERESOLVE dependency conflicts</h1>
+      <p class="jp-standfirst">The error is npm telling you two packages disagree about a shared dependency. Here is how to read the report, and which of the four fixes is right for your case.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published February 5, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 14, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>6 min read</span></div>
+    </header>
+    <article class="jp-article">
+      <aside class="jp-takeaways">
+        <h2 id="key-takeaways">Key takeaways</h2>
+        <ul><li>ERESOLVE means two packages require incompatible versions of a shared <strong>peer</strong> dependency.</li><li><code>--legacy-peer-deps</code> ignores peer requirements entirely. <code>--force</code> installs a tree npm knows is broken. They are not interchangeable.</li><li>The correct permanent fix is usually <code>overrides</code> in <code>package.json</code>, or upgrading the package that is behind.</li><li>Whatever you choose, put it in <code>.npmrc</code> so CI and your teammates get the same tree — a flag typed by one person is not a fix.</li></ul>
+      </aside>
+<h2 id="what-the-error-means">What the error means</h2>
+<p>A <strong>peer dependency</strong> is a package’s way of saying &quot;I plug into this, and there must be exactly one copy of it&quot;. React components declare <code>react</code> as a peer so that they use <em>your</em> React rather than bundling a second, incompatible copy.</p>
+<p>ERESOLVE fires when two packages state peer requirements that cannot both be satisfied. npm 7 began enforcing this strictly; npm 6 installed anyway and let you discover the breakage at runtime, which is why upgrading Node often surfaces conflicts that were always there.</p>
+<h2 id="reading-the-conflict-report">Reading the conflict report</h2>
+<pre class="jp-code" data-lang="text"><code>npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR!
+npm ERR! While resolving: my-app@1.0.0
+npm ERR! Found: react@18.3.1                          ← what you have
+npm ERR! node_modules/react
+npm ERR!   react@&quot;^18.2.0&quot; from the root project
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@&quot;^17.0.0&quot; from react-legacy-ui@3.2.0   ← what wants something else
+npm ERR! node_modules/react-legacy-ui
+npm ERR!   react-legacy-ui@&quot;^3.2.0&quot; from the root project</code></pre>
+<p>Three lines carry all the information:</p>
+<ol><li><strong><code>Found:</code></strong> — the version currently in the tree, and who asked for it.</li><li><strong><code>Could not resolve dependency: peer …</code></strong> — the requirement that cannot be met.</li><li><strong>The package name on the following line</strong> — the culprit. Here, <code>react-legacy-ui</code> has not been updated for React 18.</li></ol>
+<p>Before choosing a fix, check whether the culprit has simply been updated. <code>npm view react-legacy-ui peerDependencies</code> shows the requirement for the latest version, and <code>npm view react-legacy-ui versions --json</code> lists what exists. Very often the answer is a one-line version bump.</p>
+<h2 id="the-four-fixes-best-first">The four fixes, best first</h2>
+<h3 id="1-upgrade-the-outdated-package">1. Upgrade the outdated package</h3>
+<p>The real fix, when it is available. The maintainer has usually already widened the peer range:</p>
+<pre class="jp-code" data-lang="bash"><code>npm view react-legacy-ui versions --json
+npm install react-legacy-ui@latest</code></pre>
+<h3 id="2-use-overrides-to-force-one-version">2. Use <code>overrides</code> to force one version</h3>
+<p>When the package works fine with the newer version but its declared range is merely stale — very common — tell npm to substitute it. This is a targeted, committed, reviewable fix, and it is the right answer far more often than the flags below.</p>
+<pre class="jp-code" data-lang="json"><code>{
+  &quot;overrides&quot;: {
+    &quot;react-legacy-ui&quot;: {
+      &quot;react&quot;: &quot;$react&quot;,
+      &quot;react-dom&quot;: &quot;$react-dom&quot;
+    }
+  }
+}</code></pre>
+<p>The <code>$</code> syntax means &quot;whatever version the root project uses&quot;, so it stays correct when you upgrade React later. You can also pin a literal version. Yarn calls this <code>resolutions</code>; pnpm uses <code>pnpm.overrides</code>.</p>
+<aside class="jp-note jp-note--warn">
+        <p class="jp-note-title">Overrides make a claim on your behalf</p>
+        <p>You are asserting the package works with a version its author did not test against. That is usually true for a minor React bump and occasionally false. Exercise the affected components before shipping.</p>
+      </aside>
+<h3 id="3-legacy-peer-deps">3. <code>--legacy-peer-deps</code></h3>
+<pre class="jp-code" data-lang="bash"><code>npm install --legacy-peer-deps</code></pre>
+<p>Restores npm 6 behaviour: peer dependencies are not installed automatically and conflicts are ignored. It is a <strong>global</strong> switch — it silences every peer check in the project, not just the one that failed, so a genuinely broken dependency added six months from now installs silently.</p>
+<p>Reasonable as a temporary measure on a large legacy tree. If you use it, commit it so everyone gets the same result:</p>
+<pre class="jp-code" data-lang="bash"><code># .npmrc in the project root
+legacy-peer-deps=true</code></pre>
+<h3 id="4-force">4. <code>--force</code></h3>
+<p>The last resort, and rarely correct. <code>--force</code> installs a tree npm has determined is broken, which can mean two copies of React in one bundle — producing &quot;Invalid hook call&quot; errors that look nothing like a dependency problem.</p>
+<p><strong><code>--force</code> is not a stronger <code>--legacy-peer-deps</code>.</strong> They do different things: one ignores peer requirements, the other overrides npm’s refusal to write a conflicting tree. If <code>--legacy-peer-deps</code> did not work, <code>--force</code> is unlikely to be the answer.</p>
+<h2 id="when-nothing-works-reset-the-tree">When nothing works: reset the tree</h2>
+<pre class="jp-code" data-lang="bash"><code>rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install</code></pre>
+<p>A lockfile that was generated under a different npm major version, or hand-edited during a merge conflict, can encode a tree that cannot be reproduced. Regenerating it resolves a surprising share of otherwise inexplicable ERESOLVE failures.</p>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">Never resolve a package-lock.json conflict by hand</p>
+        <p>Take either side wholesale, then regenerate: <code>git checkout --theirs package-lock.json &amp;&amp; npm install</code>. A hand-merged lockfile is a tree no npm version ever produced.</p>
+      </aside>
+<h2 id="making-ci-behave-the-same-as-your-laptop">Making CI behave the same as your laptop</h2>
+<p>A flag you type locally does not exist in CI, which is why &quot;works on my machine&quot; is such a common ending to this story. Put the decision in the repository:</p>
+<pre class="jp-code" data-lang="bash"><code># .npmrc — commit this file
+legacy-peer-deps=true
+engine-strict=true</code></pre>
+<p>And use <code>npm ci</code> in CI rather than <code>npm install</code>. It installs strictly from the lockfile, fails if <code>package.json</code> and the lockfile disagree, and is considerably faster. It also means a dependency conflict fails the build instead of being silently resolved differently on each run.</p>
+<h2 id="preventing-the-next-one">Preventing the next one</h2>
+<ul><li><strong>Keep the lockfile in version control.</strong> Always, including for libraries — it makes CI reproducible even though consumers ignore it.</li><li><strong>Update in small batches.</strong> <code>npm outdated</code> weekly is far less painful than a twelve-month arrears bump that changes forty packages at once.</li><li><strong>Check peer requirements before adding a package.</strong> <code>npm view &lt;pkg&gt; peerDependencies</code> takes two seconds.</li><li><strong>Pin your Node version</strong> with <code>.nvmrc</code> and an <code>engines</code> field. Different Node versions ship different npm versions, and npm 6, 7 and 9+ resolve trees differently.</li><li><strong>Consider pnpm.</strong> Its strict, symlinked <code>node_modules</code> makes phantom dependencies impossible and surfaces peer problems more clearly than npm does.</li></ul>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Is --legacy-peer-deps safe to use permanently?</h3></summary>
+              <div class="jp-faq-answer"><p>It works, and plenty of large projects run this way. The cost is that you lose peer-dependency checking entirely, so a genuinely incompatible package installs without complaint. Treat it as technical debt with a note explaining why it is there, not as a settled configuration.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What is the difference between --force and --legacy-peer-deps?</h3></summary>
+              <div class="jp-faq-answer"><p>--legacy-peer-deps ignores peer dependency rules, reverting to npm 6 behaviour. --force tells npm to write a dependency tree it has already judged invalid, which can produce duplicate copies of a framework in one bundle. Reach for --legacy-peer-deps first; --force is rarely the right tool.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why did this start after upgrading Node?</h3></summary>
+              <div class="jp-faq-answer"><p>Because a Node upgrade brings a new npm. npm 6 ignored peer conflicts silently; npm 7 and later enforce them. The conflict was almost certainly present before — you are only now being told about it.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Should I delete package-lock.json?</h3></summary>
+              <div class="jp-faq-answer"><p>Not routinely — it is what makes builds reproducible. Deleting and regenerating it is a legitimate troubleshooting step when the tree is genuinely corrupt, but it should be a deliberate action followed by a full test run, not a reflex.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Do yarn or pnpm avoid this?</h3></summary>
+              <div class="jp-faq-answer"><p>They handle it differently rather than avoiding it. Yarn Classic warns instead of failing; Yarn Berry and pnpm both enforce peer dependencies, pnpm particularly strictly. The underlying incompatibility exists regardless of which client reports it.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/guides/git-undo-commit/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>How to undo a Git commit</h3>
+        <p>reset, revert, rebase and reflog — which one to use, and how to recover when you pick wrong.</p>
+      </a><a class="jp-card" href="/guides/docker-container-exits-immediately/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Why your Docker container exits immediately</h3>
+        <p>Exit codes decoded, plus how to get a shell inside an image that will not stay running.</p>
+      </a><a class="jp-card" href="/guides/react-usestate-not-updating/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Why your React useState is not updating</h3>
+        <p>Stale closures, mutation, batching and the setInterval trap — why state logs the old value.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#what-the-error-means">What the error means</a></li><li><a href="#reading-the-conflict-report">Reading the conflict report</a></li><li><a href="#the-four-fixes-best-first">The four fixes, best first</a></li><li><a href="#when-nothing-works-reset-the-tree">When nothing works: reset the tree</a></li><li><a href="#making-ci-behave-the-same-as-your-laptop">Making CI behave the same as your laptop</a></li><li><a href="#preventing-the-next-one">Preventing the next one</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Developer Guides</h2>
+        <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>
+      </div>
+</aside>
+</div>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>

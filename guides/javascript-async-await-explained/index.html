@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>JavaScript async/await Explained (With the Traps)</title>
+    <meta name="description" content="How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them." />
+    <link rel="canonical" href="https://junepoint.com/guides/javascript-async-await-explained/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="JavaScript async/await Explained (With the Traps)" />
+    <meta property="og:description" content="How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them." />
+    <meta property="og:url" content="https://junepoint.com/guides/javascript-async-await-explained/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-06-04" />
+    <meta property="article:modified_time" content="2026-08-09" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="JavaScript async/await Explained (With the Traps)" />
+    <meta name="twitter:description" content="How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#alexander-pace",
+      "name": "Alexander Pace",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Alexander works across React and Node.js applications with a focus on backend systems and user experience. He covers front-end technique, CSS and the business-software research on this site.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://www.linkedin.com/in/alexander-pace-0648b6270/",
+        "https://github.com/snf-alex",
+        "https://snf-alex.github.io/PortfolioWebsiteV2/"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Developer Guides",
+          "item": "https://junepoint.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "JavaScript async/await, properly explained",
+          "item": "https://junepoint.com/guides/javascript-async-await-explained/"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/guides/javascript-async-await-explained/#article",
+      "headline": "JavaScript async/await, properly explained",
+      "name": "JavaScript async/await Explained (With the Traps)",
+      "description": "How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them.",
+      "datePublished": "2026-06-04",
+      "dateModified": "2026-08-09",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/guides/javascript-async-await-explained/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#alexander-pace"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "async await javascript, await in for loop, promise.all, async foreach not working, unhandled promise rejection",
+      "articleSection": "Developer Guides"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/guides/javascript-async-await-explained/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does await block the main thread?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It suspends only the async function it appears in and returns control to the event loop, so timers, event handlers and rendering continue. Long synchronous work between awaits does block — await is not a fix for a slow loop."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does await not work inside forEach?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "forEach discards the return value of its callback, so the Promise your async callback returns is thrown away and nothing waits for it. Use for…of for sequential work, or Promise.all with map for concurrent work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use await in a loop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only when each iteration depends on the previous one, or when you are deliberately rate-limiting. If the operations are independent, awaiting in a loop turns parallel work into sequential work and multiplies the total time by the number of items."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between Promise.all and Promise.allSettled?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Promise.all rejects immediately when any input rejects, discarding successful results. Promise.allSettled always waits for all of them and returns an array describing each outcome. Use allSettled when partial success is useful."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my fetch not throw on a 404?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By design — fetch only rejects on network failure. A 404 or 500 is a completed HTTP exchange. Check response.ok and throw yourself, otherwise .json() will attempt to parse an HTML error page and produce a misleading parse error."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use await at the top level of a file?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, in ES modules — top-level await is supported in modern Node and all current browsers. It is not available in CommonJS files, where you still need an async wrapper function."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier2">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">JavaScript async/await, properly explained</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">JavaScript</p>
+      <h1>JavaScript async/await, properly explained</h1>
+      <p class="jp-standfirst">Most async bugs come from four misunderstandings. Here they are, with the pattern that fixes each one.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#alexander-pace">Alexander Pace</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published June 4, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 9, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>6 min read</span></div>
+    </header>
+    <article class="jp-article">
+      <h2 id="what-async-and-await-actually-do">What <code>async</code> and <code>await</code> actually do</h2>
+<p><code>async</code> on a function means one thing: <strong>it returns a Promise.</strong> If you return a value, it is wrapped in a resolved Promise; if you throw, you get a rejected one.</p>
+<p><code>await</code> pauses that function until a Promise settles, then unwraps it. Crucially, it pauses <strong>only that function</strong> — the rest of the program continues. JavaScript is still single-threaded, and <code>await</code> never blocks the main thread.</p>
+<pre class="jp-code" data-lang="javascript"><code>async function getUser(id) {
+  return { id };            // returns Promise&lt;{id}&gt;
+}
+
+// Identical behaviour, written with the underlying Promise API
+function getUser(id) {
+  return Promise.resolve({ id });
+}</code></pre>
+<h2 id="trap-1-awaiting-in-a-loop-when-you-did-not-need-to">Trap 1: awaiting in a loop when you did not need to</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential — 100 requests × 200ms = 20 seconds
+const users = [];
+for (const id of ids) {
+  users.push(await fetchUser(id));
+}
+
+// ✓ Concurrent — all in flight at once, ~200ms
+const users = await Promise.all(ids.map(id =&gt; fetchUser(id)));</code></pre>
+<p>The first version waits for each request before starting the next. Since the requests do not depend on each other, that is pure waste. <code>Promise.all</code> starts them all immediately and resolves when the last finishes.</p>
+<p>Sequential is correct when each iteration <strong>depends</strong> on the previous, or when you are deliberately rate-limiting. Otherwise it is a performance bug — and one of the easiest large speedups available in most codebases.</p>
+<aside class="jp-note jp-note--warn">
+        <p class="jp-note-title">Do not fire 10,000 requests at once</p>
+        <p><code>Promise.all</code> over a large array will exhaust sockets, trip rate limits or take down the service you are calling. Batch it — with <code>p-limit</code>, a chunked loop, or a small concurrency pool. Concurrency of 5 to 20 is usually the sweet spot for HTTP.</p>
+      </aside>
+<h2 id="trap-2-foreach-ignores-your-async-callback">Trap 2: <code>forEach</code> ignores your async callback</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Logs &quot;done&quot; immediately; nothing has been saved yet
+items.forEach(async (item) =&gt; {
+  await save(item);
+});
+console.log(&#39;done&#39;);</code></pre>
+<p><code>forEach</code> calls your function and discards the return value. Your callback returns a Promise; <code>forEach</code> throws it away. Nothing waits for anything, and — worse — a rejection inside becomes an unhandled rejection that can crash a Node process.</p>
+<pre class="jp-code" data-lang="javascript"><code>// ✓ Concurrent, and awaited
+await Promise.all(items.map(item =&gt; save(item)));
+
+// ✓ Sequential, when order matters
+for (const item of items) {
+  await save(item);
+}</code></pre>
+<p>The rule: <strong><code>for…of</code> supports <code>await</code>; <code>forEach</code> does not.</strong> The same applies to <code>map</code>, <code>filter</code> and <code>reduce</code> — an async callback gives you an array of Promises, which is fine for <code>map</code> (feed it to <code>Promise.all</code>) and useless for <code>filter</code>.</p>
+<h2 id="trap-3-one-rejection-kills-the-whole-batch">Trap 3: one rejection kills the whole batch</h2>
+<p><code>Promise.all</code> rejects as soon as any input rejects, and you lose the results that did succeed. When partial success is acceptable, use <code>allSettled</code>:</p>
+<pre class="jp-code" data-lang="javascript"><code>const results = await Promise.allSettled(ids.map(id =&gt; fetchUser(id)));
+
+const users  = results.filter(r =&gt; r.status === &#39;fulfilled&#39;).map(r =&gt; r.value);
+const failed = results.filter(r =&gt; r.status === &#39;rejected&#39;).map(r =&gt; r.reason);
+
+console.warn(`${failed.length} of ${ids.length} failed`);</code></pre>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Combinator</th><th scope="col">Settles when</th><th scope="col">Use for</th></tr></thead><tbody><tr><th scope="row"><code>Promise.all</code></th><td>All fulfil, or any rejects</td><td>All-or-nothing work</td></tr><tr><th scope="row"><code>Promise.allSettled</code></th><td>All settle, whatever the outcome</td><td>Batch jobs where partial success is fine</td></tr><tr><th scope="row"><code>Promise.race</code></th><td>The first one settles, fulfilled or rejected</td><td>Timeouts</td></tr><tr><th scope="row"><code>Promise.any</code></th><td>The first one fulfils</td><td>Redundant sources — try several mirrors</td></tr></tbody></table></div>
+<pre class="jp-code" data-lang="javascript"><code>// A timeout with Promise.race — but prefer AbortSignal, below,
+// because race leaves the losing request running.
+const result = await Promise.race([
+  fetchData(),
+  new Promise((_, reject) =&gt; setTimeout(() =&gt; reject(new Error(&#39;timeout&#39;)), 5000)),
+]);
+
+// Better: actually cancel the request
+const response = await fetch(url, { signal: AbortSignal.timeout(5000) });</code></pre>
+<h2 id="trap-4-error-handling-that-hides-the-failure">Trap 4: error handling that hides the failure</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Swallows the error and returns undefined — the caller has no idea
+async function getUser(id) {
+  try {
+    return await api.get(`/users/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+}</code></pre>
+<p>The caller receives <code>undefined</code> and carries on. The failure surfaces later as a <code>TypeError</code> somewhere unrelated, with no trace of the original cause. <strong>Only catch an error if you are going to do something about it</strong> — otherwise let it propagate.</p>
+<pre class="jp-code" data-lang="javascript"><code>// ✓ Add context, keep the original cause attached
+async function getUser(id) {
+  try {
+    return await api.get(`/users/${id}`);
+  } catch (error) {
+    throw new Error(`Failed to load user ${id}`, { cause: error });
+  }
+}</code></pre>
+<p>The <code>cause</code> option preserves the original error and its stack, so your logs show both the context and the root failure.</p>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title"><code>return await</code> inside <code>try</code> is not redundant</p>
+        <p>Dropping the <code>await</code> in <code>return await somePromise()</code> inside a <code>try</code> block means the function returns before the Promise settles — so a rejection escapes your <code>catch</code> entirely. Outside a <code>try</code>, the <code>await</code> genuinely is redundant. Inside one, keep it.</p>
+      </aside>
+<h2 id="the-fetch-mistake-everyone-makes">The fetch mistake everyone makes</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ fetch does NOT reject on 404 or 500
+const response = await fetch(&#39;/api/users&#39;);
+const data = await response.json();   // throws a confusing JSON parse error</code></pre>
+<p><code>fetch</code> only rejects on a network failure. A 404 or a 500 is a perfectly successful HTTP transaction as far as it is concerned. You must check <code>response.ok</code> yourself:</p>
+<pre class="jp-code" data-lang="javascript"><code>const response = await fetch(&#39;/api/users&#39;);
+
+if (!response.ok) {
+  throw new Error(`HTTP ${response.status} ${response.statusText}`);
+}
+
+const data = await response.json();</code></pre>
+<p>This is why so many apps report &quot;Unexpected token &lt; in JSON at position 0&quot; — the server returned an HTML error page, and <code>json()</code> tried to parse it.</p>
+<h2 id="starting-work-before-you-await-it">Starting work before you await it</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential — 300ms total
+const user  = await fetchUser(id);
+const posts = await fetchPosts(id);
+
+// ✓ Concurrent — 200ms, and neither depends on the other
+const userPromise  = fetchUser(id);
+const postsPromise = fetchPosts(id);
+const [user, posts] = [await userPromise, await postsPromise];
+
+// ✓ Equivalent and clearer
+const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);</code></pre>
+<p>A Promise starts executing the moment it is created, not when you await it. Creating both first, then awaiting, overlaps the work. This is worth reaching for whenever two awaits sit next to each other and neither uses the other’s result.</p>
+<h2 id="unhandled-rejections">Unhandled rejections</h2>
+<pre class="jp-code" data-lang="javascript"><code>// Node: crashes the process by default since v15
+process.on(&#39;unhandledRejection&#39;, (reason) =&gt; {
+  logger.fatal({ reason }, &#39;unhandled rejection&#39;);
+  process.exit(1);
+});
+
+// Browser
+window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
+  reportError(event.reason);
+  event.preventDefault();   // stop the console noise once reported
+});</code></pre>
+<p>The usual sources are a forgotten <code>await</code>, an async callback passed to <code>forEach</code>, and an async event handler with no internal try/catch. Handlers cannot await your function, so an error inside one has nowhere to go.</p>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Does await block the main thread?</h3></summary>
+              <div class="jp-faq-answer"><p>No. It suspends only the async function it appears in and returns control to the event loop, so timers, event handlers and rendering continue. Long synchronous work between awaits does block — await is not a fix for a slow loop.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does await not work inside forEach?</h3></summary>
+              <div class="jp-faq-answer"><p>forEach discards the return value of its callback, so the Promise your async callback returns is thrown away and nothing waits for it. Use for…of for sequential work, or Promise.all with map for concurrent work.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Should I use await in a loop?</h3></summary>
+              <div class="jp-faq-answer"><p>Only when each iteration depends on the previous one, or when you are deliberately rate-limiting. If the operations are independent, awaiting in a loop turns parallel work into sequential work and multiplies the total time by the number of items.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What is the difference between Promise.all and Promise.allSettled?</h3></summary>
+              <div class="jp-faq-answer"><p>Promise.all rejects immediately when any input rejects, discarding successful results. Promise.allSettled always waits for all of them and returns an array describing each outcome. Use allSettled when partial success is useful.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does my fetch not throw on a 404?</h3></summary>
+              <div class="jp-faq-answer"><p>By design — fetch only rejects on network failure. A 404 or 500 is a completed HTTP exchange. Check response.ok and throw yourself, otherwise .json() will attempt to parse an HTML error page and produce a misleading parse error.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Can I use await at the top level of a file?</h3></summary>
+              <div class="jp-faq-answer"><p>Yes, in ES modules — top-level await is supported in modern Node and all current browsers. It is not available in CommonJS files, where you still need an async wrapper function.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/guides/fix-cors-errors/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>How to fix CORS errors</h3>
+        <p>Read the exact error, find the real cause, fix it on the server. Includes the wildcard-plus-credentials trap.</p>
+      </a><a class="jp-card" href="/guides/react-usestate-not-updating/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Why your React useState is not updating</h3>
+        <p>Stale closures, mutation, batching and the setInterval trap — why state logs the old value.</p>
+      </a><a class="jp-card" href="/guides/http-status-codes-explained/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>HTTP status codes, and which to actually use</h3>
+        <p>401 vs 403, 301 vs 308, 400 vs 422 — the distinctions that matter, and the codes worth using.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#what-async-and-await-actually-do">What `async` and `await` actually do</a></li><li><a href="#trap-1-awaiting-in-a-loop-when-you-did-not-need-to">Trap 1: awaiting in a loop when you did not need to</a></li><li><a href="#trap-2-foreach-ignores-your-async-callback">Trap 2: `forEach` ignores your async callback</a></li><li><a href="#trap-3-one-rejection-kills-the-whole-batch">Trap 3: one rejection kills the whole batch</a></li><li><a href="#trap-4-error-handling-that-hides-the-failure">Trap 4: error handling that hides the failure</a></li><li><a href="#the-fetch-mistake-everyone-makes">The fetch mistake everyone makes</a></li><li><a href="#starting-work-before-you-await-it">Starting work before you await it</a></li><li><a href="#unhandled-rejections">Unhandled rejections</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Developer Guides</h2>
+        <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>
+      </div>
+</aside>
+</div>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>

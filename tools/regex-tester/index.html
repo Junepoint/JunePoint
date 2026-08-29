@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>Regex Tester — Live Match Highlighting &amp; Groups</title>
+    <meta name="description" content="Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser." />
+    <link rel="canonical" href="https://junepoint.com/tools/regex-tester/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="Regex Tester — Live Match Highlighting &amp; Groups" />
+    <meta property="og:description" content="Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser." />
+    <meta property="og:url" content="https://junepoint.com/tools/regex-tester/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-04-09" />
+    <meta property="article:modified_time" content="2026-08-16" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="Regex Tester — Live Match Highlighting &amp; Groups" />
+    <meta name="twitter:description" content="Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#alexander-pace",
+      "name": "Alexander Pace",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Alexander works across React and Node.js applications with a focus on backend systems and user experience. He covers front-end technique, CSS and the business-software research on this site.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://www.linkedin.com/in/alexander-pace-0648b6270/",
+        "https://github.com/snf-alex",
+        "https://snf-alex.github.io/PortfolioWebsiteV2/"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://junepoint.com/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Regex Tester",
+          "item": "https://junepoint.com/tools/regex-tester/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://junepoint.com/tools/regex-tester/#app",
+      "name": "Regex Tester",
+      "description": "Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser.",
+      "url": "https://junepoint.com/tools/regex-tester/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/tools/regex-tester/#article",
+      "headline": "Regex Tester",
+      "name": "Regex Tester — Live Match Highlighting & Groups",
+      "description": "Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser.",
+      "datePublished": "2026-04-09",
+      "dateModified": "2026-08-16",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/tools/regex-tester/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#alexander-pace"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "regex tester, regular expression tester, regex101 alternative, javascript regex, test regex online",
+      "articleSection": "Free Tools"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/tools/regex-tester/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my global regex skip every other match?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A regex object with the g flag carries a mutable lastIndex property between calls. Reusing the same object across test() or exec() calls resumes from where the last one stopped. Either create the regex fresh each time, or reset lastIndex to 0 before reusing it — this is one of the most common bugs in JavaScript regex code."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I match across multiple lines?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Two different flags, often confused. The s (dotall) flag makes . match newline characters. The m (multiline) flag changes ^ and $ to match at the start and end of each line rather than the whole string. You often want both."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my test data sent anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The pattern is compiled and executed by your browser’s own regex engine. Nothing is transmitted, which means you can safely test against log excerpts you would not paste into a hosted service."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is a pattern from Stack Overflow failing here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most likely a flavour difference. Lookbehind (?\u003c=…) is unsupported in older Safari; possessive quantifiers (a++) and atomic groups (?>…) do not exist in JavaScript at all; and \\Z, \\A and recursion are PCRE features. This tool tests the JavaScript flavour specifically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the tester protect me from a runaway pattern?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Partially. Match collection is capped at 5,000 and zero-length matches are advanced so they cannot loop forever. It cannot interrupt catastrophic backtracking inside a single exec call — if the page freezes after you type a nested quantifier, that is exactly the ReDoS behaviour described above, and closing the tab is the fix."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier3">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Regex Tester</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">Developer tool</p>
+      <h1>Regex Tester</h1>
+      <p class="jp-standfirst">Write a pattern, see every match highlighted as you type, and inspect capture groups without leaving the page.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#alexander-pace">Alexander Pace</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published April 9, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 16, 2026</span></div>
+    </header>
+
+    
+    
+<div class="jp-tool">
+  <div class="jp-field">
+    <label for="rx-pattern">Pattern</label>
+    <input class="jp-input" type="text" id="rx-pattern" spellcheck="false" autocapitalize="off"
+      style="font-family:var(--mono)" value="(\w+)@(\w+)\.(\w{2,})" />
+  </div>
+
+  <div class="jp-toolbar">
+    <label class="jp-checkline"><input type="checkbox" id="rx-g" checked /> <code>g</code> global</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-i" /> <code>i</code> ignore case</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-m" /> <code>m</code> multiline</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-s" /> <code>s</code> dotall</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-u" /> <code>u</code> unicode</label>
+  </div>
+
+  <div class="jp-field">
+    <span class="jp-field-legend" id="rx-presets-label">Start from a pattern</span>
+    <div class="jp-chips" id="rx-presets" role="group" aria-labelledby="rx-presets-label"></div>
+  </div>
+
+  <div class="jp-field">
+    <label for="rx-subject">Test string</label>
+    <textarea class="jp-textarea" id="rx-subject" spellcheck="false" style="min-height:150px">Contact ada@example.com or grace@navy.mil before Friday.
+Escalations go to oncall@junepoint.com — do not email root@localhost.</textarea>
+  </div>
+
+  <p class="jp-status" id="rx-status" role="status" aria-live="polite">&nbsp;</p>
+
+  <h2 class="jp-tool-h" style="margin-top:1.25rem">Highlighted result</h2>
+  <div class="jp-out" id="rx-highlight" style="white-space:pre-wrap"></div>
+
+  <h2 class="jp-tool-h" style="margin-top:1.25rem">Matches</h2>
+  <div id="rx-matches"></div>
+</div>
+    
+
+    <article class="jp-article">
+      <aside class="jp-note jp-note--info">
+        <p class="jp-note-title">This tests the JavaScript flavour</p>
+        <p>Regex dialects differ. JavaScript has no lookbehind in older Safari, no possessive quantifiers and no recursion. PCRE, Python’s <code>re</code>, Go’s RE2 and Java each vary. A pattern verified here will behave identically in Node and in every current browser — check it separately if the target is another language.</p>
+      </aside>
+<h2 id="the-syntax-you-will-use-ninety-percent-of-the-time">The syntax you will use ninety percent of the time</h2>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Token</th><th scope="col">Matches</th><th scope="col">Note</th></tr></thead><tbody><tr><th scope="row"><code>.</code></th><td>Any character except newline</td><td>Add the <code>s</code> flag to include newlines</td></tr><tr><th scope="row"><code>\d</code> <code>\w</code> <code>\s</code></th><td>Digit, word character, whitespace</td><td>Uppercase negates: <code>\D</code> <code>\W</code> <code>\S</code></td></tr><tr><th scope="row"><code>[abc]</code></th><td>Any one of a, b or c</td><td><code>[^abc]</code> matches anything else</td></tr><tr><th scope="row"><code>*</code> <code>+</code> <code>?</code></th><td>Zero or more, one or more, optional</td><td>Greedy by default</td></tr><tr><th scope="row"><code>{2,5}</code></th><td>Between two and five times</td><td><code>{3}</code> is exactly three</td></tr><tr><th scope="row"><code>^</code> <code>$</code></th><td>Start and end of string</td><td>With the <code>m</code> flag, start and end of each line</td></tr><tr><th scope="row"><code>\b</code></th><td>Word boundary</td><td>The fix for matching <code>cat</code> inside <code>concatenate</code></td></tr><tr><th scope="row"><code>(…)</code></th><td>Capture group</td><td><code>(?:…)</code> groups without capturing</td></tr><tr><th scope="row"><code>(?&lt;name&gt;…)</code></th><td>Named capture group</td><td>Read it back as <code>match.groups.name</code></td></tr><tr><th scope="row"><code>(?=…)</code> <code>(?!…)</code></th><td>Lookahead, positive and negative</td><td>Asserts without consuming characters</td></tr></tbody></table></div>
+<h2 id="greedy-versus-lazy-the-classic-bug">Greedy versus lazy: the classic bug</h2>
+<p>Quantifiers are greedy — they take as much as possible and give back only when forced. Against <code>&lt;b&gt;bold&lt;/b&gt; and &lt;i&gt;italic&lt;/i&gt;</code>, the pattern <code>&lt;.+&gt;</code> matches the <strong>entire string</strong>, not the first tag, because <code>.+</code> swallows everything and backtracks just enough for the final <code>&gt;</code> to match.</p>
+<p>Adding <code>?</code> makes a quantifier lazy: <code>&lt;.+?&gt;</code> stops at the first <code>&gt;</code> and matches each tag separately. Paste both into the tester above with that string and the difference is immediate.</p>
+<pre class="jp-code" data-lang="text"><code>&lt;.+&gt;    → &lt;b&gt;bold&lt;/b&gt; and &lt;i&gt;italic&lt;/i&gt;      (one match, the lot)
+&lt;.+?&gt;   → &lt;b&gt;  &lt;/b&gt;  &lt;i&gt;  &lt;/i&gt;                (four matches)
+&lt;[^&gt;]+&gt; → &lt;b&gt;  &lt;/b&gt;  &lt;i&gt;  &lt;/i&gt;                (four matches, and faster)</code></pre>
+<p>The third form is the one to reach for. A negated character class cannot overshoot in the first place, so there is nothing to backtrack — which matters more than elegance, for the reason below.</p>
+<h2 id="catastrophic-backtracking-and-why-it-is-a-security-bug">Catastrophic backtracking, and why it is a security bug</h2>
+<p>Nested quantifiers over overlapping character sets can make the engine explore an exponential number of paths before admitting failure. The canonical example is <code>(a+)+$</code> against a long run of <code>a</code> characters followed by a <code>!</code>.</p>
+<pre class="jp-code" data-lang="javascript"><code>// Innocent-looking. Hangs the thread.
+/(a+)+$/.test(&#39;aaaaaaaaaaaaaaaaaaaaaaaaaaaaa!&#39;);
+
+// A real-world shape of the same problem: nested quantifier
+// with an overlapping inner set.
+/^(\s*\w+)+$/.test(&#39;    lots of words here     x&#39;);</code></pre>
+<p>This has a name — <strong>ReDoS</strong>, regular expression denial of service — and it has taken down production systems, including a well-known Cloudflare outage in 2019. If a pattern ever runs against user-supplied input, it is attack surface.</p>
+<ul><li>Avoid nesting quantifiers, especially <code>(x+)+</code>, <code>(x*)*</code> and <code>(x|y)*</code> where <code>x</code> and <code>y</code> can match the same text.</li><li>Prefer negated character classes (<code>[^&gt;]+</code>) to lazy dot (<code>.+?</code>) — they cannot backtrack into each other.</li><li>Anchor patterns with <code>^</code> and <code>$</code> so failure is detected early instead of retried at every offset.</li><li>On a server, cap input length before matching, or use a linear-time engine such as Go’s RE2 or Rust’s <code>regex</code> crate, neither of which can backtrack at all.</li></ul>
+<h2 id="things-regex-should-not-be-used-for">Things regex should not be used for</h2>
+<p>Two rules save a lot of pain. <strong>Do not parse HTML or XML with regex</strong> — they are recursively nested, regular expressions are not, and every attempt eventually meets a nested tag or a comment containing markup. Use a DOM parser.</p>
+<p><strong>Do not write a strict email validator.</strong> The full RFC 5322 grammar permits quoted local parts, comments and IP-literal domains; the widely circulated &quot;complete&quot; regex for it runs to several thousand characters and still rejects valid addresses. In practice, check for a single <code>@</code> with something on either side, then send a confirmation email. Deliverability is the only validation that means anything.</p>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">Comment complex patterns</p>
+        <p>JavaScript has no <code>x</code> (extended) flag, so build long patterns from named pieces and combine them with <code>new RegExp()</code>. A pattern you cannot read in six months is a pattern you will rewrite from scratch rather than fix.</p>
+      </aside>
+<h2 id="capture-groups-in-practice">Capture groups in practice</h2>
+<pre class="jp-code" data-lang="javascript"><code>const LOG = /^(?&lt;ts&gt;\S+) \[(?&lt;level&gt;\w+)\] (?&lt;msg&gt;.+)$/;
+
+const { groups } = LOG.exec(&#39;2026-08-16T09:14:02Z [ERROR] payment declined&#39;);
+groups.level;   // &#39;ERROR&#39;
+groups.msg;     // &#39;payment declined&#39;
+
+// Every match, with position and groups
+for (const m of text.matchAll(/(\w+)=(\w+)/g)) {
+  console.log(m[1], m[2], m.index);
+}
+
+// Reference groups in a replacement
+&#39;2026-08-16&#39;.replace(/(\d{4})-(\d{2})-(\d{2})/, &#39;$3/$2/$1&#39;);  // &#39;16/08/2026&#39;</code></pre>
+<p>Named groups are worth the extra characters. <code>groups.level</code> survives someone inserting a group in the middle of the pattern; <code>match[2]</code> does not.</p>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Why does my global regex skip every other match?</h3></summary>
+              <div class="jp-faq-answer"><p>A regex object with the g flag carries a mutable lastIndex property between calls. Reusing the same object across test() or exec() calls resumes from where the last one stopped. Either create the regex fresh each time, or reset lastIndex to 0 before reusing it — this is one of the most common bugs in JavaScript regex code.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>How do I match across multiple lines?</h3></summary>
+              <div class="jp-faq-answer"><p>Two different flags, often confused. The s (dotall) flag makes . match newline characters. The m (multiline) flag changes ^ and $ to match at the start and end of each line rather than the whole string. You often want both.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Is my test data sent anywhere?</h3></summary>
+              <div class="jp-faq-answer"><p>No. The pattern is compiled and executed by your browser’s own regex engine. Nothing is transmitted, which means you can safely test against log excerpts you would not paste into a hosted service.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why is a pattern from Stack Overflow failing here?</h3></summary>
+              <div class="jp-faq-answer"><p>Most likely a flavour difference. Lookbehind (?&lt;=…) is unsupported in older Safari; possessive quantifiers (a++) and atomic groups (?&gt;…) do not exist in JavaScript at all; and \Z, \A and recursion are PCRE features. This tool tests the JavaScript flavour specifically.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Does the tester protect me from a runaway pattern?</h3></summary>
+              <div class="jp-faq-answer"><p>Partially. Match collection is capped at 5,000 and zero-length matches are advanced so they cannot loop forever. It cannot interrupt catastrophic backtracking inside a single exec call — if the page freezes after you type a nested quantifier, that is exactly the ReDoS behaviour described above, and closing the tab is the fix.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/tools/cron-expression-generator/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Cron Expression Generator</h3>
+        <p>Build or decode a cron schedule, read it in plain English, and see the next ten times it will actually fire. Free and entirely browser-based.</p>
+      </a><a class="jp-card" href="/tools/json-formatter/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>JSON Formatter and Validator</h3>
+        <p>Format, validate, minify and sort JSON in your browser. Pinpoints syntax errors by line and column. Nothing is uploaded — your data never leaves the page.</p>
+      </a><a class="jp-card" href="/guides/fix-cors-errors/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>How to fix CORS errors</h3>
+        <p>Read the exact error, find the real cause, fix it on the server. Includes the wildcard-plus-credentials trap.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#the-syntax-you-will-use-ninety-percent-of-the-time">The syntax you will use ninety percent of the time</a></li><li><a href="#greedy-versus-lazy-the-classic-bug">Greedy versus lazy: the classic bug</a></li><li><a href="#catastrophic-backtracking-and-why-it-is-a-security-bug">Catastrophic backtracking, and why it is a security bug</a></li><li><a href="#things-regex-should-not-be-used-for">Things regex should not be used for</a></li><li><a href="#capture-groups-in-practice">Capture groups in practice</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Free Tools</h2>
+        <ul><li><a href="/tools/saas-seat-cost-calculator/">SaaS Seat Cost Calculator</a></li><li><a href="/tools/cloud-cost-calculator/">Cloud Cost Calculator</a></li><li><a href="/tools/cron-expression-generator/">Cron Expression Generator</a></li><li><a href="/tools/mortgage-payoff-calculator/">Mortgage Payoff Calculator</a></li><li><a href="/tools/color-contrast-checker/">Colour Contrast Checker</a></li><li><a href="/tools/jwt-decoder/">JWT Decoder</a></li></ul>
+      </div>
+</aside>
+</div>
+<script>
+(function () {
+  var pattern = document.getElementById('rx-pattern');
+  var subject = document.getElementById('rx-subject');
+  var status = document.getElementById('rx-status');
+  var highlight = document.getElementById('rx-highlight');
+  var matchList = document.getElementById('rx-matches');
+  var FLAGS = ['g', 'i', 'm', 's', 'u'];
+
+  var PRESETS = [
+    ['Email', '[\\w.+-]+@[\\w-]+\\.[\\w.]{2,}'],
+    ['URL', 'https?://[\\w.-]+(?:/[\\w./?%&=-]*)?'],
+    ['IPv4', '\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b'],
+    ['ISO date', '\\d{4}-\\d{2}-\\d{2}'],
+    ['Hex colour', '#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\\b'],
+    ['UK postcode', '[A-Z]{1,2}\\d[A-Z\\d]?\\s?\\d[A-Z]{2}'],
+    ['US phone', '\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}'],
+    ['Duplicate words', '\\b(\\w+)\\s+\\1\\b'],
+    ['Named groups', '(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})'],
+    ['Trailing spaces', '[ \\t]+$']
+  ];
+
+  function escapeHtml(text) {
+    return text.replace(/[&<>]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
+    });
+  }
+
+  function flags() {
+    return FLAGS.filter(function (f) { return document.getElementById('rx-' + f).checked; }).join('');
+  }
+
+  function setStatus(message, kind) {
+    status.textContent = message || '\u00a0';
+    status.className = 'jp-status' + (kind ? ' jp-status--' + kind : '');
+  }
+
+  function run() {
+    var source = pattern.value;
+    var text = subject.value;
+
+    if (!source) {
+      setStatus('');
+      highlight.textContent = text;
+      matchList.innerHTML = '';
+      return;
+    }
+
+    var re;
+    try {
+      re = new RegExp(source, flags());
+    } catch (error) {
+      setStatus(error.message, 'err');
+      highlight.textContent = text;
+      matchList.innerHTML = '';
+      return;
+    }
+
+    var matches = [];
+    var guard = 0;
+    if (re.global) {
+      var m;
+      while ((m = re.exec(text)) !== null && guard++ < 5000) {
+        matches.push(m);
+        if (m[0] === '') re.lastIndex++;   // zero-length match would loop forever
+      }
+    } else {
+      var single = re.exec(text);
+      if (single) matches.push(single);
+    }
+
+    if (!matches.length) {
+      setStatus('No matches', 'err');
+      highlight.textContent = text;
+      matchList.innerHTML = '<p style="color:var(--text-mute)">Nothing matched. Check your escaping, and remember the pattern is not anchored unless you add ^ and $.</p>';
+      return;
+    }
+
+    setStatus(matches.length + ' match' + (matches.length === 1 ? '' : 'es') + ' found', 'ok');
+
+    var out = '';
+    var cursor = 0;
+    matches.forEach(function (match) {
+      out += escapeHtml(text.slice(cursor, match.index));
+      out += '<mark class="jp-match">' + escapeHtml(match[0]) + '</mark>';
+      cursor = match.index + match[0].length;
+    });
+    out += escapeHtml(text.slice(cursor));
+    highlight.innerHTML = out;
+
+    matchList.innerHTML = matches.slice(0, 50).map(function (match, i) {
+      var groups = '';
+      for (var g = 1; g < match.length; g++) {
+        groups += '<dt>Group ' + g + '</dt><dd>' +
+          (match[g] === undefined ? '<em style="color:var(--text-mute)">undefined</em>' : escapeHtml(match[g])) + '</dd>';
+      }
+      if (match.groups) {
+        Object.keys(match.groups).forEach(function (name) {
+          groups += '<dt>&lt;' + escapeHtml(name) + '&gt;</dt><dd>' +
+            (match.groups[name] === undefined ? '—' : escapeHtml(match.groups[name])) + '</dd>';
+        });
+      }
+      return '<div class="jp-stat" style="margin-bottom:.6rem">' +
+        '<p class="jp-stat-label">Match ' + (i + 1) + ' · index ' + match.index + '</p>' +
+        '<p style="font-family:var(--mono);font-weight:700;margin:.2rem 0 .5rem;word-break:break-all">' +
+          escapeHtml(match[0]) + '</p>' +
+        (groups ? '<dl class="jp-kv">' + groups + '</dl>' : '') +
+      '</div>';
+    }).join('') + (matches.length > 50 ? '<p style="color:var(--text-mute)">Showing the first 50 of ' + matches.length + '.</p>' : '');
+  }
+
+  document.getElementById('rx-presets').innerHTML = PRESETS.map(function (p, i) {
+    return '<button class="jp-chip" type="button" data-preset="' + i + '">' + p[0] + '</button>';
+  }).join('');
+
+  document.getElementById('rx-presets').addEventListener('click', function (event) {
+    var button = event.target.closest('[data-preset]');
+    if (!button) return;
+    pattern.value = PRESETS[+button.getAttribute('data-preset')][1];
+    run();
+  });
+
+  pattern.addEventListener('input', run);
+  subject.addEventListener('input', run);
+  FLAGS.forEach(function (f) { document.getElementById('rx-' + f).addEventListener('change', run); });
+  run();
+})();</script>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>React useState Not Updating? The Five Real Causes</title>
+    <meta name="description" content="State that logs the old value, mutations React cannot see, stale closures in effects and intervals, and batched updates — with the fix for each." />
+    <link rel="canonical" href="https://junepoint.com/guides/react-usestate-not-updating/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="React useState Not Updating? The Five Real Causes" />
+    <meta property="og:description" content="State that logs the old value, mutations React cannot see, stale closures in effects and intervals, and batched updates — with the fix for each." />
+    <meta property="og:url" content="https://junepoint.com/guides/react-usestate-not-updating/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-04-23" />
+    <meta property="article:modified_time" content="2026-08-15" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="React useState Not Updating? The Five Real Causes" />
+    <meta name="twitter:description" content="State that logs the old value, mutations React cannot see, stale closures in effects and intervals, and batched updates — with the fix for each." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#alexander-pace",
+      "name": "Alexander Pace",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Alexander works across React and Node.js applications with a focus on backend systems and user experience. He covers front-end technique, CSS and the business-software research on this site.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://www.linkedin.com/in/alexander-pace-0648b6270/",
+        "https://github.com/snf-alex",
+        "https://snf-alex.github.io/PortfolioWebsiteV2/"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Developer Guides",
+          "item": "https://junepoint.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Why your React useState is not updating",
+          "item": "https://junepoint.com/guides/react-usestate-not-updating/"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/guides/react-usestate-not-updating/#article",
+      "headline": "Why your React useState is not updating",
+      "name": "React useState Not Updating? The Five Real Causes",
+      "description": "State that logs the old value, mutations React cannot see, stale closures in effects and intervals, and batched updates — with the fix for each.",
+      "datePublished": "2026-04-23",
+      "dateModified": "2026-08-15",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/guides/react-usestate-not-updating/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#alexander-pace"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "usestate not updating, react state not updating immediately, stale closure react, react state one step behind, usestate console log old value",
+      "articleSection": "Developer Guides"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/guides/react-usestate-not-updating/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does console.log show the old state right after setState?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because the state variable in that function belongs to the render that created it and never changes. setState schedules a new render with a new variable. This is expected behaviour, not a bug — log inside an effect that depends on the value if you need to see the update."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I run code after state updates?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use an effect with the state in its dependency array: useEffect(() => { … }, [count]). There is no callback argument to the useState setter as there was with this.setState in class components."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does calling setCount three times only add one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each call reads the same stale count and computes the same result, so the last one wins. Use the updater form — setCount(c => c + 1) — which queues a transformation applied to the latest pending value."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my component not re-render when I push to an array in state?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "push mutates the existing array, so the reference is unchanged and React’s Object.is comparison sees no difference. Create a new array: setItems([...items, newItem])."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I use useRef instead of useState?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When the value should persist across renders but changing it should not cause one — timer IDs, DOM nodes, previous values, or the latest state needed inside a long-lived callback. Updating a ref never triggers a render, so never store anything you display in one."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my effect run twice in development?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "React Strict Mode intentionally mounts, unmounts and remounts components in development to surface missing cleanup. It does not happen in production. If the double run breaks something, your effect is missing a cleanup function — which is exactly what Strict Mode is telling you."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier2">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">Why your React useState is not updating</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">React</p>
+      <h1>Why your React useState is not updating</h1>
+      <p class="jp-standfirst">State updates are asynchronous and the value in scope never changes. Once that clicks, every one of these bugs looks the same — and the fixes are short.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#alexander-pace">Alexander Pace</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published April 23, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 15, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
+    </header>
+    <article class="jp-article">
+      <aside class="jp-note jp-note--info">
+        <p class="jp-note-title">The one idea behind all five bugs</p>
+        <p>Calling <code>setState</code> does not change the <code>state</code> variable you are holding. It schedules a re-render, and the <em>next</em> render gets a <strong>new</strong> variable with the new value. The one in your current scope keeps its old value forever, because it is a <code>const</code> captured by that render’s closure.</p>
+      </aside>
+<h2 id="cause-1-logging-state-straight-after-setting-it">Cause 1: logging state straight after setting it</h2>
+<pre class="jp-code" data-lang="javascript"><code>const [count, setCount] = useState(0);
+
+function handleClick() {
+  setCount(count + 1);
+  console.log(count);   // 0 — always the previous value
+}</code></pre>
+<p>This is not a bug and there is nothing to fix. <code>count</code> in this function belongs to the render that created the handler. React will call your component again with a new <code>count</code>; this closure will never see it.</p>
+<p>To observe the new value, log during render or in an effect:</p>
+<pre class="jp-code" data-lang="javascript"><code>useEffect(() =&gt; {
+  console.log(&#39;count is now&#39;, count);
+}, [count]);</code></pre>
+<h2 id="cause-2-several-updates-in-one-handler">Cause 2: several updates in one handler</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Increments by 1, not 3 — every call reads the same stale count
+setCount(count + 1);
+setCount(count + 1);
+setCount(count + 1);
+
+// ✓ The updater form receives the latest pending value
+setCount(c =&gt; c + 1);
+setCount(c =&gt; c + 1);
+setCount(c =&gt; c + 1);   // now +3</code></pre>
+<p>React batches updates within an event handler into a single re-render. With the direct form all three calls compute from the same <code>count</code>, so the last one wins. The <strong>updater function</strong> form queues a transformation instead of a value, and React applies each in turn.</p>
+<p>Rule of thumb: <strong>if the new state depends on the old state, use the updater form.</strong> It is never wrong, and it removes the state variable from your effect dependency arrays as a bonus.</p>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">React 18 batches everywhere</p>
+        <p>Before React 18, updates inside promises, <code>setTimeout</code> and native event handlers were not batched — each triggered its own render. React 18’s automatic batching covers all of them. If a component behaved differently after upgrading, this is usually why.</p>
+      </aside>
+<h2 id="cause-3-mutating-state-instead-of-replacing-it">Cause 3: mutating state instead of replacing it</h2>
+<p>React compares the previous and next state with <code>Object.is</code>. Mutating an object or array leaves the reference identical, so React concludes nothing changed and skips the re-render — even though your data is different.</p>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Same array reference — no re-render
+items.push(newItem);
+setItems(items);
+
+// ✗ Same object reference — no re-render
+user.name = &#39;Ada&#39;;
+setUser(user);
+
+// ✓ New references
+setItems([...items, newItem]);
+setUser({ ...user, name: &#39;Ada&#39; });</code></pre>
+<p>Nested updates need a new reference at <strong>every level you change</strong>, which is where this gets tedious and error-prone:</p>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ The outer object is new, but settings is the same object
+setUser({ ...user, settings: Object.assign(user.settings, { theme: &#39;dark&#39; }) });
+
+// ✓ New object at each level
+setUser({
+  ...user,
+  settings: { ...user.settings, theme: &#39;dark&#39; },
+});
+
+// Arrays: map and filter return new arrays; sort and reverse mutate in place
+setItems(items.map(i =&gt; i.id === id ? { ...i, done: true } : i));
+setItems([...items].sort((a, b) =&gt; a.order - b.order));   // copy first</code></pre>
+<p>For deeply nested state, reach for Immer (<code>useImmer</code>) rather than hand-writing spreads three levels down — or reconsider whether the state should be that shape at all. Flat state is easier to update correctly.</p>
+<aside class="jp-note jp-note--warn">
+        <p class="jp-note-title"><code>sort</code>, <code>reverse</code>, <code>splice</code>, <code>push</code> and <code>pop</code> all mutate</p>
+        <p>They return the same array they were called on. <code>map</code>, <code>filter</code>, <code>slice</code> and <code>concat</code> return new ones. Copy before sorting: <code>[...items].sort(…)</code>. In Strict Mode during development, React double-invokes renders partly to make mutation bugs like this surface early.</p>
+      </aside>
+<h2 id="cause-4-stale-closures-in-effects-intervals-and-callbacks">Cause 4: stale closures in effects, intervals and callbacks</h2>
+<p>The most confusing of the five, because the code looks correct and works once.</p>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Logs 0, 1, 1, 1, 1 … then sticks
+useEffect(() =&gt; {
+  const id = setInterval(() =&gt; {
+    setCount(count + 1);   // &#39;count&#39; is frozen at 0 forever
+  }, 1000);
+  return () =&gt; clearInterval(id);
+}, []);                    // empty deps — the effect never re-runs</code></pre>
+<p>The effect runs once, capturing <code>count</code> as <code>0</code>. The interval callback keeps that closure for its whole life, so every tick computes <code>0 + 1</code>. Two clean fixes:</p>
+<pre class="jp-code" data-lang="javascript"><code>// ✓ The updater form never reads the captured variable
+useEffect(() =&gt; {
+  const id = setInterval(() =&gt; setCount(c =&gt; c + 1), 1000);
+  return () =&gt; clearInterval(id);
+}, []);
+
+// ✓ Or declare the dependency honestly and let the effect re-subscribe
+useEffect(() =&gt; {
+  const id = setInterval(() =&gt; setCount(count + 1), 1000);
+  return () =&gt; clearInterval(id);
+}, [count]);   // correct, but tears down and recreates the interval each tick</code></pre>
+<p>The first is better here — the interval survives, and the update is always based on current state.</p>
+<p>The same trap appears in event listeners, WebSocket handlers and any callback registered once. When you genuinely need the latest value inside a long-lived callback without re-subscribing, hold it in a ref:</p>
+<pre class="jp-code" data-lang="javascript"><code>const countRef = useRef(count);
+useEffect(() =&gt; { countRef.current = count; }, [count]);
+
+useEffect(() =&gt; {
+  const socket = new WebSocket(url);
+  socket.onmessage = () =&gt; {
+    console.log(&#39;current count:&#39;, countRef.current);   // always fresh
+  };
+  return () =&gt; socket.close();
+}, [url]);</code></pre>
+<aside class="jp-note jp-note--danger">
+        <p class="jp-note-title">Never silence the exhaustive-deps lint rule</p>
+        <p>Adding <code>// eslint-disable-next-line react-hooks/exhaustive-deps</code> to make a warning go away converts a visible problem into an invisible one. The rule is right essentially every time. If a dependency causes an unwanted re-run, the fix is an updater function, a ref, or moving the value out of the effect — not disabling the check.</p>
+      </aside>
+<h2 id="cause-5-state-that-is-not-really-state">Cause 5: state that is not really state</h2>
+<p>Two structural mistakes that look like update bugs.</p>
+<h3 id="initialising-state-from-props">Initialising state from props</h3>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Runs only on the first render — later prop changes are ignored
+function Profile({ user }) {
+  const [name, setName] = useState(user.name);
+  // ...
+}</code></pre>
+<p>The argument to <code>useState</code> is an <em>initial</em> value, used once. When the prop changes, the state does not follow, and the component displays stale data. Either derive the value directly during render, or if you truly need resettable local state, remount the component with a <code>key</code>:</p>
+<pre class="jp-code" data-lang="javascript"><code>// The key changes → React discards the old component and its state
+&lt;Profile key={user.id} user={user} /&gt;</code></pre>
+<h3 id="storing-derived-values-in-state">Storing derived values in state</h3>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Two sources of truth that can disagree
+const [items, setItems] = useState([]);
+const [total, setTotal] = useState(0);
+
+// ✓ One source of truth; derive the rest during render
+const [items, setItems] = useState([]);
+const total = items.reduce((sum, i) =&gt; sum + i.price, 0);</code></pre>
+<p>Anything computable from existing state should be computed, not stored. Duplicated state is state that will eventually be out of sync — and it needs an effect to maintain, which is an extra render and an extra bug surface. Wrap it in <code>useMemo</code> only if profiling shows the calculation is genuinely expensive.</p>
+<h2 id="a-quick-diagnostic">A quick diagnostic</h2>
+<ol><li><strong>Does the component re-render at all?</strong> Add <code>console.log</code> at the top of the component body. If it does not fire, you mutated state instead of replacing it.</li><li><strong>Does it render with the old value?</strong> You are reading a captured variable — a stale closure. Check effect dependency arrays.</li><li><strong>Does only the last of several updates apply?</strong> Switch to the updater form.</li><li><strong>Does the value reset unexpectedly?</strong> State initialised from a prop, or a <code>key</code> changing and remounting the component.</li><li><strong>Install React DevTools</strong> and watch the state change in the Components panel. It removes all guesswork about whether an update actually landed.</li></ol>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Why does console.log show the old state right after setState?</h3></summary>
+              <div class="jp-faq-answer"><p>Because the state variable in that function belongs to the render that created it and never changes. setState schedules a new render with a new variable. This is expected behaviour, not a bug — log inside an effect that depends on the value if you need to see the update.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>How do I run code after state updates?</h3></summary>
+              <div class="jp-faq-answer"><p>Use an effect with the state in its dependency array: useEffect(() =&gt; { … }, [count]). There is no callback argument to the useState setter as there was with this.setState in class components.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does calling setCount three times only add one?</h3></summary>
+              <div class="jp-faq-answer"><p>Each call reads the same stale count and computes the same result, so the last one wins. Use the updater form — setCount(c =&gt; c + 1) — which queues a transformation applied to the latest pending value.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does my component not re-render when I push to an array in state?</h3></summary>
+              <div class="jp-faq-answer"><p>push mutates the existing array, so the reference is unchanged and React’s Object.is comparison sees no difference. Create a new array: setItems([...items, newItem]).</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>When should I use useRef instead of useState?</h3></summary>
+              <div class="jp-faq-answer"><p>When the value should persist across renders but changing it should not cause one — timer IDs, DOM nodes, previous values, or the latest state needed inside a long-lived callback. Updating a ref never triggers a render, so never store anything you display in one.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does my effect run twice in development?</h3></summary>
+              <div class="jp-faq-answer"><p>React Strict Mode intentionally mounts, unmounts and remounts components in development to surface missing cleanup. It does not happen in production. If the double run breaks something, your effect is missing a cleanup function — which is exactly what Strict Mode is telling you.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/guides/javascript-async-await-explained/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>JavaScript async/await, properly explained</h3>
+        <p>Sequential awaits, forEach silently ignoring async, and error handling that does not swallow failures.</p>
+      </a><a class="jp-card" href="/guides/npm-eresolve-error/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Fixing npm ERESOLVE dependency conflicts</h3>
+        <p>Read the conflict report properly, then pick between overrides, --legacy-peer-deps and an actual upgrade.</p>
+      </a><a class="jp-card" href="/guides/css-grid-vs-flexbox/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>CSS Grid vs Flexbox</h3>
+        <p>The one-dimensional / two-dimensional rule, plus copy-paste patterns for holy grail, card grids and sidebars.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#cause-1-logging-state-straight-after-setting-it">Cause 1: logging state straight after setting it</a></li><li><a href="#cause-2-several-updates-in-one-handler">Cause 2: several updates in one handler</a></li><li><a href="#cause-3-mutating-state-instead-of-replacing-it">Cause 3: mutating state instead of replacing it</a></li><li><a href="#cause-4-stale-closures-in-effects-intervals-and-callbacks">Cause 4: stale closures in effects, intervals and callbacks</a></li><li><a href="#cause-5-state-that-is-not-really-state">Cause 5: state that is not really state</a></li><li><a href="#a-quick-diagnostic">A quick diagnostic</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Developer Guides</h2>
+        <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>
+      </div>
+</aside>
+</div>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>

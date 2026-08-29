@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>Docker Container Exits Immediately — Every Cause</title>
+    <meta name="description" content="Why a container starts and stops in under a second: exit codes decoded, foreground processes, missing shells, OOM kills and how to debug it." />
+    <link rel="canonical" href="https://junepoint.com/guides/docker-container-exits-immediately/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="Docker Container Exits Immediately — Every Cause" />
+    <meta property="og:description" content="Why a container starts and stops in under a second: exit codes decoded, foreground processes, missing shells, OOM kills and how to debug it." />
+    <meta property="og:url" content="https://junepoint.com/guides/docker-container-exits-immediately/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-02-12" />
+    <meta property="article:modified_time" content="2026-08-13" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="Docker Container Exits Immediately — Every Cause" />
+    <meta name="twitter:description" content="Why a container starts and stops in under a second: exit codes decoded, foreground processes, missing shells, OOM kills and how to debug it." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Developer Guides",
+          "item": "https://junepoint.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Why your Docker container exits immediately",
+          "item": "https://junepoint.com/guides/docker-container-exits-immediately/"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/guides/docker-container-exits-immediately/#article",
+      "headline": "Why your Docker container exits immediately",
+      "name": "Docker Container Exits Immediately — Every Cause",
+      "description": "Why a container starts and stops in under a second: exit codes decoded, foreground processes, missing shells, OOM kills and how to debug it.",
+      "datePublished": "2026-02-12",
+      "dateModified": "2026-08-13",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/guides/docker-container-exits-immediately/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "docker container exits immediately, docker exited with code 0, container keeps restarting, docker exit code 137, docker debug container",
+      "articleSection": "Developer Guides"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/guides/docker-container-exits-immediately/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my container exit with code 0 when nothing went wrong?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because nothing did go wrong — the main process finished. A container lives exactly as long as PID 1. Either the command was short-lived (like a bare shell with no TTY), or the service forked itself into the background. Run the service in the foreground."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does exit code 137 mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "128 + 9, meaning SIGKILL. Usually the out-of-memory killer: check docker inspect --format \"{{.State.OOMKilled}}\". It also appears when docker stop times out after SIGTERM and escalates to SIGKILL, which points at a process that is not handling signals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I see logs from a container that already exited?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "docker logs works on stopped containers — the logs outlive the process. Use docker ps -a to find the container ID. They only disappear when the container is removed, so avoid --rm while you are still debugging."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does docker run -it ubuntu bash work but docker run ubuntu does not?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The -i flag keeps stdin open and -t allocates a pseudo-terminal. Without them, bash starts, finds no terminal and no input, and exits immediately — taking the container with it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is tail -f /dev/null an acceptable fix?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only for a debugging container or a sidecar with genuinely no long-running process. For an application container it hides the real failure: the container stays up while your service is not running, so health checks pass and nothing works."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my container work locally but not in CI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most often a CPU architecture difference — an image built on Apple Silicon running on amd64 CI, or the reverse. Build with --platform explicitly, or use docker buildx for a multi-architecture image."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier2">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">Why your Docker container exits immediately</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">Troubleshooting</p>
+      <h1>Why your Docker container exits immediately</h1>
+      <p class="jp-standfirst">A container lives exactly as long as its main process. Here is how to find out what that process did, read the exit code, and get a shell inside an image that refuses to run.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published February 12, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 13, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
+    </header>
+    <article class="jp-article">
+      <aside class="jp-note jp-note--info">
+        <p class="jp-note-title">The rule everything follows from</p>
+        <p>A container runs exactly as long as <strong>PID 1</strong> runs. When that process exits, the container stops — whether it succeeded, crashed or forked itself into the background. A container is not a virtual machine; there is nothing else keeping it alive.</p>
+      </aside>
+<h2 id="start-here-what-did-it-say-and-how-did-it-end">Start here: what did it say and how did it end?</h2>
+<pre class="jp-code" data-lang="bash"><code># Logs survive the container&#39;s death — read them first
+docker logs &lt;container&gt;
+
+# Every container, including the dead ones, with its exit code
+docker ps -a
+
+# The exit code on its own
+docker inspect &lt;container&gt; --format &#39;{{.State.ExitCode}} {{.State.Error}}&#39;
+
+# Follow a restart loop as it happens
+docker logs -f --tail 50 &lt;container&gt;</code></pre>
+<p>Ninety percent of the time <code>docker logs</code> contains the answer in plain text — a stack trace, a missing environment variable, a refused database connection. Read it before changing anything.</p>
+<h2 id="what-the-exit-code-tells-you">What the exit code tells you</h2>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Meaning</th><th scope="col">Usual cause</th></tr></thead><tbody><tr><th scope="row"><code>0</code></th><td>Completed successfully</td><td>The process genuinely finished — it was never a long-running one</td></tr><tr><th scope="row"><code>1</code></th><td>Generic application error</td><td>An unhandled exception. Check the logs.</td></tr><tr><th scope="row"><code>125</code></th><td>The Docker daemon itself failed</td><td>A malformed <code>docker run</code> command or invalid flag</td></tr><tr><th scope="row"><code>126</code></th><td>Command found but not executable</td><td>Missing <code>+x</code>, or a script with CRLF line endings</td></tr><tr><th scope="row"><code>127</code></th><td>Command not found</td><td>Typo, missing binary, or no shell in the image</td></tr><tr><th scope="row"><code>137</code></th><td>SIGKILL (128 + 9)</td><td><strong>Out of memory</strong>, or a <code>docker stop</code> that timed out</td></tr><tr><th scope="row"><code>139</code></th><td>SIGSEGV (128 + 11)</td><td>Segfault — often an architecture mismatch</td></tr><tr><th scope="row"><code>143</code></th><td>SIGTERM (128 + 15)</td><td>A clean stop request; normal for <code>docker stop</code></td></tr></tbody></table></div>
+<p>Anything above 128 is a signal: subtract 128 to get the signal number. The two you will meet are 137 and 143.</p>
+<h2 id="cause-1-exit-code-0-the-process-simply-finished">Cause 1: exit code 0 — the process simply finished</h2>
+<p>The most common case, and the most confusing, because nothing failed. <code>docker run ubuntu</code> starts bash, bash has no terminal attached and no commands to run, so it exits immediately. The container did its job perfectly.</p>
+<pre class="jp-code" data-lang="bash"><code>docker run ubuntu             # exits at once — bash has nothing to do
+docker run -it ubuntu bash    # stays up — -it gives bash a terminal</code></pre>
+<p><code>-i</code> keeps stdin open and <code>-t</code> allocates a pseudo-TTY. Without both, an interactive shell has no reason to wait.</p>
+<h2 id="cause-2-the-process-daemonised-itself">Cause 2: the process daemonised itself</h2>
+<p>The classic mistake. Services that background themselves by default make PID 1 exit instantly, taking the container with it, even though the service started fine.</p>
+<pre class="jp-code" data-lang="dockerfile"><code># ✗ nginx forks to the background, PID 1 exits, container stops
+CMD [&quot;nginx&quot;]
+
+# ✓ stay in the foreground
+CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]</code></pre>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Service</th><th scope="col">Foreground flag</th></tr></thead><tbody><tr><th scope="row">nginx</th><td><code>nginx -g &quot;daemon off;&quot;</code></td></tr><tr><th scope="row">Apache</th><td><code>httpd-foreground</code> or <code>apachectl -DFOREGROUND</code></td></tr><tr><th scope="row">PostgreSQL</th><td><code>postgres</code> (not <code>pg_ctl start</code>)</td></tr><tr><th scope="row">Redis</th><td><code>redis-server --daemonize no</code></td></tr><tr><th scope="row">systemd services</th><td>Do not use systemd — run the binary directly</td></tr></tbody></table></div>
+<h2 id="cause-3-exit-127-command-not-found">Cause 3: exit 127 — command not found</h2>
+<p>Three distinct situations produce this, and the third catches almost everyone once.</p>
+<h3 id="there-is-no-shell-in-the-image">There is no shell in the image</h3>
+<p>Distroless, <code>scratch</code> and Alpine-based minimal images may have no <code>/bin/sh</code> at all. Shell-form <code>CMD</code> is implicitly <code>/bin/sh -c &quot;…&quot;</code>, so it fails immediately:</p>
+<pre class="jp-code" data-lang="dockerfile"><code># ✗ Shell form needs /bin/sh, which distroless does not have
+CMD npm start
+
+# ✓ Exec form runs the binary directly — no shell required
+CMD [&quot;node&quot;, &quot;server.js&quot;]</code></pre>
+<h3 id="windows-line-endings">Windows line endings</h3>
+<p>An entrypoint script saved with CRLF endings makes the kernel look for an interpreter literally named <code>/bin/sh\r</code>, which does not exist. The error names your shell and looks nonsensical.</p>
+<pre class="jp-code" data-lang="dockerfile"><code># Fix at build time
+RUN sed -i &#39;s/\r$//&#39; /entrypoint.sh &amp;&amp; chmod +x /entrypoint.sh</code></pre>
+<p>Better still, prevent it in Git: add <code>*.sh text eol=lf</code> to a <code>.gitattributes</code> file.</p>
+<h3 id="architecture-mismatch">Architecture mismatch</h3>
+<p>An <code>amd64</code> image on an Apple Silicon machine — or the reverse — produces <code>exec format error</code>, exit 127 or a segfault. Build for the right platform:</p>
+<pre class="jp-code" data-lang="bash"><code>docker build --platform linux/amd64 -t myapp .
+docker run --platform linux/amd64 myapp</code></pre>
+<h2 id="cause-4-exit-137-it-ran-out-of-memory">Cause 4: exit 137 — it ran out of memory</h2>
+<p>The kernel’s OOM killer terminated the process. The container did not crash; it was executed. Confirm it:</p>
+<pre class="jp-code" data-lang="bash"><code>docker inspect &lt;container&gt; --format &#39;{{.State.OOMKilled}}&#39;
+# true  → memory limit exceeded
+
+docker stats --no-stream</code></pre>
+<ul><li>Raise the limit: <code>docker run -m 2g</code>, or <code>mem_limit</code> in Compose.</li><li>On Docker Desktop, raise the <strong>VM’s</strong> memory in settings — the per-container limit cannot exceed it.</li><li>For the JVM, set <code>-XX:MaxRAMPercentage=75</code>. Older JVMs read the host’s memory rather than the cgroup limit and confidently allocate more than the container is allowed.</li><li>For Node, <code>--max-old-space-size</code> has the same problem and the same fix.</li></ul>
+<h2 id="cause-5-it-crashed-on-a-missing-dependency">Cause 5: it crashed on a missing dependency</h2>
+<p>Exit code 1 with a stack trace in the logs. Almost always a missing environment variable, or a database that is not accepting connections yet.</p>
+<p>In Compose, <code>depends_on</code> alone only waits for the container to <strong>start</strong>, not for the service inside it to be ready. Postgres accepts TCP connections seconds before it will answer a query. Use a health check:</p>
+<pre class="jp-code" data-lang="yaml"><code>services:
+  db:
+    image: postgres:16
+    healthcheck:
+      test: [&quot;CMD-SHELL&quot;, &quot;pg_isready -U postgres&quot;]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy   # this is the part people miss</code></pre>
+<h2 id="getting-a-shell-inside-a-container-that-will-not-run">Getting a shell inside a container that will not run</h2>
+<p>When the container dies too fast to inspect, override the entrypoint and poke around by hand:</p>
+<pre class="jp-code" data-lang="bash"><code># Ignore the image&#39;s CMD and ENTRYPOINT, get a shell
+docker run -it --entrypoint sh &lt;image&gt;
+
+# Inspect the filesystem of a container that already died
+docker commit &lt;dead-container&gt; debug-image
+docker run -it --entrypoint sh debug-image
+
+# Copy files out of a stopped container
+docker cp &lt;container&gt;:/app/config.json ./
+
+# What the image is actually configured to run
+docker inspect &lt;image&gt; --format &#39;{{.Config.Entrypoint}} {{.Config.Cmd}}&#39;</code></pre>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">Debugging a distroless image</p>
+        <p>With no shell to exec into, use <code>docker debug</code> (Docker Desktop) or attach a debug container sharing the target’s namespaces: <code>docker run -it --pid container:&lt;id&gt; --network container:&lt;id&gt; nicolaka/netshoot</code>. You get a full toolkit inside the failing container’s process and network namespaces.</p>
+      </aside>
+<h2 id="stop-using-tail-f-dev-null">Stop using <code>tail -f /dev/null</code></h2>
+<p>It appears in a lot of answers as a way to &quot;keep the container alive&quot;. It does — by running a container whose only job is to do nothing, while your actual service is not running at all. It converts a loud failure into a silent one.</p>
+<p>The only legitimate uses are a sidecar that genuinely has no long-running process, or a temporary debugging container. If your application should be running, make the application PID 1 and fix why it exits.</p>
+<h2 id="signals-and-why-pid-1-is-special">Signals, and why PID 1 is special</h2>
+<p>PID 1 in Linux has unusual semantics: it does not get default signal handlers, and it is responsible for reaping orphaned child processes. A shell script as PID 1 typically ignores <code>SIGTERM</code>, so <code>docker stop</code> waits ten seconds and then sends <code>SIGKILL</code> — which is why a clean shutdown becomes exit code 137.</p>
+<pre class="jp-code" data-lang="dockerfile"><code># ✗ Shell form wraps the command in sh -c, which does not forward signals
+CMD npm start
+
+# ✓ Exec form makes your process PID 1 and lets it receive SIGTERM
+CMD [&quot;node&quot;, &quot;server.js&quot;]
+
+# For anything that spawns children, add a proper init to reap zombies
+# (or run with: docker run --init)
+ENTRYPOINT [&quot;/sbin/tini&quot;, &quot;--&quot;]
+CMD [&quot;node&quot;, &quot;server.js&quot;]</code></pre>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Why does my container exit with code 0 when nothing went wrong?</h3></summary>
+              <div class="jp-faq-answer"><p>Because nothing did go wrong — the main process finished. A container lives exactly as long as PID 1. Either the command was short-lived (like a bare shell with no TTY), or the service forked itself into the background. Run the service in the foreground.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What does exit code 137 mean?</h3></summary>
+              <div class="jp-faq-answer"><p>128 + 9, meaning SIGKILL. Usually the out-of-memory killer: check docker inspect --format &quot;{{.State.OOMKilled}}&quot;. It also appears when docker stop times out after SIGTERM and escalates to SIGKILL, which points at a process that is not handling signals.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>How do I see logs from a container that already exited?</h3></summary>
+              <div class="jp-faq-answer"><p>docker logs works on stopped containers — the logs outlive the process. Use docker ps -a to find the container ID. They only disappear when the container is removed, so avoid --rm while you are still debugging.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does docker run -it ubuntu bash work but docker run ubuntu does not?</h3></summary>
+              <div class="jp-faq-answer"><p>The -i flag keeps stdin open and -t allocates a pseudo-terminal. Without them, bash starts, finds no terminal and no input, and exits immediately — taking the container with it.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Is tail -f /dev/null an acceptable fix?</h3></summary>
+              <div class="jp-faq-answer"><p>Only for a debugging container or a sidecar with genuinely no long-running process. For an application container it hides the real failure: the container stays up while your service is not running, so health checks pass and nothing works.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does my container work locally but not in CI?</h3></summary>
+              <div class="jp-faq-answer"><p>Most often a CPU architecture difference — an image built on Apple Silicon running on amd64 CI, or the reverse. Build with --platform explicitly, or use docker buildx for a multi-architecture image.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/tools/cron-expression-generator/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Cron Expression Generator</h3>
+        <p>Build or decode a cron schedule, read it in plain English, and see the next ten times it will actually fire. Free and entirely browser-based.</p>
+      </a><a class="jp-card" href="/guides/postgres-connection-refused/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Fixing PostgreSQL connection refused</h3>
+        <p>Six layers, checked in the right order — plus the pg_hba.conf and Docker networking traps.</p>
+      </a><a class="jp-card" href="/tools/cloud-cost-calculator/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Cloud Cost Calculator</h3>
+        <p>Estimate and compare monthly AWS, Azure and Google Cloud bills for compute, storage, egress and managed databases. Free, instant, runs in your browser.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#start-here-what-did-it-say-and-how-did-it-end">Start here: what did it say and how did it end?</a></li><li><a href="#what-the-exit-code-tells-you">What the exit code tells you</a></li><li><a href="#cause-1-exit-code-0-the-process-simply-finished">Cause 1: exit code 0 — the process simply finished</a></li><li><a href="#cause-2-the-process-daemonised-itself">Cause 2: the process daemonised itself</a></li><li><a href="#cause-3-exit-127-command-not-found">Cause 3: exit 127 — command not found</a></li><li><a href="#cause-4-exit-137-it-ran-out-of-memory">Cause 4: exit 137 — it ran out of memory</a></li><li><a href="#cause-5-it-crashed-on-a-missing-dependency">Cause 5: it crashed on a missing dependency</a></li><li><a href="#getting-a-shell-inside-a-container-that-will-not-run">Getting a shell inside a container that will not run</a></li><li><a href="#stop-using-tail-f-dev-null">Stop using `tail -f /dev/null`</a></li><li><a href="#signals-and-why-pid-1-is-special">Signals, and why PID 1 is special</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Developer Guides</h2>
+        <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>
+      </div>
+</aside>
+</div>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>

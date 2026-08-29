@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>How to Fix CORS Errors (Every Cause, With the Fix)</title>
+    <meta name="description" content="Every common cause of &quot;blocked by CORS policy&quot;, what the error message really means, and the correct server-side fix for each one." />
+    <link rel="canonical" href="https://junepoint.com/guides/fix-cors-errors/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="How to Fix CORS Errors (Every Cause, With the Fix)" />
+    <meta property="og:description" content="Every common cause of &quot;blocked by CORS policy&quot;, what the error message really means, and the correct server-side fix for each one." />
+    <meta property="og:url" content="https://junepoint.com/guides/fix-cors-errors/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-01-16" />
+    <meta property="article:modified_time" content="2026-08-26" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="How to Fix CORS Errors (Every Cause, With the Fix)" />
+    <meta name="twitter:description" content="Every common cause of &quot;blocked by CORS policy&quot;, what the error message really means, and the correct server-side fix for each one." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Developer Guides",
+          "item": "https://junepoint.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to fix CORS errors",
+          "item": "https://junepoint.com/guides/fix-cors-errors/"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/guides/fix-cors-errors/#article",
+      "headline": "How to fix CORS errors",
+      "name": "How to Fix CORS Errors (Every Cause, With the Fix)",
+      "description": "Every common cause of \"blocked by CORS policy\", what the error message really means, and the correct server-side fix for each one.",
+      "datePublished": "2026-01-16",
+      "dateModified": "2026-08-26",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/guides/fix-cors-errors/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "cors error, blocked by cors policy, access-control-allow-origin, fix cors, no access-control-allow-origin header, cors preflight failed",
+      "articleSection": "Developer Guides"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/guides/fix-cors-errors/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does it work in Postman but not in the browser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because Postman is not a browser and does not implement the same-origin policy. It sends no Origin header and ignores CORS response headers entirely. This tells you the server works; it tells you nothing about your CORS configuration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I fix CORS from my front-end code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The permission has to come from the server that owns the resource — if a client could grant itself access, the policy would be meaningless. The only client-side option is to avoid the cross-origin request entirely by proxying through your own server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do I get a CORS error only on POST and not on GET?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "POST with a JSON body triggers a preflight OPTIONS request; a simple GET does not. Your server is almost certainly not handling OPTIONS — commonly because authentication middleware rejects it before the CORS handler runs, since preflights carry no credentials."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Access-Control-Allow-Origin: * dangerous?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On a public, unauthenticated API, no — it is the appropriate setting. On an API that uses cookies or session credentials it is both dangerous and non-functional: browsers refuse the combination, and reflecting arbitrary origins with credentials enabled lets any site act as your logged-in users."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my API work locally but fail in production?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The deployed origin is not in the server’s allow-list — localhost was, and the production domain was never added. Also check for scheme mismatches (http vs https) and for a CDN stripping CORS headers because Vary: Origin is missing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a \"simple request\"?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GET, HEAD or POST, with no custom headers, and a Content-Type of text/plain, multipart/form-data or application/x-www-form-urlencoded. Only simple requests skip the preflight. Sending JSON or an Authorization header disqualifies it, which covers nearly every real API call."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier2">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">How to fix CORS errors</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">Troubleshooting</p>
+      <h1>How to fix CORS errors</h1>
+      <p class="jp-standfirst">CORS errors are almost never a bug in your front-end. Here is how to read the exact message, find the real cause, and fix it on the server where it belongs.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published January 16, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 26, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>10 min read</span></div>
+    </header>
+    <article class="jp-article">
+      <aside class="jp-takeaways">
+        <h2 id="key-takeaways">Key takeaways</h2>
+        <ul><li>CORS is enforced by the browser but configured on the <strong>server</strong>. You cannot fix it in your front-end code.</li><li>The exact wording of the error tells you which of six causes you have — read it rather than guessing.</li><li><code>Access-Control-Allow-Origin: *</code> and <code>credentials: &quot;include&quot;</code> are mutually incompatible. This is the single most common dead end.</li><li>A failed preflight means your server is not answering the <code>OPTIONS</code> request. Handle it before your auth middleware.</li><li>Browser extensions that &quot;disable CORS&quot; fix your machine and nobody else’s. Never ship against one.</li></ul>
+      </aside>
+<h2 id="what-cors-actually-is">What CORS actually is</h2>
+<p>Browsers enforce the <strong>same-origin policy</strong>: JavaScript on <code>https://app.example.com</code> cannot read a response from <code>https://api.example.com</code> unless that server explicitly permits it. An origin is the triple of scheme, host and port — <code>http://localhost:3000</code> and <code>http://localhost:5173</code> are different origins, and so are the <code>http</code> and <code>https</code> versions of the same host.</p>
+<p>Cross-Origin Resource Sharing is the mechanism a server uses to opt in, by returning headers that tell the browser the request is allowed. Two consequences follow, and internalising both saves hours:</p>
+<ol><li><strong>The request usually succeeded.</strong> Your server received it and responded. The browser then read the response, found no permission header, and refused to hand it to your JavaScript. This is why the request appears in your server logs and in the network tab while your code sees an error.</li><li><strong>Only browsers care.</strong> <code>curl</code>, Postman, your mobile app and your server-side code have no same-origin policy. &quot;It works in Postman&quot; is not evidence of anything — it is the expected behaviour.</li></ol>
+<aside class="jp-note jp-note--warn">
+        <p class="jp-note-title">CORS is not a security feature protecting your API</p>
+        <p>It protects <em>users</em> from having their browser weaponised against other sites. It does nothing to stop a direct request from any non-browser client. An open CORS policy does not make your API vulnerable, and a strict one does not make it safe — authentication and authorisation do that.</p>
+      </aside>
+<h2 id="read-the-error-message-first">Read the error message first</h2>
+<p>Chrome and Firefox both tell you precisely which check failed. The table maps each message to its cause.</p>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Error text contains</th><th scope="col">What it means</th><th scope="col">Fix</th></tr></thead><tbody><tr><th scope="row"><code>No &quot;Access-Control-Allow-Origin&quot; header</code></th><td>The server sent no CORS headers at all</td><td>Enable CORS on the server</td></tr><tr><th scope="row"><code>does not match the supplied origin</code> / <code>The &quot;Access-Control-Allow-Origin&quot; header has a value ... that is not equal</code></th><td>Headers exist but name a different origin</td><td>Add your origin to the allowed list — mind the trailing slash</td></tr><tr><th scope="row"><code>Response to preflight request doesn&#39;t pass</code></th><td>The <code>OPTIONS</code> request failed or returned an error status</td><td>Handle <code>OPTIONS</code> before auth middleware, return 204</td></tr><tr><th scope="row"><code>Request header field ... is not allowed</code></th><td>Your custom header is not in <code>Access-Control-Allow-Headers</code></td><td>Add the header name to that list</td></tr><tr><th scope="row"><code>Method ... is not allowed</code></th><td><code>Access-Control-Allow-Methods</code> omits your verb</td><td>Add <code>PUT</code>, <code>PATCH</code> or <code>DELETE</code> as needed</td></tr><tr><th scope="row"><code>credentials mode is &quot;include&quot;</code> with a wildcard</th><td>You cannot combine <code>*</code> with cookies</td><td>Echo the specific origin instead of <code>*</code></td></tr></tbody></table></div>
+<h2 id="cause-1-no-cors-headers-at-all">Cause 1: no CORS headers at all</h2>
+<p>The default state of most servers. You need to send <code>Access-Control-Allow-Origin</code> on the response.</p>
+<pre class="jp-code" data-lang="javascript"><code>// Express — use the maintained middleware rather than hand-rolling headers
+import cors from &#39;cors&#39;;
+
+app.use(cors({
+  origin: [&#39;https://app.example.com&#39;, &#39;http://localhost:5173&#39;],
+  credentials: true,
+  methods: [&#39;GET&#39;, &#39;POST&#39;, &#39;PUT&#39;, &#39;PATCH&#39;, &#39;DELETE&#39;],
+  allowedHeaders: [&#39;Content-Type&#39;, &#39;Authorization&#39;],
+}));</code></pre>
+<pre class="jp-code" data-lang="python"><code># FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[&quot;https://app.example.com&quot;, &quot;http://localhost:5173&quot;],
+    allow_credentials=True,
+    allow_methods=[&quot;*&quot;],
+    allow_headers=[&quot;*&quot;],
+)</code></pre>
+<pre class="jp-code" data-lang="nginx"><code># Nginx — note that OPTIONS must short-circuit before proxying
+location /api/ {
+    if ($request_method = OPTIONS) {
+        add_header Access-Control-Allow-Origin  $http_origin always;
+        add_header Access-Control-Allow-Methods &quot;GET, POST, PUT, PATCH, DELETE, OPTIONS&quot;;
+        add_header Access-Control-Allow-Headers &quot;Content-Type, Authorization&quot;;
+        add_header Access-Control-Max-Age       86400;
+        return 204;
+    }
+    add_header Access-Control-Allow-Origin $http_origin always;
+    proxy_pass http://backend;
+}</code></pre>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">The <code>always</code> flag in Nginx matters</p>
+        <p>Without it, <code>add_header</code> is skipped on 4xx and 5xx responses — so your errors arrive as CORS failures instead of the real status code, and you end up debugging the wrong problem entirely.</p>
+      </aside>
+<h2 id="cause-2-the-origin-does-not-match-exactly">Cause 2: the origin does not match exactly</h2>
+<p>Origin comparison is a byte-for-byte string match. All of these are different origins:</p>
+<pre class="jp-code" data-lang="text"><code>https://app.example.com      ← the real origin
+https://app.example.com/     ← trailing slash: invalid in this header
+http://app.example.com       ← different scheme
+https://www.app.example.com  ← different host
+https://app.example.com:8443 ← different port</code></pre>
+<p>A trailing slash in your allow-list is the classic version of this. The <code>Origin</code> header a browser sends never has a path or a trailing slash, so <code>https://app.example.com/</code> will never match.</p>
+<h2 id="cause-3-the-preflight-is-failing">Cause 3: the preflight is failing</h2>
+<p>Before any request that is not &quot;simple&quot;, the browser sends an <code>OPTIONS</code> request to ask permission. A request is simple only if it is <code>GET</code>, <code>HEAD</code> or <code>POST</code>, carries no custom headers, and uses a <code>Content-Type</code> of <code>text/plain</code>, <code>multipart/form-data</code> or <code>application/x-www-form-urlencoded</code>.</p>
+<p>That means <strong>sending JSON always triggers a preflight</strong>, because <code>application/json</code> is not on the list. So does an <code>Authorization</code> header. Almost every real API call is preflighted.</p>
+<pre class="jp-code" data-lang="http"><code>OPTIONS /api/orders HTTP/1.1
+Origin: https://app.example.com
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type, authorization
+
+HTTP/1.1 204 No Content
+Access-Control-Allow-Origin: https://app.example.com
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Max-Age: 86400</code></pre>
+<p>The preflight carries <strong>no credentials</strong> — no cookies, no <code>Authorization</code> header. If your authentication middleware runs before your CORS handling, it will reject the <code>OPTIONS</code> request with a 401, and the browser reports a CORS failure. <strong>Register CORS handling before auth.</strong> This is the most common cause of &quot;it works for GET but not POST&quot;.</p>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">Set Access-Control-Max-Age</p>
+        <p>It caches the preflight result so the browser stops sending an OPTIONS request before every call. Chrome caps it at 7,200 seconds, Firefox at 86,400. On a chatty front-end this halves your request count.</p>
+      </aside>
+<h2 id="cause-4-wildcard-plus-credentials">Cause 4: wildcard plus credentials</h2>
+<p>This is the one that consumes an afternoon. If your request sends cookies or uses <code>credentials: &quot;include&quot;</code>, the browser <strong>refuses a wildcard</strong>. The specification forbids it, because <code>*</code> plus cookies would let any site make authenticated requests on a user’s behalf.</p>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Fails — the browser rejects the combination outright
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+// ✓ Works — echo the specific origin, and vary on it
+Access-Control-Allow-Origin: https://app.example.com
+Access-Control-Allow-Credentials: true
+Vary: Origin</code></pre>
+<p>The <code>Vary: Origin</code> header is not optional. Without it, a CDN or proxy will cache the response for one origin and serve it to another, producing failures that appear and disappear seemingly at random.</p>
+<aside class="jp-note jp-note--danger">
+        <p class="jp-note-title">Do not blindly reflect the Origin header</p>
+        <p>Echoing <code>req.headers.origin</code> back with <code>Allow-Credentials: true</code> and no validation means <strong>every website on the internet</strong> can make authenticated requests as your logged-in users. Always check the incoming origin against an explicit allow-list first.</p>
+      </aside>
+<h2 id="cause-5-you-cannot-read-the-response-header-you-need">Cause 5: you cannot read the response header you need</h2>
+<p>By default, cross-origin JavaScript can only read six response headers. If your API returns pagination counts, a rate-limit budget or a custom request ID, your code will see <code>null</code> unless the server exposes them explicitly:</p>
+<pre class="jp-code" data-lang="http"><code>Access-Control-Expose-Headers: X-Total-Count, X-Request-Id, X-RateLimit-Remaining</code></pre>
+<p>This produces no error at all, which makes it unusually confusing — the fetch succeeds and the header is simply invisible.</p>
+<h2 id="cause-6-it-is-a-redirect-or-the-server-is-down">Cause 6: it is a redirect, or the server is down</h2>
+<p>Two impostors that report as CORS errors but are not:</p>
+<ul><li><strong>A redirect on a preflight.</strong> Preflight requests may not follow redirects. Calling <code>http://api.example.com</code> when the server redirects to <code>https://</code> fails as a CORS error. Point the front-end at the final URL.</li><li><strong>The server is unreachable.</strong> If nothing is listening, there are no headers to find, and Chrome reports the missing <code>Access-Control-Allow-Origin</code> rather than the connection failure. Check the network tab for a <code>(failed)</code> status before debugging CORS at all.</li></ul>
+<h2 id="the-local-development-fix-use-a-proxy">The local development fix: use a proxy</h2>
+<p>When you cannot change the API server, stop making a cross-origin request. Your dev server proxies <code>/api</code> to the backend, so from the browser’s perspective everything is same-origin and CORS never applies.</p>
+<pre class="jp-code" data-lang="javascript"><code>// vite.config.js
+export default {
+  server: {
+    proxy: {
+      &#39;/api&#39;: {
+        target: &#39;https://api.example.com&#39;,
+        changeOrigin: true,
+        rewrite: path =&gt; path.replace(/^\/api/, &#39;&#39;),
+      },
+    },
+  },
+};</code></pre>
+<pre class="jp-code" data-lang="json"><code>// Create React App — add to package.json
+{
+  &quot;proxy&quot;: &quot;http://localhost:8080&quot;
+}</code></pre>
+<p>This is also the correct production pattern. Serving your front-end and API from the same origin — the API under <code>/api</code> behind one CDN or load balancer — eliminates CORS, removes the preflight round-trip entirely, and sidesteps every third-party-cookie problem browsers keep introducing.</p>
+<h2 id="what-not-to-do">What not to do</h2>
+<ul><li><strong>Do not use a &quot;CORS unblock&quot; browser extension</strong> beyond a one-off diagnostic. It changes your browser and nobody else’s, and it hides the problem until you deploy.</li><li><strong>Do not set <code>mode: &quot;no-cors&quot;</code> on fetch.</strong> It does not disable CORS. It returns an opaque response whose status is <code>0</code> and whose body you cannot read — usually the least useful outcome available.</li><li><strong>Do not route production traffic through a public CORS proxy.</strong> You are handing a third party every request and response, including tokens.</li><li><strong>Do not set <code>Access-Control-Allow-Origin: *</code> on an authenticated API</strong> and consider it solved. It will not work with credentials, and where it does work it is a genuine exposure.</li></ul>
+<h2 id="a-five-minute-debugging-checklist">A five-minute debugging checklist</h2>
+<ol><li>Open the network tab and select the <strong>failing request itself</strong>, not your JavaScript error. Check the status code — if it is <code>(failed)</code> or <code>0</code>, the server is unreachable and this is not CORS.</li><li>Look for a preceding <code>OPTIONS</code> request. If it returned 401, 403, 404 or 500, that is your problem: CORS handling is not running before auth or routing.</li><li>Compare the <code>Origin</code> request header with the <code>Access-Control-Allow-Origin</code> response header, character by character. Watch for the trailing slash.</li><li>If cookies are involved, confirm the response is <strong>not</strong> using <code>*</code> and that <code>Access-Control-Allow-Credentials: true</code> is present.</li><li>Reproduce with curl to confirm the server side is fine: <code>curl -H &quot;Origin: https://app.example.com&quot; -I https://api.example.com/endpoint</code>.</li></ol>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Why does it work in Postman but not in the browser?</h3></summary>
+              <div class="jp-faq-answer"><p>Because Postman is not a browser and does not implement the same-origin policy. It sends no Origin header and ignores CORS response headers entirely. This tells you the server works; it tells you nothing about your CORS configuration.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Can I fix CORS from my front-end code?</h3></summary>
+              <div class="jp-faq-answer"><p>No. The permission has to come from the server that owns the resource — if a client could grant itself access, the policy would be meaningless. The only client-side option is to avoid the cross-origin request entirely by proxying through your own server.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why do I get a CORS error only on POST and not on GET?</h3></summary>
+              <div class="jp-faq-answer"><p>POST with a JSON body triggers a preflight OPTIONS request; a simple GET does not. Your server is almost certainly not handling OPTIONS — commonly because authentication middleware rejects it before the CORS handler runs, since preflights carry no credentials.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Is Access-Control-Allow-Origin: * dangerous?</h3></summary>
+              <div class="jp-faq-answer"><p>On a public, unauthenticated API, no — it is the appropriate setting. On an API that uses cookies or session credentials it is both dangerous and non-functional: browsers refuse the combination, and reflecting arbitrary origins with credentials enabled lets any site act as your logged-in users.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why does my API work locally but fail in production?</h3></summary>
+              <div class="jp-faq-answer"><p>The deployed origin is not in the server’s allow-list — localhost was, and the production domain was never added. Also check for scheme mismatches (http vs https) and for a CDN stripping CORS headers because Vary: Origin is missing.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What is a &quot;simple request&quot;?</h3></summary>
+              <div class="jp-faq-answer"><p>GET, HEAD or POST, with no custom headers, and a Content-Type of text/plain, multipart/form-data or application/x-www-form-urlencoded. Only simple requests skip the preflight. Sending JSON or an Authorization header disqualifies it, which covers nearly every real API call.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/guides/http-status-codes-explained/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>HTTP status codes, and which to actually use</h3>
+        <p>401 vs 403, 301 vs 308, 400 vs 422 — the distinctions that matter, and the codes worth using.</p>
+      </a><a class="jp-card" href="/tools/jwt-decoder/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>JWT Decoder</h3>
+        <p>Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted.</p>
+      </a><a class="jp-card" href="/guides/javascript-async-await-explained/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>JavaScript async/await, properly explained</h3>
+        <p>Sequential awaits, forEach silently ignoring async, and error handling that does not swallow failures.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#what-cors-actually-is">What CORS actually is</a></li><li><a href="#read-the-error-message-first">Read the error message first</a></li><li><a href="#cause-1-no-cors-headers-at-all">Cause 1: no CORS headers at all</a></li><li><a href="#cause-2-the-origin-does-not-match-exactly">Cause 2: the origin does not match exactly</a></li><li><a href="#cause-3-the-preflight-is-failing">Cause 3: the preflight is failing</a></li><li><a href="#cause-4-wildcard-plus-credentials">Cause 4: wildcard plus credentials</a></li><li><a href="#cause-5-you-cannot-read-the-response-header-you-need">Cause 5: you cannot read the response header you need</a></li><li><a href="#cause-6-it-is-a-redirect-or-the-server-is-down">Cause 6: it is a redirect, or the server is down</a></li><li><a href="#the-local-development-fix-use-a-proxy">The local development fix: use a proxy</a></li><li><a href="#what-not-to-do">What not to do</a></li><li><a href="#a-five-minute-debugging-checklist">A five-minute debugging checklist</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Developer Guides</h2>
+        <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>
+      </div>
+</aside>
+</div>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>

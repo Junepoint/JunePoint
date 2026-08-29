@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>UUID Generator — v4 and v7, Bulk, Cryptographic</title>
+    <meta name="description" content="Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved." />
+    <link rel="canonical" href="https://junepoint.com/tools/uuid-generator/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Resources" />
+    <meta property="og:title" content="UUID Generator — v4 and v7, Bulk, Cryptographic" />
+    <meta property="og:description" content="Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved." />
+    <meta property="og:url" content="https://junepoint.com/tools/uuid-generator/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-03-18" />
+    <meta property="article:modified_time" content="2026-08-17" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="UUID Generator — v4 and v7, Bulk, Cryptographic" />
+    <meta name="twitter:description" content="Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    
+    
+    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "info@junepoint.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://junepoint.com/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "UUID Generator",
+          "item": "https://junepoint.com/tools/uuid-generator/"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://junepoint.com/tools/uuid-generator/#app",
+      "name": "UUID Generator",
+      "description": "Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved.",
+      "url": "https://junepoint.com/tools/uuid-generator/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/tools/uuid-generator/#article",
+      "headline": "UUID Generator",
+      "name": "UUID Generator — v4 and v7, Bulk, Cryptographic",
+      "description": "Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved.",
+      "datePublished": "2026-03-18",
+      "dateModified": "2026-08-17",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/tools/uuid-generator/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "uuid generator, uuid v4 generator, uuid v7, guid generator, random uuid, bulk uuid",
+      "articleSection": "Free Tools"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/tools/uuid-generator/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are these UUIDs generated on your server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. They are produced in your browser by the Web Crypto API, which draws from the operating system’s cryptographically secure random source. Nothing is transmitted, logged or stored, so no one — including us — has ever seen the values you generate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between a UUID and a GUID?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nothing meaningful. GUID is Microsoft’s name for the same 128-bit identifier. The braced uppercase format in the dropdown above is the conventional Windows presentation of it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use a UUID or an auto-incrementing integer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Integers are smaller and faster but require a database round trip, reveal how many rows you have, and are painful to merge across shards or offline clients. UUIDs cost more storage but can be generated anywhere with no coordination. UUID v7 narrows the performance gap enough that it is a reasonable default for distributed systems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is v7 finalised?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. UUID v7 was standardised in RFC 9562, published in May 2024, which supersedes RFC 4122. Library and database support has been arriving steadily since — PostgreSQL added a native uuidv7() function in version 18."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the nil and max UUIDs for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The nil UUID (all zeroes) is the conventional \"no value\" sentinel where null is not available. The max UUID (all ones) was formalised in RFC 9562 and is useful as an upper bound in range queries. Neither is random and neither should ever be used as a real identifier."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier3">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">UUID Generator</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">Developer tool</p>
+      <h1>UUID Generator</h1>
+      <p class="jp-standfirst">Generate cryptographically random UUID v4 or time-sortable UUID v7, one at a time or a thousand at once. Everything is produced locally by your browser’s crypto API.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published March 18, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 17, 2026</span></div>
+    </header>
+
+    
+    
+<div class="jp-tool">
+  <div class="jp-tool-grid">
+    <div class="jp-field">
+      <label for="uu-version">Version</label>
+      <select class="jp-select" id="uu-version">
+        <option value="4">v4 — random (the default choice)</option>
+        <option value="7">v7 — time-ordered (best for database keys)</option>
+        <option value="nil">Nil UUID (all zeroes)</option>
+        <option value="max">Max UUID (all ones)</option>
+      </select>
+    </div>
+    <div class="jp-field">
+      <label for="uu-count">How many</label>
+      <input class="jp-input" type="number" id="uu-count" value="10" min="1" max="1000" step="1" />
+    </div>
+    <div class="jp-field">
+      <label for="uu-format">Format</label>
+      <select class="jp-select" id="uu-format">
+        <option value="lower">Lowercase with hyphens (canonical)</option>
+        <option value="upper">UPPERCASE with hyphens</option>
+        <option value="plain">No hyphens</option>
+        <option value="braces">Braced {…} — Microsoft style</option>
+        <option value="urn">URN — urn:uuid:…</option>
+        <option value="sql">SQL INSERT values</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="jp-toolbar">
+    <button class="jp-btn" type="button" id="uu-generate">Generate</button>
+    <button class="jp-btn jp-btn--ghost" type="button" data-copy="uu-output">Copy all</button>
+  </div>
+
+  <div class="jp-field">
+    <label for="uu-output">Output</label>
+    <textarea class="jp-textarea" id="uu-output" spellcheck="false" readonly style="min-height:230px"></textarea>
+  </div>
+  <p class="jp-status jp-status--ok" id="uu-status" role="status" aria-live="polite">&nbsp;</p>
+</div>
+    
+
+    <article class="jp-article">
+      <h2 id="v4-or-v7-the-decision-in-one-paragraph">v4 or v7? The decision in one paragraph</h2>
+<p>If the UUID is a <strong>primary key in a database</strong>, use v7. If it is anything else — a correlation ID, an idempotency key, a filename, a request trace — use v4. That single rule covers almost every real case, and the reason comes down to what random keys do to a B-tree index.</p>
+<h2 id="why-random-uuids-hurt-database-performance">Why random UUIDs hurt database performance</h2>
+<p>A v4 UUID is 122 bits of randomness. Consecutive inserts land at unrelated points in the index, so the database is writing to pages scattered all over the disk instead of appending to the end. Three things get worse at once:</p>
+<ul><li><strong>Page splits.</strong> Inserting into the middle of a full index page splits it, which is expensive and leaves both halves partly empty.</li><li><strong>Index bloat.</strong> Those half-empty pages mean the index consumes far more space than the data justifies — and a bigger index is a slower index.</li><li><strong>Cache misses.</strong> Random writes touch pages that are not in memory. On a large table with a hot insert path, this is the difference between a buffer-pool hit and a disk read.</li></ul>
+<p>The effect is invisible on a table with ten thousand rows and unmissable on one with fifty million. It is also worse on MySQL with InnoDB, where the primary key <em>is</em> the physical row order, than on PostgreSQL, where the heap is separate — but it is real on both.</p>
+<h2 id="what-v7-changes">What v7 changes</h2>
+<p>UUID v7 puts a 48-bit Unix millisecond timestamp in the leading bits and fills the rest with randomness. The result is still a 128-bit UUID that fits every existing UUID column and library, but it sorts by creation time — so inserts append to the right-hand edge of the index exactly like an auto-incrementing integer.</p>
+<pre class="jp-code" data-lang="text"><code>v4:  9f8d1c47-3b2e-4a15-9c6d-8e7f0a1b2c3d   ← nothing sortable
+     b1e05c92-7d4a-4f68-a2b1-5c9e3d7f8a0b   ← lands somewhere else entirely
+
+v7:  019512a3-4f80-7c21-9d3e-1a2b3c4d5e6f   ← 019512a3-4f80 is the timestamp
+     019512a3-5b1c-7e04-8f2a-6b7c8d9e0f1a   ← next insert sorts after it</code></pre>
+<p>You keep what made UUIDs attractive — generate them on the client, no round trip to the database, no coordination between services, no leaking of row counts — while dropping most of the index penalty. Generate a few v7s above and note that they arrive in ascending order.</p>
+<aside class="jp-note jp-note--warn">
+        <p class="jp-note-title">v7 leaks a creation timestamp</p>
+        <p>The time an entity was created is recoverable from its ID, to the millisecond. That is usually harmless and occasionally useful, but if the IDs are public and the timing is sensitive — signup order, medical records, sealed bids — that is a real disclosure. Use v4 there.</p>
+      </aside>
+<h2 id="collision-risk-concretely">Collision risk, concretely</h2>
+<p>The standard reassurance is that UUID v4 collisions are &quot;practically impossible&quot;, which is true but unhelpfully vague. The actual figure: you would need to generate roughly <strong>2.7 quintillion</strong> v4 UUIDs before reaching a 50% chance of a single collision. At a million per second, that is about 85,000 years.</p>
+<p>The caveat that matters far more than the birthday maths: this holds <strong>only with a cryptographically secure random source.</strong> A <code>Math.random()</code>-based generator has vastly less entropy and produces predictable, occasionally colliding values. This tool uses <code>crypto.randomUUID()</code> where available and <code>crypto.getRandomValues()</code> otherwise — never <code>Math.random()</code>.</p>
+<h2 id="storing-uuids-efficiently">Storing UUIDs efficiently</h2>
+<p>A UUID is 16 bytes. Its canonical text form is 36 characters. Storing it as <code>VARCHAR(36)</code> therefore more than doubles the storage and slows every comparison, and this is one of the most common schema mistakes in the wild.</p>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Database</th><th scope="col">Use this</th><th scope="col">Not this</th></tr></thead><tbody><tr><th scope="row">PostgreSQL</th><td><code>uuid</code> (native, 16 bytes)</td><td><code>varchar(36)</code> / <code>text</code></td></tr><tr><th scope="row">MySQL 8+</th><td><code>BINARY(16)</code> with <code>UUID_TO_BIN(uuid, 1)</code></td><td><code>CHAR(36)</code></td></tr><tr><th scope="row">SQL Server</th><td><code>uniqueidentifier</code></td><td><code>nvarchar(36)</code></td></tr><tr><th scope="row">SQLite</th><td><code>BLOB</code>, or <code>TEXT</code> if you value readability</td><td>—</td></tr></tbody></table><p class="jp-table-note">The second argument to MySQL’s UUID_TO_BIN swaps the time fields to improve index locality for v1 UUIDs.</p></div>
+<h2 id="generating-uuids-in-your-own-code">Generating UUIDs in your own code</h2>
+<pre class="jp-code" data-lang="javascript"><code>// JavaScript — built in since 2021, no dependency needed.
+// Requires a secure context (HTTPS or localhost).
+const id = crypto.randomUUID();
+
+// Node.js
+import { randomUUID } from &#39;node:crypto&#39;;
+const id = randomUUID();</code></pre>
+<pre class="jp-code" data-lang="sql"><code>-- PostgreSQL 13+ (v4)
+SELECT gen_random_uuid();
+
+-- PostgreSQL 18+ adds native v7
+SELECT uuidv7();
+
+-- MySQL 8+ (v1, not v4 — note the difference)
+SELECT UUID();</code></pre>
+<pre class="jp-code" data-lang="python"><code>import uuid
+uuid.uuid4()          # random
+str(uuid.uuid4())     # canonical string form</code></pre>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">crypto.randomUUID is undefined on plain HTTP</p>
+        <p>It is restricted to secure contexts. On an insecure origin — a LAN IP during development, for instance — it is simply not there, which produces a confusing <code>crypto.randomUUID is not a function</code>. Use <code>localhost</code> rather than the IP address, or enable HTTPS locally.</p>
+      </aside>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Are these UUIDs generated on your server?</h3></summary>
+              <div class="jp-faq-answer"><p>No. They are produced in your browser by the Web Crypto API, which draws from the operating system’s cryptographically secure random source. Nothing is transmitted, logged or stored, so no one — including us — has ever seen the values you generate.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What is the difference between a UUID and a GUID?</h3></summary>
+              <div class="jp-faq-answer"><p>Nothing meaningful. GUID is Microsoft’s name for the same 128-bit identifier. The braced uppercase format in the dropdown above is the conventional Windows presentation of it.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Should I use a UUID or an auto-incrementing integer?</h3></summary>
+              <div class="jp-faq-answer"><p>Integers are smaller and faster but require a database round trip, reveal how many rows you have, and are painful to merge across shards or offline clients. UUIDs cost more storage but can be generated anywhere with no coordination. UUID v7 narrows the performance gap enough that it is a reasonable default for distributed systems.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Is v7 finalised?</h3></summary>
+              <div class="jp-faq-answer"><p>Yes. UUID v7 was standardised in RFC 9562, published in May 2024, which supersedes RFC 4122. Library and database support has been arriving steadily since — PostgreSQL added a native uuidv7() function in version 18.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What are the nil and max UUIDs for?</h3></summary>
+              <div class="jp-faq-answer"><p>The nil UUID (all zeroes) is the conventional &quot;no value&quot; sentinel where null is not available. The max UUID (all ones) was formalised in RFC 9562 and is useful as an upper bound in range queries. Neither is random and neither should ever be used as a real identifier.</p></div>
+            </details>
+      </section>
+      <section class="jp-related">
+  <h2>Keep reading</h2>
+  <div class="jp-cards"><a class="jp-card" href="/tools/base64-encoder-decoder/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Base64 Encoder and Decoder</h3>
+        <p>Encode and decode Base64 and Base64url in your browser, with correct UTF-8 handling for emoji and accented characters. No uploads, no tracking.</p>
+      </a><a class="jp-card" href="/tools/jwt-decoder/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>JWT Decoder</h3>
+        <p>Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted.</p>
+      </a><a class="jp-card" href="/guides/postgres-connection-refused/">
+        <span class="jp-card-eyebrow"></span>
+        <h3>Fixing PostgreSQL connection refused</h3>
+        <p>Six layers, checked in the right order — plus the pg_hba.conf and Docker networking traps.</p>
+      </a></div>
+</section>
+    </article>
+    
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#v4-or-v7-the-decision-in-one-paragraph">v4 or v7? The decision in one paragraph</a></li><li><a href="#why-random-uuids-hurt-database-performance">Why random UUIDs hurt database performance</a></li><li><a href="#what-v7-changes">What v7 changes</a></li><li><a href="#collision-risk-concretely">Collision risk, concretely</a></li><li><a href="#storing-uuids-efficiently">Storing UUIDs efficiently</a></li><li><a href="#generating-uuids-in-your-own-code">Generating UUIDs in your own code</a></li></ol>
+</nav>
+  
+  
+  <div class="jp-panel">
+        <h2>More in Free Tools</h2>
+        <ul><li><a href="/tools/saas-seat-cost-calculator/">SaaS Seat Cost Calculator</a></li><li><a href="/tools/cloud-cost-calculator/">Cloud Cost Calculator</a></li><li><a href="/tools/cron-expression-generator/">Cron Expression Generator</a></li><li><a href="/tools/mortgage-payoff-calculator/">Mortgage Payoff Calculator</a></li><li><a href="/tools/color-contrast-checker/">Colour Contrast Checker</a></li><li><a href="/tools/jwt-decoder/">JWT Decoder</a></li></ul>
+      </div>
+</aside>
+</div>
+<script>
+(function () {
+  var output = document.getElementById('uu-output');
+  var status = document.getElementById('uu-status');
+
+  function randomBytes(n) {
+    var bytes = new Uint8Array(n);
+    crypto.getRandomValues(bytes);
+    return bytes;
+  }
+
+  function format(bytes) {
+    var hex = '';
+    for (var i = 0; i < bytes.length; i++) hex += bytes[i].toString(16).padStart(2, '0');
+    return hex.slice(0, 8) + '-' + hex.slice(8, 12) + '-' + hex.slice(12, 16) + '-' +
+           hex.slice(16, 20) + '-' + hex.slice(20, 32);
+  }
+
+  function v4() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    var bytes = randomBytes(16);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;  // version 4
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;  // RFC 4122 variant
+    return format(bytes);
+  }
+
+  // v7: 48-bit big-endian Unix millisecond timestamp, then version, variant and
+  // random. The 12 bits after the version hold a counter (RFC 9562 "method 1")
+  // so that UUIDs minted inside the same millisecond still sort in creation
+  // order — without it, a bulk generation comes out shuffled.
+  var lastMs = 0;
+  var counter = 0;
+
+  function v7() {
+    var bytes = randomBytes(16);
+    var ms = Date.now();
+
+    if (ms === lastMs) {
+      counter++;
+      if (counter > 0xfff) { ms = ++lastMs; counter = 0; }  // borrow from the next ms
+    } else {
+      lastMs = ms;
+      // Seed low in the range so there is room to count up within this ms.
+      counter = ((bytes[6] & 0x0f) << 4) | (bytes[7] & 0x0f);
+    }
+
+    bytes[0] = (ms / 1099511627776) & 0xff;
+    bytes[1] = (ms / 4294967296) & 0xff;
+    bytes[2] = (ms / 16777216) & 0xff;
+    bytes[3] = (ms / 65536) & 0xff;
+    bytes[4] = (ms / 256) & 0xff;
+    bytes[5] = ms & 0xff;
+    bytes[6] = 0x70 | ((counter >> 8) & 0x0f);  // version 7 + counter high bits
+    bytes[7] = counter & 0xff;                  // counter low bits
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;        // variant
+    return format(bytes);
+  }
+
+  var SPECIAL = {
+    nil: '00000000-0000-0000-0000-000000000000',
+    max: 'ffffffff-ffff-ffff-ffff-ffffffffffff'
+  };
+
+  function apply(uuid, style) {
+    switch (style) {
+      case 'upper': return uuid.toUpperCase();
+      case 'plain': return uuid.replace(/-/g, '');
+      case 'braces': return '{' + uuid + '}';
+      case 'urn': return 'urn:uuid:' + uuid;
+      case 'sql': return "  ('" + uuid + "'),";
+      default: return uuid;
+    }
+  }
+
+  function generate() {
+    var version = document.getElementById('uu-version').value;
+    var count = Math.max(1, Math.min(1000, parseInt(document.getElementById('uu-count').value, 10) || 1));
+    var style = document.getElementById('uu-format').value;
+
+    var list = [];
+    for (var i = 0; i < count; i++) {
+      list.push(apply(SPECIAL[version] || (version === '7' ? v7() : v4()), style));
+    }
+
+    if (style === 'sql') {
+      list[list.length - 1] = list[list.length - 1].replace(/,$/, ';');
+      list.unshift('INSERT INTO items (id) VALUES');
+    }
+
+    output.value = list.join('\n');
+    status.textContent = count + ' UUID' + (count === 1 ? '' : 's') + ' generated locally using crypto.getRandomValues()';
+  }
+
+  ['uu-version', 'uu-count', 'uu-format'].forEach(function (id) {
+    document.getElementById(id).addEventListener('change', generate);
+  });
+  document.getElementById('uu-generate').addEventListener('click', generate);
+  generate();
+})();</script>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=1" defer></script>
+    
+  </body>
+</html>
