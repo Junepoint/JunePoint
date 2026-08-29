@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "junepoint-resources",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "/Users/jackabeyta/code/JunePoint/public", "-p", "8131", "-c-1"],
+      "port": 8131
+    }
+  ]
+}
