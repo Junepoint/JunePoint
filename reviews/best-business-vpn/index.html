@@ -133,7 +133,7 @@
           "name": "What is the difference between a business VPN and a consumer VPN?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A consumer VPN routes your internet traffic through a provider to hide it from your ISP and change your apparent location. A business VPN or ZTNA connects you to your organisation’s private resources. They solve entirely different problems, and a consumer product will not give remote staff access to internal systems."
+            "text": "A consumer VPN routes your internet traffic through a provider to hide it from your ISP and change your apparent location. A business VPN or ZTNA connects you to your organization’s private resources. They solve entirely different problems, and a consumer product will not give remote staff access to internal systems."
           }
         },
         {
@@ -149,7 +149,7 @@
           "name": "How much does a business VPN cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Roughly $6–$15 per user per month for most ZTNA platforms, with meaningful free tiers at Tailscale, Twingate and Cloudflare. Products offering dedicated static IPs add a gateway fee. Self-hosted WireGuard costs only the server, but consumes engineering time that usually exceeds the licence saving above about ten users."
+            "text": "Roughly $6–$15 per user per month for most ZTNA platforms, with meaningful free tiers at Tailscale, Twingate and Cloudflare. Products offering dedicated static IPs add a gateway fee. Self-hosted WireGuard costs only the server, but consumes engineering time that usually exceeds the license saving above about ten users."
           }
         },
         {
@@ -309,7 +309,7 @@
     </div>
   </header>
   <p class="jp-pick-summary">Publishes internal web applications through Cloudflare’s network with SSO in front, so contractors and partners reach them in a browser with no client installed.</p>
-  <dl class="jp-pick-meta"><div><dt>Pricing</dt><dd>Free for up to 50 users; paid plans from around $7 per user per month</dd></div><div><dt>Best for</dt><dd>Organisations needing to grant access to contractors, or already using Cloudflare</dd></div><div><dt>Deployment</dt><dd>Tunnel daemon inside your network; browser access or the WARP client</dd></div></dl>
+  <dl class="jp-pick-meta"><div><dt>Pricing</dt><dd>Free for up to 50 users; paid plans from around $7 per user per month</dd></div><div><dt>Best for</dt><dd>Organizations needing to grant access to contractors, or already using Cloudflare</dd></div><div><dt>Deployment</dt><dd>Tunnel daemon inside your network; browser access or the WARP client</dd></div></dl>
   <p>Clientless access is the distinguishing feature. You can publish an internal application behind Cloudflare Access, put your identity provider in front of it, and let a contractor connect through a browser without receiving network access. That narrower grant is preferable to issuing broad VPN credentials to third parties.</p><p>The same service can add DNS filtering, browser isolation and CASB features. The trade-off is concentration: much of the access path then depends on Cloudflare, whose outages are uncommon but affect many customers at once.</p>
   <div class="jp-proscons">
     <div class="jp-pros"><h4>Strengths</h4><ul><li>Clientless browser access is ideal for contractors</li><li>Free for up to 50 users</li><li>Integrates DNS filtering and browser isolation</li><li>Large global network with good latency almost everywhere</li></ul></div>
@@ -372,13 +372,13 @@
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>What is the difference between a business VPN and a consumer VPN?</h3></summary>
-              <div class="jp-faq-answer"><p>A consumer VPN routes your internet traffic through a provider to hide it from your ISP and change your apparent location. A business VPN or ZTNA connects you to your organisation’s private resources. They solve entirely different problems, and a consumer product will not give remote staff access to internal systems.</p></div>
+              <div class="jp-faq-answer"><p>A consumer VPN routes your internet traffic through a provider to hide it from your ISP and change your apparent location. A business VPN or ZTNA connects you to your organization’s private resources. They solve entirely different problems, and a consumer product will not give remote staff access to internal systems.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Is ZTNA better than a VPN?</h3></summary>
               <div class="jp-faq-answer"><p>For remote access to applications, generally yes. ZTNA grants access to specific resources rather than the whole network, so a compromised device or credential does not enable lateral movement. It also avoids exposing an internet-facing gateway. Traditional VPN still has a place for site-to-site links and legacy protocols.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>How much does a business VPN cost?</h3></summary>
-              <div class="jp-faq-answer"><p>Roughly $6–$15 per user per month for most ZTNA platforms, with meaningful free tiers at Tailscale, Twingate and Cloudflare. Products offering dedicated static IPs add a gateway fee. Self-hosted WireGuard costs only the server, but consumes engineering time that usually exceeds the licence saving above about ten users.</p></div>
+              <div class="jp-faq-answer"><p>Roughly $6–$15 per user per month for most ZTNA platforms, with meaningful free tiers at Tailscale, Twingate and Cloudflare. Products offering dedicated static IPs add a gateway fee. Self-hosted WireGuard costs only the server, but consumes engineering time that usually exceeds the license saving above about ten users.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Do I still need a VPN if everything is in the cloud?</h3></summary>
               <div class="jp-faq-answer"><p>Often not, provided your SaaS applications use SSO with MFA and conditional access. Databases, admin interfaces, internal tools and SSH endpoints may still need private access. ZTNA can cover that narrower requirement without placing users on the full network.</p></div>
