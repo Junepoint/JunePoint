@@ -14,9 +14,25 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
 const COUNT = Number((args[args.indexOf('--count') + 1] || '').replace(/\D/g, '')) || 1;
 
-if (!API_KEY && !DRY_RUN) {
-  console.error('draft: ANTHROPIC_API_KEY is not set.');
-  process.exit(1);
+/**
+ * Transport is auto-detected so this runs with or without an API key:
+ *
+ *   ANTHROPIC_API_KEY set  → the Anthropic API directly
+ *   otherwise              → the local `claude` CLI in headless mode, which
+ *                            uses whatever credentials Claude Code already has
+ *
+ * The CLI path is what makes this work on a Claude subscription with no API
+ * key. In CI, authenticate it with a token from `claude setup-token`.
+ */
+const TRANSPORT = API_KEY ? 'api' : 'cli';
+
+if (!DRY_RUN && TRANSPORT === 'cli') {
+  try {
+    execFileSync('claude', ['--version'], { stdio: 'pipe' });
+  } catch {
+    console.error('draft: no ANTHROPIC_API_KEY and no `claude` CLI on PATH. Need one of the two.');
+    process.exit(1);
+  }
 }
 
 function published() {
@@ -65,7 +81,22 @@ ${
 }`;
 }
 
+/**
+ * Headless Claude Code. The prompt goes over stdin so its size never matters,
+ * and every tool is disabled: this call must only ever return text, never touch
+ * the filesystem or run anything.
+ */
+function askViaCli(prompt) {
+  return execFileSync(
+    'claude',
+    ['-p', '--output-format', 'text', '--model', MODEL, '--allowedTools', ''],
+    { input: prompt, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 }
+  );
+}
+
 async function askClaude(prompt) {
+  if (TRANSPORT === 'cli') return askViaCli(prompt);
+
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -195,6 +226,6 @@ async function writeOne(topic, existing) {
     }
   }
   fs.writeFileSync(COMMISSIONS, `${JSON.stringify(queue, null, 2)}\n`);
-  console.log(`\ngenerate: ${accepted} of ${pending.length} accepted.`);
+  console.log(`\ndraft: ${accepted} of ${pending.length} accepted.`);
   if (!accepted) process.exitCode = 1;
 })();

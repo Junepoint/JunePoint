@@ -1,4 +1,15 @@
-name: Draft 
+name: Editorial pipeline
+
+# Drafts articles from the commission queue and opens a pull request.
+#
+# It deliberately does NOT push to main. Every gate here is mechanical: it can
+# check punctuation, duplication, schema and internal links, but it cannot
+# verify that a claim is true or that a phrase is original. A human read is the
+# only thing between a plausible wrong number and the published site.
+#
+# Authentication uses a Claude Code token from `claude setup-token`, so no
+# Anthropic API key is needed. draft.js selects the CLI transport automatically
+# whenever ANTHROPIC_API_KEY is absent.
 
 on:
   schedule:
@@ -6,7 +17,7 @@ on:
   workflow_dispatch:
     inputs:
       count:
-        description: How many to draft
+        description: How many articles to draft
         default: '2'
 
 permissions:
@@ -25,12 +36,17 @@ jobs:
 
       - run: npm ci || npm install
 
-      - name: Draft 
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Draft from commission queue
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CONTENT_MODEL: ${{ vars.CONTENT_MODEL || 'claude-sonnet-5' }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          CONTENT_MODEL: ${{ vars.CONTENT_MODEL || 'claude-opus-5' }}
         run: node content/editorial/draft.js --count ${{ github.event.inputs.count || '2' }}
 
+      # draft.js runs these too, but repeating them here makes a bad draft fail
+      # the workflow visibly rather than only inside a log line.
       - name: Enforce house style
         run: node content/editorial/house-style-lint.js
 
@@ -44,7 +60,19 @@ jobs:
         with:
           branch: drafts/${{ github.run_number }}
           delete-branch: true
-          commit-message: 'content: drafts'
-          title: 'drafts'
-          body: 
-            
+          commit-message: 'content: drafts from the commission queue'
+          title: 'Editorial: drafts for review (${{ github.run_number }})'
+          body: |
+            Drafted from the commission queue. Passed automatically:
+
+            - house style lint (punctuation, filler phrases, sentence cadence)
+            - duplicate detection against every published page
+            - schema validation and the full content build
+            - link, canonical, structured data and alt text checks
+
+            **Still needs a human before merge:**
+
+            - [ ] Every factual claim, figure and price spot checked
+            - [ ] Nothing reads as copied from a source
+            - [ ] Commands and code samples actually run
+            - [ ] It is genuinely worth publishing
