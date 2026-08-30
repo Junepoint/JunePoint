@@ -66,7 +66,7 @@ jobs:
         with:
           branch: drafts/${{ github.run_number }}
           delete-branch: true
-          commit-message: 'content: drafts from the commission queue'
+          commit-message: 'draft'
           title: 'Editorial: drafts for review (${{ github.run_number }})'
           body: |
             Drafted from the commission queue. Passed automatically:
