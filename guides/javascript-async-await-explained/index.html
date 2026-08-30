@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -176,7 +177,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -214,7 +215,11 @@
       <h2 id="what-async-and-await-actually-do">What <code>async</code> and <code>await</code> actually do</h2>
 <p>An <code>async</code> function <strong>always returns a Promise</strong>. Returning an ordinary value fulfills that Promise with the value; throwing rejects it with the error.</p>
 <p><code>await</code> suspends the current async function until its Promise settles, then produces the fulfilled value or throws the rejection. It suspends <strong>only that function</strong>. Other event-loop work continues, and JavaScript remains single-threaded.</p>
-<pre class="jp-code" data-lang="javascript"><code>async function getUser(id) {
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><pre class="jp-code" data-lang="javascript"><code>async function getUser(id) {
   return { id };            // returns Promise&lt;{id}&gt;
 }
 
@@ -252,7 +257,11 @@ for (const item of items) {
   await save(item);
 }</code></pre>
 <p>Use <strong><code>for…of</code> with <code>await</code></strong> for sequential work, or <code>map</code> plus <code>Promise.all</code> for concurrent work. An async callback passed to <code>map</code>, <code>filter</code> or <code>reduce</code> still returns a Promise. That is useful with <code>map</code> when you await the resulting array, but it does not make <code>filter</code> understand asynchronous predicates.</p>
-<h2 id="choose-how-a-group-should-handle-rejection">Choose how a group should handle rejection</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="choose-how-a-group-should-handle-rejection">Choose how a group should handle rejection</h2>
 <p><code>Promise.all</code> rejects when any input rejects, so its result does not contain the fulfilled values from the same batch. When callers need every outcome, use <code>Promise.allSettled</code>:</p>
 <pre class="jp-code" data-lang="javascript"><code>const results = await Promise.allSettled(ids.map(id =&gt; fetchUser(id)));
 
@@ -293,7 +302,11 @@ async function getUser(id) {
         <p class="jp-note-title"><code>return await</code> inside <code>try</code> is not redundant</p>
         <p>Without <code>await</code>, returning a Promise from inside <code>try</code> ends the block before that Promise settles, so its later rejection bypasses the local <code>catch</code>. Outside a <code>try</code> that needs to catch the rejection, <code>return await</code> is usually redundant. Inside one, keep it.</p>
       </aside>
-<h2 id="fetch-resolves-for-http-error-statuses">Fetch resolves for HTTP error statuses</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="fetch-resolves-for-http-error-statuses">Fetch resolves for HTTP error statuses</h2>
 <pre class="jp-code" data-lang="javascript"><code>// ✗ fetch does NOT reject on 404 or 500
 const response = await fetch(&#39;/api/users&#39;);
 const data = await response.json();   // throws a confusing JSON parse error</code></pre>
@@ -319,7 +332,11 @@ const [user, posts] = [await userPromise, await postsPromise];
 // ✓ Equivalent and clearer
 const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);</code></pre>
 <p>The operation that produces a Promise starts when you call it, not when you later await its result. Creating both Promises first allows the operations to overlap. Check adjacent awaits for this opportunity when neither call uses the other’s result.</p>
-<h2 id="unhandled-rejections">Unhandled rejections</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="unhandled-rejections">Unhandled rejections</h2>
 <pre class="jp-code" data-lang="javascript"><code>// Node: crashes the process by default since v15
 process.on(&#39;unhandledRejection&#39;, (reason) =&gt; {
   logger.fatal({ reason }, &#39;unhandled rejection&#39;);
@@ -371,7 +388,11 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -379,7 +400,11 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
   <ol><li><a href="#what-async-and-await-actually-do">What `async` and `await` actually do</a></li><li><a href="#independent-work-should-not-wait-in-a-line">Independent work should not wait in a line</a></li><li><a href="#foreach-does-not-consume-callback-promises">`forEach` does not consume callback Promises</a></li><li><a href="#choose-how-a-group-should-handle-rejection">Choose how a group should handle rejection</a></li><li><a href="#do-not-turn-a-rejection-into-unexplained-undefined">Do not turn a rejection into unexplained undefined</a></li><li><a href="#fetch-resolves-for-http-error-statuses">Fetch resolves for HTTP error statuses</a></li><li><a href="#starting-work-before-you-await-it">Starting work before you await it</a></li><li><a href="#unhandled-rejections">Unhandled rejections</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

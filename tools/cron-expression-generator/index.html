@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -144,10 +145,10 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What does 30 3 * * 1-5 mean?",
+          "name": "What does 30 3 1-5 mean?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It runs at 03:30 every Monday through Friday in every month. `30` is the minute, `3` is the hour and `1-5` covers Monday through Friday in the day-of-week field."
+            "text": "It runs at 03:30 every Monday through Friday in every month. 30 is the minute, 3 is the hour and 1-5 covers Monday through Friday in the day-of-week field."
           }
         },
         {
@@ -155,7 +156,7 @@
           "name": "Why has my cron job never run?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check whether the command uses an unavailable relative path, the script is executable, the crontab ends with a newline, the server timezone matches the schedule and each `%` is escaped. Redirect standard output and standard error to a log while diagnosing the failure."
+            "text": "Check whether the command uses an unavailable relative path, the script is executable, the crontab ends with a newline, the server timezone matches the schedule and each % is escaped. Redirect standard output and standard error to a log while diagnosing the failure."
           }
         },
         {
@@ -171,7 +172,7 @@
           "name": "Is 0 the same as 7 for Sunday?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Many cron implementations accept both values for Sunday, but support for `7` is not universal. This tool accepts day-of-week values from `0` through `6`, with `0` for Sunday."
+            "text": "Many cron implementations accept both values for Sunday, but support for 7 is not universal. This tool accepts day-of-week values from 0 through 6, with 0 for Sunday."
           }
         },
         {
@@ -187,7 +188,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier3">
+  <body class="jp jp-tier3 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -222,7 +223,11 @@
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published April 16, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 23, 2026</span></div>
     </header>
 
-    
+    <div class="jp-ad jp-ad--toolTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
     
 <div class="jp-tool">
   <div class="jp-field">
@@ -249,7 +254,11 @@
   <h2 class="jp-tool-h">Next ten runs <span style="font-weight:400;color:var(--text-mute);font-size:.85rem">(browser local time)</span></h2>
   <pre class="jp-out" id="cr-next"></pre>
 </div>
-    
+    <div class="jp-ad jp-ad--toolResult">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
 
     <article class="jp-article">
       <h2 id="reading-the-five-fields">Reading the five fields</h2>
@@ -331,7 +340,11 @@ crontab -l
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -339,7 +352,11 @@ crontab -l
   <ol><li><a href="#reading-the-five-fields">Reading the five fields</a></li><li><a href="#step-values-start-at-the-field-boundary">Step values start at the field boundary</a></li><li><a href="#which-timezone-does-cron-use">Which timezone does cron use?</a></li><li><a href="#six-field-scheduler-formats">Six-field scheduler formats</a></li><li><a href="#making-cron-failures-visible">Making cron failures visible</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Free Tools</h2>
         <ul><li><a href="/tools/saas-seat-cost-calculator/">SaaS Seat Cost Calculator</a></li><li><a href="/tools/cloud-cost-calculator/">Cloud Cost Calculator</a></li><li><a href="/tools/cron-expression-generator/">Cron Expression Generator</a></li><li><a href="/tools/mortgage-payoff-calculator/">Mortgage Payoff Calculator</a></li><li><a href="/tools/color-contrast-checker/">Colour Contrast Checker</a></li><li><a href="/tools/jwt-decoder/">JWT Decoder</a></li></ul>

@@ -1,6 +1,2 @@
 # Authorized Digital Sellers: https://iabtechlab.com/ads-txt/
-#
-# Populate this once an AdSense publisher ID exists. The single line below is
-# all AdSense requires; uncomment it and replace the publisher ID.
-#
-# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+google.com, pub-6080878404566929, DIRECT, f08c47fec0942fa0

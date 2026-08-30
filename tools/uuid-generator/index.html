@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -171,7 +172,7 @@
           "name": "Is v7 finalised?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. RFC 9562 standardized UUID v7 in May 2024 and superseded RFC 4122. PostgreSQL added a native `uuidv7()` function in version 18, while support in other libraries and databases varies by version."
+            "text": "Yes. RFC 9562 standardized UUID v7 in May 2024 and superseded RFC 4122. PostgreSQL added a native uuidv7() function in version 18, while support in other libraries and databases varies by version."
           }
         },
         {
@@ -179,7 +180,7 @@
           "name": "What are the nil and max UUIDs for?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The nil UUID contains all zero bits and can serve as a sentinel when `null` is unavailable. RFC 9562 defines the max UUID with all bits set, which can serve as an upper range bound. Neither value is random, so do not assign either as a unique entity ID."
+            "text": "The nil UUID contains all zero bits and can serve as a sentinel when null is unavailable. RFC 9562 defines the max UUID with all bits set, which can serve as an upper range bound. Neither value is random, so do not assign either as a unique entity ID."
           }
         }
       ]
@@ -187,7 +188,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier3">
+  <body class="jp jp-tier3 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -222,7 +223,11 @@
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published March 18, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 17, 2026</span></div>
     </header>
 
-    
+    <div class="jp-ad jp-ad--toolTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
     
 <div class="jp-tool">
   <div class="jp-tool-grid">
@@ -263,7 +268,11 @@
   </div>
   <p class="jp-status jp-status--ok" id="uu-status" role="status" aria-live="polite">&nbsp;</p>
 </div>
-    
+    <div class="jp-ad jp-ad--toolResult">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
 
     <article class="jp-article">
       <h2 id="choosing-uuid-v4-or-v7">Choosing UUID v4 or v7</h2>
@@ -349,7 +358,11 @@ str(uuid.uuid4())     # canonical string form</code></pre>
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -357,7 +370,11 @@ str(uuid.uuid4())     # canonical string form</code></pre>
   <ol><li><a href="#choosing-uuid-v4-or-v7">Choosing UUID v4 or v7</a></li><li><a href="#how-random-uuids-affect-database-indexes">How random UUIDs affect database indexes</a></li><li><a href="#what-v7-changes">What v7 changes</a></li><li><a href="#uuid-v4-collision-probability">UUID v4 collision probability</a></li><li><a href="#storing-uuids-efficiently">Storing UUIDs efficiently</a></li><li><a href="#generating-uuids-in-your-own-code">Generating UUIDs in your own code</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Free Tools</h2>
         <ul><li><a href="/tools/saas-seat-cost-calculator/">SaaS Seat Cost Calculator</a></li><li><a href="/tools/cloud-cost-calculator/">Cloud Cost Calculator</a></li><li><a href="/tools/cron-expression-generator/">Cron Expression Generator</a></li><li><a href="/tools/mortgage-payoff-calculator/">Mortgage Payoff Calculator</a></li><li><a href="/tools/color-contrast-checker/">Colour Contrast Checker</a></li><li><a href="/tools/jwt-decoder/">JWT Decoder</a></li></ul>

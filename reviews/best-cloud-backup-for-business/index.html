@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -220,7 +221,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier1">
+  <body class="jp jp-tier1 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -264,7 +265,11 @@
         <ul><li><strong>Immutability is a core requirement.</strong> Ransomware operators target backup infrastructure, so a compromised administrator account must not be able to delete every recovery copy.</li><li><strong>Microsoft 365 and Google Workspace use a shared responsibility model.</strong> Native retention and recycle bins do not provide the same protection as an independent backup.</li><li><strong>Egress and restore fees can exceed storage cost</strong> during a major recovery. Get the full restore cost in writing before signing.</li><li><strong>A successful backup job does not prove recovery.</strong> Run quarterly restore drills and measure a full recovery against the stated RTO.</li></ul>
       </aside>
 <h2 id="start-with-the-two-numbers-that-define-your-requirement">Start with the two numbers that define your requirement</h2>
-<p>Write these two targets down before comparing products. They determine the architecture and narrow the shortlist.</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><p>Write these two targets down before comparing products. They determine the architecture and narrow the shortlist.</p>
 <ul><li><strong>RPO (Recovery Point Objective).</strong> How much data can you afford to lose? Nightly backups allow up to 24 hours of work to disappear; continuous replication reduces that window to minutes, at a higher price.</li><li><strong>RTO (Recovery Time Objective).</strong> How long can the service be down? Restoring 8 TB over a 500 Mbps link takes about 36 hours at theoretical line rate and longer in practice. A four-hour RTO therefore requires a local appliance or seeded recovery rather than cloud-only restore.</li></ul>
 <p>An RTO often gets shorter once the business prices a full day offline in revenue, payroll and reputation. Do that calculation first; it provides a more defensible budget than a feature list.</p>
 <h2 id="what-matters-when-comparing-platforms">What matters when comparing platforms</h2>
@@ -286,7 +291,11 @@
         <p class="jp-note-title">Ask for the full restore in writing</p>
         <p>Ask: &quot;What will a full restore of our environment cost, and how long will it take?&quot; A vague answer exposes uncertainty in the recovery plan. A contractual restore-time commitment is stronger evidence than a sales estimate.</p>
       </aside>
-<h2 id="the-platforms-and-where-each-fits">The platforms and where each fits</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="the-platforms-and-where-each-fits">The platforms and where each fits</h2>
 <p>The entries are grouped by buyer fit rather than treated as a universal ranking. Pricing is indicative list pricing as of August 2026 and changes frequently, so use it as a starting point and obtain a quote.</p>
 <section class="jp-pick" id="veeam-data-platform">
   <header class="jp-pick-head">
@@ -368,7 +377,11 @@
     <div class="jp-cons"><h4>Trade-offs</h4><ul><li>Usually only available via a partner, not direct</li><li>Hardware to buy, house and maintain</li><li>Your outcome depends substantially on your MSP</li></ul></div>
   </div>
 </section>
-<section class="jp-pick" id="dedicated-microsoft-365-backup-veeam-avepoint-dropsuite">
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><section class="jp-pick" id="dedicated-microsoft-365-backup-veeam-avepoint-dropsuite">
   <header class="jp-pick-head">
     <span class="jp-pick-rank" aria-hidden="true">6</span>
     <div>
@@ -394,7 +407,11 @@
         <p class="jp-note-title">Store recovery credentials outside the systems being recovered</p>
         <p>If the backup console password sits in a password manager that authenticates through an encrypted Active Directory, the recovery team cannot log in. Keep tested offline copies of recovery credentials and runbooks so the recovery path does not depend on the failed system.</p>
       </aside>
-<h2 id="a-shortlist-process-that-works">A shortlist process that works</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="a-shortlist-process-that-works">A shortlist process that works</h2>
 <ol><li>Write down your RPO and RTO, and what an hour of downtime costs. Use those figures to assess the remaining choices.</li><li>Inventory servers, endpoints, SaaS, databases and cloud workloads. SaaS is commonly missing from the first list.</li><li>Shortlist two or three platforms that cover your actual mix without heavy add-ons.</li><li>Run a proof of concept on real data. Restore something. Time it.</li><li>Get restore costs, egress fees and support response times <strong>in writing</strong> before signing.</li><li>Schedule the first restore drill for 90 days after go-live, and put it in the calendar now.</li></ol>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
@@ -435,7 +452,11 @@
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -443,7 +464,11 @@
   <ol><li><a href="#start-with-the-two-numbers-that-define-your-requirement">Start with the two numbers that define your requirement</a></li><li><a href="#what-matters-when-comparing-platforms">What matters when comparing platforms</a></li><li><a href="#the-platforms-and-where-each-fits">The platforms and where each fits</a></li><li><a href="#comparison-at-a-glance">Comparison at a glance</a></li><li><a href="#restore-testing-matters-more-than-the-shortlist">Restore testing matters more than the shortlist</a></li><li><a href="#a-shortlist-process-that-works">A shortlist process that works</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Business Software</h2>
         <ul><li><a href="/reviews/best-cloud-backup-for-business/">Best cloud backup for business</a></li><li><a href="/reviews/best-tax-software-for-freelancers/">Best tax software for freelancers</a></li><li><a href="/reviews/best-endpoint-security-software/">Best endpoint security software for business</a></li><li><a href="/reviews/soc-2-compliance-software/">SOC 2 compliance software</a></li><li><a href="/reviews/gdpr-compliance-software/">GDPR compliance software</a></li><li><a href="/reviews/best-payroll-software-small-business/">Best payroll software for small business</a></li></ul>

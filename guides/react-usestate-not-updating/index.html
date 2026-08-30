@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -176,7 +177,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -222,7 +223,11 @@ function handleClick() {
   setCount(count + 1);
   console.log(count);   // 0, the value from this render
 }</code></pre>
-<p>This log is showing the value that belonged to the render which created <code>handleClick</code>. React calls the component again with the updated count, but the existing handler’s local binding does not change.</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><p>This log is showing the value that belonged to the render which created <code>handleClick</code>. React calls the component again with the updated count, but the existing handler’s local binding does not change.</p>
 <p>To observe committed changes, log during rendering or use an effect that depends on the value:</p>
 <pre class="jp-code" data-lang="javascript"><code>useEffect(() =&gt; {
   console.log(&#39;count is now&#39;, count);
@@ -243,7 +248,11 @@ setCount(c =&gt; c + 1);   // now +3</code></pre>
         <p class="jp-note-title">React 18 batches everywhere</p>
         <p>Before React 18, updates inside promises, <code>setTimeout</code> and native event handlers generally triggered separate renders. React 18 extended automatic batching to those contexts. Keep that change in mind when an upgrade alters the timing or number of renders.</p>
       </aside>
-<h2 id="cause-3-mutating-state-instead-of-replacing-it">Cause 3: mutating state instead of replacing it</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-3-mutating-state-instead-of-replacing-it">Cause 3: mutating state instead of replacing it</h2>
 <p>React compares the previous and next state with <code>Object.is</code>. Mutating an object or array keeps the same reference, so React can skip the render even though properties or elements changed in memory.</p>
 <pre class="jp-code" data-lang="javascript"><code>// ✗ Same array reference, so React can skip the render
 items.push(newItem);
@@ -274,7 +283,11 @@ setItems([...items].sort((a, b) =&gt; a.order - b.order));   // copy first</code
         <p class="jp-note-title"><code>sort</code>, <code>reverse</code>, <code>splice</code>, <code>push</code> and <code>pop</code> all mutate</p>
         <p>These methods change the array they receive. <code>map</code>, <code>filter</code>, <code>slice</code> and <code>concat</code> return new arrays. Copy before sorting with <code>[...items].sort(…)</code>. Development Strict Mode invokes render logic more than once, which can expose accidental mutations earlier.</p>
       </aside>
-<h2 id="cause-4-stale-closures-in-effects-intervals-and-callbacks">Cause 4: stale closures in effects, intervals and callbacks</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-4-stale-closures-in-effects-intervals-and-callbacks">Cause 4: stale closures in effects, intervals and callbacks</h2>
 <p>Stale closures often look plausible because the callback works on its first run and then stops seeing later values.</p>
 <pre class="jp-code" data-lang="javascript"><code>// ✗ Logs 0, 1, 1, 1, 1 … then sticks
 useEffect(() =&gt; {
@@ -311,7 +324,11 @@ useEffect(() =&gt; {
         <p class="jp-note-title">Treat exhaustive-deps warnings as design feedback</p>
         <p>Adding <code>// eslint-disable-next-line react-hooks/exhaustive-deps</code> hides the mismatch between an effect and the values it reads. If adding a dependency causes an unwanted rerun, consider an updater function, a ref or moving that work outside the effect before suppressing the check.</p>
       </aside>
-<h2 id="cause-5-state-that-is-not-really-state">Cause 5: state that is not really state</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-5-state-that-is-not-really-state">Cause 5: state that is not really state</h2>
 <p>Some apparent update failures come from storing a value that should not be independent state.</p>
 <h3 id="initialising-state-from-props">Initialising state from props</h3>
 <pre class="jp-code" data-lang="javascript"><code>// ✗ Runs only on the first render; later prop changes are ignored
@@ -331,7 +348,11 @@ const [total, setTotal] = useState(0);
 const [items, setItems] = useState([]);
 const total = items.reduce((sum, i) =&gt; sum + i.price, 0);</code></pre>
 <p>A value that can be calculated from current state does not usually need its own setter. Storing both sources creates a synchronization problem and often adds an effect plus another render. Use <code>useMemo</code> only when measurement shows that the calculation is expensive enough to cache.</p>
-<h2 id="a-quick-diagnostic">A quick diagnostic</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="a-quick-diagnostic">A quick diagnostic</h2>
 <ol><li><strong>Does the component render again?</strong> Put a temporary log at the top of the component. If no render follows the setter, check whether the old object or array reference was passed back.</li><li><strong>Does the next render still use an old value?</strong> Look for a long-lived closure and inspect the dependency arrays of effects and callbacks.</li><li><strong>Do several updates produce only one change?</strong> Use an updater function when each call depends on the previous value.</li><li><strong>Does the value reset unexpectedly?</strong> Check whether a changing <code>key</code> remounts the component or whether state was initialised from a prop.</li><li><strong>Inspect the component in React DevTools.</strong> The Components panel shows whether the state committed even when a log comes from an older closure.</li></ol>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
@@ -372,7 +393,11 @@ const total = items.reduce((sum, i) =&gt; sum + i.price, 0);</code></pre>
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -380,7 +405,11 @@ const total = items.reduce((sum, i) =&gt; sum + i.price, 0);</code></pre>
   <ol><li><a href="#cause-1-logging-state-straight-after-setting-it">Cause 1: logging state straight after setting it</a></li><li><a href="#cause-2-several-updates-in-one-handler">Cause 2: several updates in one handler</a></li><li><a href="#cause-3-mutating-state-instead-of-replacing-it">Cause 3: mutating state instead of replacing it</a></li><li><a href="#cause-4-stale-closures-in-effects-intervals-and-callbacks">Cause 4: stale closures in effects, intervals and callbacks</a></li><li><a href="#cause-5-state-that-is-not-really-state">Cause 5: state that is not really state</a></li><li><a href="#a-quick-diagnostic">A quick diagnostic</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

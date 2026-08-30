@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -176,7 +177,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -217,7 +218,11 @@
       </aside>
 <h2 id="start-with-the-layout-s-dimensions">Start with the layout’s dimensions</h2>
 <p><strong>Choose Grid when both rows and columns matter. Choose Flexbox when one axis does most of the work.</strong></p>
-<p>With Grid, you define a structure such as three columns and two rows, then decide where content belongs. With Flexbox, you give a container some items and describe how they should use the available space. The items’ intrinsic sizes remain part of that calculation.</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><p>With Grid, you define a structure such as three columns and two rows, then decide where content belongs. With Flexbox, you give a container some items and describe how they should use the available space. The items’ intrinsic sizes remain part of that calculation.</p>
 <p>If you know the shape of the layout before its content arrives, Grid is a good starting point. If you have a row or column of items with variable sizes, Flexbox is often the simpler fit.</p>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col"></th><th scope="col">Grid</th><th scope="col">Flexbox</th></tr></thead><tbody><tr><th scope="row">Axes</th><td>Two at once</td><td>One at a time</td></tr><tr><th scope="row">Driven by</th><td>The container’s definition</td><td>The items’ content</td></tr><tr><th scope="row">Overlapping items</th><td>Yes, via grid areas</td><td>No</td></tr><tr><th scope="row">Alignment across rows</th><td>Columns line up automatically</td><td>Each line is independent</td></tr><tr><th scope="row">Good fit for</th><td>Page structure, dashboards, card grids, forms</td><td>Navbars, toolbars, button groups, tag lists, centring</td></tr></tbody></table></div>
 <h2 id="check-whether-separate-rows-must-align">Check whether separate rows must align</h2>
@@ -292,7 +297,11 @@ main { flex: 1; }   /* takes all leftover height */</code></pre>
 <pre class="jp-code" data-lang="css"><code>/* Either works. Grid is one line shorter. */
 .centre { display: grid; place-items: center; }
 .centre { display: flex; align-items: center; justify-content: center; }</code></pre>
-<h2 id="common-trouble-spots">Common trouble spots</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="common-trouble-spots">Common trouble spots</h2>
 <h3 id="using-margins-instead-of-gap">Using margins instead of <code>gap</code></h3>
 <pre class="jp-code" data-lang="css"><code>/* ✗ Needs a hack to remove the trailing margin */
 .item { margin-right: 1rem; }
@@ -313,7 +322,11 @@ flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
   overflow-x: auto;    /* let the content scroll instead */
 }</code></pre>
 <p>For unexplained horizontal scrolling, inspect <code>min-width</code> on flex children and the minimum value of Grid tracks before changing the outer container.</p>
-<h2 id="keep-visual-and-document-order-together">Keep visual and document order together</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="keep-visual-and-document-order-together">Keep visual and document order together</h2>
 <p>Flexbox <code>order</code> and explicit Grid placement change only the <strong>visual</strong> order. Screen readers still announce the DOM order, and keyboard focus follows it as well.</p>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Visual order and focus order must match</p>
@@ -372,7 +385,11 @@ flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -380,7 +397,11 @@ flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
   <ol><li><a href="#start-with-the-layout-s-dimensions">Start with the layout’s dimensions</a></li><li><a href="#check-whether-separate-rows-must-align">Check whether separate rows must align</a></li><li><a href="#useful-layout-patterns">Useful layout patterns</a></li><li><a href="#common-trouble-spots">Common trouble spots</a></li><li><a href="#keep-visual-and-document-order-together">Keep visual and document order together</a></li><li><a href="#subgrid">Subgrid</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

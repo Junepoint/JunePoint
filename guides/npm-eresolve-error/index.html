@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -168,7 +169,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -209,7 +210,11 @@
       </aside>
 <h2 id="what-the-error-means">What the error means</h2>
 <p>A <strong>peer dependency</strong> declares that a package integrates with a dependency supplied by the consuming project. A React component library lists <code>react</code> as a peer so it uses the application’s React instance instead of bundling another copy.</p>
-<p>npm reports ERESOLVE when it cannot produce a tree that meets the declared requirements. npm 7 began installing and enforcing peer dependencies more strictly than npm 6. Because Node upgrades often bring a newer npm, an existing conflict may first become visible after upgrading Node.</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><p>npm reports ERESOLVE when it cannot produce a tree that meets the declared requirements. npm 7 began installing and enforcing peer dependencies more strictly than npm 6. Because Node upgrades often bring a newer npm, an existing conflict may first become visible after upgrading Node.</p>
 <h2 id="reading-the-conflict-report">Reading the conflict report</h2>
 <pre class="jp-code" data-lang="text"><code>npm ERR! code ERESOLVE
 npm ERR! ERESOLVE unable to resolve dependency tree
@@ -255,7 +260,11 @@ legacy-peer-deps=true</code></pre>
 <h3 id="4-force">4. <code>--force</code></h3>
 <p><code>--force</code> tells npm to continue despite protections and conflicts. The resulting tree may contain duplicate framework instances, such as two copies of React, which can later surface as an &quot;Invalid hook call&quot; rather than an install error.</p>
 <p><strong><code>--force</code> is not a stronger form of <code>--legacy-peer-deps</code>.</strong> The latter changes peer-dependency resolution, while the former disables several npm safeguards. A failure that remains under the legacy policy needs its report investigated rather than a stronger flag by default.</p>
-<h2 id="when-nothing-works-reset-the-tree">When nothing works: reset the tree</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="when-nothing-works-reset-the-tree">When nothing works: reset the tree</h2>
 <pre class="jp-code" data-lang="bash"><code>rm -rf node_modules package-lock.json
 npm cache clean --force
 npm install</code></pre>
@@ -270,7 +279,11 @@ npm install</code></pre>
 legacy-peer-deps=true
 engine-strict=true</code></pre>
 <p>Use <code>npm ci</code> in CI rather than <code>npm install</code>. It installs from the lockfile, fails when <code>package.json</code> and the lockfile disagree, and avoids resolving a different dependency tree on each run. It is also generally faster for a clean automated install.</p>
-<h2 id="preventing-the-next-one">Preventing the next one</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="preventing-the-next-one">Preventing the next one</h2>
 <ul><li><strong>Keep the lockfile in version control.</strong> For applications and libraries, it makes development and CI installs reproducible even though library consumers resolve their own tree.</li><li><strong>Update in manageable batches.</strong> Running <code>npm outdated</code> regularly makes it easier to associate a conflict with the release that introduced it.</li><li><strong>Check peer requirements before adding a package.</strong> <code>npm view &lt;pkg&gt; peerDependencies</code> exposes compatibility constraints before installation.</li><li><strong>Pin your Node version</strong> with <code>.nvmrc</code> and an <code>engines</code> field. Different Node versions ship different npm versions, and npm 6, 7 and 9+ resolve trees differently.</li><li><strong>Consider pnpm when stricter dependency boundaries help the project.</strong> Its symlinked <code>node_modules</code> prevents undeclared phantom dependencies and reports peer issues differently from npm.</li></ul>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
@@ -308,7 +321,11 @@ engine-strict=true</code></pre>
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -316,7 +333,11 @@ engine-strict=true</code></pre>
   <ol><li><a href="#what-the-error-means">What the error means</a></li><li><a href="#reading-the-conflict-report">Reading the conflict report</a></li><li><a href="#four-resolution-paths">Four resolution paths</a></li><li><a href="#when-nothing-works-reset-the-tree">When nothing works: reset the tree</a></li><li><a href="#making-ci-behave-the-same-as-your-laptop">Making CI behave the same as your laptop</a></li><li><a href="#preventing-the-next-one">Preventing the next one</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

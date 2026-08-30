@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -176,7 +177,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -215,7 +216,11 @@
 <p><code>-vvv</code> shows which identities the client considered, which keys it offered and how the server responded. That sequence tells you where authentication stopped.</p>
 <pre class="jp-code" data-lang="bash"><code>ssh -vvv git@github.com
 ssh -vvv -i ~/.ssh/id_ed25519 user@server.example.com</code></pre>
-<p>Look for a sequence like this:</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><p>Look for a sequence like this:</p>
 <pre class="jp-code" data-lang="text"><code>debug1: Offering public key: /home/you/.ssh/id_ed25519 ED25519 SHA256:AbC...
 debug1: Authentications that can continue: publickey        ← rejected, trying next
 debug1: No more authentication methods to try.
@@ -239,7 +244,11 @@ ssh-keygen -lf ~/.ssh/authorized_keys</code></pre>
         <p class="jp-note-title">One key per line, no wrapping</p>
         <p>Each <code>authorized_keys</code> entry must remain on one line. An editor or chat client can insert a line break while copying, leaving a visually plausible entry that OpenSSH cannot parse.</p>
       </aside>
-<h2 id="cause-2-no-key-was-offered">Cause 2: no key was offered</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-2-no-key-was-offered">Cause 2: no key was offered</h2>
 <p>If the trace contains no <code>Offering public key</code> line, the client found no identity it could send. Confirm that a private key exists and that SSH knows its path.</p>
 <pre class="jp-code" data-lang="bash"><code>ls -la ~/.ssh/
 
@@ -278,7 +287,11 @@ chown -R $USER:$USER ~/.ssh
 # Your home directory must not be group- or world-writable
 chmod 755 ~</code></pre>
 <p>Remember to inspect the home directory as well as <code>.ssh</code>. If <code>~</code> is mode 775 or 777, <code>sshd</code> may refuse to trust <code>authorized_keys</code>; the useful explanation appears in the server log rather than the client error.</p>
-<h2 id="cause-4-the-wrong-username">Cause 4: the wrong username</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-4-the-wrong-username">Cause 4: the wrong username</h2>
 <p>Unless configured otherwise, SSH uses the local username for the remote account. Public keys are installed per account, so a correct key offered for the wrong username is still rejected.</p>
 <pre class="jp-code" data-lang="bash"><code># Git hosts always want their service account, never your name
 ssh -T git@github.com          # ✓
@@ -314,7 +327,11 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519</code></pre>
 Host prod-*
   ProxyJump bastion
   User deploy</code></pre>
-<h2 id="cause-6-your-key-format-is-too-old">Cause 6: your key format is too old</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-6-your-key-format-is-too-old">Cause 6: your key format is too old</h2>
 <p>OpenSSH 8.8, released in 2021, disabled <code>ssh-rsa</code> signatures using SHA-1 by default. An older RSA setup may therefore stop working after an upgrade and report this distinctive message:</p>
 <pre class="jp-code" data-lang="text"><code>debug1: send_pubkey_test: no mutual signature algorithm</code></pre>
 <p>Generate an Ed25519 key when both ends support it. It is smaller and faster than legacy RSA configurations and does not depend on SHA-1 signatures:</p>
@@ -324,7 +341,11 @@ Host prod-*
   PubkeyAcceptedAlgorithms +ssh-rsa
   HostKeyAlgorithms +ssh-rsa</code></pre>
 <p>GitHub removed <code>ssh-rsa</code> support in 2022, and OpenSSH 9.8 removed DSA support entirely. Replace keys and algorithms that depend on those legacy options.</p>
-<h2 id="when-you-have-access-to-the-server">When you have access to the server</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="when-you-have-access-to-the-server">When you have access to the server</h2>
 <pre class="jp-code" data-lang="bash"><code># The server-side reason, which the client is never told
 sudo tail -f /var/log/auth.log          # Debian/Ubuntu
 sudo journalctl -u sshd -f              # systemd
@@ -379,7 +400,11 @@ sudo sshd -t</code></pre>
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -387,7 +412,11 @@ sudo sshd -t</code></pre>
   <ol><li><a href="#start-with-verbose-output">Start with verbose output</a></li><li><a href="#cause-1-the-server-does-not-have-your-public-key">Cause 1: the server does not have your public key</a></li><li><a href="#cause-2-no-key-was-offered">Cause 2: no key was offered</a></li><li><a href="#cause-3-file-permissions">Cause 3: file permissions</a></li><li><a href="#cause-4-the-wrong-username">Cause 4: the wrong username</a></li><li><a href="#cause-5-the-agent-and-forwarding">Cause 5: the agent, and forwarding</a></li><li><a href="#cause-6-your-key-format-is-too-old">Cause 6: your key format is too old</a></li><li><a href="#when-you-have-access-to-the-server">When you have access to the server</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -168,7 +169,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -209,7 +210,11 @@
         <p class="jp-note-title">Refused versus timed out</p>
         <p><strong>Refused</strong> is an active TCP rejection, which confirms the host was reachable but no process accepted the connection on that address and port. <strong>Timed out</strong> means no response came back, commonly because of a firewall, security group or broken route. Use the distinction to choose between server-listener and network checks.</p>
       </aside>
-<h2 id="layer-1-is-postgres-actually-running">Layer 1: is Postgres actually running?</h2>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="layer-1-is-postgres-actually-running">Layer 1: is Postgres actually running?</h2>
 <pre class="jp-code" data-lang="bash"><code># Linux
 sudo systemctl status postgresql
 sudo systemctl start postgresql
@@ -235,7 +240,11 @@ nc -zv localhost 5432</code></pre>
 <pre class="jp-code" data-lang="text"><code>127.0.0.1:5432   ← localhost only. Remote clients will be refused.
 0.0.0.0:5432     ← all interfaces. Reachable from outside.</code></pre>
 <p>Multiple installations can obscure which server you are configuring. Homebrew and Postgres.app, or a local service and a container, may both try to use 5432. Check the process bound to each port; a second installed version may have moved to 5433.</p>
-<h2 id="layer-3-listen-addresses">Layer 3: <code>listen_addresses</code></h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="layer-3-listen-addresses">Layer 3: <code>listen_addresses</code></h2>
 <p>Postgres normally binds to localhost by default. To accept a remote TCP connection, edit the <code>postgresql.conf</code> used by the running process:</p>
 <pre class="jp-code" data-lang="bash"><code># Find the file the running server is actually using
 psql -U postgres -c &#39;SHOW config_file;&#39;
@@ -263,7 +272,11 @@ psql -U postgres -c &#39;SELECT pg_reload_conf();&#39;</code></pre>
         <p><code>trust</code> accepts the database identity without a password. On a <code>host</code> rule, anyone who can reach the port can claim an allowed role, including a superuser role. Limit any development use to an appropriate local connection; use authenticated methods such as <code>scram-sha-256</code> for network clients.</p>
       </aside>
 <p>For <code>local</code> connections, the <code>peer</code> method compares the <strong>operating-system</strong> user with the requested database role. On a fresh Ubuntu installation, <code>psql mydb</code> may work as your own user while <code>psql -U postgres mydb</code> fails because the shell user is not <code>postgres</code>. Use <code>sudo -u postgres psql</code> for that administrative role.</p>
-<h2 id="layer-5-firewalls-security-groups-and-the-network">Layer 5: firewalls, security groups and the network</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="layer-5-firewalls-security-groups-and-the-network">Layer 5: firewalls, security groups and the network</h2>
 <pre class="jp-code" data-lang="bash"><code># Ubuntu
 sudo ufw allow from 10.0.0.0/8 to any port 5432
 sudo ufw status
@@ -279,7 +292,11 @@ sudo firewall-cmd --reload</code></pre>
 <h2 id="layer-6-connection-strings-and-credentials">Layer 6: connection strings and credentials</h2>
 <pre class="jp-code" data-lang="text"><code>postgresql://user:password@host:5432/dbname?sslmode=require</code></pre>
 <ul><li><strong>Percent-encode special characters in the password.</strong> An <code>@</code> can split the URL at the wrong point and produce a misleading host error. <code>@</code> is <code>%40</code>, <code>#</code> is <code>%23</code>, and <code>/</code> is <code>%2F</code>.</li><li><strong><code>localhost</code> and <code>127.0.0.1</code> may resolve differently.</strong> <code>localhost</code> can resolve to IPv6 <code>::1</code>; a server listening only on IPv4 will refuse that connection. Test with the literal <code>127.0.0.1</code>.</li><li><strong>Check <code>sslmode</code>.</strong> Managed providers commonly require <code>require</code> or <code>verify-full</code>. Client defaults vary: some prefer TLS and fall back, while others fail when their expected mode is unavailable.</li></ul>
-<h2 id="the-docker-special-case">The Docker special case</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="the-docker-special-case">The Docker special case</h2>
 <p>Inside a container, <code>localhost</code> refers to that container’s own network namespace. It does not refer to the host or to another Compose service.</p>
 <pre class="jp-code" data-lang="yaml"><code>services:
   db:
@@ -361,7 +378,11 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -369,7 +390,11 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
   <ol><li><a href="#start-with-the-exact-error">Start with the exact error</a></li><li><a href="#layer-1-is-postgres-actually-running">Layer 1: is Postgres actually running?</a></li><li><a href="#layer-2-is-anything-listening-on-5432">Layer 2: is anything listening on 5432?</a></li><li><a href="#layer-3-listen-addresses">Layer 3: `listen_addresses`</a></li><li><a href="#layer-4-pg-hba-conf">Layer 4: `pg_hba.conf`</a></li><li><a href="#layer-5-firewalls-security-groups-and-the-network">Layer 5: firewalls, security groups and the network</a></li><li><a href="#layer-6-connection-strings-and-credentials">Layer 6: connection strings and credentials</a></li><li><a href="#the-docker-special-case">The Docker special case</a></li><li><a href="#a-one-pass-diagnostic">A one-pass diagnostic</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

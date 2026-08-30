@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -144,7 +145,7 @@
           "name": "Why do I get a CORS error only on POST and not on GET?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A POST with a JSON body triggers a preflight `OPTIONS` request, while a simple GET does not. Inspect that preflight. Authentication middleware often rejects it before the CORS handler runs because the preflight does not carry credentials."
+            "text": "A POST with a JSON body triggers a preflight OPTIONS request, while a simple GET does not. Inspect that preflight. Authentication middleware often rejects it before the CORS handler runs because the preflight does not carry credentials."
           }
         },
         {
@@ -160,7 +161,7 @@
           "name": "Why does my API work locally but fail in production?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Compare the deployed `Origin` value with the server’s allow-list; production domains are often missing even when localhost is present. Also check the scheme and confirm that a CDN is not reusing origin-specific responses without `Vary: Origin`."
+            "text": "Compare the deployed Origin value with the server’s allow-list; production domains are often missing even when localhost is present. Also check the scheme and confirm that a CDN is not reusing origin-specific responses without Vary: Origin."
           }
         },
         {
@@ -176,7 +177,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -217,7 +218,11 @@
       </aside>
 <h2 id="what-cors-actually-is">What CORS actually is</h2>
 <p>Browsers enforce the <strong>same-origin policy</strong>. JavaScript on <code>https://app.example.com</code> cannot read a response from <code>https://api.example.com</code> unless that server permits the origin. An origin consists of the scheme, host and port. That makes <code>http://localhost:3000</code> different from <code>http://localhost:5173</code>, and <code>http</code> different from <code>https</code> on the same host.</p>
-<p>Cross-Origin Resource Sharing is the response-header protocol a server uses to grant that access. Two details explain many otherwise confusing reports:</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><p>Cross-Origin Resource Sharing is the response-header protocol a server uses to grant that access. Two details explain many otherwise confusing reports:</p>
 <ol><li><strong>The server may have completed the request.</strong> The browser can receive a response and then withhold it from JavaScript because the required permission header is missing. That is why the request can appear in server logs while <code>fetch</code> still rejects.</li><li><strong>The same-origin policy is a browser constraint.</strong> <code>curl</code>, Postman, native mobile clients and server-side code do not apply it. A request working in Postman confirms reachability, not a valid CORS configuration.</li></ol>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">CORS is not a security feature protecting your API</p>
@@ -263,7 +268,11 @@ location /api/ {
         <p class="jp-note-title">The <code>always</code> flag in Nginx matters</p>
         <p>Without <code>always</code>, Nginx can omit headers from 4xx and 5xx responses. The browser then reports a CORS failure instead of exposing the useful error status and body, which sends the investigation in the wrong direction.</p>
       </aside>
-<h2 id="cause-2-the-origin-does-not-match-exactly">Cause 2: the origin does not match exactly</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-2-the-origin-does-not-match-exactly">Cause 2: the origin does not match exactly</h2>
 <p>Origin matching is exact. These values differ in ways that matter to CORS:</p>
 <pre class="jp-code" data-lang="text"><code>https://app.example.com      ← the real origin
 https://app.example.com/     ← trailing slash: invalid in this header
@@ -289,7 +298,11 @@ Access-Control-Max-Age: 86400</code></pre>
         <p class="jp-note-title">Set Access-Control-Max-Age</p>
         <p>This header lets the browser cache a successful preflight instead of sending <code>OPTIONS</code> before each matching call. Chrome caps the value at 7,200 seconds and Firefox at 86,400. For an API that receives frequent non-simple requests, caching can remove a substantial number of round trips.</p>
       </aside>
-<h2 id="cause-4-wildcard-plus-credentials">Cause 4: wildcard plus credentials</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-4-wildcard-plus-credentials">Cause 4: wildcard plus credentials</h2>
 <p>If a request sends cookies or uses <code>credentials: &quot;include&quot;</code>, the server cannot respond with a wildcard origin. The specification requires a specific allowed origin so an arbitrary site cannot make credentialed requests on the user’s behalf.</p>
 <pre class="jp-code" data-lang="javascript"><code>// ✗ Fails because the browser rejects this combination
 Access-Control-Allow-Origin: *
@@ -308,7 +321,11 @@ Vary: Origin</code></pre>
 <p>Cross-origin JavaScript can read only the CORS-safelisted response headers by default. Expose custom values such as pagination counts, rate-limit state or request IDs explicitly:</p>
 <pre class="jp-code" data-lang="http"><code>Access-Control-Expose-Headers: X-Total-Count, X-Request-Id, X-RateLimit-Remaining</code></pre>
 <p>A missing expose header does not reject the request. The fetch succeeds, but JavaScript receives <code>null</code> when it tries to read that response header.</p>
-<h2 id="cause-6-it-is-a-redirect-or-the-server-is-down">Cause 6: it is a redirect, or the server is down</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-6-it-is-a-redirect-or-the-server-is-down">Cause 6: it is a redirect, or the server is down</h2>
 <p>Before changing headers, rule out two failures that browsers may surface alongside CORS messages:</p>
 <ul><li><strong>A redirect on a preflight.</strong> Preflight requests may not follow redirects. Calling <code>http://api.example.com</code> when the server redirects to <code>https://</code> can therefore appear as a CORS failure. Point the front end at the final URL.</li><li><strong>The server is unreachable.</strong> When nothing is listening, there is no response carrying CORS headers. Check the network panel for a <code>(failed)</code> status before treating the issue as header configuration.</li></ul>
 <h2 id="the-local-development-fix-use-a-proxy">The local development fix: use a proxy</h2>
@@ -330,7 +347,11 @@ export default {
   &quot;proxy&quot;: &quot;http://localhost:8080&quot;
 }</code></pre>
 <p>The same-origin pattern also works well in production. Serving the front end and an <code>/api</code> route behind one CDN or load balancer removes the cross-origin boundary, along with its preflights and third-party-cookie constraints.</p>
-<h2 id="what-not-to-do">What not to do</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="what-not-to-do">What not to do</h2>
 <ul><li><strong>Do not rely on a &quot;CORS unblock&quot; browser extension.</strong> It changes one browser and can hide the problem until deployment. Keep it to short diagnostic use.</li><li><strong>Do not set <code>mode: &quot;no-cors&quot;</code> on fetch.</strong> It does not disable CORS. It gives JavaScript an opaque response with status <code>0</code> and an unreadable body.</li><li><strong>Do not route production traffic through a public CORS proxy.</strong> That gives a third party access to each request and response, including tokens.</li><li><strong>Do not treat <code>Access-Control-Allow-Origin: *</code> as a general fix for an authenticated API.</strong> It does not work with credentials, and reflecting arbitrary origins would expose credentialed actions.</li></ul>
 <h2 id="a-five-minute-debugging-checklist">A five-minute debugging checklist</h2>
 <ol><li>Open the network panel and select the <strong>failing request</strong>, not only the JavaScript error. A status of <code>(failed)</code> or <code>0</code> points to reachability rather than a CORS response.</li><li>Look for a preceding <code>OPTIONS</code> request. If it returned 401, 403, 404 or 500, that is your problem: CORS handling is not running before auth or routing.</li><li>Compare the <code>Origin</code> request header with the <code>Access-Control-Allow-Origin</code> response header, character by character. Watch for the trailing slash.</li><li>If cookies are involved, confirm the response is <strong>not</strong> using <code>*</code> and that <code>Access-Control-Allow-Credentials: true</code> is present.</li><li>Reproduce with curl to confirm the server side is fine: <code>curl -H &quot;Origin: https://app.example.com&quot; -I https://api.example.com/endpoint</code>.</li></ol>
@@ -373,7 +394,11 @@ export default {
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -381,7 +406,11 @@ export default {
   <ol><li><a href="#what-cors-actually-is">What CORS actually is</a></li><li><a href="#read-the-error-message-first">Read the error message first</a></li><li><a href="#cause-1-no-cors-headers-at-all">Cause 1: no CORS headers at all</a></li><li><a href="#cause-2-the-origin-does-not-match-exactly">Cause 2: the origin does not match exactly</a></li><li><a href="#cause-3-the-preflight-is-failing">Cause 3: the preflight is failing</a></li><li><a href="#cause-4-wildcard-plus-credentials">Cause 4: wildcard plus credentials</a></li><li><a href="#cause-5-you-cannot-read-the-response-header-you-need">Cause 5: you cannot read the response header you need</a></li><li><a href="#cause-6-it-is-a-redirect-or-the-server-is-down">Cause 6: it is a redirect, or the server is down</a></li><li><a href="#the-local-development-fix-use-a-proxy">The local development fix: use a proxy</a></li><li><a href="#what-not-to-do">What not to do</a></li><li><a href="#a-five-minute-debugging-checklist">A five-minute debugging checklist</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

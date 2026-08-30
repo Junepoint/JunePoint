@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -147,7 +148,7 @@
           "name": "Why does my global regex skip every other match?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A regex with the `g` flag keeps a mutable `lastIndex` between calls. Reusing the same object with `test()` or `exec()` resumes from that position. Create a new regex for each run or reset `lastIndex` to `0` before reuse."
+            "text": "A regex with the g flag keeps a mutable lastIndex between calls. Reusing the same object with test() or exec() resumes from that position. Create a new regex for each run or reset lastIndex to 0 before reuse."
           }
         },
         {
@@ -155,7 +156,7 @@
           "name": "How do I match across multiple lines?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The `s` flag makes `.` match newline characters. The `m` flag changes `^` and `$` so they match line boundaries instead of only the boundaries of the full string. Use either or both according to the pattern."
+            "text": "The s flag makes . match newline characters. The m flag changes ^ and $ so they match line boundaries instead of only the boundaries of the full string. Use either or both according to the pattern."
           }
         },
         {
@@ -171,7 +172,7 @@
           "name": "Why is a pattern from Stack Overflow failing here?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The pattern may target another regex engine. Older Safari versions do not support lookbehind `(?\u003c=…)`. JavaScript does not support possessive quantifiers such as `a++`, atomic groups such as `(?>…)`, `\\Z`, `\\A` or recursive patterns. This tool uses the browser’s JavaScript engine."
+            "text": "The pattern may target another regex engine. Older Safari versions do not support lookbehind (?\u003c=…). JavaScript does not support possessive quantifiers such as a++, atomic groups such as (?>…), \\Z, \\A or recursive patterns. This tool uses the browser’s JavaScript engine."
           }
         },
         {
@@ -179,7 +180,7 @@
           "name": "Does the tester protect me from a runaway pattern?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Only partly. The tool stops collecting after 5,000 matches and advances past zero-length matches to avoid an endless loop. It cannot interrupt catastrophic backtracking inside one `exec()` call. A pathological pattern can still make the browser tab unresponsive."
+            "text": "Only partly. The tool stops collecting after 5,000 matches and advances past zero-length matches to avoid an endless loop. It cannot interrupt catastrophic backtracking inside one exec() call. A pathological pattern can still make the browser tab unresponsive."
           }
         }
       ]
@@ -187,7 +188,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier3">
+  <body class="jp jp-tier3 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -222,7 +223,11 @@
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published April 9, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 16, 2026</span></div>
     </header>
 
-    
+    <div class="jp-ad jp-ad--toolTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
     
 <div class="jp-tool">
   <div class="jp-field">
@@ -258,7 +263,11 @@ Escalations go to oncall@junepoint.com. Do not email root@localhost.</textarea>
   <h2 class="jp-tool-h" style="margin-top:1.25rem">Matches</h2>
   <div id="rx-matches"></div>
 </div>
-    
+    <div class="jp-ad jp-ad--toolResult">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
 
     <article class="jp-article">
       <aside class="jp-note jp-note--info">
@@ -342,7 +351,11 @@ for (const m of text.matchAll(/(\w+)=(\w+)/g)) {
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -350,7 +363,11 @@ for (const m of text.matchAll(/(\w+)=(\w+)/g)) {
   <ol><li><a href="#common-javascript-regex-syntax">Common JavaScript regex syntax</a></li><li><a href="#greedy-and-lazy-quantifiers">Greedy and lazy quantifiers</a></li><li><a href="#catastrophic-backtracking-and-redos">Catastrophic backtracking and ReDoS</a></li><li><a href="#cases-that-need-a-parser-instead">Cases that need a parser instead</a></li><li><a href="#capture-groups-in-practice">Capture groups in practice</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Free Tools</h2>
         <ul><li><a href="/tools/saas-seat-cost-calculator/">SaaS Seat Cost Calculator</a></li><li><a href="/tools/cloud-cost-calculator/">Cloud Cost Calculator</a></li><li><a href="/tools/cron-expression-generator/">Cron Expression Generator</a></li><li><a href="/tools/mortgage-payoff-calculator/">Mortgage Payoff Calculator</a></li><li><a href="/tools/color-contrast-checker/">Colour Contrast Checker</a></li><li><a href="/tools/jwt-decoder/">JWT Decoder</a></li></ul>

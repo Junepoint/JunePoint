@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -176,7 +177,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier2">
+  <body class="jp jp-tier2 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -227,7 +228,11 @@ docker inspect &lt;container&gt; --format &#39;{{.State.ExitCode}} {{.State.Erro
 
 # Follow a restart loop as it happens
 docker logs -f --tail 50 &lt;container&gt;</code></pre>
-<p><code>docker logs</code> often gives you the cause directly: a stack trace, a missing environment variable or a refused database connection. Read the most recent output before changing the image or command.</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><p><code>docker logs</code> often gives you the cause directly: a stack trace, a missing environment variable or a refused database connection. Read the most recent output before changing the image or command.</p>
 <h2 id="what-the-exit-code-tells-you">What the exit code tells you</h2>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Meaning</th><th scope="col">Usual cause</th></tr></thead><tbody><tr><th scope="row"><code>0</code></th><td>Completed successfully</td><td>The process finished; it may not have been a long-running command</td></tr><tr><th scope="row"><code>1</code></th><td>Generic application error</td><td>An unhandled exception. Check the logs.</td></tr><tr><th scope="row"><code>125</code></th><td>The Docker daemon itself failed</td><td>A malformed <code>docker run</code> command or invalid flag</td></tr><tr><th scope="row"><code>126</code></th><td>Command found but not executable</td><td>Missing <code>+x</code>, or a script with CRLF line endings</td></tr><tr><th scope="row"><code>127</code></th><td>Command not found</td><td>Typo, missing binary, or no shell in the image</td></tr><tr><th scope="row"><code>137</code></th><td>SIGKILL (128 + 9)</td><td><strong>Out of memory</strong>, or a <code>docker stop</code> that timed out</td></tr><tr><th scope="row"><code>139</code></th><td>SIGSEGV (128 + 11)</td><td>Segfault, sometimes caused by an architecture mismatch</td></tr><tr><th scope="row"><code>143</code></th><td>SIGTERM (128 + 15)</td><td>A clean stop request; normal for <code>docker stop</code></td></tr></tbody></table></div>
 <p>For these exit statuses, subtract 128 to identify the signal number. Codes 137 and 143 are the ones you are most likely to encounter in routine container work.</p>
@@ -236,7 +241,11 @@ docker logs -f --tail 50 &lt;container&gt;</code></pre>
 <pre class="jp-code" data-lang="bash"><code>docker run ubuntu             # exits at once because Bash has nothing to do
 docker run -it ubuntu bash    # stays up because -it gives Bash a terminal</code></pre>
 <p><code>-i</code> keeps standard input open and <code>-t</code> allocates a pseudo-terminal. Together they give an interactive shell something to wait for.</p>
-<h2 id="cause-2-the-process-daemonised-itself">Cause 2: the process daemonised itself</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-2-the-process-daemonised-itself">Cause 2: the process daemonised itself</h2>
 <p>Some services still daemonize by default. If PID 1 starts the service and then exits while the service moves into the background, Docker considers the container finished.</p>
 <pre class="jp-code" data-lang="dockerfile"><code># ✗ nginx forks to the background, PID 1 exits, container stops
 CMD [&quot;nginx&quot;]
@@ -262,7 +271,11 @@ RUN sed -i &#39;s/\r$//&#39; /entrypoint.sh &amp;&amp; chmod +x /entrypoint.sh</
 <p>Running an <code>amd64</code> image on Apple Silicon, or an ARM image on an amd64 host, can produce <code>exec format error</code>, exit 127 or a segfault. Build and run for the intended platform:</p>
 <pre class="jp-code" data-lang="bash"><code>docker build --platform linux/amd64 -t myapp .
 docker run --platform linux/amd64 myapp</code></pre>
-<h2 id="cause-4-exit-137-often-points-to-memory-pressure">Cause 4: exit 137 often points to memory pressure</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="cause-4-exit-137-often-points-to-memory-pressure">Cause 4: exit 137 often points to memory pressure</h2>
 <p>Code 137 means the process received <code>SIGKILL</code>. The kernel’s out-of-memory killer is a common source, but a timed-out <code>docker stop</code> can produce the same code. Check the recorded OOM state:</p>
 <pre class="jp-code" data-lang="bash"><code>docker inspect &lt;container&gt; --format &#39;{{.State.OOMKilled}}&#39;
 # true  → memory limit exceeded
@@ -286,7 +299,11 @@ docker stats --no-stream</code></pre>
     depends_on:
       db:
         condition: service_healthy   # this is the part people miss</code></pre>
-<h2 id="getting-a-shell-inside-a-container-that-will-not-run">Getting a shell inside a container that will not run</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="getting-a-shell-inside-a-container-that-will-not-run">Getting a shell inside a container that will not run</h2>
 <p>If the normal entrypoint exits before you can inspect the filesystem, replace it temporarily with a shell:</p>
 <pre class="jp-code" data-lang="bash"><code># Ignore the image&#39;s CMD and ENTRYPOINT, get a shell
 docker run -it --entrypoint sh &lt;image&gt;
@@ -307,7 +324,11 @@ docker inspect &lt;image&gt; --format &#39;{{.Config.Entrypoint}} {{.Config.Cmd}
 <h2 id="why-tail-f-dev-null-is-not-an-application-fix">Why <code>tail -f /dev/null</code> is not an application fix</h2>
 <p><code>tail -f /dev/null</code> keeps PID 1 running, but it does not repair the service that exited. For an application container, this hides a visible failure behind a container that appears healthy at a glance.</p>
 <p>It can be useful in a temporary debugging container or a sidecar designed without its own long-running process. An application container should instead run the application as PID 1 and expose its failure.</p>
-<h2 id="signals-and-why-pid-1-is-special">Signals, and why PID 1 is special</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="signals-and-why-pid-1-is-special">Signals, and why PID 1 is special</h2>
 <p>PID 1 has special responsibilities on Linux, including reaping orphaned child processes, and default signal handling differs from that of other processes. A shell wrapper that does not forward <code>SIGTERM</code> makes <code>docker stop</code> wait for its timeout and then send <code>SIGKILL</code>, producing exit code 137 instead of a clean shutdown.</p>
 <pre class="jp-code" data-lang="dockerfile"><code># ✗ Shell form wraps the command in sh -c, which does not forward signals
 CMD npm start
@@ -358,7 +379,11 @@ CMD [&quot;node&quot;, &quot;server.js&quot;]</code></pre>
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -366,7 +391,11 @@ CMD [&quot;node&quot;, &quot;server.js&quot;]</code></pre>
   <ol><li><a href="#start-here-what-did-it-say-and-how-did-it-end">Start here: what did it say and how did it end?</a></li><li><a href="#what-the-exit-code-tells-you">What the exit code tells you</a></li><li><a href="#cause-1-exit-code-0-means-the-process-finished">Cause 1: exit code 0 means the process finished</a></li><li><a href="#cause-2-the-process-daemonised-itself">Cause 2: the process daemonised itself</a></li><li><a href="#cause-3-exit-127-means-the-command-was-not-found">Cause 3: exit 127 means the command was not found</a></li><li><a href="#cause-4-exit-137-often-points-to-memory-pressure">Cause 4: exit 137 often points to memory pressure</a></li><li><a href="#cause-5-it-crashed-on-a-missing-dependency">Cause 5: it crashed on a missing dependency</a></li><li><a href="#getting-a-shell-inside-a-container-that-will-not-run">Getting a shell inside a container that will not run</a></li><li><a href="#why-tail-f-dev-null-is-not-an-application-fix">Why `tail -f /dev/null` is not an application fix</a></li><li><a href="#signals-and-why-pid-1-is-special">Signals, and why PID 1 is special</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Developer Guides</h2>
         <ul><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li></ul>

@@ -28,8 +28,9 @@
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    
-    
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -214,7 +215,7 @@
   ]
 }</script>
   </head>
-  <body class="jp jp-tier1">
+  <body class="jp jp-tier1 has-ads">
     <a class="jp-skip" href="#main">Skip to content</a>
 <header class="jp-header">
   <div class="jp-header-inner">
@@ -258,14 +259,22 @@
         <ul><li><strong>EDR needs someone to watch it.</strong> Untriaged alerts amount to stored evidence rather than an active response. Organisations without 24/7 coverage should compare MDR, not only EDR.</li><li>Signature-based antivirus can stop commodity malware, but living-off-the-land techniques require behavioural detection and investigation.</li><li>Use <strong>MITRE ATT&amp;CK Evaluations</strong> alongside vendor material. MITRE publishes raw results and does not rank vendors, so the interpretation still needs scrutiny.</li><li>Alert volume matters as much as detection coverage. If a platform produces 400 alerts a day, a small team is unlikely to investigate them consistently.</li></ul>
       </aside>
 <h2 id="what-edr-xdr-and-mdr-provide">What EDR, XDR and MDR provide</h2>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Term</th><th scope="col">What it is</th><th scope="col">Who operates it</th></tr></thead><tbody><tr><th scope="row"><strong>EPP</strong> (antivirus)</th><td>Blocks known-bad files and behaviours</td><td>Runs itself</td></tr><tr><th scope="row"><strong>EDR</strong></th><td>Records endpoint activity, detects suspicious behaviour, enables investigation and response</td><td>Your team; it needs analysts</td></tr><tr><th scope="row"><strong>XDR</strong></th><td>EDR extended across email, identity, cloud and network telemetry</td><td>You, with more data to correlate</td></tr><tr><th scope="row"><strong>MDR</strong></th><td>EDR or XDR plus a vendor security operations team watching it around the clock</td><td>The vendor</td></tr></tbody></table></div>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Term</th><th scope="col">What it is</th><th scope="col">Who operates it</th></tr></thead><tbody><tr><th scope="row"><strong>EPP</strong> (antivirus)</th><td>Blocks known-bad files and behaviours</td><td>Runs itself</td></tr><tr><th scope="row"><strong>EDR</strong></th><td>Records endpoint activity, detects suspicious behaviour, enables investigation and response</td><td>Your team; it needs analysts</td></tr><tr><th scope="row"><strong>XDR</strong></th><td>EDR extended across email, identity, cloud and network telemetry</td><td>You, with more data to correlate</td></tr><tr><th scope="row"><strong>MDR</strong></th><td>EDR or XDR plus a vendor security operations team watching it around the clock</td><td>The vendor</td></tr></tbody></table></div>
 <p>The last column often decides the purchase. EDR is an investigation and response tool that assumes a trained analyst will review its output. In many organisations with fewer than a few hundred staff, nobody is assigned to triage alerts at 2am on a Sunday. In that setting, EDR alone may record a breach without prompting a timely response.</p>
 <p><strong>MDR is often the practical fit for a mid-sized business without round-the-clock analysts.</strong> It costs more per endpoint than EDR alone, but much less than staffing a 24/7 security operations centre.</p>
 <h2 id="why-antivirus-is-no-longer-sufficient-on-its-own">Why antivirus is no longer sufficient on its own</h2>
 <p>Signature detection recognises known-bad files. It cannot cover attacks that use no malicious file at all, including these common patterns:</p>
 <ul><li><strong>Living off the land.</strong> Attackers use PowerShell, WMI, PsExec and other legitimate administrative tools already present on the system. There is no signature for <code>powershell.exe</code>.</li><li><strong>Valid credentials.</strong> Access bought from an initial-access broker or phished produces logins that look entirely normal.</li><li><strong>Fileless execution.</strong> Payloads run in memory and never touch disk.</li><li><strong>Legitimate remote tools.</strong> AnyDesk, ScreenConnect and TeamViewer are used by attackers precisely because they are also used by IT departments.</li></ul>
 <p><strong>Behavioural</strong> detection can flag a Word document spawning PowerShell and contacting an unfamiliar host, or a service account suddenly enumerating the domain. EDR is built to record and investigate those sequences; traditional antivirus is not.</p>
-<h2 id="how-to-evaluate-detection-quality">How to evaluate detection quality</h2>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="how-to-evaluate-detection-quality">How to evaluate detection quality</h2>
 <p>Vendor detection rates are difficult to compare without a common method. Use three sources of evidence:</p>
 <ol><li><strong>MITRE ATT&amp;CK Evaluations.</strong> MITRE emulates real adversary groups against each product and publishes raw results without ranking vendors. Look at <em>detection coverage</em> (how many steps were seen), <em>analytic quality</em> (whether the result was raw telemetry or a named technique), and the number of configuration changes or delayed detections. A quoted &quot;100% detection&quot; figure may include raw telemetry, which shows that data existed but not necessarily that an analyst received a useful alert.</li><li><strong>AV-Comparatives and SE Labs.</strong> Independent, methodologically transparent, and they publish false-positive rates alongside detection rates. A high detection score has limited value if false positives regularly block business software.</li><li><strong>Your own proof of concept.</strong> Run two products in parallel on a representative part of your estate for 30 days. Count the alerts and assess whether your team can work through them.</li></ol>
 <aside class="jp-note jp-note--tip">
@@ -290,7 +299,11 @@
     <div class="jp-cons"><h4>Trade-offs</h4><ul><li>Among the more expensive options</li><li>Modular licensing means the total is higher than the headline</li><li>Full value requires analysts who know how to use it</li></ul></div>
   </div>
 </section>
-<section class="jp-pick" id="sentinelone-singularity">
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><section class="jp-pick" id="sentinelone-singularity">
   <header class="jp-pick-head">
     <span class="jp-pick-rank" aria-hidden="true">2</span>
     <div>
@@ -401,7 +414,11 @@
       </a></div>
 </section>
     </article>
-    
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   </main>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
@@ -409,7 +426,11 @@
   <ol><li><a href="#what-edr-xdr-and-mdr-provide">What EDR, XDR and MDR provide</a></li><li><a href="#why-antivirus-is-no-longer-sufficient-on-its-own">Why antivirus is no longer sufficient on its own</a></li><li><a href="#how-to-evaluate-detection-quality">How to evaluate detection quality</a></li><li><a href="#the-platforms">The platforms</a></li><li><a href="#comparison-at-a-glance">Comparison at a glance</a></li><li><a href="#what-matters-more-than-the-product-choice">What matters more than the product choice</a></li></ol>
 </nav>
   
-  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
   <div class="jp-panel">
         <h2>More in Business Software</h2>
         <ul><li><a href="/reviews/best-cloud-backup-for-business/">Best cloud backup for business</a></li><li><a href="/reviews/best-tax-software-for-freelancers/">Best tax software for freelancers</a></li><li><a href="/reviews/best-endpoint-security-software/">Best endpoint security software for business</a></li><li><a href="/reviews/soc-2-compliance-software/">SOC 2 compliance software</a></li><li><a href="/reviews/gdpr-compliance-software/">GDPR compliance software</a></li><li><a href="/reviews/best-payroll-software-small-business/">Best payroll software for small business</a></li></ul>
