@@ -11,7 +11,7 @@
       "section": "guides",
       "slug": "git-merge-conflict-resolve",
       "angle": "Resolving a git merge conflict properly, including which side is which and how to verify nothing was dropped",
-      "done": false
+      "done": true
     },
     {
       "section": "guides",
