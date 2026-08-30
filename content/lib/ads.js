@@ -1,9 +1,9 @@
 /**
  * AdSense unit rendering.
  *
- * Scoped entirely to generated network pages. The React portfolio never calls
- * into this module, so /, /personal-websites, /business-websites,
- * /cross-platform-apps, /local-apps and /video-games stay ad-free.
+ * Scoped to generated network pages. React portfolio never calls
+ * into this module, /, /personal-websites, /business-websites,
+ * /cross-platform-apps, /local-apps and /video-games stay ad-free
  */
 
 const { ads } = require('../config');
@@ -27,6 +27,12 @@ function autoAdsScript() {
   )}",enable_page_level_ads:true});</script>`;
 }
 
+/** Site ownership verification. **/
+function verificationMeta() {
+  if (!ads.client) return '';
+  return `<meta name="google-adsense-account" content="${esc(ads.client)}" />`;
+}
+
 const PLACEMENTS = {
   articleTop: { slot: 'articleTop', format: 'auto', label: 'Article top' },
   inContent: { slot: 'inContent', format: 'fluid', layout: 'in-article', label: 'In-content' },
@@ -37,14 +43,7 @@ const PLACEMENTS = {
   hub: { slot: 'hub', format: 'auto', label: 'Hub' },
 };
 
-/**
- * Render one ad unit.
- *
- * Emits nothing at all unless a real publisher ID is configured. A stranded
- * <ins> element collapses to zero height and looks like a broken implementation
- * to both users and AdSense review. Set AD_PREVIEW=1 to draw layout
- * placeholders locally instead.
- */
+/** Render one ad unit. **/
 function unit(name) {
   const placement = PLACEMENTS[name];
   if (!placement) throw new Error(`Unknown ad placement: ${name}`);
@@ -78,4 +77,4 @@ function unit(name) {
 </div>`;
 }
 
-module.exports = { unit, loaderScript, autoAdsScript, enabled };
+module.exports = { unit, loaderScript, autoAdsScript, verificationMeta, enabled };

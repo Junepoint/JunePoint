@@ -1,6 +1,7 @@
 /** Structured data builders. Every generated page ships at least two graphs. */
 
 const { site, SITE_URL } = require('../config');
+const { plain } = require('./html');
 
 const abs = (path) => (/^https?:\/\//.test(path) ? path : `${SITE_URL}${path}`);
 
@@ -58,9 +59,9 @@ function article({ page, url, author, type = 'Article' }) {
   return {
     '@type': type,
     '@id': `${url}#article`,
-    headline: page.h1 || page.title,
-    name: page.title,
-    description: page.description,
+    headline: plain(page.h1 || page.title),
+    name: plain(page.title),
+    description: plain(page.description),
     datePublished: page.published,
     dateModified: page.updated || page.published,
     inLanguage: site.language,
@@ -80,10 +81,10 @@ function faqPage(items, url) {
     '@id': `${url}#faq`,
     mainEntity: items.map((item) => ({
       '@type': 'Question',
-      name: item.q,
+      name: plain(item.q),
       acceptedAnswer: {
         '@type': 'Answer',
-        text: Array.isArray(item.a) ? item.a.join(' ') : item.a,
+        text: plain(Array.isArray(item.a) ? item.a.join(' ') : item.a),
       },
     })),
   };
@@ -93,8 +94,8 @@ function softwareApplication({ page, url }) {
   return {
     '@type': 'SoftwareApplication',
     '@id': `${url}#app`,
-    name: page.h1 || page.title,
-    description: page.description,
+    name: plain(page.h1 || page.title),
+    description: plain(page.description),
     url,
     applicationCategory: page.appCategory || 'DeveloperApplication',
     operatingSystem: 'Any (web browser)',

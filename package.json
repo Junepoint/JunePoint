@@ -27,7 +27,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build:content": "node content/build.js",
-    "build": "npm run build:content && react-scripts build",
+    "check:content": "node content/validate.js",
+    "build": "npm run build:content && react-scripts build && node content/spa-fallback.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

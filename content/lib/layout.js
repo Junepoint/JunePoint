@@ -179,6 +179,7 @@ function page(opts) {
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     ${ads.enabled() ? '<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />' : ''}
+    ${ads.verificationMeta()}
     ${ads.loaderScript()}
     <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">${jsonLd({

@@ -7,6 +7,7 @@ import BusinessWebsites from './pages/BusinessWebsites';
 import CrossPlatformApps from './pages/CrossPlatformApps';
 import LocalApps from './pages/LocalApps';
 import VideoGames from './pages/VideoGames';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
@@ -19,6 +20,8 @@ export default function App() {
         <Route path="/cross-platform-apps" element={<CrossPlatformApps />} />
         <Route path="/local-apps" element={<LocalApps />} />
         <Route path="/video-games" element={<VideoGames />} />
+        {/* Reached via build/404.html on GitHub Pages — see content/spa-fallback.js */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
