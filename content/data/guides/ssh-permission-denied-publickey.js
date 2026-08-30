@@ -64,10 +64,10 @@ Permission denied (publickey).`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# The reliable way to install it (fixes permissions for you)
+      x: `# Install the key and set its permissions automatically
 ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server
 
-# By hand, if password auth is disabled and you have another route in
+    # Install manually when another access path is available
 cat ~/.ssh/id_ed25519.pub | ssh user@server \\
   'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys'`,
     },
@@ -78,10 +78,10 @@ cat ~/.ssh/id_ed25519.pub | ssh user@server \\
     {
       t: 'code',
       lang: 'bash',
-      x: `# Local key fingerprint
+      x: `# Read the local key fingerprint
 ssh-keygen -lf ~/.ssh/id_ed25519.pub
 
-# Fingerprints the server accepts
+    # Read every fingerprint accepted by the server
 ssh-keygen -lf ~/.ssh/authorized_keys`,
     },
     {
@@ -101,7 +101,7 @@ ssh-keygen -lf ~/.ssh/authorized_keys`,
       lang: 'bash',
       x: `ls -la ~/.ssh/
 
-# Create one if needed
+# Create a key when none exists
 ssh-keygen -t ed25519 -C "you@example.com"`,
     },
     {
@@ -111,7 +111,7 @@ ssh-keygen -t ed25519 -C "you@example.com"`,
     {
       t: 'code',
       lang: 'text',
-      x: `# ~/.ssh/config
+      x: `# Client settings in ~/.ssh/config
 Host github.com
   HostName github.com
   User git
@@ -139,18 +139,18 @@ Host prod
     {
       t: 'code',
       lang: 'bash',
-      x: `# On the client
+      x: `# Secure files on the client
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/id_ed25519
 chmod 644 ~/.ssh/id_ed25519.pub
 chmod 600 ~/.ssh/config
 
-# On the server
+# Secure files on the server
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 chown -R $USER:$USER ~/.ssh
 
-# Your home directory must not be group- or world-writable
+# Reject group and world writes to the home directory
 chmod 755 ~`,
     },
     {
@@ -166,15 +166,15 @@ chmod 755 ~`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Git hosts always want their service account, never your name
-ssh -T git@github.com          # ✓
-ssh -T jackson@github.com      # ✗ Permission denied (publickey)
+      x: `# Git hosts expect their service account
+    ssh -T git@github.com          # Correct service account
+    ssh -T jackson@github.com      # Wrong account
 
-# Cloud images each have their own default
-ssh ubuntu@…      # Ubuntu on AWS
-ssh ec2-user@…    # Amazon Linux
-ssh admin@…       # Debian
-ssh core@…        # Flatcar / CoreOS`,
+    # Cloud images use different default accounts
+    ssh ubuntu@…      # Default for Ubuntu on AWS
+    ssh ec2-user@…    # Default for Amazon Linux
+    ssh admin@…       # Default for Debian
+    ssh core@…        # Default for Flatcar or CoreOS`,
     },
     {
       t: 'p',
@@ -185,14 +185,14 @@ ssh core@…        # Flatcar / CoreOS`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# What is the agent holding?
+      x: `# List identities held by the agent
 ssh-add -l
 
-# "Could not open a connection to your authentication agent"
+    # Fix "Could not open a connection to your authentication agent"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 
-# macOS: store the passphrase in the keychain so it survives reboots
+    # Keep the passphrase in the macOS keychain
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519`,
     },
     {
@@ -263,14 +263,14 @@ Host prod-*
     {
       t: 'code',
       lang: 'bash',
-      x: `# The server-side reason, which the client is never told
-sudo tail -f /var/log/auth.log          # Debian/Ubuntu
-sudo journalctl -u sshd -f              # systemd
+      x: `# Read the server reason hidden from the client
+    sudo tail -f /var/log/auth.log          # Debian or Ubuntu log
+    sudo journalctl -u sshd -f              # Systemd log
 
-# Check the effective configuration
+    # Inspect the effective configuration
 sudo sshd -T | grep -Ei 'pubkey|authorizedkeys|permitroot|allowusers'
 
-# Validate a config change before restarting and locking yourself out
+    # Validate changes before restarting the service
 sudo sshd -t`,
     },
     {

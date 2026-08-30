@@ -142,7 +142,7 @@ module.exports = {
 }
 
 .nav-links {
-  margin-left: auto;   /* absorbs all remaining space */
+  margin-left: auto;   /* uses the remaining space */
 }`,
     },
     {
@@ -160,14 +160,14 @@ module.exports = {
   flex-direction: column;
 }
 
-main { flex: 1; }   /* takes all leftover height */`,
+main { flex: 1; }   /* fills the remaining height */`,
     },
 
     { t: 'h3', x: 'Centring' },
     {
       t: 'code',
       lang: 'css',
-      x: `/* Either works. Grid is one line shorter. */
+      x: `/* Both approaches center the content. */
 .centre { display: grid; place-items: center; }
 .centre { display: flex; align-items: center; justify-content: center; }`,
     },
@@ -178,11 +178,10 @@ main { flex: 1; }   /* takes all leftover height */`,
     {
       t: 'code',
       lang: 'css',
-      x: `/* ✗ Needs a hack to remove the trailing margin */
+      x: `/* Requires a trailing margin override. */
 .item { margin-right: 1rem; }
 .item:last-child { margin-right: 0; }
 
-/* ✓ */
 .container { display: flex; gap: 1rem; }`,
     },
     {
@@ -194,7 +193,7 @@ main { flex: 1; }   /* takes all leftover height */`,
     {
       t: 'code',
       lang: 'css',
-      x: `flex: 1;        /* = flex: 1 1 0%: equal widths regardless of content */\nflex: auto;     /* = flex: 1 1 auto: sized by content, then grows */\nflex: none;     /* = flex: 0 0 auto: never grows or shrinks */`,
+      x: `flex: 1;        /* equal widths with a zero basis */\nflex: auto;     /* starts at the natural width, then grows */\nflex: none;     /* prevents growing and shrinking */`,
     },
     {
       t: 'p',
@@ -210,8 +209,8 @@ main { flex: 1; }   /* takes all leftover height */`,
       t: 'code',
       lang: 'css',
       x: `.flex-child {
-  min-width: 0;        /* allow shrinking below content size */
-  overflow-x: auto;    /* let the content scroll instead */
+  min-width: 0;        /* permits shrinking below the content width */
+  overflow-x: auto;    /* scrolls content that still overflows */
 }`,
     },
     {
@@ -248,7 +247,7 @@ main { flex: 1; }   /* takes all leftover height */`,
 .card {
   display: grid;
   grid-row: span 3;
-  grid-template-rows: subgrid;   /* title, body and footer align across all cards */
+  grid-template-rows: subgrid;   /* aligns each card section across the row */
 }`,
     },
     {

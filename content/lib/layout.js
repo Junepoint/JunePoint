@@ -1,16 +1,15 @@
 /**
- * The page shell shared by every generated network page.
+ * Shared page shell for generated resource pages.
  *
- * One layout for all three tiers keeps the network visually coherent (the
- * "single publication, cleanly categorised subfolders" model) and means a new
- * niche section is a data file rather than a new template.
+ * One layout keeps every section visually consistent and lets new sections use
+ * existing templates.
  */
 
 const { site, sections, SITE_URL } = require('../config');
 const { esc, jsonLd, displayDate } = require('./html');
 const ads = require('./ads');
 
-const ASSET_VERSION = '1';
+const ASSET_VERSION = '2';
 
 const NAV = [
   { href: '/tools/', label: sections.tools.navLabel },
@@ -71,9 +70,6 @@ function header(activePath) {
     <nav class="jp-nav" aria-label="Sections">${links}</nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -152,11 +148,11 @@ function bylineMarkup({ author, published, updated, readingTime }) {
  * Assemble a complete HTML document.
  *
  * @param {object} opts
- * @param {string} opts.title      <title> text (aim for <= 60 characters)
- * @param {string} opts.description meta description (aim for ~150 characters)
- * @param {string} opts.path       site-absolute path, always trailing-slashed
- * @param {string} opts.body       page markup for <main>
- * @param {object[]} opts.schema   JSON-LD graph nodes
+ * @param {string} opts.title Document title, preferably at most 60 characters
+ * @param {string} opts.description Meta description, preferably about 150 characters
+ * @param {string} opts.path Absolute site path with a trailing slash
+ * @param {string} opts.body Main page markup
+ * @param {object[]} opts.schema Structured data graph nodes
  */
 function page(opts) {
   const canonical = `${SITE_URL}${opts.path}`;
@@ -170,8 +166,7 @@ function page(opts) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="${esc(site.author)}" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>${esc(opts.title)}</title>
     ${metaTags({ ...opts, canonical })}
     <link rel="preload" as="style" href="/assets/jp/site.css?v=${ASSET_VERSION}" />
@@ -181,7 +176,6 @@ function page(opts) {
     ${ads.enabled() ? '<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />' : ''}
     ${ads.verificationMeta()}
     ${ads.loaderScript()}
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">${jsonLd({
       '@context': 'https://schema.org',
       '@graph': opts.schema,

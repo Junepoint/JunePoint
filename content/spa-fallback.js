@@ -1,26 +1,14 @@
 #!/usr/bin/env node
 /**
- * Post-build step: give the React SPA a GitHub Pages fallback.
+ * Creates the GitHub Pages fallback for the React portfolio.
  *
- * GitHub Pages serves static files only. The portfolio's routes
- * (/personal-websites, /video-games, …) exist solely inside React Router, so a
- * direct request or a refresh on one returns 404 — the app shell is never
- * reached and the route never renders.
+ * GitHub Pages serves static files, so direct requests for portfolio routes need
+ * a copy of the built app shell at `404.html`. BrowserRouter then reads the real
+ * path and renders the matching route.
  *
- * Pages serves 404.html for any path it cannot resolve. Making that file a copy
- * of the app shell means the bundle loads, BrowserRouter reads the real
- * pathname, and the correct route renders. Unknown paths fall through to the
- * catch-all route in src/App.js.
- *
- * This runs AFTER react-scripts build because the shell references the hashed
- * bundle filename, which only exists once the build has run.
- *
- * Note the deliberate limitation: the HTTP status stays 404 even though the
- * page renders. That is fine for humans and for the SPA routes, but it is why
- * those routes are still kept out of sitemap.xml — see content/build.js.
- *
- * Generated network pages under /tools, /guides and /reviews are real files and
- * never touch this path.
+ * Run this after the React build because the shell references hashed bundles.
+ * GitHub Pages still returns HTTP 404 for these routes, so they must remain out
+ * of the sitemap. Generated resource pages are real files and bypass this path.
  */
 
 const fs = require('fs');

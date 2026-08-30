@@ -16,12 +16,12 @@ code {
     monospace;
 }
 
-/* Optimized service card animation */
+/* Animate the active service card. */
 .service-card-active {
   transform: translateY(-4px);
 }
 
-/* Use GPU-accelerated properties only */
+/* Use only GPU accelerated properties. */
 @media (prefers-reduced-motion: no-preference) {
   .group {
     transform: translateZ(0);

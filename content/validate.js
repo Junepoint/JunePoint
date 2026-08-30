@@ -1,16 +1,11 @@
 #!/usr/bin/env node
 /**
- * Post-generation checks for the content network.
+ * Validates generated resource pages after the content build.
  *
- * Run after `npm run build:content`. Catches the failures that are invisible in
- * a browser but expensive in production: invalid JSON-LD, broken internal
- * links, duplicate titles, over-long meta descriptions, missing canonicals,
- * pages absent from the sitemap, and template slips such as unrendered
- * `**bold**` leaking into structured data.
+ * Checks structured data, internal links, metadata, sitemap coverage, and
+ * template output. A failure sets a nonzero exit code so the build can stop.
  *
- * Exits non-zero on failure, so it can gate a build.
- *
- *   npm run check:content
+ * Run with `npm run check:content`.
  */
 
 const fs = require('fs');
@@ -41,7 +36,7 @@ for (const file of files) {
   const rel = '/' + path.relative(PUBLIC, path.dirname(file)) + '/';
   allPaths.add(rel);
 
-  // --- JSON-LD ---
+  // Structured data
   const ldBlocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   if (!ldBlocks.length) problems.push(`${rel} — no JSON-LD`);
   for (const [, body] of ldBlocks) {
@@ -58,7 +53,7 @@ for (const file of files) {
     }
   }
 
-  // --- Title / description ---
+  // Titles and descriptions
   const decode = (t) => t.replace(/&quot;/g, '"').replace(/&#39;/g, "'")
     .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   const title = decode((html.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '');
@@ -73,32 +68,31 @@ for (const file of files) {
   if (descriptions.has(desc)) problems.push(`${rel} — DUPLICATE description with ${descriptions.get(desc)}`);
   descriptions.set(desc, rel);
 
-  // --- Canonical ---
+  // Canonical URL
   const canonical = (html.match(/<link rel="canonical" href="([^"]*)"/) || [])[1];
   if (!canonical) problems.push(`${rel} — no canonical`);
   else if (canonical !== `https://junepoint.com${rel}`)
     problems.push(`${rel} — canonical mismatch: ${canonical}`);
 
-  // --- Headings ---
+  // Headings
   const h1s = [...html.matchAll(/<h1[^>]*>/g)].length;
   if (h1s !== 1) problems.push(`${rel} — ${h1s} <h1> elements`);
 
-  // --- Duplicate element ids ---
+  // Element identifiers
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
   const dupeIds = ids.filter((id, i) => ids.indexOf(id) !== i);
   if (dupeIds.length) problems.push(`${rel} — duplicate ids: ${[...new Set(dupeIds)].join(', ')}`);
 
-  // --- Collect internal links ---
+  // Internal link collection
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)"/g)) linkRefs.push({ from: rel, href });
 
-  // --- Unrendered markup leaking through ---
+  // Unrendered markup
   const noCode = html.replace(/<pre[\s\S]*?<\/pre>/g, '').replace(/<script[^>]*>[\s\S]*?<\/script>/g, '');
   if (/\*\*[^*\n]+\*\*/.test(noCode)) {
     problems.push(`${rel} — unrendered **bold** markup outside code blocks`);
   }
-  // Template-rendering slips only: a bare value standing alone as an element's
-  // whole text, or leaking into an attribute. "undefined" inside prose or a
-  // <code> span is legitimate content on these pages.
+  // Match template values only when they occupy an entire element or leak into
+  // an attribute. Their use in prose or code examples is valid.
   const prose = html
     .replace(/<script[\s\S]*?<\/script>/g, '')
     .replace(/<pre[\s\S]*?<\/pre>/g, '')
@@ -114,7 +108,7 @@ for (const file of files) {
   }
 }
 
-// --- Internal link integrity ---
+// Internal link integrity
 const REACT_ROUTES = new Set([
   '/', '/personal-websites/', '/business-websites/', '/cross-platform-apps/', '/local-apps/', '/video-games/',
 ]);
@@ -122,7 +116,7 @@ const broken = new Map();
 for (const { from, href } of linkRefs) {
   const normalized = href.endsWith('/') ? href : href + '/';
   if (allPaths.has(normalized) || REACT_ROUTES.has(normalized)) continue;
-  if (fs.existsSync(path.join(PUBLIC, href.replace(/^\//, '')))) continue; // assets, images
+  if (fs.existsSync(path.join(PUBLIC, href.replace(/^\//, '')))) continue; // Existing assets and images are valid targets.
   if (!broken.has(href)) broken.set(href, new Set());
   broken.get(href).add(from);
 }
@@ -130,7 +124,7 @@ for (const [href, froms] of broken) {
   problems.push(`BROKEN LINK ${href} ← ${[...froms].slice(0, 4).join(', ')}${froms.size > 4 ? ` (+${froms.size - 4})` : ''}`);
 }
 
-// --- Sitemap coverage ---
+// Sitemap coverage
 const sitemap = fs.readFileSync(path.join(PUBLIC, 'sitemap.xml'), 'utf8');
 const sitemapPaths = new Set([...sitemap.matchAll(/<loc>https:\/\/junepoint\.com([^<]*)<\/loc>/g)].map((m) => m[1]));
 for (const p of allPaths) {

@@ -134,7 +134,7 @@ npm install react-legacy-ui@latest`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# .npmrc in the project root
+      x: `# Project .npmrc settings
 legacy-peer-deps=true`,
     },
 
@@ -175,7 +175,7 @@ npm install`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# .npmrc; commit this file
+      x: `# Commit these project .npmrc settings
 legacy-peer-deps=true
 engine-strict=true`,
     },

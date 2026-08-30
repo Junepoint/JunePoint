@@ -1,11 +1,11 @@
-/** Structured data builders. Every generated page ships at least two graphs. */
+/** Builds structured data. Every page includes at least two graphs. */
 
 const { site, SITE_URL } = require('../config');
 const { plain } = require('./html');
 
 const abs = (path) => (/^https?:\/\//.test(path) ? path : `${SITE_URL}${path}`);
 
-/** Site-wide identity graph, emitted on every page so entities consolidate. */
+/** Identity graph shared by every page to consolidate entities. */
 function organization() {
   return {
     '@type': 'Organization',
@@ -137,7 +137,7 @@ function howTo({ page, url, steps }) {
   };
 }
 
-/** Wrap a set of node graphs in a single @graph document. */
+/** Wrap nodes in one graph document. */
 function graph(nodes) {
   return { '@context': 'https://schema.org', '@graph': nodes.filter(Boolean) };
 }

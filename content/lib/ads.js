@@ -1,9 +1,8 @@
 /**
- * AdSense unit rendering.
+ * Renders AdSense units only for generated resource pages.
  *
- * Scoped to generated network pages. React portfolio never calls
- * into this module, /, /personal-websites, /business-websites,
- * /cross-platform-apps, /local-apps and /video-games stay ad-free
+ * The React portfolio never imports this module, so portfolio routes remain
+ * free of advertising.
  */
 
 const { ads } = require('../config');
@@ -11,7 +10,7 @@ const { esc } = require('./html');
 
 const enabled = () => /^ca-pub-\d{10,}$/.test(ads.client);
 
-/** The loader script, emitted once per page in <head>. */
+/** Return the loader script once per page. */
 function loaderScript() {
   if (!enabled()) return '';
   return `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(
@@ -19,7 +18,7 @@ function loaderScript() {
   )}" crossorigin="anonymous"></script>`;
 }
 
-/** Auto Ads opt-in, only when explicitly turned on. */
+/** Return the Auto Ads script only after explicit activation. */
 function autoAdsScript() {
   if (!enabled() || !ads.auto) return '';
   return `<script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"${esc(
@@ -27,7 +26,7 @@ function autoAdsScript() {
   )}",enable_page_level_ads:true});</script>`;
 }
 
-/** Site ownership verification. **/
+/** Return the site ownership verification metadata. */
 function verificationMeta() {
   if (!ads.client) return '';
   return `<meta name="google-adsense-account" content="${esc(ads.client)}" />`;
@@ -43,7 +42,7 @@ const PLACEMENTS = {
   hub: { slot: 'hub', format: 'auto', label: 'Hub' },
 };
 
-/** Render one ad unit. **/
+/** Render one configured ad placement. */
 function unit(name) {
   const placement = PLACEMENTS[name];
   if (!placement) throw new Error(`Unknown ad placement: ${name}`);

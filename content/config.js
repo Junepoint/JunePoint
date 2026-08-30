@@ -1,40 +1,32 @@
 /**
- * JunePoint content network: global configuration.
+ * Global configuration for generated JunePoint resource pages.
  *
- * This file drives the static site generator in `content/build.js`. It has no
- * relationship to the React portfolio app in `src/` and is never imported by it.
+ * The React portfolio does not import this file.
  */
 
 const SITE_URL = (process.env.SITE_URL || 'https://junepoint.com').replace(/\/$/, '');
 
 /**
- * AdSense wiring.
+ * AdSense settings for generated resource pages.
  *
- * Ads are rendered ONLY on generated network pages (/tools, /guides, /reviews,
- * /resources). The React portfolio at "/" and its sub-routes never receive ad
- * markup or the AdSense loader script.
+ * Portfolio routes never receive ad markup or the loader script. Ads remain
+ * disabled until `client` contains a publisher ID, which prevents incomplete
+ * units from reaching review.
  *
- * Until `client` is a real publisher ID, no ad markup and no loader script are
- * emitted at all. An empty <ins> unit is worse than no unit (it can trip
- * "low value / broken implementation" flags during AdSense review).
- *
- * Set via env at build time so the ID never has to be committed:
- *   ADSENSE_CLIENT=ca-pub-0000000000000000 npm run build
+ * Supply the client ID through `ADSENSE_CLIENT` during the build.
  */
 const ads = {
   client: process.env.ADSENSE_CLIENT || '',
 
-  // Set ADSENSE_AUTO=1 to also let Auto Ads place units. Manual units below
-  // give far better control over layout shift, so auto is off by default.
+  // Auto Ads remain opt in because manual units give tighter layout control.
   auto: process.env.ADSENSE_AUTO === '1',
 
-  // Draw labelled dashed boxes where ad units will sit, for local layout work.
-  //   AD_PREVIEW=1 npm run build:content
+  // Set `AD_PREVIEW` to `1` to show labelled placeholders during local builds.
   preview: process.env.AD_PREVIEW === '1',
 
   /**
-   * Create these units in the AdSense dashboard, then paste the slot IDs here
-   * (or supply them as env vars). Names map to placements in `lib/ads.js`.
+   * AdSense slot IDs keyed by placements in `lib/ads.js`.
+   * Environment values may supply each ID at build time.
    */
   slots: {
     articleTop: process.env.AD_SLOT_ARTICLE_TOP || '',
@@ -48,10 +40,10 @@ const ads = {
 };
 
 /**
- * Sections of the network. `tier` is the monetisation tier from the strategy:
- *   1 = high CPC / low traffic requirement (buyer intent)
- *   2 = medium CPC / high volume (evergreen editorial)
- *   3 = utility / programmatic (tools, high pageviews + retention)
+ * Content sections and their commercial role.
+ *
+ * Tier 1 serves buyer intent, tier 2 serves evergreen editorial content, and
+ * tier 3 serves frequently used tools.
  */
 const sections = {
   reviews: {
@@ -92,7 +84,7 @@ const sections = {
 const site = {
   name: 'JunePoint',
   author: 'Jackson Abeyta',
-  /** Publication identity for the network half of the domain. */
+  /** Public identity for generated resource pages. */
   publication: 'JunePoint Resources',
   url: SITE_URL,
   portalPath: '/resources/',

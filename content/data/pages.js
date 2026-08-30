@@ -1,10 +1,4 @@
-/**
- * Standalone pages: about, contact and the legal set.
- *
- * AdSense review looks for exactly this cluster: a real About page with named
- * humans, a working contact route, a privacy policy that names the ad vendor,
- * and clear terms. A site without them is a common rejection reason.
- */
+/** Standalone information and legal pages. */
 
 const authors = require('./authors');
 const { site } = require('../config');
@@ -28,7 +22,6 @@ const authorCards = Object.values(authors)
   .join('');
 
 module.exports = [
-  /* ---------------------------------------------------------------- About */
   {
     path: '/about/',
     title: 'About JunePoint Resources | Who Writes This',
@@ -88,7 +81,6 @@ module.exports = [
     ],
   },
 
-  /* -------------------------------------------------------------- Contact */
   {
     path: '/contact/',
     title: 'Contact JunePoint',
@@ -133,7 +125,6 @@ module.exports = [
     ],
   },
 
-  /* ---------------------------------------------------------- Privacy */
   {
     path: '/legal/privacy/',
     title: 'Privacy Policy | JunePoint',
@@ -159,7 +150,7 @@ module.exports = [
       },
       {
         t: 'p',
-        x: '**Local storage.** The site stores one value in your browser: your light or dark theme preference, under the key `jp-theme`. It stays on your device and is not an identifier. Clearing site data removes it.',
+        x: '**Local storage.** The JunePoint Studio theme toggle stores one value in your browser under the key `jp-studio-theme`. Resource pages are always dark and do not store a theme preference. The saved studio preference stays on your device and is not an identifier. Clearing site data removes it.',
       },
       {
         t: 'p',
@@ -238,7 +229,6 @@ module.exports = [
     ],
   },
 
-  /* ------------------------------------------------------------- Terms */
   {
     path: '/legal/terms/',
     title: 'Terms of Use | JunePoint',
@@ -306,7 +296,6 @@ module.exports = [
     ],
   },
 
-  /* -------------------------------------------------- Editorial policy */
   {
     path: '/legal/editorial-policy/',
     title: 'Editorial Policy | How Research Is Published',
@@ -375,7 +364,6 @@ module.exports = [
     ],
   },
 
-  /* ------------------------------------------------------- Disclosure */
   {
     path: '/legal/disclosure/',
     title: 'Advertising Disclosure | JunePoint',

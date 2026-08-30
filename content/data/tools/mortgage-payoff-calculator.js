@@ -116,7 +116,7 @@ module.exports = {
       var accrued = balance * monthlyRate;
       var due = payment + extraMonthly + ((months + 1) % 12 === 0 ? extraAnnual : 0);
 
-      // A payment that never covers the interest can't amortize the loan.
+      // Payments below accrued interest cannot reduce the balance.
       if (due <= accrued && monthlyRate > 0) return { months: Infinity, interest: Infinity, stalled: true };
 
       var principalPaid = Math.min(due - accrued, balance);

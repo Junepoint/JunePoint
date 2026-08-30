@@ -1,4 +1,4 @@
-/** Short editorial intros shown above the listings on each section hub. */
+/** Introductions shown above each section listing. */
 
 module.exports = {
   tools: [

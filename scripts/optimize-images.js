@@ -5,7 +5,7 @@ const path = require('path');
 const inputDir = './public/imgs';
 const outputDir = './public/imgs';
 
-// Images to optimize (the large screenshot ones)
+// Screenshots selected for compression.
 const imagesToOptimize = [
   'alex_portfolio.png',
   'burnjournals.png',
@@ -41,17 +41,17 @@ async function optimizeImages() {
       const image = sharp(inputPath);
       const metadata = await image.metadata();
       
-      // Resize if larger than 1200px width (good for web)
+      // Limit wide images to 1200 pixels.
       const maxWidth = 1200;
       const resizeOptions = metadata.width > maxWidth ? { width: maxWidth } : {};
 
-      // Output as optimized PNG (much smaller)
+      // Write a compressed temporary PNG.
       await sharp(inputPath)
         .resize(resizeOptions)
         .png({ quality: 80, compressionLevel: 9 })
         .toFile(inputPath.replace('.png', '_optimized.png'));
 
-      // Replace original with optimized
+      // Replace the source only after compression succeeds.
       fs.unlinkSync(inputPath);
       fs.renameSync(inputPath.replace('.png', '_optimized.png'), inputPath);
 

@@ -65,7 +65,7 @@ module.exports = {
     status.className = 'jp-status' + (kind ? ' jp-status--' + kind : '');
   }
 
-  /* JSON.parse reports a character offset; translate it to line and column. */
+  /* Convert the JSON.parse offset to a line and column. */
   function locate(text, error) {
     var match = /position (\\d+)/.exec(error.message);
     if (!match) return error.message;
@@ -157,8 +157,8 @@ module.exports = {
     var text = input.value.trim();
     if (!text) return;
     try {
-      // A JSON document that has been embedded in another string arrives
-      // double-encoded; parsing once yields the real document as a string.
+      // An encoded JSON document arrives as a string.
+      // Parsing once reveals the nested document.
       var unwrapped = JSON.parse(text);
       if (typeof unwrapped !== 'string') { setStatus('The input is a JSON value, not an escaped JSON string.', 'err'); return; }
       input.value = JSON.stringify(JSON.parse(unwrapped), null, indent());
@@ -286,19 +286,19 @@ module.exports = {
     {
       t: 'code',
       lang: 'bash',
-      x: `# Format (pretty-print)
+      x: `# Format with indentation
 jq '.' input.json
 
-# Minify
+    # Remove insignificant whitespace
 jq -c '.' input.json
 
-# Sort keys recursively
+    # Sort every object key
 jq -S '.' input.json
 
-# Validate only; exit code 0 means valid
+    # Validate with exit code 0 for success
 jq empty input.json && echo "valid"
 
-# No jq installed? Python is usually there
+    # Use Python when jq is unavailable
 python3 -m json.tool input.json`,
     },
     {

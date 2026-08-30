@@ -30,9 +30,9 @@ jobs:
         run: npm run build
         env:
           CI: false
-          # AdSense. Until ADSENSE_CLIENT is set as a repository secret, no ad
-          # markup and no loader script are emitted anywhere on the site.
-          # Settings > Secrets and variables > Actions > New repository secret.
+          # Ad markup requires the ADSENSE_CLIENT repository secret.
+          # Without it, the site omits all ad markup and loader scripts.
+          # Add it under Settings, Secrets and variables, then Actions.
           ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
           AD_SLOT_ARTICLE_TOP: ${{ secrets.AD_SLOT_ARTICLE_TOP }}
           AD_SLOT_IN_CONTENT: ${{ secrets.AD_SLOT_IN_CONTENT }}

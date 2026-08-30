@@ -1,10 +1,4 @@
-/**
- * The network portal at /resources/.
- *
- * This is the front door for the publishing side of junepoint.com: a clean
- * directory that routes visitors into the three cleanly separated subfolders,
- * rather than a blog that mixes unrelated niches on one feed.
- */
+/** Renders the resource directory and its section links. */
 
 const { site, sections, SITE_URL } = require('../config');
 const { esc, displayDate } = require('../lib/html');

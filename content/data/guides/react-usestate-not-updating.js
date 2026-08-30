@@ -36,7 +36,7 @@ module.exports = {
 
 function handleClick() {
   setCount(count + 1);
-  console.log(count);   // 0, the value from this render
+  console.log(count);   // Still 0 from this render
 }`,
     },
     {
@@ -59,15 +59,15 @@ function handleClick() {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Increments by 1, not 3; every call reads the same count
+      x: `// Adds 1 because every call reads the same count
 setCount(count + 1);
 setCount(count + 1);
 setCount(count + 1);
 
-// ✓ The updater form receives the latest pending value
+    // Each updater receives the latest pending value
 setCount(c => c + 1);
 setCount(c => c + 1);
-setCount(c => c + 1);   // now +3`,
+    setCount(c => c + 1);   // Now +3`,
     },
     {
       t: 'p',
@@ -92,11 +92,11 @@ setCount(c => c + 1);   // now +3`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Same array reference, so React can skip the render\nitems.push(newItem);\nsetItems(items);\n\n// ✗ Same object reference, with the same result
+      x: `// The same array reference can skip rendering\nitems.push(newItem);\nsetItems(items);\n\n// The same object reference has the same result
 user.name = 'Ada';
 setUser(user);
 
-// ✓ New references
+    // New references trigger rendering
 setItems([...items, newItem]);
 setUser({ ...user, name: 'Ada' });`,
     },
@@ -107,18 +107,18 @@ setUser({ ...user, name: 'Ada' });`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ The outer object is new, but settings is the same object
+      x: `// The outer object is new, but settings is reused
 setUser({ ...user, settings: Object.assign(user.settings, { theme: 'dark' }) });
 
-// ✓ New object at each level
+    // Every changed level receives a new object
 setUser({
   ...user,
   settings: { ...user.settings, theme: 'dark' },
 });
 
-// Arrays: map and filter return new arrays; sort and reverse mutate in place
+// map and filter return new arrays; sort and reverse mutate in place
 setItems(items.map(i => i.id === id ? { ...i, done: true } : i));
-setItems([...items].sort((a, b) => a.order - b.order));   // copy first`,
+setItems([...items].sort((a, b) => a.order - b.order));   // Copies before sorting`,
     },
     {
       t: 'p',
@@ -139,13 +139,13 @@ setItems([...items].sort((a, b) => a.order - b.order));   // copy first`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Logs 0, 1, 1, 1, 1 … then sticks
+      x: `// Logs 0, 1, 1, 1, 1 … then stops
 useEffect(() => {
   const id = setInterval(() => {
-    setCount(count + 1);   // 'count' is frozen at 0 forever
+    setCount(count + 1);   // count stays 0 in this closure
   }, 1000);
   return () => clearInterval(id);
-}, []);                    // empty deps, so the effect never re-runs`,
+}, []);                    // Empty dependencies prevent another run`,
     },
     {
       t: 'p',
@@ -154,17 +154,17 @@ useEffect(() => {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✓ The updater form never reads the captured variable
+      x: `// The updater never reads the captured variable
 useEffect(() => {
   const id = setInterval(() => setCount(c => c + 1), 1000);
   return () => clearInterval(id);
 }, []);
 
-// ✓ Or declare the dependency honestly and let the effect re-subscribe
+// Declaring the dependency recreates the subscription
 useEffect(() => {
   const id = setInterval(() => setCount(count + 1), 1000);
   return () => clearInterval(id);
-}, [count]);   // correct, but tears down and recreates the interval each tick`,
+}, [count]);   // Recreates the interval after every tick`,
     },
     {
       t: 'p',
@@ -183,7 +183,7 @@ useEffect(() => { countRef.current = count; }, [count]);
 useEffect(() => {
   const socket = new WebSocket(url);
   socket.onmessage = () => {
-    console.log('current count:', countRef.current);   // always fresh
+    console.log('current count:', countRef.current);   // Reads the current value
   };
   return () => socket.close();
 }, [url]);`,
@@ -204,10 +204,10 @@ useEffect(() => {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Runs only on the first render; later prop changes are ignored
+      x: `// Runs once, so later prop changes are ignored
 function Profile({ user }) {
   const [name, setName] = useState(user.name);
-  // ...
+  // Component logic continues here
 }`,
     },
     {
@@ -217,18 +217,18 @@ function Profile({ user }) {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// The key changes → React discards the old component and its state
+      x: `// A new key discards the old component and its state
 <Profile key={user.id} user={user} />`,
     },
     { t: 'h3', x: 'Storing derived values in state' },
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Two sources of truth that can disagree
+      x: `// Two sources of truth can disagree
 const [items, setItems] = useState([]);
 const [total, setTotal] = useState(0);
 
-// ✓ One source of truth; derive the rest during render
+    // One source of truth lets rendering derive the rest
 const [items, setItems] = useState([]);
 const total = items.reduce((sum, i) => sum + i.price, 0);`,
     },

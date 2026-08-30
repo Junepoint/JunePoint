@@ -70,10 +70,10 @@ module.exports = {
     {
       t: 'code',
       lang: 'bash',
-      x: `# Reword the message
+      x: `# Edit the message
 git commit --amend -m "fix: correct tax rounding on invoices"
 
-# Forgot a file? Stage it and fold it into the previous commit
+    # Add a missing file to the previous commit
 git add src/tax.ts
 git commit --amend --no-edit`,
     },
@@ -86,10 +86,10 @@ git commit --amend --no-edit`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Changes return to the staging area, ready to re-commit\ngit reset --soft HEAD~1\n\n# Changes return to the working directory, unstaged
-git reset HEAD~1          # --mixed is the default
+      x: `# Keep the changes staged\ngit reset --soft HEAD~1\n\n# Keep the changes unstaged
+    git reset HEAD~1          # Mixed mode is the default
 
-# Changes are destroyed. Nothing is kept.
+    # Destroy every change from the commit
 git reset --hard HEAD~1`,
     },
     {
@@ -120,13 +120,13 @@ git reset --hard HEAD~1`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Undo one commit
+      x: `# Revert one commit
 git revert a1b2c3d
 
-# Undo several, newest first
+    # Revert several commits, newest first
 git revert a1b2c3d b4e5f6a
 
-# Stage the inverse without committing, so you can adjust it
+    # Stage the inverse for review
 git revert --no-commit a1b2c3d`,
     },
     {
@@ -142,7 +142,7 @@ git revert --no-commit a1b2c3d`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# -m 1 means "keep the first parent," usually the branch you merged into
+      x: `# Mainline 1 keeps the first parent, usually the target branch
 git revert -m 1 <merge-sha>`,
     },
     {
@@ -160,7 +160,7 @@ git revert -m 1 <merge-sha>`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Rewrite the last five commits
+      x: `# Rewrite the five most recent commits
 git rebase -i HEAD~5`,
     },
     {
@@ -185,20 +185,20 @@ edit   e3f4a5b  refactor: extract helper    ← stop here to amend it`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Unstage a file, keep the edits
+      x: `# Unstage a file while keeping its edits
 git restore --staged src/app.ts
 
-# Discard uncommitted edits to a file. This is NOT recoverable.
+    # Permanently discard edits to one file
 git restore src/app.ts
 
-# Discard everything uncommitted
+    # Permanently discard every uncommitted edit
 git restore .
 
-# Remove untracked files (-n previews, -d includes directories)
+    # Preview, then remove untracked files and directories
 git clean -nd
 git clean -fd
 
-# Park your work instead of destroying it
+    # Stash work for later
 git stash push -m "half-finished refactor"
 git stash pop`,
     },
@@ -217,21 +217,21 @@ git stash pop`,
       lang: 'bash',
       x: `git reflog
 
-# a1b2c3d HEAD@{0}: reset: moving to HEAD~3      ← the mistake
-# f9e8d7c HEAD@{1}: commit: feat: add reporting  ← where you want to be
-# 8b7a6c5 HEAD@{2}: commit: fix: rounding
+# a1b2c3d HEAD@{0}: mistaken reset to HEAD~3
+# f9e8d7c HEAD@{1}: desired reporting commit
+# 8b7a6c5 HEAD@{2}: earlier rounding fix
 
-# Go back to where you were before the reset
+# Return to the state before the reset
 git reset --hard HEAD@{1}`,
     },
     {
       t: 'code',
       lang: 'bash',
-      x: `# Recover a branch you deleted
+      x: `# Recover a deleted branch
 git reflog
 git branch recovered-feature f9e8d7c
 
-# Find commits no branch references at all
+    # Find commits without branch references
 git fsck --lost-found`,
     },
     {
@@ -253,10 +253,10 @@ git fsck --lost-found`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Refuses to push if someone else has pushed since you last fetched
+      x: `# Stop if the remote changed since your last fetch
 git push --force-with-lease
 
-# Never do this on a shared branch
+    # Unsafe on a shared branch
 git push --force`,
     },
     {

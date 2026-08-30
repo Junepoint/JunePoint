@@ -32,16 +32,16 @@ module.exports = {
     {
       t: 'code',
       lang: 'bash',
-      x: `# Logs remain available after the process exits. Read them first.
+      x: `# Read the logs first, even after the process exits.
 docker logs <container>
 
-# Every container, including the dead ones, with its exit code
+    # Show every container and its exit code
 docker ps -a
 
-# The exit code on its own
+    # Show only the exit details
 docker inspect <container> --format '{{.State.ExitCode}} {{.State.Error}}'
 
-# Follow a restart loop as it happens
+    # Follow a restart loop live
 docker logs -f --tail 50 <container>`,
     },
     {
@@ -77,7 +77,7 @@ docker logs -f --tail 50 <container>`,
     {
       t: 'code',
       lang: 'bash',
-      x: `docker run ubuntu             # exits at once because Bash has nothing to do\ndocker run -it ubuntu bash    # stays up because -it gives Bash a terminal`,
+      x: `docker run ubuntu             # Bash exits when it has nothing to do\ndocker run -it ubuntu bash    # An interactive terminal keeps Bash open`,
     },
     {
       t: 'p',
@@ -92,10 +92,10 @@ docker logs -f --tail 50 <container>`,
     {
       t: 'code',
       lang: 'dockerfile',
-      x: `# ✗ nginx forks to the background, PID 1 exits, container stops
+      x: `# nginx moves into the background and PID 1 exits
 CMD ["nginx"]
 
-# ✓ stay in the foreground
+    # Keep nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]`,
     },
     {
@@ -123,10 +123,10 @@ CMD ["nginx", "-g", "daemon off;"]`,
     {
       t: 'code',
       lang: 'dockerfile',
-      x: `# ✗ Shell form needs /bin/sh, which distroless does not have
+      x: `# Shell form needs /bin/sh, which distroless omits
 CMD npm start
 
-# ✓ Exec form runs the binary directly; no shell is required
+    # Exec form runs the binary directly without a shell
 CMD ["node", "server.js"]`,
     },
     { t: 'h3', x: 'Windows line endings' },
@@ -137,7 +137,7 @@ CMD ["node", "server.js"]`,
     {
       t: 'code',
       lang: 'dockerfile',
-      x: `# Fix at build time
+      x: `# Normalize line endings while building
 RUN sed -i 's/\\r$//' /entrypoint.sh && chmod +x /entrypoint.sh`,
     },
     {
@@ -165,7 +165,7 @@ docker run --platform linux/amd64 myapp`,
       t: 'code',
       lang: 'bash',
       x: `docker inspect <container> --format '{{.State.OOMKilled}}'
-# true  → memory limit exceeded
+    # true means the memory limit was exceeded
 
 docker stats --no-stream`,
     },
@@ -204,7 +204,7 @@ docker stats --no-stream`,
     build: .
     depends_on:
       db:
-        condition: service_healthy   # this is the part people miss`,
+        condition: service_healthy   # Wait for the readiness check`,
     },
 
     { t: 'h2', x: 'Getting a shell inside a container that will not run' },
@@ -215,17 +215,17 @@ docker stats --no-stream`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Ignore the image's CMD and ENTRYPOINT, get a shell
+      x: `# Replace the image startup command with a shell
 docker run -it --entrypoint sh <image>
 
-# Inspect the filesystem of a container that already died
+    # Inspect a stopped container filesystem
 docker commit <dead-container> debug-image
 docker run -it --entrypoint sh debug-image
 
-# Copy files out of a stopped container
+    # Copy a file from a stopped container
 docker cp <container>:/app/config.json ./
 
-# What the image is actually configured to run
+    # Display the configured startup command
 docker inspect <image> --format '{{.Config.Entrypoint}} {{.Config.Cmd}}'`,
     },
     {
@@ -253,14 +253,14 @@ docker inspect <image> --format '{{.Config.Entrypoint}} {{.Config.Cmd}}'`,
     {
       t: 'code',
       lang: 'dockerfile',
-      x: `# ✗ Shell form wraps the command in sh -c, which does not forward signals
+      x: `# Shell form adds a wrapper that may not forward signals
 CMD npm start
 
-# ✓ Exec form makes your process PID 1 and lets it receive SIGTERM
+    # Exec form lets PID 1 receive SIGTERM
 CMD ["node", "server.js"]
 
-# For anything that spawns children, add a proper init to reap zombies
-# (or run with: docker run --init)
+    # Add an init process when the application spawns children
+    # Docker can provide the init process at runtime
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "server.js"]`,
     },

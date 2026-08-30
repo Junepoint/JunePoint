@@ -1,21 +1,20 @@
 /**
- * Content block renderer.
+ * Renders typed content blocks into HTML.
  *
- * Articles are authored as arrays of small typed blocks rather than raw HTML so
- * that structure stays machine-readable: headings feed the table of contents,
- * `faq` blocks feed FAQPage schema, and `pick` blocks feed product schema.
+ * Typed blocks keep document structure available to navigation and structured
+ * data.
  */
 
 const { esc, inline, slugify } = require('./html');
 
-/** Blocks that become h2 entries in the table of contents. */
+/** Collect second level headings for the table of contents. */
 function headings(blocks) {
   return blocks
     .filter((b) => b.t === 'h2')
     .map((b) => ({ id: b.id || slugify(b.x), text: b.x }));
 }
 
-/** Every FAQ pair in a document, for FAQPage structured data. */
+/** Collect every FAQ pair for structured data. */
 function faqs(blocks) {
   return blocks.filter((b) => b.t === 'faq').flatMap((b) => b.items);
 }
@@ -152,7 +151,7 @@ function renderBlock(block, index) {
   }
 }
 
-/** Render a document, splicing in ad units at the requested block offsets. */
+/** Render blocks and insert ads at requested offsets. */
 function render(blocks, { adAt = {}, renderAd = () => '' } = {}) {
   return blocks
     .map((block, i) => {

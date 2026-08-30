@@ -1,4 +1,4 @@
-/** Page-type renderers. Each returns a complete HTML document string. */
+/** Renders complete HTML documents for each page type. */
 
 const { site, sections, SITE_URL } = require('../config');
 const { esc, inline, slugify, displayDate } = require('./html');
@@ -8,20 +8,18 @@ const ads = require('./ads');
 const { page, breadcrumbNav, tocMarkup, bylineMarkup } = require('./layout');
 const authors = require('../data/authors');
 
-/** Rough reading time from the text content of a block list. */
+/** Estimate reading time from block text. */
 function readingTime(list) {
   const text = JSON.stringify(list).replace(/[^A-Za-z' ]+/g, ' ');
   return Math.max(1, Math.round(text.split(/\s+/).filter(Boolean).length / 230));
 }
 
 /**
- * Decide where ad units are spliced into an article.
+ * Choose natural article boundaries for ad insertion.
  *
- * In-content units are snapped forward to the next h2 so they land on a section
- * boundary rather than interrupting a paragraph run. This reads better and offers better
- * viewability than a unit stranded mid-argument. Units are kept at least five
- * blocks apart and out of the closing blocks, so the FAQ and the related-links
- * module are not buried under a wall of advertising.
+ * Ads move to section boundaries instead of interrupting paragraphs. Placements
+ * stay at least seven blocks apart and avoid the final two blocks so closing
+ * content remains readable.
  */
 function adPositions(list) {
   const positions = {};
@@ -29,9 +27,8 @@ function adPositions(list) {
 
   positions[Math.min(3, list.length - 1)] = 'articleTop';
 
-  // h2, FAQ and vendor-card boundaries are all natural breaks. Long buying
-  // guides are mostly consecutive `pick` blocks with no headings between them,
-  // so without `pick` here the densest part of the page gets no unit at all.
+  // Headings, FAQs, and product picks provide natural breaks. Product picks are
+  // required because long buying guides may contain no headings between them.
   const BOUNDARY = new Set(['h2', 'faq', 'pick']);
   const sectionStarts = list
     .map((block, i) => (BOUNDARY.has(block.t) ? i : -1))
@@ -93,9 +90,7 @@ function sidebarMarkup({ toc, section, registry, extra = '' }) {
 </aside>`;
 }
 
-/* -------------------------------------------------------------------------- */
-
-/** A standard editorial article: guides (tier 2) and buying guides (tier 1). */
+/** Render a standard guide or buying guide. */
 function renderArticle(doc, registry) {
   const section = sections[doc.section];
   const author = authors[doc.author];
@@ -164,7 +159,7 @@ function renderArticle(doc, registry) {
   });
 }
 
-/** An interactive tool page: the widget first, supporting content below it. */
+/** Render an interactive tool followed by supporting content. */
 function renderTool(doc, registry) {
   const section = sections.tools;
   const author = authors[doc.author];
@@ -224,7 +219,7 @@ function renderTool(doc, registry) {
   });
 }
 
-/** A section hub: /tools/, /guides/, /reviews/. */
+/** Render a section hub. */
 function renderHub(sectionKey, entries, intro) {
   const section = sections[sectionKey];
   const path = `/${section.slug}/`;
@@ -312,7 +307,7 @@ function renderHub(sectionKey, entries, intro) {
   });
 }
 
-/** A plain prose page: about, contact, legal. */
+/** Render an about, contact, or legal page. */
 function renderProse(doc) {
   const path = doc.path;
   const url = `${SITE_URL}${path}`;

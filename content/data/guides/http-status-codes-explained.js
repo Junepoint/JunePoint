@@ -207,7 +207,7 @@ X-RateLimit-Reset: 1767229200`,
       const retryable = [408, 429, 500, 502, 503, 504].includes(error.status);
       if (!retryable || i === attempts - 1) throw error;
 
-      const base = 2 ** i * 250;                  // 250, 500, 1000 ms
+      const base = 2 ** i * 250;                  // Retry delays are 250, 500, 1000 ms
       await new Promise(r => setTimeout(r, base + Math.random() * base));
     }
   }
