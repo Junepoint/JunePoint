@@ -10,7 +10,45 @@
     />
     <meta name="author" content="Jackson Abeyta" />
     <link rel="canonical" href="https://junepoint.com/" />
-    <title>JunePoint - Web and Mobile App Development</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="JunePoint Software" />
+    <meta property="og:title" content="JunePoint Software | Web and Mobile App Development" />
+    <meta
+      property="og:description"
+      content="JunePoint builds cross-platform applications and websites for iOS, Android, and the web."
+    />
+    <meta property="og:url" content="https://junepoint.com/" />
+    <title>JunePoint Software | Web and Mobile App Development</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://junepoint.com/#website",
+            "url": "https://junepoint.com/",
+            "name": "JunePoint Software",
+            "alternateName": ["JunePoint", "junepoint.com"],
+            "description": "JunePoint builds cross-platform applications and websites for iOS, Android, and the web.",
+            "publisher": { "@id": "https://junepoint.com/#organization" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://junepoint.com/#organization",
+            "name": "JunePoint",
+            "url": "https://junepoint.com/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://junepoint.com/favicon.png"
+            },
+            "email": "jackson@allwatermarinegroup.com"
+          }
+        ]
+      }
+    </script>
     <script>
       if (window.location.pathname === '/index.html') {
         window.history.replaceState(null, '', '/' + window.location.search + window.location.hash);
