@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
+    <meta name="theme-color" content="#0b1220" />
+    <style>html,body{min-height:100%;background:#0b1220;color:#e8eefb;color-scheme:dark}body{margin:0}</style>
+    <title>Node &#39;Cannot find module&#39;: Why Resolution Fails</title>
+    <meta name="description" content="Node says Cannot find module. Here is how require and import actually resolve a specifier, and the path, case and exports problems that break it." />
+    <link rel="canonical" href="https://junepoint.com/guides/cannot-find-module-node/" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JunePoint Software" />
+    <meta property="og:title" content="Node &#39;Cannot find module&#39;: Why Resolution Fails" />
+    <meta property="og:description" content="Node says Cannot find module. Here is how require and import actually resolve a specifier, and the path, case and exports problems that break it." />
+    <meta property="og:url" content="https://junepoint.com/guides/cannot-find-module-node/" />
+    <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2026-08-30" />
+    <meta property="article:modified_time" content="2026-08-30" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@junepoint" />
+    <meta name="twitter:title" content="Node &#39;Cannot find module&#39;: Why Resolution Fails" />
+    <meta name="twitter:description" content="Node says Cannot find module. Here is how require and import actually resolve a specifier, and the path, case and exports problems that break it." />
+    <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=6" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=6" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://junepoint.com/#organization",
+      "name": "JunePoint",
+      "url": "https://junepoint.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://junepoint.com/imgs/junepoint.png"
+      },
+      "email": "jackson@allwatermarinegroup.com",
+      "foundingDate": "2025",
+      "sameAs": [
+        "https://github.com/Junepoint"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://junepoint.com/#website",
+      "name": "JunePoint Software",
+      "alternateName": [
+        "JunePoint",
+        "junepoint.com"
+      ],
+      "url": "https://junepoint.com/",
+      "description": "JunePoint Resources publishes free browser-based developer tools, troubleshooting guides and independent business-software buying research.",
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
+      "jobTitle": "Full-Stack Developer, JunePoint",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
+      "url": "https://junepoint.com/about/",
+      "sameAs": [
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Resources",
+          "item": "https://junepoint.com/resources/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Developer Guides",
+          "item": "https://junepoint.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Fixing 'Cannot find module' in Node",
+          "item": "https://junepoint.com/guides/cannot-find-module-node/"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://junepoint.com/guides/cannot-find-module-node/#article",
+      "headline": "Fixing 'Cannot find module' in Node",
+      "name": "Node 'Cannot find module': Why Resolution Fails",
+      "description": "Node says Cannot find module. Here is how require and import actually resolve a specifier, and the path, case and exports problems that break it.",
+      "datePublished": "2026-08-30",
+      "dateModified": "2026-08-30",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://junepoint.com/guides/cannot-find-module-node/"
+      },
+      "author": {
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
+      },
+      "publisher": {
+        "@id": "https://junepoint.com/#organization"
+      },
+      "keywords": "cannot find module, err_module_not_found, node module resolution, esm vs commonjs, require of es module",
+      "articleSection": "Developer Guides"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://junepoint.com/guides/cannot-find-module-node/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does it work locally but not in Docker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Three causes account for most of it. The container filesystem is case sensitive and your laptop’s is not, so a capitalisation mistake surfaces for the first time. A bind mount is covering the image’s node_modules. Or node_modules was copied in from the host with binaries built for the wrong platform. Run node -p \"module.paths\" inside the container to see what the process can actually reach."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between MODULE_NOT_FOUND and ERR_MODULE_NOT_FOUND?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They come from different resolvers. MODULE_NOT_FOUND is CommonJS, which means Node already tried appending .js, .json and .node and tried the directory as a package before giving up. ERR_MODULE_NOT_FOUND is the ESM resolver, which does none of that. The second one very often just means a missing file extension."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to write .js extensions in TypeScript imports?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Under the node16 or nodenext module settings, yes: you write ./utils.js in the source even though the file on disk is utils.ts, because the specifier describes the emitted output that Node will load. It looks wrong and it is correct. Bundler-oriented settings do not require it, which is why the same codebase can behave differently depending on how a given file is executed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I make ESM guess extensions like CommonJS does?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Do not build on it. Node had an experimental flag for this and it was not a stable part of the platform; the supported approaches are writing full specifiers or supplying a custom resolver hook. Writing the extension takes less time than maintaining either alternative."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why can't I import a file that clearly exists inside a package?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Almost certainly the package’s exports field, which acts as an allow list and makes every unlisted path private regardless of what is on disk. The error is ERR_PACKAGE_PATH_NOT_EXPORTED and it names the manifest to read. Editing that manifest inside node_modules will work until the next install and no longer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I just delete node_modules and reinstall?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is a reasonable step once you have ruled out the specifier, the case, the exports map and the environment. It repairs a partially written or corrupted tree. It cannot repair a missing extension, a dependency in the wrong section of the manifest, or an alias that only your bundler understands, and doing it first removes the state you would have inspected."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+  </head>
+  <body class="jp jp-tier2 has-ads">
+    <a class="jp-skip" href="#main">Skip to content</a>
+<header class="jp-header">
+  <div class="jp-header-inner">
+    <a class="jp-brand" href="/resources/">
+      <span class="jp-brand-mark">JunePoint</span>
+      <span class="jp-brand-sub">Resources</span>
+    </a>
+    <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
+    <div class="jp-header-actions">
+      <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
+    </div>
+    <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="jp-mobile-nav" id="jp-mobile-nav" aria-label="Sections" hidden>
+    <a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a>
+    <a href="/resources/">All resources</a>
+    <a href="/">JunePoint Studio</a>
+  </nav>
+</header>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">Fixing &#39;Cannot find module&#39; in Node</li></ol></nav></div>
+<div class="jp-layout">
+  <main id="main">
+    <header class="jp-pagehead">
+      <p class="jp-eyebrow">Troubleshooting</p>
+      <h1>Fixing &#39;Cannot find module&#39; in Node</h1>
+      <p class="jp-standfirst">Two different resolvers print almost the same sentence. Work out which one ran, then check the small number of path conditions that produce it.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published August 30, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>13 min read</span></div>
+    </header>
+    <article class="jp-article">
+      <aside class="jp-takeaways">
+        <h2 id="key-takeaways">Key takeaways</h2>
+        <ul><li>Two different failures share one sentence. CommonJS reports <code>MODULE_NOT_FOUND</code> with a <code>Require stack:</code> list. ES modules report <code>ERR_MODULE_NOT_FOUND</code> and name the file that did the importing.</li><li>ESM does not guess extensions and does not fall back to <code>index.js</code>. <code>import &#39;./utils&#39;</code> fails where <code>require(&#39;./utils&#39;)</code> succeeds.</li><li>If the package is plainly sitting in <code>node_modules</code>, suspect the package’s <code>exports</code> field, a filename case mismatch, or a working directory you did not expect.</li><li>Code that passes on macOS and fails on Linux CI is a case-sensitivity problem until proven otherwise.</li></ul>
+      </aside>
+<h2 id="start-with-the-error-text-not-with-a-reinstall">Start with the error text, not with a reinstall</h2>
+<p>Deleting <code>node_modules</code> fixes a narrow class of problem and hides the rest. Read the first two lines instead. They tell you which resolver ran and which file was asking, and those two facts eliminate most of the candidate causes before you touch anything.</p>
+<div class="jp-ad jp-ad--articleTop">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="2180968406" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><pre class="jp-code" data-lang="text"><code># CommonJS
+Error: Cannot find module &#39;./utils&#39;
+Require stack:
+- /app/src/index.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader)
+    at Module._load (node:internal/modules/cjs/loader)
+  code: &#39;MODULE_NOT_FOUND&#39;,
+  requireStack: [ &#39;/app/src/index.js&#39; ]
+
+# ES modules
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module &#39;/app/src/utils&#39; imported from /app/src/index.js
+  code: &#39;ERR_MODULE_NOT_FOUND&#39;</code></pre>
+<aside class="jp-note jp-note--info">
+        <p class="jp-note-title">About the stack frames</p>
+        <p>Line numbers inside <code>node:internal/...</code> frames shift between releases, so they are trimmed above rather than quoted at a version that may not match yours. The <code>code</code> property is the stable part, and it is the part worth reading.</p>
+      </aside>
+<p>The CommonJS form quotes the specifier exactly as you wrote it. The ESM form has already turned it into an absolute path, which is a clue in itself: if that path ends without a file extension, you wrote a bare relative import and the ESM resolver will not repair it for you. Recent Node versions also print a suggestion line naming the file they think you meant. The wording of that hint has changed across releases, so treat it as help rather than as a string to match on.</p>
+<h2 id="how-require-resolves-a-specifier">How require() resolves a specifier</h2>
+<p>The CommonJS algorithm is short. Knowing it turns most of these failures into a five second read.</p>
+<ol><li>A specifier starting with <code>node:</code> is a built-in. Nothing else is consulted.</li><li>A specifier matching a built-in name such as <code>fs</code> or <code>path</code> also resolves to the built-in, and it wins over anything installed in <code>node_modules</code> under the same name.</li><li>A specifier starting with <code>/</code>, <code>./</code> or <code>../</code> is a path relative to the requiring file. Node tries it verbatim, then with <code>.js</code>, <code>.json</code> and <code>.node</code> appended.</li><li>If that path turns out to be a directory, Node reads the directory’s <code>package.json</code> <code>main</code> field, then falls back to <code>index.js</code>, <code>index.json</code> and <code>index.node</code>.</li><li>Anything else is a bare specifier. Node looks in <code>node_modules</code> next to the requiring file, then in the parent directory’s <code>node_modules</code>, and keeps walking up to the filesystem root.</li></ol>
+<p>That last step is visible at runtime, which makes it the fastest thing to check when a dependency that is definitely installed cannot be found.</p>
+<pre class="jp-code" data-lang="bash"><code># run from /app/src
+node -p &quot;module.paths&quot;
+[
+  &#39;/app/src/node_modules&#39;,
+  &#39;/app/node_modules&#39;,
+  &#39;/node_modules&#39;
+]</code></pre>
+<p>Your list will differ, and that is the point. The search starts from the file doing the requiring, not from wherever you ran <code>npm install</code>. <code>NODE_PATH</code> still adds directories to the CommonJS search for backward compatibility, and it is a common reason a machine with a hand-tuned shell profile works while a container does not. Any project relying on it should be treated as carrying legacy debt.</p>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="what-es-modules-change">What ES modules change</h2>
+<p>The ESM resolver is stricter on purpose. It resolves specifiers as URLs, which means the result is deterministic without hitting the filesystem repeatedly to test candidate extensions. The cost of that determinism is that everything the CommonJS resolver used to paper over now surfaces as an error.</p>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Behaviour</th><th scope="col">require() in CommonJS</th><th scope="col">import in ESM</th></tr></thead><tbody><tr><th scope="row">Missing extension</th><td>Tries <code>.js</code>, <code>.json</code>, <code>.node</code></td><td>Fails; the extension is part of the specifier</td></tr><tr><th scope="row">Directory import</th><td>Falls back to <code>main</code>, then <code>index.js</code></td><td>Fails with <code>ERR_UNSUPPORTED_DIR_IMPORT</code></td></tr><tr><th scope="row">Specifier form</th><td>A filesystem path</td><td>A URL resolved against the importing file’s URL</td></tr><tr><th scope="row"><code>NODE_PATH</code></th><td>Honoured</td><td>Ignored</td></tr><tr><th scope="row">Deep import into a package</th><td>Allowed only if <code>exports</code> permits it</td><td>Allowed only if <code>exports</code> permits it</td></tr><tr><th scope="row">Loading an ESM-only package</th><td>Historically <code>ERR_REQUIRE_ESM</code></td><td>Works</td></tr></tbody></table><p class="jp-table-note">One headline error, two resolvers with different rules.</p></div>
+<p>Which resolver reads a given <code>.js</code> file is decided by the <code>type</code> field of the nearest <code>package.json</code> above it. <code>&quot;type&quot;: &quot;module&quot;</code> makes every <code>.js</code> file in that package tree an ES module. The <code>.mjs</code> and <code>.cjs</code> extensions override the field explicitly. So a codebase that suddenly cannot find its own sibling files, right after someone added <code>&quot;type&quot;: &quot;module&quot;</code>, is not haunted. The extension rule has simply started applying.</p>
+<h2 id="the-path-cases-that-actually-cause-it">The path cases that actually cause it</h2>
+<h3 id="a-relative-import-with-no-extension">A relative import with no extension</h3>
+<p>This is the single most common cause in a codebase mid-migration, and it is worth internalising the four shapes.</p>
+<pre class="jp-code" data-lang="js"><code>// index.mjs
+import { slugify } from &#39;./utils&#39;;          // ERR_MODULE_NOT_FOUND
+import { slugify } from &#39;./utils.js&#39;;       // resolves
+import { slugify } from &#39;./lib&#39;;            // ERR_UNSUPPORTED_DIR_IMPORT
+import { slugify } from &#39;./lib/index.js&#39;;   // resolves</code></pre>
+<h3 id="a-filename-case-mismatch">A filename case mismatch</h3>
+<p>macOS volumes are case insensitive by default. Most Linux filesystems are not. <code>./Utils.js</code> and <code>./utils.js</code> are one file on a laptop and two different files in a container, so the import works all through development and breaks the first time CI runs it. Git compounds this: by default it also ignores case on macOS, so a rename that only changed capitalisation may never have been recorded.</p>
+<pre class="jp-code" data-lang="bash"><code>git config core.ignorecase          # true on a default macOS clone
+git ls-files | grep -i utils        # what is actually committed
+git mv src/Utils.js src/utils.js    # the reliable way to fix the case</code></pre>
+<h3 id="the-package-refuses-the-subpath">The package refuses the subpath</h3>
+<p>A deep import that used to work can stop working without your code changing, because the package added an <code>exports</code> field. That field is an allow list. Anything not named in it becomes private, including files that are still physically present on disk.</p>
+<pre class="jp-code" data-lang="text"><code>Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath &#39;./lib/format&#39; is not defined by &quot;exports&quot; in /app/node_modules/some-pkg/package.json</code></pre>
+<p>Open the file the message names and read the <code>exports</code> map. It will show you the public entry points, which is the list you have to choose from. If the thing you need is not there, the options are to use the public API, to open an issue asking for the subpath to be exported, or to vendor the small piece of code you were reaching for. Patching the installed <code>package.json</code> works locally and will be undone by the next clean install.</p>
+<h3 id="the-dependency-is-only-installed-in-development">The dependency is only installed in development</h3>
+<p><code>npm ci --omit=dev</code> prunes <code>devDependencies</code>. Anything reachable from runtime code has to live in <code>dependencies</code>, and the usual failure is a module that imports a build-time helper at the top of a file that also runs in production. The error appears only in the deployed environment, which makes it look like an infrastructure problem. It is a manifest problem.</p>
+<h3 id="a-different-node-modules-than-the-one-you-are-looking-at">A different node_modules than the one you are looking at</h3>
+<p>Because the search walks up from the requiring file, the working directory matters, and so does the shape of the install. In a workspace, npm and Yarn hoist shared dependencies to the repository root, which is why a package you never declared in a given workspace may still import successfully. pnpm’s default layout does not hoist that way, so the same code fails there. Both behaviours are correct. The declaration was missing all along, and only one of the two tools makes you notice.</p>
+<p>Symlinked packages add one more variable. Node resolves a symlinked file to its real path by default, so a linked package looks for its dependencies next to its real location rather than next to the link. <code>node --preserve-symlinks</code> changes that, and it is occasionally the right answer for a local link setup, but reach for it after you have confirmed the layout rather than before.</p>
+<h3 id="aliases-only-the-bundler-understands">Aliases only the bundler understands</h3>
+<p><code>paths</code> in <code>tsconfig.json</code>, <code>resolve.alias</code> in a webpack or Vite config, and similar mappings are build tool features. Node does not read any of them at runtime. Code that imports <code>@/lib/db</code> runs fine under the dev server and fails the moment it is executed directly. The runtime-supported equivalent is the <code>imports</code> field in your own <code>package.json</code>, which handles specifiers beginning with <code>#</code>.</p>
+<pre class="jp-code" data-lang="json"><code>{
+  &quot;name&quot;: &quot;my-app&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;imports&quot;: {
+    &quot;#lib/*&quot;: &quot;./src/lib/*.js&quot;
+  }
+}</code></pre>
+<h3 id="stale-or-missing-build-output">Stale or missing build output</h3>
+<p>If the failing specifier points into <code>dist</code>, check that <code>dist</code> was rebuilt, that its internal directory layout matches what the imports assume, and that nothing is filtering it out. A <code>.dockerignore</code> or <code>.gitignore</code> entry, or a narrow <code>files</code> array in <code>package.json</code>, will each produce a module that exists on your machine and nowhere else.</p>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="the-related-error-require-of-an-es-module">The related error: require() of an ES module</h2>
+<p>This one is worth separating out because people arrive at it through the same search. The module was found. It could not be loaded the way you asked for.</p>
+<pre class="jp-code" data-lang="text"><code>Error [ERR_REQUIRE_ESM]: require() of ES Module /app/node_modules/some-pkg/index.js from /app/index.js not supported.</code></pre>
+<aside class="jp-note jp-note--warn">
+        <p class="jp-note-title">Version dependent behaviour</p>
+        <p>Newer Node releases can <code>require()</code> an ES module when the whole graph being loaded is synchronous, which removes this error in many cases. Support arrived on the Node 22 line and is present in later majors. Check <code>node -v</code> against the <code>require(esm)</code> section of the Node documentation for your release line before assuming either behaviour, since the details have moved more than once.</p>
+      </aside>
+<p>Where the error does apply, the fixes in order of preference are: convert the requiring file to ESM, use a dynamic <code>import()</code> at the call site, which returns a promise and is available from CommonJS, or pin the dependency to its last CommonJS version and record why in the manifest. The third option is a holding position, not a resolution.</p>
+<h2 id="docker-and-ci-specifics">Docker and CI specifics</h2>
+<p>Containers produce a disproportionate share of these reports, for reasons that are mechanical rather than mysterious.</p>
+<ul><li><strong>Host <code>node_modules</code> copied into the image.</strong> Native addons compiled for macOS on arm64 will not load on a Linux image. Add <code>node_modules</code> to <code>.dockerignore</code> and install inside the build.</li><li><strong>A bind mount shadowing the install.</strong> Mounting the project directory over <code>/app</code> replaces the image’s <code>node_modules</code> with whatever the host has, which is often nothing.</li><li><strong>Multi-stage builds that copy <code>dist</code> and forget the runtime dependencies</strong>, or that copy <code>node_modules</code> from a stage where dev dependencies were already pruned.</li><li><strong>Case sensitivity</strong>, again. The container filesystem is usually the first case-sensitive one your code has met.</li></ul>
+<pre class="jp-code" data-lang="yaml"><code>services:
+  api:
+    build: .
+    volumes:
+      - .:/app
+      - /app/node_modules   # anonymous volume keeps the image&#39;s install</code></pre>
+<p>That second volume entry is the standard way to mount your source for live reload while protecting the dependencies installed during the build. It has a cost: after you change <code>package.json</code>, the volume still holds the old install, and you need to recreate it.</p>
+<div class="jp-ad jp-ad--inContent">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div><h2 id="a-diagnosis-order-that-works">A diagnosis order that works</h2>
+<ol class="jp-steps"><li><h3 id="identify-the-resolver">Identify the resolver</h3><p>Read the <code>code</code> property. <code>MODULE_NOT_FOUND</code> means the CommonJS rules applied and extension guessing already happened. <code>ERR_MODULE_NOT_FOUND</code> means it did not.</p></li><li><h3 id="ask-node-where-it-would-look">Ask Node where it would look</h3><p>Do this from the same directory the process actually starts in, not from wherever your shell happens to be.</p><pre class="jp-code"><code>node -p &quot;module.paths&quot;
+node -e &quot;console.log(require.resolve(&#39;some-pkg&#39;))&quot;
+node --input-type=module -e &quot;console.log(import.meta.resolve(&#39;some-pkg&#39;))&quot;</code></pre></li><li><h3 id="confirm-the-file-exists-under-exactly-that-name">Confirm the file exists under exactly that name</h3><p>A case-insensitive search that finds a near miss is the answer, not a false alarm.</p><pre class="jp-code"><code>ls -l node_modules/some-pkg/package.json
+find src -iname &#39;utils*&#39;</code></pre></li><li><h3 id="read-the-package-s-entry-points">Read the package&#39;s entry points</h3><p>Look at <code>exports</code>, <code>main</code>, <code>module</code> and <code>type</code> in the installed <code>package.json</code>. Read it with a shell tool rather than importing it, because <code>exports</code> can block the manifest itself.</p><pre class="jp-code"><code>head -40 node_modules/some-pkg/package.json</code></pre></li><li><h3 id="reproduce-inside-the-environment-that-fails">Reproduce inside the environment that fails</h3><p>If the failure is only in CI or a container, run the same probes there. A local reproduction that succeeds has told you nothing about the environment that is broken.</p><pre class="jp-code"><code>docker compose run --rm api node -p &quot;module.paths&quot;</code></pre></li><li><h3 id="only-now-reinstall">Only now reinstall</h3><p>A clean install is the right fix for a corrupted or partially written tree, which is real but uncommon. Doing it first destroys the evidence you needed for every other cause.</p><pre class="jp-code"><code>rm -rf node_modules &amp;&amp; npm ci</code></pre></li></ol>
+<aside class="jp-note jp-note--tip">
+        <p class="jp-note-title">Make the class of bug impossible</p>
+        <p>An ESLint rule requiring file extensions on relative imports, plus a Linux-based CI job that runs on every pull request, catches the extension and case cases before review. Both are cheaper than the debugging session.</p>
+      </aside>
+<div class="jp-cards"><a class="jp-card" href="/guides/npm-eresolve-error/">
+            <span class="jp-card-eyebrow">Troubleshooting</span>
+            <h3>npm ERESOLVE dependency conflicts</h3>
+            <p>When the install itself refuses to produce a tree.</p>
+          </a><a class="jp-card" href="/guides/docker-container-exits-immediately/">
+            <span class="jp-card-eyebrow">Troubleshooting</span>
+            <h3>Docker container exits immediately</h3>
+            <p>A container that dies on startup often dies on a failed import.</p>
+          </a><a class="jp-card" href="/guides/javascript-async-await-explained/">
+            <span class="jp-card-eyebrow">Guide</span>
+            <h3>JavaScript async/await</h3>
+            <p>Dynamic import() returns a promise, with the usual consequences.</p>
+          </a></div>
+<section class="jp-faq">
+        <h2 id="faq">Frequently asked questions</h2>
+        <details class="jp-faq-item">
+              <summary><h3>Why does it work locally but not in Docker?</h3></summary>
+              <div class="jp-faq-answer"><p>Three causes account for most of it. The container filesystem is case sensitive and your laptop’s is not, so a capitalisation mistake surfaces for the first time. A bind mount is covering the image’s <code>node_modules</code>. Or <code>node_modules</code> was copied in from the host with binaries built for the wrong platform. Run <code>node -p &quot;module.paths&quot;</code> inside the container to see what the process can actually reach.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>What is the difference between MODULE_NOT_FOUND and ERR_MODULE_NOT_FOUND?</h3></summary>
+              <div class="jp-faq-answer"><p>They come from different resolvers. <code>MODULE_NOT_FOUND</code> is CommonJS, which means Node already tried appending <code>.js</code>, <code>.json</code> and <code>.node</code> and tried the directory as a package before giving up. <code>ERR_MODULE_NOT_FOUND</code> is the ESM resolver, which does none of that. The second one very often just means a missing file extension.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Do I need to write .js extensions in TypeScript imports?</h3></summary>
+              <div class="jp-faq-answer"><p>Under the <code>node16</code> or <code>nodenext</code> module settings, yes: you write <code>./utils.js</code> in the source even though the file on disk is <code>utils.ts</code>, because the specifier describes the emitted output that Node will load. It looks wrong and it is correct. Bundler-oriented settings do not require it, which is why the same codebase can behave differently depending on how a given file is executed.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Can I make ESM guess extensions like CommonJS does?</h3></summary>
+              <div class="jp-faq-answer"><p>Do not build on it. Node had an experimental flag for this and it was not a stable part of the platform; the supported approaches are writing full specifiers or supplying a custom resolver hook. Writing the extension takes less time than maintaining either alternative.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Why can&#39;t I import a file that clearly exists inside a package?</h3></summary>
+              <div class="jp-faq-answer"><p>Almost certainly the package’s <code>exports</code> field, which acts as an allow list and makes every unlisted path private regardless of what is on disk. The error is <code>ERR_PACKAGE_PATH_NOT_EXPORTED</code> and it names the manifest to read. Editing that manifest inside <code>node_modules</code> will work until the next install and no longer.</p></div>
+            </details><details class="jp-faq-item">
+              <summary><h3>Should I just delete node_modules and reinstall?</h3></summary>
+              <div class="jp-faq-answer"><p>It is a reasonable step once you have ruled out the specifier, the case, the <code>exports</code> map and the environment. It repairs a partially written or corrupted tree. It cannot repair a missing extension, a dependency in the wrong section of the manifest, or an alias that only your bundler understands, and doing it first removes the state you would have inspected.</p></div>
+            </details>
+      </section>
+      
+    </article>
+    <div class="jp-ad jp-ad--footer">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+  </main>
+  <aside class="jp-side">
+  <nav class="jp-toc" aria-labelledby="jp-toc-title">
+  <h2 id="jp-toc-title">On this page</h2>
+  <ol><li><a href="#start-with-the-error-text-not-with-a-reinstall">Start with the error text, not with a reinstall</a></li><li><a href="#how-require-resolves-a-specifier">How require() resolves a specifier</a></li><li><a href="#what-es-modules-change">What ES modules change</a></li><li><a href="#the-path-cases-that-actually-cause-it">The path cases that actually cause it</a></li><li><a href="#the-related-error-require-of-an-es-module">The related error: require() of an ES module</a></li><li><a href="#docker-and-ci-specifics">Docker and CI specifics</a></li><li><a href="#a-diagnosis-order-that-works">A diagnosis order that works</a></li></ol>
+</nav>
+  
+  <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
+  <span class="jp-ad-label">Advertisement</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+  <div class="jp-panel">
+        <h2>More in Developer Guides</h2>
+        <ul><li><a href="/guides/cannot-find-module-node/">Fixing &#39;Cannot find module&#39; in Node</a></li><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li></ul>
+      </div>
+</aside>
+</div>
+    <footer class="jp-footer">
+  <div class="jp-footer-inner">
+    <div class="jp-footer-brand">
+      <p class="jp-brand-mark">JunePoint</p>
+      <p>Tools, guides and software research for people who build things.</p>
+      <p class="jp-footer-note">JunePoint Resources is the publishing arm of JunePoint, a cross-platform software studio.</p>
+    </div>
+    <div>
+      <h2>Sections</h2>
+      <ul><li><a href="/reviews/">Business Software Buying Guides</a></li><li><a href="/guides/">Developer Guides &amp; Troubleshooting</a></li><li><a href="/tools/">Free Online Developer &amp; Finance Tools</a></li></ul>
+    </div>
+    <div>
+      <h2>Publication</h2>
+      <ul>
+        <li><a href="/about/">About &amp; authors</a></li>
+        <li><a href="/legal/editorial-policy/">Editorial policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/resources/">Resource index</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="/legal/privacy/">Privacy policy</a></li>
+        <li><a href="/legal/terms/">Terms of use</a></li>
+        <li><a href="/legal/disclosure/">Advertising disclosure</a></li>
+        <li><a href="/">JunePoint Studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="jp-footer-bar">
+    <p>&copy; 2026 JunePoint. All rights reserved.</p>
+    <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
+  </div>
+</footer>
+    <script src="/assets/jp/site.js?v=6" defer></script>
+    
+  </body>
+</html>
