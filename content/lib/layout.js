@@ -167,6 +167,7 @@ function page(opts) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="${esc(site.author)}" />
     <meta name="theme-color" content="#0b1220" />
+    <style>html,body{min-height:100%;background:#0b1220;color:#e8eefb;color-scheme:dark}body{margin:0}</style>
     <title>${esc(opts.title)}</title>
     ${metaTags({ ...opts, canonical })}
     <link rel="preload" as="style" href="/assets/jp/site.css?v=${ASSET_VERSION}" />

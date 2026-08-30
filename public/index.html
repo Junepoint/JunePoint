@@ -3,7 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#ffffff" />
+    <style>
+      html, body, #root { min-height: 100%; }
+      html { background: #ffffff; color-scheme: light; }
+      html.dark { background: #0b1220; color-scheme: dark; }
+      body { margin: 0; background: inherit; }
+      html.js .jp-shell-fallback { visibility: hidden; }
+    </style>
+    <script>
+      (function () {
+        var theme = 'light';
+        try {
+          if (localStorage.getItem('jp-studio-theme') === 'dark') theme = 'dark';
+        } catch (error) {}
+        document.documentElement.classList.add('js');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.style.colorScheme = theme;
+        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#0b1220' : '#ffffff';
+      })();
+    </script>
     <meta
       name="description"
       content="JunePoint - Beautiful cross-platform apps and websites for iOS, Android, and web"
@@ -71,7 +90,7 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-      <main>
+      <main class="jp-shell-fallback">
         <h1>JunePoint Software: Web and Mobile App Development</h1>
         <p>JunePoint builds cross-platform applications and websites for iOS, Android, and the web.</p>
         <nav aria-label="JunePoint services and resources">
