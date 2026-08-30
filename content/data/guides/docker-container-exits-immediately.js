@@ -1,13 +1,13 @@
 module.exports = {
   slug: 'docker-container-exits-immediately',
-  title: 'Docker Container Exits Immediately — Every Cause',
+  title: 'Docker Container Exits Immediately: Causes and Fixes',
   h1: 'Why your Docker container exits immediately',
   eyebrow: 'Troubleshooting',
   schemaType: 'TechArticle',
   description:
-    'Why a container starts and stops in under a second: exit codes decoded, foreground processes, missing shells, OOM kills and how to debug it.',
+    'Trace a container that stops immediately by checking its logs, exit code, foreground process, image contents and memory limit.',
   standfirst:
-    'A container lives exactly as long as its main process. Here is how to find out what that process did, read the exit code, and get a shell inside an image that refuses to run.',
+    'A container stops when its main process stops. Start with that process’s logs and exit status, then inspect the runtime or image only when the evidence points there.',
   keywords: [
     'docker container exits immediately',
     'docker exited with code 0',
@@ -18,21 +18,21 @@ module.exports = {
   published: '2026-02-12',
   updated: '2026-08-13',
   author: 'jackson',
-  cardDesc: 'Exit codes decoded, plus how to get a shell inside an image that will not stay running.',
+  cardDesc: 'Use logs and exit codes to find why a container stopped, then inspect the image without keeping a failed service artificially alive.',
 
   blocks: [
     {
       t: 'note',
       kind: 'info',
-      title: 'The rule everything follows from',
-      x: 'A container runs exactly as long as **PID 1** runs. When that process exits, the container stops — whether it succeeded, crashed or forked itself into the background. A container is not a virtual machine; there is nothing else keeping it alive.',
+      title: 'Start with PID 1',
+      x: 'A container runs for as long as **PID 1** runs. When that process exits, the container stops, whether the process completed successfully, crashed or forked into the background. Unlike a virtual machine, a container has no separate system process keeping it alive.',
     },
 
     { t: 'h2', x: 'Start here: what did it say and how did it end?' },
     {
       t: 'code',
       lang: 'bash',
-      x: `# Logs survive the container's death — read them first
+      x: `# Logs remain available after the process exits. Read them first.
 docker logs <container>
 
 # Every container, including the dead ones, with its exit code
@@ -46,7 +46,7 @@ docker logs -f --tail 50 <container>`,
     },
     {
       t: 'p',
-      x: 'Ninety percent of the time `docker logs` contains the answer in plain text — a stack trace, a missing environment variable, a refused database connection. Read it before changing anything.',
+      x: '`docker logs` often gives you the cause directly: a stack trace, a missing environment variable or a refused database connection. Read the most recent output before changing the image or command.',
     },
 
     { t: 'h2', x: 'What the exit code tells you' },
@@ -54,41 +54,40 @@ docker logs -f --tail 50 <container>`,
       t: 'table',
       head: ['Code', 'Meaning', 'Usual cause'],
       rows: [
-        ['`0`', 'Completed successfully', 'The process genuinely finished — it was never a long-running one'],
+        ['`0`', 'Completed successfully', 'The process finished; it may not have been a long-running command'],
         ['`1`', 'Generic application error', 'An unhandled exception. Check the logs.'],
         ['`125`', 'The Docker daemon itself failed', 'A malformed `docker run` command or invalid flag'],
         ['`126`', 'Command found but not executable', 'Missing `+x`, or a script with CRLF line endings'],
         ['`127`', 'Command not found', 'Typo, missing binary, or no shell in the image'],
         ['`137`', 'SIGKILL (128 + 9)', '**Out of memory**, or a `docker stop` that timed out'],
-        ['`139`', 'SIGSEGV (128 + 11)', 'Segfault — often an architecture mismatch'],
+        ['`139`', 'SIGSEGV (128 + 11)', 'Segfault, sometimes caused by an architecture mismatch'],
         ['`143`', 'SIGTERM (128 + 15)', 'A clean stop request; normal for `docker stop`'],
       ],
     },
     {
       t: 'p',
-      x: 'Anything above 128 is a signal: subtract 128 to get the signal number. The two you will meet are 137 and 143.',
+      x: 'For these exit statuses, subtract 128 to identify the signal number. Codes 137 and 143 are the ones you are most likely to encounter in routine container work.',
     },
 
-    { t: 'h2', x: 'Cause 1: exit code 0 — the process simply finished' },
+    { t: 'h2', x: 'Cause 1: exit code 0 means the process finished' },
     {
       t: 'p',
-      x: 'The most common case, and the most confusing, because nothing failed. `docker run ubuntu` starts bash, bash has no terminal attached and no commands to run, so it exits immediately. The container did its job perfectly.',
+      x: 'Exit code 0 can look suspicious when you expected a service, but it means the command completed normally. `docker run ubuntu` starts Bash without a terminal or command to process, so Bash exits and the container follows.',
     },
     {
       t: 'code',
       lang: 'bash',
-      x: `docker run ubuntu             # exits at once — bash has nothing to do
-docker run -it ubuntu bash    # stays up — -it gives bash a terminal`,
+      x: `docker run ubuntu             # exits at once because Bash has nothing to do\ndocker run -it ubuntu bash    # stays up because -it gives Bash a terminal`,
     },
     {
       t: 'p',
-      x: '`-i` keeps stdin open and `-t` allocates a pseudo-TTY. Without both, an interactive shell has no reason to wait.',
+      x: '`-i` keeps standard input open and `-t` allocates a pseudo-terminal. Together they give an interactive shell something to wait for.',
     },
 
     { t: 'h2', x: 'Cause 2: the process daemonised itself' },
     {
       t: 'p',
-      x: 'The classic mistake. Services that background themselves by default make PID 1 exit instantly, taking the container with it, even though the service started fine.',
+      x: 'Some services still daemonize by default. If PID 1 starts the service and then exits while the service moves into the background, Docker considers the container finished.',
     },
     {
       t: 'code',
@@ -107,19 +106,19 @@ CMD ["nginx", "-g", "daemon off;"]`,
         ['Apache', '`httpd-foreground` or `apachectl -DFOREGROUND`'],
         ['PostgreSQL', '`postgres` (not `pg_ctl start`)'],
         ['Redis', '`redis-server --daemonize no`'],
-        ['systemd services', 'Do not use systemd — run the binary directly'],
+        ['systemd services', 'Run the service binary directly instead of starting systemd'],
       ],
     },
 
-    { t: 'h2', x: 'Cause 3: exit 127 — command not found' },
+    { t: 'h2', x: 'Cause 3: exit 127 means the command was not found' },
     {
       t: 'p',
-      x: 'Three distinct situations produce this, and the third catches almost everyone once.',
+      x: 'Check the command path first, then consider the image’s shell, the script’s line endings and the image architecture.',
     },
     { t: 'h3', x: 'There is no shell in the image' },
     {
       t: 'p',
-      x: 'Distroless, `scratch` and Alpine-based minimal images may have no `/bin/sh` at all. Shell-form `CMD` is implicitly `/bin/sh -c "…"`, so it fails immediately:',
+      x: 'Distroless and `scratch` images have no `/bin/sh`; some other minimal images may omit the shell you expect. Shell-form `CMD` runs through `/bin/sh -c "…"`, so it cannot work in an image without that binary:',
     },
     {
       t: 'code',
@@ -127,13 +126,13 @@ CMD ["nginx", "-g", "daemon off;"]`,
       x: `# ✗ Shell form needs /bin/sh, which distroless does not have
 CMD npm start
 
-# ✓ Exec form runs the binary directly — no shell required
+# ✓ Exec form runs the binary directly; no shell is required
 CMD ["node", "server.js"]`,
     },
     { t: 'h3', x: 'Windows line endings' },
     {
       t: 'p',
-      x: 'An entrypoint script saved with CRLF endings makes the kernel look for an interpreter literally named `/bin/sh\\r`, which does not exist. The error names your shell and looks nonsensical.',
+      x: 'When an entrypoint script has CRLF line endings, the kernel can interpret its shebang as a request for `/bin/sh\\r`. That path does not exist, so the resulting error can misleadingly name the shell.',
     },
     {
       t: 'code',
@@ -143,12 +142,12 @@ RUN sed -i 's/\\r$//' /entrypoint.sh && chmod +x /entrypoint.sh`,
     },
     {
       t: 'p',
-      x: 'Better still, prevent it in Git: add `*.sh text eol=lf` to a `.gitattributes` file.',
+      x: 'To prevent the mismatch, add `*.sh text eol=lf` to the repository’s `.gitattributes` file.',
     },
     { t: 'h3', x: 'Architecture mismatch' },
     {
       t: 'p',
-      x: 'An `amd64` image on an Apple Silicon machine — or the reverse — produces `exec format error`, exit 127 or a segfault. Build for the right platform:',
+      x: 'Running an `amd64` image on Apple Silicon, or an ARM image on an amd64 host, can produce `exec format error`, exit 127 or a segfault. Build and run for the intended platform:',
     },
     {
       t: 'code',
@@ -157,10 +156,10 @@ RUN sed -i 's/\\r$//' /entrypoint.sh && chmod +x /entrypoint.sh`,
 docker run --platform linux/amd64 myapp`,
     },
 
-    { t: 'h2', x: 'Cause 4: exit 137 — it ran out of memory' },
+    { t: 'h2', x: 'Cause 4: exit 137 often points to memory pressure' },
     {
       t: 'p',
-      x: 'The kernel’s OOM killer terminated the process. The container did not crash; it was executed. Confirm it:',
+      x: 'Code 137 means the process received `SIGKILL`. The kernel’s out-of-memory killer is a common source, but a timed-out `docker stop` can produce the same code. Check the recorded OOM state:',
     },
     {
       t: 'code',
@@ -173,21 +172,21 @@ docker stats --no-stream`,
     {
       t: 'ul',
       items: [
-        'Raise the limit: `docker run -m 2g`, or `mem_limit` in Compose.',
-        'On Docker Desktop, raise the **VM’s** memory in settings — the per-container limit cannot exceed it.',
-        'For the JVM, set `-XX:MaxRAMPercentage=75`. Older JVMs read the host’s memory rather than the cgroup limit and confidently allocate more than the container is allowed.',
-        'For Node, `--max-old-space-size` has the same problem and the same fix.',
+        'Raise the container limit with `docker run -m 2g` or `mem_limit` in Compose when the workload legitimately needs more memory.',
+        'On Docker Desktop, also check the **VM’s** memory setting. A per-container limit cannot exceed the memory available to that VM.',
+        'For the JVM, consider `-XX:MaxRAMPercentage=75`. Older JVMs may read host memory instead of the cgroup limit and allocate more than the container can use.',
+        'For Node, use `--max-old-space-size` when the JavaScript heap needs an explicit cap below the container limit.',
       ],
     },
 
     { t: 'h2', x: 'Cause 5: it crashed on a missing dependency' },
     {
       t: 'p',
-      x: 'Exit code 1 with a stack trace in the logs. Almost always a missing environment variable, or a database that is not accepting connections yet.',
+      x: 'Exit code 1 is application-specific, so let the stack trace lead the investigation. Missing environment variables and dependencies that are still starting are common causes.',
     },
     {
       t: 'p',
-      x: 'In Compose, `depends_on` alone only waits for the container to **start**, not for the service inside it to be ready. Postgres accepts TCP connections seconds before it will answer a query. Use a health check:',
+      x: 'In Compose, `depends_on` waits for a container to **start**, not for the service inside it to become ready. Gate the dependent service on a health check when startup order matters:',
     },
     {
       t: 'code',
@@ -211,7 +210,7 @@ docker stats --no-stream`,
     { t: 'h2', x: 'Getting a shell inside a container that will not run' },
     {
       t: 'p',
-      x: 'When the container dies too fast to inspect, override the entrypoint and poke around by hand:',
+      x: 'If the normal entrypoint exits before you can inspect the filesystem, replace it temporarily with a shell:',
     },
     {
       t: 'code',
@@ -233,23 +232,23 @@ docker inspect <image> --format '{{.Config.Entrypoint}} {{.Config.Cmd}}'`,
       t: 'note',
       kind: 'tip',
       title: 'Debugging a distroless image',
-      x: 'With no shell to exec into, use `docker debug` (Docker Desktop) or attach a debug container sharing the target’s namespaces: `docker run -it --pid container:<id> --network container:<id> nicolaka/netshoot`. You get a full toolkit inside the failing container’s process and network namespaces.',
+      x: 'For an image without a shell, use `docker debug` in Docker Desktop or attach a debug container to the target’s namespaces: `docker run -it --pid container:<id> --network container:<id> nicolaka/netshoot`. The added container supplies tools while sharing the target’s process and network view.',
     },
 
-    { t: 'h2', x: 'Stop using `tail -f /dev/null`' },
+    { t: 'h2', x: 'Why `tail -f /dev/null` is not an application fix' },
     {
       t: 'p',
-      x: 'It appears in a lot of answers as a way to "keep the container alive". It does — by running a container whose only job is to do nothing, while your actual service is not running at all. It converts a loud failure into a silent one.',
+      x: '`tail -f /dev/null` keeps PID 1 running, but it does not repair the service that exited. For an application container, this hides a visible failure behind a container that appears healthy at a glance.',
     },
     {
       t: 'p',
-      x: 'The only legitimate uses are a sidecar that genuinely has no long-running process, or a temporary debugging container. If your application should be running, make the application PID 1 and fix why it exits.',
+      x: 'It can be useful in a temporary debugging container or a sidecar designed without its own long-running process. An application container should instead run the application as PID 1 and expose its failure.',
     },
 
     { t: 'h2', x: 'Signals, and why PID 1 is special' },
     {
       t: 'p',
-      x: 'PID 1 in Linux has unusual semantics: it does not get default signal handlers, and it is responsible for reaping orphaned child processes. A shell script as PID 1 typically ignores `SIGTERM`, so `docker stop` waits ten seconds and then sends `SIGKILL` — which is why a clean shutdown becomes exit code 137.',
+      x: 'PID 1 has special responsibilities on Linux, including reaping orphaned child processes, and default signal handling differs from that of other processes. A shell wrapper that does not forward `SIGTERM` makes `docker stop` wait for its timeout and then send `SIGKILL`, producing exit code 137 instead of a clean shutdown.',
     },
     {
       t: 'code',
@@ -271,7 +270,7 @@ CMD ["node", "server.js"]`,
       items: [
         {
           q: 'Why does my container exit with code 0 when nothing went wrong?',
-          a: 'Because nothing did go wrong — the main process finished. A container lives exactly as long as PID 1. Either the command was short-lived (like a bare shell with no TTY), or the service forked itself into the background. Run the service in the foreground.',
+          a: 'Code 0 means the main process finished successfully. The command may have been short-lived, such as a shell without a TTY, or a service may have forked into the background. A long-running container needs its service to remain in the foreground as PID 1.',
         },
         {
           q: 'What does exit code 137 mean?',
@@ -279,19 +278,19 @@ CMD ["node", "server.js"]`,
         },
         {
           q: 'How do I see logs from a container that already exited?',
-          a: 'docker logs works on stopped containers — the logs outlive the process. Use docker ps -a to find the container ID. They only disappear when the container is removed, so avoid --rm while you are still debugging.',
+          a: 'docker logs works for stopped containers because their logs remain after the process exits. Use docker ps -a to find the container ID. Avoid --rm while debugging, since removing the container also removes access to those logs.',
         },
         {
           q: 'Why does docker run -it ubuntu bash work but docker run ubuntu does not?',
-          a: 'The -i flag keeps stdin open and -t allocates a pseudo-terminal. Without them, bash starts, finds no terminal and no input, and exits immediately — taking the container with it.',
+          a: 'The -i flag keeps standard input open, and -t allocates a pseudo-terminal. Without them, Bash has no terminal or input to wait for, so it exits and the container stops.',
         },
         {
           q: 'Is tail -f /dev/null an acceptable fix?',
-          a: 'Only for a debugging container or a sidecar with genuinely no long-running process. For an application container it hides the real failure: the container stays up while your service is not running, so health checks pass and nothing works.',
+          a: 'It can be appropriate for a temporary debugging container or a sidecar designed without its own long-running process. In an application container, it keeps the container running while the service remains unavailable, which can mislead checks that look only at container state.',
         },
         {
           q: 'Why does my container work locally but not in CI?',
-          a: 'Most often a CPU architecture difference — an image built on Apple Silicon running on amd64 CI, or the reverse. Build with --platform explicitly, or use docker buildx for a multi-architecture image.',
+          a: 'Compare the host architectures first. An image built on Apple Silicon may not run on an amd64 CI worker, and the reverse is also possible. Set --platform explicitly or publish a multi-architecture image with docker buildx.',
         },
       ],
     },

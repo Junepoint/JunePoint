@@ -6,9 +6,9 @@ module.exports = {
   schemaType: 'Article',
   itemListName: 'SOC 2 compliance automation platforms',
   description:
-    'What compliance automation actually automates, the real total cost of a SOC 2 report including the auditor, and how the main platforms differ.',
+    'What compliance automation covers, what remains manual, the total cost of a SOC 2 report including the auditor, and how the main platforms differ.',
   standfirst:
-    'Compliance platforms collect evidence. They do not make you compliant, and they are not the auditor. Here is what you are really buying, and what it costs end to end.',
+    'Compliance platforms collect and organise evidence; they neither operate the controls nor issue the report. The full budget needs to include software, audit fees and internal time.',
   keywords: [
     'soc 2 compliance software',
     'soc 2 cost',
@@ -19,35 +19,35 @@ module.exports = {
   ],
   published: '2026-04-08',
   updated: '2026-08-24',
-  author: 'alexander',
-  cardDesc: 'What automation really covers, the full cost including the auditor, and how Vanta, Drata and Sprinto differ.',
+  author: 'jackson',
+  cardDesc: 'What automation covers, the full cost including the auditor, and the practical differences among Vanta, Drata and Sprinto.',
 
   blocks: [
     {
       t: 'note',
       kind: 'warn',
       title: 'How this guide was made',
-      x: 'Research-based analysis from vendor documentation, published pricing and public audit-firm guidance. We are software developers, **not auditors** — nothing here is a compliance opinion, and your CPA firm’s judgement governs. See our [editorial policy](/legal/editorial-policy/).',
+      x: 'This research-based analysis draws on vendor documentation, published pricing and public audit-firm guidance. We are software developers, **not auditors**. Nothing here is a compliance opinion, and your CPA firm’s judgement governs. See our [editorial policy](/legal/editorial-policy/).',
     },
 
     {
       t: 'takeaways',
       items: [
-        'The software is roughly a third of the cost. **The auditor is a separate firm and a separate bill**, and by law it has to be.',
-        'Automation collects evidence continuously. It does not write your policies, run your access reviews, or fix a control you do not actually operate.',
-        'Type I is a point-in-time snapshot. **Type II covers a period — usually 3 to 12 months — and is what enterprise buyers actually ask for.**',
+        'Software is roughly a third of the cost. **The auditor is a separate firm and a separate bill**, as required by law.',
+        'Automation collects evidence continuously. It does not write your policies, run your access reviews, or fix a control you do not operate.',
+        'Type I is a point-in-time snapshot. **Type II covers a period, usually 3 to 12 months, and is what enterprise buyers ask for.**',
         'Budget $25,000–$60,000 all-in for a first SOC 2 Type II at a small company, and three to nine months of calendar time.',
       ],
     },
 
-    { t: 'h2', x: 'What SOC 2 is, in one section' },
+    { t: 'h2', x: 'What a SOC 2 report is' },
     {
       t: 'p',
-      x: 'SOC 2 is an attestation report produced by an independent CPA firm, assessing your controls against the AICPA’s Trust Services Criteria. It is not a certification and there is no certificate — the deliverable is a report that your customers’ security teams read.',
+      x: 'SOC 2 is an attestation report produced by an independent CPA firm that assesses controls against the AICPA’s Trust Services Criteria. It is not a certification and there is no certificate. The deliverable is a report for customers’ security teams to review.',
     },
     {
       t: 'p',
-      x: 'There are five Trust Services Criteria. **Security is mandatory**; Availability, Confidentiality, Processing Integrity and Privacy are optional. Scope only Security for your first report unless a customer contract explicitly demands more — each additional criterion adds controls, evidence and audit fee.',
+      x: 'There are five Trust Services Criteria. **Security is mandatory**; Availability, Confidentiality, Processing Integrity and Privacy are optional. For a first report, scope only Security unless a customer contract requires more. Each additional criterion adds controls, evidence and audit fees.',
     },
     {
       t: 'table',
@@ -64,17 +64,17 @@ module.exports = {
       x: 'The common path is a Type I to unblock a deal, then a Type II over the following months. If you have time, going straight to a Type II with a three-month window saves an audit fee.',
     },
 
-    { t: 'h2', x: 'What the software actually does — and does not' },
+    { t: 'h2', x: 'What the software does and what remains manual' },
     {
       t: 'p',
-      x: 'This is where expectations most often go wrong, so it is worth being blunt.',
+      x: 'The distinction matters because an automated check is not the same as an operating control.',
     },
     {
       t: 'table',
       head: ['The platform does', 'You still have to'],
       rows: [
-        ['Connect to AWS, GitHub, Okta, HR systems and monitor configuration continuously', 'Fix what it finds — it reports, it does not remediate'],
-        ['Provide policy templates', 'Read, adapt, approve and actually follow them'],
+        ['Connect to AWS, GitHub, Okta, HR systems and monitor configuration continuously', 'Fix what it finds; the platform reports but does not remediate'],
+        ['Provide policy templates', 'Read, adapt, approve and follow them'],
         ['Track employee security training and policy acceptance', 'Make people complete it'],
         ['Collect and organise evidence for the auditor', 'Perform the underlying activities: access reviews, incident response, vendor reviews'],
         ['Map one set of controls to SOC 2, ISO 27001, HIPAA and others', 'Pay for each separate audit'],
@@ -85,26 +85,26 @@ module.exports = {
       t: 'note',
       kind: 'danger',
       title: 'The dashboard being green does not mean you pass',
-      x: 'A platform showing 100% is telling you its automated checks are satisfied. Auditors test things no integration can see — whether your access review was genuinely performed and by someone competent, whether your incident response plan has ever been exercised, whether change management is followed under deadline pressure. Companies do fail audits with a green dashboard.',
+      x: 'A platform showing 100% means its automated checks are satisfied. Auditors also test matters an integration cannot see: whether a competent person performed the access review, whether the incident response plan has been exercised, and whether change management holds under deadline pressure. A green dashboard does not guarantee a clean audit.',
     },
 
-    { t: 'h2', x: 'The real cost, end to end' },
+    { t: 'h2', x: 'The full cost, end to end' },
     {
       t: 'table',
       head: ['Line item', 'Typical range (small company)', 'Notes'],
       rows: [
         ['Compliance platform', '$7,000–$25,000 / year', 'Scales with headcount and frameworks'],
-        ['Audit firm (Type II)', '$12,000–$40,000', 'Separate vendor — always'],
+        ['Audit firm (Type II)', '$12,000–$40,000', 'Always a separate vendor'],
         ['Penetration test', '$5,000–$20,000', 'Not strictly required, but customers ask'],
         ['Security awareness training', '$0–$3,000 / year', 'Often bundled with the platform'],
-        ['Internal time', '100–300 hours', 'The cost people forget entirely'],
-        ['**Total, first year**', '**$25,000–$60,000+**', 'Renewals are cheaper — the report is annual'],
+        ['Internal time', '100–300 hours', 'Often omitted from the budget'],
+        ['**Total, first year**', '**$25,000–$60,000+**', 'Renewals are cheaper because the report is annual'],
       ],
       caption: 'Indicative ranges as of August 2026 for a company under roughly 50 employees. Larger scope moves all of these up.',
     },
     {
       t: 'p',
-      x: 'The internal-time line is the one that derails plans. Someone has to own this — writing policies, chasing evidence, coordinating the auditor. At a small company that is typically 20–30% of one person’s time for several months, and it is real money.',
+      x: 'Internal time is easy to leave out of the budget. Someone must own policy work, evidence collection and auditor coordination. At a small company, that is typically 20–30% of one person’s time for several months.',
     },
 
     { t: 'h2', x: 'The platforms' },
@@ -115,18 +115,18 @@ module.exports = {
       name: 'Vanta',
       award: 'Most established, largest audit-firm network',
       summary:
-        'The category’s best-known name, with the widest integration catalogue and a large network of partner audit firms — which removes a step most first-timers find genuinely difficult.',
+        'The best-known platform in the category, with the widest integration catalogue and a large partner network of audit firms.',
       price: 'Roughly $10,000–$30,000+ per year depending on headcount and frameworks',
       bestFor: 'Startups going through SOC 2 for the first time who want a well-trodden path',
       deployment: 'SaaS, integrations connected via API',
       body: [
-        'Vanta’s advantages are maturity and ecosystem. Its integration coverage is extensive, its Trust Center gives sales a page to point prospects at, and its partner network means finding an auditor familiar with the platform is straightforward. For a first audit, that familiarity has real value — an auditor who has seen a hundred Vanta evidence packages will move faster than one seeing their first.',
-        'It is also priced as the market leader, and some users find the questionnaire-automation and policy tooling less flexible than they would like once their environment stops being standard.',
+        'Vanta’s advantages are maturity and ecosystem. Its integration catalogue is extensive, the Trust Center gives sales teams a place to direct prospects, and the partner network makes it easier to find an auditor familiar with the evidence format. That familiarity can reduce avoidable back-and-forth during a first audit.',
+        'The platform is priced as the market leader. Some users also find its questionnaire automation and policy tooling less flexible once the environment departs from a standard configuration.',
       ],
       pros: [
         'Largest integration catalogue in the category',
         'Extensive network of familiar audit partners',
-        'Trust Center is genuinely useful in sales cycles',
+        'Trust Center supports security reviews in sales cycles',
         'Multi-framework mapping across SOC 2, ISO 27001, HIPAA and GDPR',
       ],
       cons: ['Premium pricing', 'Less customisable for unusual environments', 'Annual contracts with limited flexibility'],
@@ -143,8 +143,8 @@ module.exports = {
       bestFor: 'Teams with more complex infrastructure, or managing several frameworks at once',
       deployment: 'SaaS with agent-based endpoint checks',
       body: [
-        'Drata competes directly with Vanta and the two are frequently shortlisted together. Its differentiators are the granularity of continuous monitoring and more flexibility in mapping custom controls — useful once your architecture stops matching the standard startup template.',
-        'It also has a well-developed personnel-compliance side: onboarding and offboarding checks, background verification tracking and device monitoring. Choosing between the two usually comes down to the demo and the quote rather than a decisive capability gap.',
+        'Drata is frequently shortlisted with Vanta. It offers granular continuous monitoring and more flexibility in mapping custom controls, which can help when an architecture does not match the standard startup template.',
+        'Personnel compliance is also well developed, including onboarding and offboarding checks, background-verification tracking and device monitoring. The decision between Drata and Vanta often comes down to workflow fit and the quote rather than one decisive capability gap.',
       ],
       pros: [
         'Deep continuous monitoring with granular checks',
@@ -166,7 +166,7 @@ module.exports = {
       bestFor: 'Seed and Series A companies where the platform cost is a material decision',
       deployment: 'SaaS',
       body: [
-        'For a 15-person company, the difference between a $8,000 platform and a $25,000 one is not a rounding error. Sprinto covers the same core need — evidence collection, policy templates, continuous monitoring, auditor coordination — at a price aimed squarely at that buyer.',
+        'For a 15-person company, the difference between a $8,000 platform and a $25,000 one is material. Sprinto covers the same core categories of evidence collection, policy templates, continuous monitoring and auditor coordination at a lower price point.',
         'The integration catalogue is smaller and the audit-partner network less extensive, which can mean more manual evidence work. For a straightforward AWS-and-GitHub environment, that gap is often negligible.',
       ],
       pros: [
@@ -175,7 +175,7 @@ module.exports = {
         'Good support experience reported by small teams',
       ],
       cons: [
-        'Fewer integrations — more manual evidence collection',
+        'Fewer integrations can mean more manual evidence collection',
         'Smaller auditor network',
         'Less proven at larger scale or unusual complexity',
       ],
@@ -191,10 +191,10 @@ module.exports = {
       price: 'Auditor fee only',
       bestFor: 'Very small teams with simple infrastructure and someone who has done it before',
       body: [
-        'SOC 2 predates compliance automation by many years, and plenty of organisations still pass without a platform. If you have fewer than 20 people, one cloud provider and one identity provider, manual evidence collection is tedious rather than impossible — and the auditor will accept screenshots and exports.',
-        'The economics flip as you grow. Type II requires evidence sampled *throughout* the observation period, so manual collection means remembering to capture things monthly for a year. That is precisely the discipline that fails under pressure, and it is what the platforms genuinely solve. Most teams that start manual adopt a platform by their second or third audit.',
+        'SOC 2 predates compliance automation, and organisations can still complete an audit without a platform. With fewer than 20 people, one cloud provider and one identity provider, manual evidence collection is tedious but possible; auditors accept screenshots and exports.',
+        'The workload grows with the organisation. Type II requires evidence sampled *throughout* the observation period, so a manual process may require monthly collection for a year. Platforms reduce the risk of missing that schedule, and many teams that begin manually adopt one by the second or third audit.',
       ],
-      pros: ['No licence cost', 'Forces genuine understanding of your own controls', 'Perfectly acceptable to auditors'],
+      pros: ['No licence cost', 'Requires direct understanding of your own controls', 'Acceptable to auditors'],
       cons: [
         'Significant ongoing manual effort, especially for Type II',
         'No continuous monitoring or drift detection',
@@ -205,7 +205,7 @@ module.exports = {
     { t: 'h2', x: 'Choosing an auditor' },
     {
       t: 'p',
-      x: 'This is a separate decision from the software and arguably a more consequential one — the report carries the audit firm’s name, and sophisticated buyers do look at it.',
+      x: 'Choose the auditor separately from the software. The report carries the audit firm’s name, and sophisticated buyers may consider that firm during their review.',
     },
     {
       t: 'ul',
@@ -223,7 +223,7 @@ module.exports = {
       t: 'steps',
       items: [
         { title: 'Months 0–1: scope and select', x: 'Decide Type I or straight to Type II, choose criteria (Security only unless contractually required), select platform and auditor. Getting scope right here saves the most money later.' },
-        { title: 'Months 1–2: policies and remediation', x: 'Adopt and adapt policies, close the gaps the platform surfaces — MFA everywhere, encryption at rest, logging, offboarding, vendor reviews. This is the bulk of the real work.' },
+        { title: 'Months 1–2: policies and remediation', x: 'Adopt and adapt policies, then close the gaps the platform surfaces: MFA everywhere, encryption at rest, logging, offboarding and vendor reviews. This is the bulk of the work.' },
         { title: 'Months 2–3: readiness', x: 'Controls operating, evidence flowing, everyone trained. Many teams run a readiness assessment with the auditor here to avoid surprises.' },
         { title: 'Months 3–12: observation window', x: 'For Type II, controls must operate continuously through this period. Access reviews happen on schedule. Drift gets fixed. This is where discipline is tested.' },
         { title: 'Final 4–8 weeks: fieldwork and report', x: 'The auditor samples evidence, interviews staff, and issues the report. Then it renews annually.' },
@@ -235,11 +235,11 @@ module.exports = {
       items: [
         {
           q: 'How much does SOC 2 cost?',
-          a: 'For a small company, budget $25,000–$60,000 in the first year: roughly $7,000–$25,000 for a compliance platform, $12,000–$40,000 for the audit firm, and often a penetration test on top. Renewals cost less because the readiness work is already done. Internal time — typically 100–300 hours — is a real cost that rarely appears in the budget.',
+          a: 'For a small company, budget $25,000–$60,000 in the first year: roughly $7,000–$25,000 for a compliance platform, $12,000–$40,000 for the audit firm, and often a penetration test on top. Renewals cost less because the readiness work is already done. Internal time, typically 100–300 hours, is another cost that rarely appears in the budget.',
         },
         {
           q: 'Does Vanta or Drata make me SOC 2 compliant?',
-          a: 'No. They automate evidence collection and monitoring, which is genuinely valuable, but compliance means actually operating the controls, and only a licensed CPA firm can issue the report. A green dashboard is not a passing audit.',
+          a: 'No. They automate evidence collection and monitoring, but compliance requires the controls to operate, and only a licensed CPA firm can issue the report. A green dashboard is not a passing audit.',
         },
         {
           q: 'Should I get Type I or Type II?',

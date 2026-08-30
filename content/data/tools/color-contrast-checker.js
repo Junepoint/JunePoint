@@ -1,12 +1,12 @@
 module.exports = {
   slug: 'color-contrast-checker',
-  title: 'Color Contrast Checker — WCAG AA & AAA Ratios',
+  title: 'Color Contrast Checker for WCAG AA and AAA',
   h1: 'Colour Contrast Checker',
   eyebrow: 'Accessibility',
   description:
-    'Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes.',
+    'Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option.',
   standfirst:
-    'Enter two colours and get the exact contrast ratio, which WCAG levels it passes, and a one-click nudge to the nearest shade that passes.',
+    'Enter two colors to calculate their contrast ratio and see which text and interface thresholds they meet.',
   keywords: [
     'color contrast checker',
     'wcag contrast ratio',
@@ -16,7 +16,7 @@ module.exports = {
   ],
   published: '2026-04-02',
   updated: '2026-08-21',
-  author: 'alexander',
+  author: 'jackson',
 
   tool: {
     html: `
@@ -24,34 +24,34 @@ module.exports = {
   <div class="jp-tool-grid">
     <div>
       <div class="jp-field">
-        <label for="cx-fg">Foreground (text)</label>
+        <label for="cx-fg">Text or foreground color</label>
         <input class="jp-input" type="text" id="cx-fg" value="#6b7f99" spellcheck="false" />
-        <input class="jp-range" type="color" id="cx-fg-picker" value="#6b7f99" aria-label="Pick foreground colour" />
+        <input class="jp-range" type="color" id="cx-fg-picker" value="#6b7f99" aria-label="Choose foreground color" />
       </div>
       <div class="jp-field">
-        <label for="cx-bg">Background</label>
+        <label for="cx-bg">Background color</label>
         <input class="jp-input" type="text" id="cx-bg" value="#ffffff" spellcheck="false" />
-        <input class="jp-range" type="color" id="cx-bg-picker" value="#ffffff" aria-label="Pick background colour" />
+        <input class="jp-range" type="color" id="cx-bg-picker" value="#ffffff" aria-label="Choose background color" />
       </div>
       <div class="jp-toolbar">
-        <button class="jp-btn jp-btn--ghost" type="button" id="cx-swap">Swap</button>
-        <button class="jp-btn" type="button" id="cx-fix">Fix to AA</button>
+        <button class="jp-btn jp-btn--ghost" type="button" id="cx-swap">Swap colors</button>
+        <button class="jp-btn" type="button" id="cx-fix">Adjust foreground to AA</button>
       </div>
       <p class="jp-status" id="cx-fix-note" aria-live="polite">&nbsp;</p>
     </div>
 
     <div>
       <div class="jp-swatch" id="cx-preview" style="height:auto;padding:1rem;display:block">
-        <p style="font-size:1.55rem;font-weight:700;margin:0 0 .4rem">Large heading text</p>
-        <p style="font-size:1rem;font-weight:400;margin:0 0 .4rem">Normal body text at 16px, which is the size most of your interface actually uses.</p>
-        <p style="font-size:.8rem;margin:0">Small print at 12.8px.</p>
+        <p style="font-size:1.55rem;font-weight:700;margin:0 0 .4rem">Large text preview</p>
+        <p style="font-size:1rem;font-weight:400;margin:0 0 .4rem">Normal text preview at 16px.</p>
+        <p style="font-size:.8rem;margin:0">Small text preview at 12.8px.</p>
       </div>
     </div>
 
     <div>
       <div class="jp-stat jp-stat--primary" style="margin-bottom:.75rem">
         <p class="jp-stat-label">Contrast ratio</p>
-        <p class="jp-stat-value" id="cx-ratio">—</p>
+        <p class="jp-stat-value" id="cx-ratio">Not available</p>
         <p class="jp-stat-sub" id="cx-ratio-sub">&nbsp;</p>
       </div>
       <dl class="jp-kv" id="cx-levels"></dl>
@@ -103,15 +103,15 @@ module.exports = {
   }
 
   function badge(pass) {
-    return '<span class="jp-badge jp-badge--' + (pass ? 'pass">PASS' : 'fail">FAIL') + '</span>';
+    return '<span class="jp-badge jp-badge--' + (pass ? 'pass">Pass' : 'fail">Fail') + '</span>';
   }
 
   function render() {
     var f = parse(fg.value), b = parse(bg.value);
     var levels = document.getElementById('cx-levels');
     if (!f || !b) {
-      document.getElementById('cx-ratio').textContent = '—';
-      document.getElementById('cx-ratio-sub').textContent = 'Enter a hex or rgb() colour';
+      document.getElementById('cx-ratio').textContent = 'Not available';
+      document.getElementById('cx-ratio-sub').textContent = 'Enter a hex or rgb() color.';
       levels.innerHTML = '';
       return;
     }
@@ -124,24 +124,24 @@ module.exports = {
     var r = ratio(f, b);
     document.getElementById('cx-ratio').textContent = r.toFixed(2) + ':1';
     document.getElementById('cx-ratio-sub').textContent =
-      r >= 7 ? 'Passes everything' : r >= 4.5 ? 'Passes AA for all text' :
-      r >= 3 ? 'Large text and UI only' : 'Fails every threshold';
+      r >= 7 ? 'Passes AAA for normal and large text' : r >= 4.5 ? 'Passes AA for normal text and AAA for large text' :
+      r >= 3 ? 'Passes AA for large text and interface graphics only' : 'Does not pass the listed thresholds';
 
     levels.innerHTML =
-      '<dt>AA · normal text</dt><dd>' + badge(r >= 4.5) + ' needs 4.5:1</dd>' +
-      '<dt>AA · large text</dt><dd>' + badge(r >= 3) + ' needs 3:1</dd>' +
-      '<dt>AA · UI &amp; graphics</dt><dd>' + badge(r >= 3) + ' needs 3:1</dd>' +
-      '<dt>AAA · normal text</dt><dd>' + badge(r >= 7) + ' needs 7:1</dd>' +
-      '<dt>AAA · large text</dt><dd>' + badge(r >= 4.5) + ' needs 4.5:1</dd>';
+      '<dt>AA · normal text</dt><dd>' + badge(r >= 4.5) + ' requires 4.5:1</dd>' +
+      '<dt>AA · large text</dt><dd>' + badge(r >= 3) + ' requires 3:1</dd>' +
+      '<dt>AA · UI &amp; graphics</dt><dd>' + badge(r >= 3) + ' requires 3:1</dd>' +
+      '<dt>AAA · normal text</dt><dd>' + badge(r >= 7) + ' requires 7:1</dd>' +
+      '<dt>AAA · large text</dt><dd>' + badge(r >= 4.5) + ' requires 4.5:1</dd>';
   }
 
-  // Walk the foreground toward black or white — whichever direction the
-  // background is further from — until it clears 4.5:1.
+  // Walk the foreground toward black or white, whichever is farther from the
+  // background, until it clears 4.5:1.
   document.getElementById('cx-fix').addEventListener('click', function () {
     var f = parse(fg.value), b = parse(bg.value);
     var note = document.getElementById('cx-fix-note');
     if (!f || !b) return;
-    if (ratio(f, b) >= 4.5) { note.textContent = 'Already passes AA — nothing to change.'; note.className = 'jp-status jp-status--ok'; return; }
+    if (ratio(f, b) >= 4.5) { note.textContent = 'The current colors already pass AA for normal text.'; note.className = 'jp-status jp-status--ok'; return; }
 
     var target = luminance(b) > 0.5 ? [0, 0, 0] : [255, 255, 255];
     for (var step = 1; step <= 100; step++) {
@@ -150,12 +150,12 @@ module.exports = {
       if (ratio(candidate, b) >= 4.5) {
         fg.value = toHex(candidate);
         render();
-        note.textContent = 'Adjusted to ' + toHex(candidate) + ' — nearest shade in the same hue family that passes AA.';
+        note.textContent = 'Adjusted the foreground to ' + toHex(candidate) + '. It now passes AA for normal text.';
         note.className = 'jp-status jp-status--ok';
         return;
       }
     }
-    note.textContent = 'No shade of this colour reaches 4.5:1 on that background. Change the background instead.';
+    note.textContent = 'The foreground could not reach 4.5:1 with this adjustment. Change the background color instead.';
     note.className = 'jp-status jp-status--err';
   });
 
@@ -172,7 +172,7 @@ module.exports = {
   },
 
   blocks: [
-    { t: 'h2', x: 'The thresholds, and what counts as "large"' },
+    { t: 'h2', x: 'WCAG thresholds and large text' },
     {
       t: 'table',
       head: ['Level', 'Applies to', 'Minimum ratio'],
@@ -186,46 +186,46 @@ module.exports = {
     },
     {
       t: 'p',
-      x: '**Large text** means at least 18pt (24px), or 14pt (18.66px) when bold. Below that, the 4.5:1 requirement applies — and this is where most designs fail, because the small grey timestamps, captions and helper text are exactly the elements that get styled by eye late in a project.',
+      x: '**Large text** means at least 18pt (24px), or 14pt (18.66px) when bold. Smaller text needs a ratio of at least 4.5:1 at level AA. Check captions, timestamps and helper text as well as body copy.',
     },
     {
       t: 'p',
-      x: 'The **3:1 requirement for UI components** is the one teams miss most often. It came in with WCAG 2.1 and covers input borders, focus indicators, toggle states and icons that carry meaning. A form field with a `#e5e7eb` border on white sits at about 1.2:1 — invisible to a lot of people, and a straightforward failure.',
+      x: 'WCAG 2.1 added a **3:1 requirement for meaningful UI components and graphics**. It covers elements such as input boundaries, focus indicators, toggle states and informative icons. For example, a `#e5e7eb` border on white is about 1.2:1 and does not meet that threshold.',
     },
 
-    { t: 'h2', x: 'Why AA is the number that matters' },
+    { t: 'h2', x: 'Why level AA is commonly required' },
     {
       t: 'p',
-      x: 'AA is the level written into law. The European Accessibility Act, the EN 301 549 standard behind EU public-sector procurement, Section 508 in the United States and the UK’s Public Sector Bodies Accessibility Regulations all reference WCAG level AA. ADA settlements in the US have consistently used AA as the remediation standard.',
+      x: 'Several laws and procurement standards reference WCAG level AA, including EN 301 549 for EU public-sector procurement, Section 508 in the United States and the UK Public Sector Bodies Accessibility Regulations. US accessibility settlements also commonly use AA as a remediation target.',
     },
     {
       t: 'p',
-      x: 'AAA is a worthwhile goal for body text and genuinely helps readers with low vision, but WCAG itself does not recommend it as a blanket requirement for entire sites — some content simply cannot reach it.',
+      x: 'AAA provides stronger contrast for body text, but WCAG does not recommend requiring level AAA across an entire site because some content cannot meet every AAA criterion.',
     },
 
-    { t: 'h2', x: 'Where designs usually fail' },
+    { t: 'h2', x: 'Color pairs that need attention' },
     {
       t: 'ul',
       items: [
-        '**Placeholder text.** Browser defaults are around 3:1. If a placeholder is doing real work — and it should not be, use a label — it needs to pass.',
-        '**Disabled controls.** WCAG exempts them, so they are technically compliant at any contrast. They are still frequently unreadable, and users cannot tell "disabled" from "broken".',
-        '**Text over images.** The ratio changes across the image. A scrim, a gradient overlay or a solid text panel is the reliable fix; picking a colour that works over the average is not.',
-        '**Brand colours on white.** A great many corporate blues and greens land between 3:1 and 4.5:1. Darken the shade for text and keep the original for large display type and logos, which are exempt.',
-        '**Light-grey secondary text.** `#999999` on white is 2.85:1 and fails. `#767676` is 4.54:1 and passes. That is the smallest change that fixes the most common violation on the web.',
-        '**Dark mode, assumed rather than checked.** Pure white on pure black is 21:1 and causes halation for readers with astigmatism. Off-white on very dark grey reads better and still passes comfortably.',
+        '**Placeholder text.** A placeholder that conveys information must meet the text threshold, but it should not replace a persistent label.',
+        '**Disabled controls.** WCAG exempts inactive controls from contrast requirements. They still need enough visual distinction for users to recognize their state.',
+        '**Text over images.** Contrast changes across an image. Check every area behind the text and add a scrim, overlay or solid panel when the ratio varies too much.',
+        '**Brand colors on white.** Some brand colors fall between 3:1 and 4.5:1. Use a darker variant for normal text while retaining the original color for exempt logos or qualifying large text.',
+        '**Light gray secondary text.** `#999999` on white is 2.85:1 and fails for normal text. `#767676` is 4.54:1 and passes AA.',
+        '**Dark mode.** Recheck each pair rather than inverting the light palette. Pure white on black reaches 21:1 and can produce halation for some readers; off-white on dark gray may be easier to read while still passing.',
       ],
     },
     {
       t: 'note',
       kind: 'tip',
-      title: 'The greys worth memorising (on white)',
-      x: '`#767676` = 4.54:1, the lightest grey that passes AA for body text. `#595959` = 7.0:1, the lightest that passes AAA. `#949494` = 3.0:1, the lightest usable for large text and UI borders. Anything lighter than #767676 for small text is a failure.',
+      title: 'Reference grays on white',
+      x: '`#767676` has a 4.54:1 ratio and passes AA for normal text. `#595959` reaches 7.0:1 and passes AAA. `#949494` reaches 3.0:1 for large text and qualifying UI components. Lighter gray values do not meet the corresponding threshold on white.',
     },
 
     { t: 'h2', x: 'How the ratio is calculated' },
     {
       t: 'p',
-      x: 'Contrast ratio is defined as `(L1 + 0.05) / (L2 + 0.05)`, where L1 and L2 are the relative luminances of the lighter and darker colours. Luminance itself is a weighted sum of the gamma-corrected channels:',
+      x: 'WCAG 2.x defines contrast as `(L1 + 0.05) / (L2 + 0.05)`, where L1 is the lighter color’s relative luminance and L2 is the darker color’s. Relative luminance is a weighted sum of the gamma-corrected color channels:',
     },
     {
       t: 'code',
@@ -240,7 +240,7 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'The green coefficient of 0.7152 reflects how much more sensitive human vision is to green than to blue. It also explains a result that surprises people: pure blue `#0000ff` on white is only 8.6:1, while pure yellow `#ffff00` on white is 1.07:1 and effectively invisible.',
+      x: 'The green coefficient is larger because human vision is more sensitive to green than blue. As a result, pure blue `#0000ff` on white has a ratio of about 8.6:1, while pure yellow `#ffff00` on white is about 1.07:1.',
     },
     { t: 'p', x: 'The ratio ranges from 1:1 (identical colours) to 21:1 (pure black on pure white).' },
 
@@ -248,19 +248,19 @@ module.exports = {
       t: 'note',
       kind: 'info',
       title: 'This formula has known flaws',
-      x: 'WCAG 2.x contrast is a simple model and it is wrong at the edges — it is notably unreliable for dark backgrounds and for thin fonts. **APCA**, the successor being developed for WCAG 3, models perceived lightness far more accurately. It is not yet a standard and not yet a legal requirement, so WCAG 2.x remains what you must comply with today.',
+      x: 'The WCAG 2.x formula has known perceptual limitations, especially for dark backgrounds and thin type. **APCA** is being developed for WCAG 3 to model perceived contrast differently. It is not yet the applicable compliance standard, so use WCAG 2.x thresholds for current conformance work.',
     },
 
     { t: 'h2', x: 'Contrast is necessary but not sufficient' },
     {
       t: 'p',
-      x: 'Passing 4.5:1 does not make an interface accessible. Two adjacent failures commonly ship alongside good contrast:',
+      x: 'A 4.5:1 text ratio addresses one accessibility requirement. Check these related requirements separately:',
     },
     {
       t: 'ol',
       items: [
-        '**Colour used as the only signal.** Red for errors and green for success fails for roughly one in twelve men with colour vision deficiency. Add an icon, a label or a pattern — WCAG 1.4.1 requires it regardless of contrast.',
-        '**Missing focus indicators.** Keyboard users need to see where they are. `outline: none` without a replacement is one of the most damaging single lines of CSS on the web, and the indicator itself must clear 3:1 against the adjacent colour.',
+        '**Color used as the only signal.** Do not rely only on red for errors or green for success. Add text, an icon or a pattern as required by WCAG 1.4.1.',
+        '**Missing focus indicators.** Keyboard users need a visible focus location. If CSS removes the default outline, provide a replacement that reaches 3:1 against adjacent colors.',
       ],
     },
 
@@ -268,24 +268,24 @@ module.exports = {
       t: 'faq',
       items: [
         {
-          q: 'What contrast ratio do I actually need?',
-          a: '4.5:1 for normal text, 3:1 for large text and for UI components such as borders, icons and focus rings. That is WCAG level AA, which is the level referenced by accessibility law in the EU, UK and US.',
+          q: 'What contrast ratio do I need?',
+          a: 'At level AA, normal text needs 4.5:1. Large text and meaningful UI components such as boundaries, icons and focus indicators need 3:1. Check the specific law or procurement standard that applies to your organization.',
         },
         {
           q: 'Do logos and brand marks need to pass?',
-          a: 'No. WCAG explicitly exempts logotypes and incidental text. The exemption is narrow, though — it does not extend to a tagline set in body copy, or to navigation styled in brand colours.',
+          a: 'Logotypes and incidental text are exempt under WCAG. The exemption does not automatically cover a tagline used as body text or navigation text set in a brand color.',
         },
         {
           q: 'Does contrast apply to dark mode separately?',
-          a: 'Yes, and it must be checked separately. Inverting a palette does not preserve contrast ratios, because luminance is non-linear. A pairing that comfortably passes in light mode can fail in dark mode, which is why the swap button above is worth using on every colour pair you ship.',
+          a: 'Yes. Check dark mode separately because luminance is nonlinear and an inverted palette does not preserve contrast ratios. Test each foreground and background pair used by the dark theme.',
         },
         {
           q: 'What about text over a photograph?',
-          a: 'The ratio has to hold over every part of the image the text sits on, which in practice means adding a semi-transparent scrim or a gradient overlay. Testing against one sampled pixel is not enough — check the lightest region the text crosses.',
+          a: 'The required ratio must hold across the full area behind the text. Check the lightest and darkest regions it crosses, and add a scrim, overlay or solid text background when needed.',
         },
         {
           q: 'Is APCA something I should switch to now?',
-          a: 'Not for compliance. APCA is a substantially better perceptual model and worth understanding, but it is still in development for WCAG 3 and no regulation references it. Design to WCAG 2.2 AA today; treat APCA as a tiebreaker when the 2.x formula gives an answer that plainly contradicts your eyes.',
+          a: 'Not as a replacement for current compliance checks. APCA is being developed for WCAG 3, while current regulations and standards reference WCAG 2.x. You can use APCA as additional design information, but still test the applicable WCAG 2.2 criteria.',
         },
       ],
     },

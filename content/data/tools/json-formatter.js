@@ -1,12 +1,12 @@
 module.exports = {
   slug: 'json-formatter',
-  title: 'JSON Formatter & Validator — Free, Private, Instant',
+  title: 'JSON Formatter and Validator with Error Locations',
   h1: 'JSON Formatter and Validator',
   eyebrow: 'Developer tool',
   description:
-    'Format, validate, minify and sort JSON in your browser. Pinpoints syntax errors by line and column. Nothing is uploaded — your data never leaves the page.',
+    'Format, validate, minify and sort JSON in your browser. Syntax errors include the line, column and nearby text.',
   standfirst:
-    'Paste JSON, get it beautified or minified instantly, with syntax errors located by line and column. Everything runs locally — nothing is ever sent to a server.',
+    'Paste JSON to format it, remove whitespace, sort object keys or unwrap an escaped JSON string. Processing happens in the browser.',
   keywords: ['json formatter', 'json validator', 'json beautifier', 'json minifier', 'format json online', 'json pretty print'],
   published: '2026-01-22',
   updated: '2026-08-19',
@@ -17,15 +17,15 @@ module.exports = {
     html: `
 <div class="jp-tool">
   <div class="jp-toolbar">
-    <button class="jp-btn" type="button" id="jf-format">Format</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="jf-minify">Minify</button>
+    <button class="jp-btn" type="button" id="jf-format">Format JSON</button>
+    <button class="jp-btn jp-btn--ghost" type="button" id="jf-minify">Minify JSON</button>
     <button class="jp-btn jp-btn--ghost" type="button" id="jf-sort">Sort keys</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="jf-escape">Unescape string</button>
-    <button class="jp-btn jp-btn--ghost" type="button" data-copy="jf-input">Copy</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="jf-sample">Load sample</button>
+    <button class="jp-btn jp-btn--ghost" type="button" id="jf-escape">Unescape JSON string</button>
+    <button class="jp-btn jp-btn--ghost" type="button" data-copy="jf-input">Copy JSON</button>
+    <button class="jp-btn jp-btn--ghost" type="button" id="jf-sample">Load sample JSON</button>
     <button class="jp-btn jp-btn--ghost" type="button" id="jf-clear">Clear</button>
     <label class="jp-checkline" for="jf-indent">
-      Indent
+      Indentation
       <select class="jp-select" id="jf-indent" style="width:auto">
         <option value="2" selected>2 spaces</option>
         <option value="4">4 spaces</option>
@@ -35,7 +35,7 @@ module.exports = {
   </div>
 
   <div class="jp-field">
-    <label for="jf-input">JSON input</label>
+    <label for="jf-input">Paste JSON</label>
     <textarea class="jp-textarea" id="jf-input" spellcheck="false" autocapitalize="off" autocorrect="off"
       placeholder='{"paste":"your JSON here"}'></textarea>
   </div>
@@ -76,7 +76,7 @@ module.exports = {
     var snippet = text.split('\\n')[line - 1] || '';
     if (snippet.length > 70) snippet = snippet.slice(Math.max(0, column - 35), column + 35);
     return error.message.replace(/ in JSON at position \\d+.*/, '') +
-      ' — line ' + line + ', column ' + column + '  ›  ' + snippet.trim();
+      ' at line ' + line + ', column ' + column + ': ' + snippet.trim();
   }
 
   function describe(value) {
@@ -106,13 +106,13 @@ module.exports = {
     try {
       var value = JSON.parse(text);
       var info = describe(value);
-      setStatus('Valid JSON', 'ok');
+      setStatus('JSON is valid.', 'ok');
       stats.innerHTML =
-        '<div class="jp-stat"><p class="jp-stat-label">Size</p><p class="jp-stat-value">' + bytes(text.length) + '</p></div>' +
-        '<div class="jp-stat"><p class="jp-stat-label">Keys</p><p class="jp-stat-value">' + info.keys + '</p></div>' +
+        '<div class="jp-stat"><p class="jp-stat-label">Input size</p><p class="jp-stat-value">' + bytes(text.length) + '</p></div>' +
+        '<div class="jp-stat"><p class="jp-stat-label">Object keys</p><p class="jp-stat-value">' + info.keys + '</p></div>' +
         '<div class="jp-stat"><p class="jp-stat-label">Arrays</p><p class="jp-stat-value">' + info.arrays + '</p></div>' +
-        '<div class="jp-stat"><p class="jp-stat-label">Max depth</p><p class="jp-stat-value">' + info.depth + '</p></div>' +
-        '<div class="jp-stat"><p class="jp-stat-label">Total nodes</p><p class="jp-stat-value">' + info.nodes + '</p></div>';
+        '<div class="jp-stat"><p class="jp-stat-label">Maximum depth</p><p class="jp-stat-value">' + info.depth + '</p></div>' +
+        '<div class="jp-stat"><p class="jp-stat-label">Total values</p><p class="jp-stat-value">' + info.nodes + '</p></div>';
       return value;
     } catch (error) {
       setStatus(locate(text, error), 'err');
@@ -143,8 +143,8 @@ module.exports = {
       var before = input.value.length;
       input.value = JSON.stringify(value);
       parse();
-      setStatus('Minified — ' + bytes(before) + ' to ' + bytes(input.value.length) +
-        ' (' + Math.round((1 - input.value.length / before) * 100) + '% smaller)', 'ok');
+      setStatus('Minified from ' + bytes(before) + ' to ' + bytes(input.value.length) +
+        ' (' + Math.round((1 - input.value.length / before) * 100) + '% smaller).', 'ok');
     }
   });
 
@@ -160,11 +160,11 @@ module.exports = {
       // A JSON document that has been embedded in another string arrives
       // double-encoded; parsing once yields the real document as a string.
       var unwrapped = JSON.parse(text);
-      if (typeof unwrapped !== 'string') { setStatus('Input is already a JSON value, not an escaped string.', 'err'); return; }
+      if (typeof unwrapped !== 'string') { setStatus('The input is a JSON value, not an escaped JSON string.', 'err'); return; }
       input.value = JSON.stringify(JSON.parse(unwrapped), null, indent());
       parse();
     } catch (error) {
-      setStatus('Could not unescape: ' + error.message, 'err');
+      setStatus('Could not unescape the JSON string: ' + error.message, 'err');
     }
   });
 
@@ -186,34 +186,34 @@ module.exports = {
   },
 
   blocks: [
-    { t: 'h2', x: 'What this tool does' },
+    { t: 'h2', x: 'Available actions' },
     {
       t: 'ul',
       items: [
-        '**Format** — expands minified JSON into indented, readable structure with 2 spaces, 4 spaces or tabs.',
-        '**Validate** — checks syntax as you type and reports the exact line, column and offending text when parsing fails.',
-        '**Minify** — strips all insignificant whitespace and reports how many bytes you saved.',
-        '**Sort keys** — recursively alphabetises object keys, which makes two config files diffable against each other.',
-        '**Unescape string** — unwraps JSON that has been double-encoded inside another string, the usual state of a payload pulled out of a log line.',
+        '**Format:** expand compact JSON with two spaces, four spaces or tabs for indentation.',
+        '**Validate:** check syntax as you type and show the line, column and nearby text when parsing fails.',
+        '**Minify:** remove insignificant whitespace and report the change in size.',
+        '**Sort keys:** alphabetize object keys recursively so two configuration files are easier to compare.',
+        '**Unescape JSON string:** parse a JSON document that was encoded inside another string, as often happens in structured logs.',
       ],
     },
     {
       t: 'note',
       kind: 'tip',
-      title: 'Your data never leaves this page',
-      x: 'Everything runs in JavaScript on your own machine. There is no upload, no request, no server-side logging, and no analytics on your input. That matters: pasting production payloads containing customer records or credentials into an unknown online formatter is a genuine data-exfiltration route, and several popular ones do post your input to their backend.',
+      title: 'Processing stays in the browser',
+      x: 'The formatter uses the browser’s JSON parser and does not submit your input to a server. Even with a local tool, avoid pasting production payloads that contain customer data or credentials unless you have confirmed how the surrounding page handles data.',
     },
 
-    { t: 'h2', x: 'The JSON syntax errors you will actually hit' },
+    { t: 'h2', x: 'Common JSON syntax errors' },
     {
       t: 'p',
-      x: 'JSON is a deliberately small format, so there are only a handful of ways to break it. Nearly every parse failure is one of these five.',
+      x: 'Strict JSON has a small grammar. These five mistakes account for many parsing failures.',
     },
 
     { t: 'h3', x: 'Trailing commas' },
     {
       t: 'p',
-      x: 'Legal in JavaScript, illegal in JSON. This is the single most common cause of `Unexpected token }`:',
+      x: 'JavaScript object literals can allow trailing commas, but JSON cannot. A comma after the final property can produce an `Unexpected token }` error:',
     },
     {
       t: 'code',
@@ -227,61 +227,61 @@ module.exports = {
     { t: 'h3', x: 'Single quotes' },
     {
       t: 'p',
-      x: 'JSON strings must use double quotes, and keys must be quoted. `{name: \'api\'}` is a valid JavaScript object literal and an invalid JSON document. If you are hand-writing config, this catches almost everyone at least once.',
+      x: 'JSON strings use double quotes, and object keys must also be quoted. `{name: \'api\'}` is a JavaScript object literal, not valid JSON.',
     },
 
     { t: 'h3', x: 'Comments' },
     {
       t: 'p',
-      x: 'There are no comments in JSON — neither `//` nor `/* */`. Tools like VS Code accept them in their own settings files under the informal "JSONC" convention, but a standard parser will reject them. If you need annotation, add a `"_comment"` key or move to YAML or TOML.',
+      x: 'JSON does not allow `//` or `/* */` comments. Some tools, including VS Code, accept comments in JSONC files, but a standard JSON parser rejects them. For annotations, use a `"_comment"` key or a format such as YAML or TOML.',
     },
 
     { t: 'h3', x: 'NaN, Infinity and undefined' },
     {
       t: 'p',
-      x: 'None of these are JSON values. `JSON.stringify` silently converts `NaN` and `Infinity` to `null` and drops `undefined` properties entirely, which is a common source of fields that mysteriously vanish between a service and its client.',
+      x: 'JSON has no `NaN`, `Infinity` or `undefined` value. `JSON.stringify` converts `NaN` and `Infinity` to `null`, and it omits object properties whose value is `undefined`. Check for this conversion when a field disappears between a service and its client.',
     },
 
     { t: 'h3', x: 'Unescaped control characters in strings' },
     {
       t: 'p',
-      x: 'A literal newline, tab or raw backslash inside a string breaks the document. They must be escaped as `\\n`, `\\t` and `\\\\`. This one shows up constantly when a stack trace or a Windows file path gets concatenated into a JSON payload without encoding.',
+      x: 'A newline, tab or backslash inside a JSON string must be escaped as `\\n`, `\\t` or `\\\\`. Raw control characters often appear when code inserts a stack trace or Windows path without passing it through a JSON serializer.',
     },
 
     { t: 'h2', x: 'Reading the error message' },
     {
       t: 'p',
-      x: 'Browsers report a character offset rather than a line number, which is not much use in a 4,000-line document. This tool converts that offset into a line, a column and the surrounding text so you can jump straight to the problem.',
+      x: 'A browser may report a character offset for a parse error. The formatter converts that offset to a line and column and includes nearby text to make the location easier to find.',
     },
     {
       t: 'p',
-      x: 'One thing worth knowing: the reported position is where the parser gave up, which is usually *after* the actual mistake. A missing comma on line 40 is typically reported at the start of line 41. When the flagged line looks fine, check the line above it.',
-    },
-
-    { t: 'h2', x: 'Minifying JSON: when it is worth it' },
-    {
-      t: 'p',
-      x: 'Formatting is for humans; minification is for wires. Removing whitespace typically cuts an indented document by 20–30%, and for API responses served at scale that is real bandwidth. But two caveats are worth stating plainly.',
-    },
-    {
-      t: 'p',
-      x: 'First, if your server already applies gzip or Brotli — and it should — most of that saving is redundant. Compression handles repeated whitespace extremely well, so the difference between minified and formatted JSON after gzip is often under 5%. Second, never minify files that humans maintain. A minified `package.json` or Terraform variables file produces unreadable diffs and pointless merge conflicts.',
+      x: 'The reported position is where the parser stopped, which can be after the actual mistake. For example, a missing comma on one line may be reported at the start of the next line. Check the preceding line when the marked location looks correct.',
     },
 
-    { t: 'h2', x: 'Sorting keys for diffable config' },
+    { t: 'h2', x: 'When to minify JSON' },
     {
       t: 'p',
-      x: 'JSON objects are unordered by specification, but almost every serializer preserves insertion order in practice. That means two functionally identical config files can produce an enormous diff purely because the keys came out in a different sequence.',
+      x: 'Formatting makes JSON easier to read. Minification removes whitespace before data is transferred. An indented document may shrink by 20–30% before transport compression, but two caveats matter.',
     },
     {
       t: 'p',
-      x: 'Running both through **Sort keys** normalises them, so the diff shows only genuine differences. This is the fastest way to answer "what actually changed between staging and production config?" — a question that otherwise consumes an unreasonable amount of an afternoon.',
+      x: 'First, gzip and Brotli compress repeated whitespace well, so minifying before compression often changes the final size by less than 5%. Second, keep files that people edit in a readable format. Minified configuration files produce difficult diffs and avoidable merge conflicts.',
     },
 
-    { t: 'h2', x: 'Doing this from the command line' },
+    { t: 'h2', x: 'Sorting keys before a comparison' },
     {
       t: 'p',
-      x: 'For scripting and larger files, the same operations are available locally. `jq` is the standard tool:',
+      x: 'JSON object order has no semantic meaning, although serializers commonly preserve insertion order. Two equivalent configuration files can therefore produce a large diff when their keys appear in a different sequence.',
+    },
+    {
+      t: 'p',
+      x: 'Run both files through **Sort keys** before comparing them. With the order normalized, the diff shows changes in values and membership instead of changes in key order.',
+    },
+
+    { t: 'h2', x: 'Using JSON tools from the command line' },
+    {
+      t: 'p',
+      x: 'For scripts and local files, `jq` provides the same format, minify, sort and validation operations:',
     },
     {
       t: 'code',
@@ -295,7 +295,7 @@ jq -c '.' input.json
 # Sort keys recursively
 jq -S '.' input.json
 
-# Validate only — exit code 0 means valid
+# Validate only; exit code 0 means valid
 jq empty input.json && echo "valid"
 
 # No jq installed? Python is usually there
@@ -303,7 +303,7 @@ python3 -m json.tool input.json`,
     },
     {
       t: 'p',
-      x: 'For files above a few hundred megabytes, neither this page nor `jq` in whole-document mode is the right answer — both load the entire structure into memory. Use a streaming parser instead (`jq --stream`, or `ijson` in Python).',
+      x: 'This page and the default `jq` mode both load the full document into memory. For files that are too large to hold comfortably, use a streaming parser such as `jq --stream` or Python’s `ijson`.',
     },
 
     {
@@ -311,23 +311,23 @@ python3 -m json.tool input.json`,
       items: [
         {
           q: 'Is my JSON uploaded anywhere?',
-          a: 'No. All parsing, formatting and validation happens in your browser with the built-in JSON engine. There is no network request involved and no server-side component to receive your data. You can verify this by opening your browser devtools network tab while using the tool.',
+          a: 'No. Parsing, formatting and validation use the browser’s built-in JSON engine. This tool does not send the input to a server.',
         },
         {
           q: 'Why does my JSON fail even though it looks correct?',
-          a: 'Check for a trailing comma before a closing brace or bracket, single quotes instead of double quotes, unquoted keys, comments, or a smart quote pasted in from a word processor or chat client. Curly quotes are invisible in most editors and break parsing every time.',
+          a: 'Check for a trailing comma, single-quoted strings, unquoted keys, comments or curly quotation marks pasted from another application. Strict JSON requires quoted keys and straight double quotes.',
         },
         {
           q: 'What is the difference between JSON and JSON5 or JSONC?',
-          a: 'JSON5 and JSONC are relaxed supersets that permit comments, trailing commas, unquoted keys and single quotes. They are convenient for configuration files, but standard parsers reject them. This tool validates strict JSON as defined by RFC 8259 — which is what any API you talk to will expect.',
+          a: 'JSON5 and JSONC extend JSON with features such as comments and trailing commas. JSON5 also permits unquoted keys and single-quoted strings. Standard JSON parsers reject those extensions. This tool validates strict JSON as defined by RFC 8259.',
         },
         {
           q: 'Can it handle very large files?',
-          a: 'Documents up to a few megabytes format instantly. Beyond roughly 10 MB the browser may stall while parsing, since the whole structure has to be held in memory. Use a streaming command-line tool for anything larger.',
+          a: 'The browser must hold the complete document and its parsed structure in memory. For a file that makes the page slow or unresponsive, use a streaming command-line parser instead.',
         },
         {
           q: 'What does "Unescape string" do?',
-          a: 'When JSON has been embedded inside another JSON string — the usual result of logging a payload as a field — it arrives with every quote escaped as \\". That button parses the outer layer once to recover the real document, then formats it.',
+          a: 'JSON embedded inside another JSON string has backslashes before its quotation marks. **Unescape JSON string** parses that outer string, parses the recovered document and then formats it.',
         },
       ],
     },

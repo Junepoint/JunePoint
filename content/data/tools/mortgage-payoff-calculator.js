@@ -4,9 +4,9 @@ module.exports = {
   h1: 'Mortgage Payoff Calculator',
   eyebrow: 'Personal finance',
   description:
-    'See how much interest an extra monthly payment saves and how many years it cuts off your mortgage. Free amortization calculator, no signup, runs in your browser.',
+    'Estimate how extra monthly, annual or lump-sum principal payments change mortgage interest and payoff time.',
   standfirst:
-    'Add an extra payment — monthly, annual or a one-off lump sum — and see exactly how many months come off your term and how much interest you keep.',
+    'Enter your remaining balance, rate and term, then compare the original schedule with monthly, annual or one-time extra payments.',
   keywords: [
     'mortgage payoff calculator',
     'extra mortgage payment calculator',
@@ -25,9 +25,9 @@ module.exports = {
 <div class="jp-tool">
   <div class="jp-tool-grid">
     <div>
-      <h2 class="jp-tool-h">Your loan</h2>
+      <h2 class="jp-tool-h">Loan details</h2>
       <div class="jp-field">
-        <label for="mp-balance">Current balance ($)</label>
+        <label for="mp-balance">Remaining balance ($)</label>
         <input class="jp-input" type="number" id="mp-balance" value="320000" min="0" step="1000" />
       </div>
       <div class="jp-field">
@@ -47,25 +47,25 @@ module.exports = {
         <input class="jp-input" type="number" id="mp-extra" value="300" min="0" step="25" />
       </div>
       <div class="jp-field">
-        <label for="mp-annual">Extra once a year ($)</label>
+        <label for="mp-annual">Extra annual payment ($)</label>
         <input class="jp-input" type="number" id="mp-annual" value="0" min="0" step="100" />
-        <span class="jp-hint">Tax refund, bonus, anything seasonal.</span>
+        <span class="jp-hint">Applied after every 12 monthly payments.</span>
       </div>
       <div class="jp-field">
-        <label for="mp-lump">One-off lump sum today ($)</label>
+        <label for="mp-lump">One-time payment today ($)</label>
         <input class="jp-input" type="number" id="mp-lump" value="0" min="0" step="1000" />
       </div>
     </div>
 
     <div>
-      <h2 class="jp-tool-h">Result</h2>
+      <h2 class="jp-tool-h">Estimated result</h2>
       <div class="jp-stat jp-stat--primary" style="margin-bottom:.75rem">
         <p class="jp-stat-label">Interest saved</p>
         <p class="jp-stat-value" id="mp-saved">$0</p>
         <p class="jp-stat-sub" id="mp-saved-sub">&nbsp;</p>
       </div>
       <div class="jp-stat">
-        <p class="jp-stat-label">Paid off sooner by</p>
+        <p class="jp-stat-label">Time removed from term</p>
         <p class="jp-stat-value" id="mp-sooner">0</p>
         <p class="jp-stat-sub" id="mp-payoff-date">&nbsp;</p>
       </div>
@@ -81,7 +81,7 @@ module.exports = {
       </thead>
       <tbody></tbody>
     </table>
-    <p class="jp-table-note">Principal and interest only. Property tax, insurance and HOA dues are not included.</p>
+    <p class="jp-table-note">Includes principal and interest only. Property tax, insurance and HOA dues are excluded.</p>
   </div>
 </div>`,
 
@@ -128,7 +128,7 @@ module.exports = {
   }
 
   function term(months) {
-    if (!isFinite(months)) return 'never';
+    if (!isFinite(months)) return 'No payoff';
     var y = Math.floor(months / 12), m = months % 12;
     if (y === 0) return m + (m === 1 ? ' month' : ' months');
     if (m === 0) return y + (y === 1 ? ' year' : ' years');
@@ -139,7 +139,7 @@ module.exports = {
     if (!isFinite(months)) return '';
     var d = new Date();
     d.setMonth(d.getMonth() + months);
-    return 'Paid off around ' + d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    return 'Estimated payoff: ' + d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   }
 
   function render() {
@@ -160,18 +160,18 @@ module.exports = {
     document.getElementById('mp-saved').textContent = money(Math.max(0, savedInterest));
     document.getElementById('mp-saved-sub').textContent =
       base.interest > 0 ? Math.round((savedInterest / base.interest) * 100) + '% less interest paid' : '\\u00a0';
-    document.getElementById('mp-sooner').textContent = savedMonths > 0 ? term(savedMonths) : '—';
+    document.getElementById('mp-sooner').textContent = savedMonths > 0 ? term(savedMonths) : 'Not available';
     document.getElementById('mp-payoff-date').textContent = payoffDate(fast.months);
 
     document.getElementById('mp-results').innerHTML =
       '<div class="jp-stat"><p class="jp-stat-label">Required monthly payment</p><p class="jp-stat-value">' +
         money(payment) + '</p><p class="jp-stat-sub">Principal and interest</p></div>' +
-      '<div class="jp-stat"><p class="jp-stat-label">Your total monthly</p><p class="jp-stat-value">' +
-        money(payment + extra) + '</p><p class="jp-stat-sub">Including the extra ' + money(extra) + '</p></div>' +
-      '<div class="jp-stat"><p class="jp-stat-label">New term</p><p class="jp-stat-value">' +
-        term(fast.months) + '</p><p class="jp-stat-sub">Was ' + term(base.months) + '</p></div>' +
+      '<div class="jp-stat"><p class="jp-stat-label">Monthly payment with extra</p><p class="jp-stat-value">' +
+        money(payment + extra) + '</p><p class="jp-stat-sub">Includes ' + money(extra) + ' extra</p></div>' +
+      '<div class="jp-stat"><p class="jp-stat-label">New payoff term</p><p class="jp-stat-value">' +
+        term(fast.months) + '</p><p class="jp-stat-sub">Without extra: ' + term(base.months) + '</p></div>' +
       '<div class="jp-stat"><p class="jp-stat-label">Total interest</p><p class="jp-stat-value">' +
-        money(fast.interest) + '</p><p class="jp-stat-sub">Was ' + money(base.interest) + '</p></div>';
+        money(fast.interest) + '</p><p class="jp-stat-sub">Without extra: ' + money(base.interest) + '</p></div>';
 
     document.querySelector('#mp-compare tbody').innerHTML =
       '<tr><th scope="row">Monthly payment</th><td>' + money(payment) + '</td><td>' + money(payment + extra) + '</td></tr>' +
@@ -193,35 +193,35 @@ module.exports = {
     {
       t: 'takeaways',
       items: [
-        'An extra payment early in a loan is worth several times the same payment made late — every dollar of principal removed stops compounding for the entire remaining term.',
-        'On a $320,000 balance at 6.5% with 28 years to run, an extra $300 a month removes 7 years 8 months and about $119,000 of interest.',
-        'Extra principal shortens the term. It does not reduce next month’s required payment, so it is not an emergency-fund substitute.',
-        'Paying down a mortgage is a guaranteed, tax-adjusted return equal to your interest rate — compare it against your other debts and your employer match before committing.',
+        'An extra payment made early avoids interest for more months than the same payment made near the end of the loan.',
+        'For the default $320,000 balance at 6.5% with 28 years remaining, an extra $300 each month removes 7 years 8 months and about $119,000 of interest.',
+        'Extra principal shortens the term but does not reduce the next required payment. Keep a separate emergency fund.',
+        'Compare mortgage prepayment with higher-interest debt, available employer retirement matches, liquidity needs and any tax effect.',
       ],
     },
 
-    { t: 'h2', x: 'Why an extra payment does so much' },
+    { t: 'h2', x: 'Why payment timing matters' },
     {
       t: 'p',
-      x: 'A mortgage payment is split between interest and principal, and early in the loan that split is lopsided. On a $320,000 balance at 6.5% with 28 years remaining, the required payment is about **$2,070** — and $1,733 of that first payment is interest. Just **$337 actually reduces the balance.**',
+      x: 'Each mortgage payment covers accrued interest first and then reduces principal. On a $320,000 balance at 6.5% with 28 years remaining, the required payment is about **$2,070**. About $1,733 of the first payment is interest, leaving **$337 to reduce the balance.**',
     },
     {
       t: 'p',
-      x: 'Any extra dollar you send skips that split entirely and lands directly on principal. That dollar then stops accruing interest for every remaining month of the loan. Send $300 extra in month one of a 28-year term and you avoid roughly 336 months of compounding on it — which is why the interest saved is a large multiple of the extra amount paid.',
+      x: 'An extra principal payment lowers the balance immediately. Interest is then calculated on that lower balance for each remaining month. A $300 payment made in month one of a 28-year term affects roughly 336 later monthly calculations, so its total interest effect can exceed the payment itself.',
     },
     {
       t: 'p',
-      x: 'The corollary matters just as much: the same $300 sent in year 25 saves almost nothing, because there is barely any term left for it to shorten. **Front-load extra payments if you are going to make them at all.**',
+      x: 'The same $300 paid in year 25 has much less time to reduce interest. When the budget and other priorities allow it, earlier principal payments produce the larger interest reduction.',
     },
 
-    { t: 'h2', x: 'Four ways to pay extra, ranked by how painless they are' },
+    { t: 'h2', x: 'Ways to make extra payments' },
     {
       t: 'ol',
       items: [
-        '**Round up.** Take that $2,070 payment to $2,150. It is $80 a month, it is invisible in a budget, and it still removes 2 years 8 months and roughly $43,000 of interest.',
-        '**Biweekly payments.** Pay half your monthly amount every two weeks. Because there are 26 fortnights in a year, you make the equivalent of 13 monthly payments instead of 12 — one extra payment a year without ever feeling it. On the example loan that is about $173 a month, worth 5 years 1 month and roughly $81,000. Enter one twelfth of your payment in the "extra per month" field above to model it.',
-        '**Annual windfalls.** Tax refunds and bonuses go in the "once a year" field. They are money you have already learned to live without.',
-        '**Lump sum after a windfall.** The most powerful and the least frequent. Model it in the lump sum field to see the effect of applying it today rather than spreading it.',
+        '**Round up the monthly payment.** Increasing the example payment from $2,070 to $2,150 adds $80 each month and removes about 2 years 8 months and $43,000 of interest.',
+        '**Make biweekly payments.** Paying half the monthly amount every two weeks produces 26 half-payments, equal to 13 monthly payments per year. On the example loan, that extra annual payment is equivalent to about $173 per month and removes about 5 years 1 month and $81,000 of interest. Enter one twelfth of the required payment in **Extra per month** to model it.',
+        '**Apply an annual amount.** Enter a recurring tax refund, bonus or other annual payment in **Extra annual payment**.',
+        '**Apply a lump sum.** Enter a one-time amount to compare paying it today with leaving the original balance unchanged.',
       ],
     },
 
@@ -229,26 +229,26 @@ module.exports = {
       t: 'note',
       kind: 'warn',
       title: 'Tell your servicer where the money goes',
-      x: 'Extra funds are not automatically applied to principal. Many servicers hold them as a prepayment of next month’s bill, or park them in a suspense account, which saves you nothing. Send extra payments as a separate transaction explicitly marked "apply to principal", then check the following statement to confirm the balance dropped by the full amount.',
+      x: 'A servicer may treat extra funds as an early payment of the next bill or hold them in a suspense account instead of reducing principal. Follow the servicer’s process for a principal-only payment, then confirm on the next statement that the full amount reduced the balance.',
     },
 
-    { t: 'h2', x: 'When you should not pay extra' },
+    { t: 'h2', x: 'When extra payments may not fit' },
     {
       t: 'p',
-      x: 'Paying down a mortgage is a guaranteed return equal to your interest rate, with no volatility. That is genuinely good. But it is not automatically the best use of the money, and there are four situations where it clearly is not:',
+      x: 'Reducing principal avoids future mortgage interest, but it also moves cash into home equity. Consider these priorities before making extra payments:',
     },
     {
       t: 'ul',
       items: [
-        '**You carry higher-interest debt.** Credit cards at 22% and personal loans in the teens dwarf a mortgage rate. Clear those first; the arithmetic is not close.',
-        '**You have no emergency fund.** Home equity is not liquid. Money sent to the lender is very difficult to get back without a refinance or a HELOC, and lenders are least willing to lend at exactly the moment you would need it. Three to six months of expenses in cash comes first.',
-        '**You are leaving an employer match on the table.** A 50% or 100% match on retirement contributions is an immediate, guaranteed return that no mortgage rate approaches.',
-        '**Your rate is very low.** If you locked a sub-4% mortgage, an ordinary high-yield savings account may pay more than your loan costs. Prepaying is then a negative-spread decision — though some people accept that for the certainty of owning outright, which is a legitimate preference rather than a mistake.',
+        '**Higher-interest debt.** Credit cards and personal loans may cost much more than the mortgage. Compare rates and address the more expensive balance first.',
+        '**No emergency fund.** Home equity is not liquid. Recovering a principal payment may require a refinance or HELOC, so keep an appropriate cash reserve before prepaying.',
+        '**An unused employer match.** A retirement-plan match may provide more immediate value than mortgage prepayment. Capture the available match before comparing the remaining options.',
+        '**A low mortgage rate.** A savings account may pay more than a low-rate mortgage costs, although taxes and changing deposit rates affect the comparison. Some borrowers still prefer the certainty of reducing debt.',
       ],
     },
     {
       t: 'p',
-      x: 'One more consideration: prepaying shortens your term but never reduces your *required* monthly payment. If your household income is unstable, cash in an account is a more useful buffer than equity in a house, even though the equity earns a better headline return.',
+      x: 'Prepaying shortens the term but does not reduce the *required* monthly payment unless the loan is recast. When household income is uncertain, accessible cash may be more useful than additional home equity.',
     },
 
     { t: 'h2', x: 'Recasting versus refinancing versus prepaying' },
@@ -278,13 +278,13 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'Recasting is the least-known of the three and often the best fit after an inheritance or a bonus: you keep your existing interest rate, drop the required payment, and pay a few hundred dollars instead of thousands in closing costs. Not every servicer offers it, and government-backed loans generally do not qualify — but it is always worth a phone call before assuming a refinance is the only option.',
+      x: 'A recast keeps the existing interest rate and recalculates the required payment after a large principal reduction. Fees are often lower than refinance closing costs. Not every servicer offers recasting, and government-backed loans generally do not qualify, so ask the servicer about eligibility and fees.',
     },
 
     { t: 'h2', x: 'How the calculation works' },
     {
       t: 'p',
-      x: 'The tool builds a standard amortization schedule. It converts your APR to a monthly rate, derives the required payment from the standard annuity formula, then walks the loan month by month: interest accrues on the outstanding balance, the payment covers that interest first, and whatever remains reduces principal.',
+      x: 'The calculator converts APR to a monthly rate and derives the required principal-and-interest payment from the standard annuity formula. It then processes the balance month by month: interest accrues on the current balance, and the rest of each payment reduces principal.',
     },
     {
       t: 'code',
@@ -297,13 +297,13 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'The "with extra payments" run repeats that walk with your additional amounts applied to principal, and the two totals are compared. Everything happens in your browser — no balance, rate or personal detail is ever transmitted anywhere.',
+      x: 'A second schedule applies the entered monthly, annual and one-time amounts to principal, then compares the payoff time and total interest with the original schedule. The calculation runs in the browser and this tool does not send the entered values to a server.',
     },
     {
       t: 'note',
       kind: 'info',
       title: 'Principal and interest only',
-      x: 'The figures here exclude property taxes, homeowners insurance, PMI and HOA dues. Your actual escrowed payment will be higher. Extra principal payments can, however, get you to the 20% equity threshold sooner and let you cancel PMI — a saving this calculator does not attempt to model.',
+      x: 'The figures exclude property taxes, homeowners insurance, PMI and HOA dues, so an escrowed payment will be higher. Extra principal may help reach an equity threshold for PMI cancellation sooner, but this calculator does not include that possible saving.',
     },
 
     {
@@ -311,27 +311,27 @@ module.exports = {
       items: [
         {
           q: 'Is it better to pay extra monthly or make one lump sum a year?',
-          a: 'Monthly wins slightly, because each payment starts reducing the balance sooner and therefore stops accruing interest earlier. Over a full mortgage the difference between $300 a month and $3,600 once a year is real but modest — usually a few thousand dollars. Choose whichever you will actually stick to.',
+          a: 'Monthly payments begin reducing the balance sooner, so they save more interest than the same total paid at the end of the year. Compare both schedules, then choose a timing that fits your cash flow.',
         },
         {
           q: 'Do biweekly payments really save that much?',
-          a: 'The saving is real, but it comes from making 13 monthly payments a year instead of 12 — not from any compounding magic in the fortnightly schedule. You can get the identical result by dividing one monthly payment by twelve and adding it to each payment yourself, without paying a third-party service to administer it.',
+          a: 'The saving comes from making 26 half-payments, which equals 13 full monthly payments per year instead of 12. You can model the same annual amount by dividing one monthly payment by 12 and adding that amount to each regular payment. Check whether a third-party biweekly service charges a fee.',
         },
         {
           q: 'Will paying extra lower my monthly payment?',
-          a: 'No. Prepayment shortens the term while leaving the required payment fixed. If you want a lower monthly payment, ask your servicer about a recast, which re-amortizes the reduced balance over the remaining original term.',
+          a: 'No. A principal prepayment shortens the payoff term while the required payment remains fixed. A recast can lower the required payment by re-amortizing the reduced balance over the remaining term.',
         },
         {
           q: 'Are there prepayment penalties?',
-          a: 'They are rare on modern conforming US mortgages and prohibited on qualified mortgages after the first three years, but they do still exist on some non-qualified and older loans. Check the prepayment clause in your note before sending a large lump sum.',
+          a: 'Some non-qualified and older US loans still have prepayment penalties. Qualified mortgages cannot impose them after the first three years. Read the prepayment clause in your loan documents before sending a large amount.',
         },
         {
           q: 'Does the mortgage interest deduction change the maths?',
-          a: 'For most filers, no. The standard deduction has been high enough since 2018 that a large majority of households do not itemise at all, so mortgage interest gives them no tax benefit. If you do itemise, your effective rate is roughly your APR times (1 minus your marginal tax rate), which lowers the return on prepayment somewhat.',
+          a: 'Only taxpayers who itemize can deduct qualifying mortgage interest. If the deduction applies, the after-tax cost of the loan may be lower than its APR, which also lowers the financial return from prepayment. Consult a tax professional for your circumstances.',
         },
         {
           q: 'Is my financial information stored?',
-          a: 'No. The calculator runs entirely in your browser using client-side JavaScript. Nothing you enter is sent to a server, logged or saved.',
+          a: 'No. The calculation runs in client-side JavaScript. This tool does not send or save the values you enter.',
         },
       ],
     },
@@ -340,7 +340,7 @@ module.exports = {
       t: 'note',
       kind: 'info',
       title: 'Not financial advice',
-      x: 'This calculator is an educational tool. It cannot see your tax situation, your other debts, your job security or your goals. Talk to a licensed financial adviser or a mortgage professional before making a large prepayment or refinancing decision.',
+      x: 'This calculator provides an estimate and does not account for your full tax situation, other debts, income stability or goals. Consult a licensed financial adviser or mortgage professional before a large prepayment or refinancing decision.',
     },
   ],
 

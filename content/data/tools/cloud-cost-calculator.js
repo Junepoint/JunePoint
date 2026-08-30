@@ -1,12 +1,12 @@
 module.exports = {
   slug: 'cloud-cost-calculator',
-  title: 'Cloud Cost Calculator: AWS vs Azure vs GCP (Free)',
+  title: 'Cloud Cost Calculator for AWS, Azure and Google Cloud',
   h1: 'Cloud Cost Calculator',
   eyebrow: 'Infrastructure',
   description:
-    'Estimate and compare monthly AWS, Azure and Google Cloud bills for compute, storage, egress and managed databases. Free, instant, runs in your browser.',
+    'Compare estimated monthly AWS, Azure and Google Cloud costs for compute, storage, outbound transfer, managed databases and load balancing.',
   standfirst:
-    'Enter the shape of your workload and get a side-by-side monthly estimate for AWS, Azure and Google Cloud — including what a one- or three-year commitment would save you.',
+    'Describe a workload and compare its estimated monthly cost across three cloud providers, with optional one-year or three-year commitment discounts.',
   keywords: [
     'cloud cost calculator',
     'aws vs azure vs gcp pricing',
@@ -39,9 +39,9 @@ module.exports = {
         <input class="jp-input" type="number" id="cc-ram" value="16" min="1" max="2048" step="1" />
       </div>
       <div class="jp-field">
-        <label for="cc-hours">Hours running per month</label>
+        <label for="cc-hours">Runtime per instance (hours/month)</label>
         <input class="jp-input" type="number" id="cc-hours" value="730" min="1" max="744" step="1" />
-        <span class="jp-hint">730 = always on. Halve it if you shut down non-production at night.</span>
+        <span class="jp-hint">730 hours approximates continuous operation for one month.</span>
       </div>
     </div>
 
@@ -58,7 +58,7 @@ module.exports = {
       <div class="jp-field">
         <label for="cc-egress">Outbound data transfer (GB/month)</label>
         <input class="jp-input" type="number" id="cc-egress" value="750" min="0" step="50" />
-        <span class="jp-hint">The line item that surprises people. First 100 GB is free on all three.</span>
+        <span class="jp-hint">This model excludes the first 100 GB for each provider.</span>
       </div>
     </div>
 
@@ -83,7 +83,7 @@ module.exports = {
           <option value="1">1-year commitment</option>
           <option value="3">3-year commitment</option>
         </select>
-        <span class="jp-hint">Discount applies to compute and database instances only.</span>
+        <span class="jp-hint">The model applies this discount only to compute and database instances.</span>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@ module.exports = {
       </thead>
       <tbody></tbody>
     </table>
-    <p class="jp-table-note">Monthly estimate in USD, based on representative US-East list prices. See the methodology below.</p>
+    <p class="jp-table-note">Estimated monthly cost in USD using the representative US-East list rates shown below.</p>
   </div>
 </div>`,
 
@@ -165,14 +165,14 @@ module.exports = {
     results.innerHTML = rows.map(function (r) {
       var best = r.p.key === cheapest.p.key;
       return '<div class="jp-stat' + (best ? ' jp-stat--primary' : '') + '">' +
-        '<p class="jp-stat-label">' + r.p.name + (best ? ' — lowest' : '') + '</p>' +
+        '<p class="jp-stat-label">' + r.p.name + (best ? ' (lowest estimate)' : '') + '</p>' +
         '<p class="jp-stat-value">' + money(r.e.total) + '</p>' +
-        '<p class="jp-stat-sub">' + money(r.e.total * 12) + ' per year</p>' +
+        '<p class="jp-stat-sub">' + money(r.e.total * 12) + ' annualized</p>' +
       '</div>';
     }).join('') +
-    '<div class="jp-stat"><p class="jp-stat-label">Spread</p><p class="jp-stat-value">' + money(spread) +
+    '<div class="jp-stat"><p class="jp-stat-label">Difference between estimates</p><p class="jp-stat-value">' + money(spread) +
     '</p><p class="jp-stat-sub">' + (cheapest.e.total > 0 ? Math.round((spread / cheapest.e.total) * 100) : 0) +
-    '% between cheapest and dearest</p></div>';
+    '% above the lowest estimate</p></div>';
 
     var lines = [
       ['Compute instances', 'compute'],
@@ -202,38 +202,38 @@ module.exports = {
   },
 
   blocks: [
-    { t: 'h2', x: 'How to read the estimate' },
+    { t: 'h2', x: 'Reading the estimate' },
     {
       t: 'p',
-      x: 'The three major clouds price the same workload within a few percent of each other on compute, and then diverge sharply everywhere else. If your spread looks small, your workload is compute-dominated. If it looks large, look at the **outbound transfer** row — that single line item is usually the reason one provider is hundreds of dollars more expensive per month.',
+      x: 'The compute rates used here are close to one another, while storage and outbound transfer rates vary more. A small difference between totals usually means compute dominates these inputs. For a larger difference, compare the **outbound transfer** and storage rows first.',
     },
     {
       t: 'p',
-      x: 'A useful sanity check: compute should be roughly 50–70% of a typical always-on application bill, storage 10–20%, and egress anywhere from 2% to 40% depending on whether you are serving media. If your calculated split is wildly different from that, the input that is off is usually hours-per-month or egress.',
+      x: 'As a rough planning check, an always-on application may spend 50–70% on compute, 10–20% on storage and 2–40% on outbound transfer, depending on its traffic. If this estimate differs substantially, review runtime hours and transfer volume before relying on it.',
     },
 
-    { t: 'h2', x: 'The four inputs that actually move the number' },
+    { t: 'h2', x: 'Inputs with the largest effect' },
     {
       t: 'ol',
       items: [
-        '**Hours running per month.** 730 hours means always on. Development, staging and CI environments almost never need to be. Shutting non-production down outside working hours takes the multiplier from 730 to roughly 200 — a 73% cut on that slice of your bill for a scheduled stop/start job you write once.',
-        '**RAM-to-vCPU ratio.** Memory is cheap relative to vCPU (roughly 1:7 per unit on all three providers). Over-provisioning CPU to get memory is one of the most common and most expensive mistakes in a lift-and-shift migration. Pick a memory-optimised instance family instead of scaling a general-purpose one.',
-        '**Outbound data transfer.** Google Cloud lists roughly $0.12/GB, AWS around $0.09/GB, Azure around $0.087/GB after the first 100 GB. At 10 TB per month that is a $300+/month difference for identical traffic. Putting a CDN in front of anything user-facing changes this line item more than any instance decision will.',
-        '**Commitment term.** One-year commitments run about 30–37% off compute; three-year terms reach 50–55%. The discount only applies to steady-state baseline capacity, so commit to your floor, not your peak.',
+        '**Runtime hours.** The model uses 730 hours for continuous monthly operation. If development or staging systems run only during working hours, enter their actual schedule rather than the production schedule.',
+        '**RAM-to-vCPU ratio.** The listed memory rate is lower per unit than the vCPU rate. When a workload needs more memory but not more CPU, compare a memory-optimized instance family instead of increasing a general-purpose instance only to obtain RAM.',
+        '**Outbound data transfer.** The model uses about $0.12/GB for Google Cloud, $0.09/GB for AWS and $0.087/GB for Azure after the first 100 GB. At 10 TB per month, those rates differ by more than $300. A CDN may change both volume and transfer pricing, so price it separately.',
+        '**Commitment term.** The modeled one-year discounts are 30–37%, and the three-year discounts are 50–55%. Apply a commitment only to baseline capacity that you expect to keep using.',
       ],
     },
 
     {
       t: 'note',
       kind: 'tip',
-      title: 'The cheapest lever is not the provider',
-      x: 'Before you migrate anything to save 8%, right-size what you already run. Most fleets we look at have instances sitting under 15% average CPU. Halving instance size across a 20-instance fleet beats any cross-cloud price difference in this calculator, and takes an afternoon rather than a quarter.',
+      title: 'Check utilization before changing providers',
+      x: 'Right-sizing an underused instance reduces the full compute line, while a provider change affects only the difference between rates. Review CPU, memory and runtime data before treating a cross-cloud price comparison as the main savings opportunity.',
     },
 
-    { t: 'h2', x: 'Where these prices come from' },
+    { t: 'h2', x: 'Rates used by the calculator' },
     {
       t: 'p',
-      x: 'The calculator uses representative published list prices for general-purpose Linux instances in a US-East region, decomposed into a per-vCPU-hour and per-GB-RAM-hour rate. That decomposition is how Google Cloud publishes its pricing directly, and it approximates AWS and Azure instance families closely enough for planning work.',
+      x: 'The calculator uses representative list prices for general-purpose Linux compute in a US-East region. It expresses compute as per-vCPU-hour and per-GB-RAM-hour rates. Google Cloud publishes pricing in that form; the AWS and Azure figures approximate comparable instance families for planning.',
     },
     {
       t: 'table',
@@ -247,24 +247,24 @@ module.exports = {
         ['Load balancer / month', '~$16.20', '~$18.25', '~$18.25'],
       ],
       caption:
-        'Representative US-East list rates. Cloud pricing changes without notice — treat these as planning figures, not quotes.',
+        'Representative US-East list rates. Cloud prices can change, so use these for planning rather than as vendor quotes.',
     },
     {
       t: 'note',
       kind: 'warn',
       title: 'This is an estimate, not a quote',
-      x: 'Real bills include per-request charges, IOPS provisioning, NAT gateway hours, snapshot storage, support plans, cross-AZ traffic and region multipliers that this tool deliberately leaves out to stay usable. Use it to compare shapes and to sanity-check a proposal. Confirm the final number with each vendor’s official pricing calculator before you commit budget.',
+      x: 'Actual bills can include request charges, provisioned IOPS, NAT gateways, snapshots, support, cross-zone traffic and regional adjustments that this model omits. Use the result for an initial comparison, then confirm the workload in each provider’s official pricing calculator before approving a budget.',
     },
 
     { t: 'h2', x: 'Costs this calculator does not include' },
     {
       t: 'ul',
       items: [
-        '**Cross-availability-zone traffic** — roughly $0.01/GB each way on AWS. Chatty microservices spread across AZs can generate a surprisingly large line item that never appears in a napkin estimate.',
-        '**NAT gateway** — around $0.045/hour plus $0.045/GB processed on AWS. A single always-on NAT gateway is about $33/month before any data flows through it.',
-        '**Provisioned IOPS and throughput** — gp3 volumes include a baseline; anything above it is billed separately.',
-        '**Support plans** — AWS Business support is the greater of $100/month or roughly 10% of spend at low volumes. On a $2,000 bill that is another $200.',
-        '**Snapshots and backups** — usually billed at object-storage rates, but retention policies compound them quickly.',
+        '**Cross-availability-zone traffic:** approximately $0.01/GB in each direction on AWS. Traffic between services in different zones can add a separate transfer charge.',
+        '**NAT gateways:** approximately $0.045/hour plus $0.045/GB processed on AWS. One continuously running gateway is about $33/month before data processing.',
+        '**Provisioned IOPS and throughput:** gp3 volumes include a baseline, while capacity above it is billed separately.',
+        '**Support plans:** AWS Business support is the greater of $100/month or approximately 10% of spend at lower volumes. A $2,000 bill would add about $200 at that rate.',
+        '**Snapshots and backups:** these are commonly billed by stored volume, and longer retention increases the total.',
         '**Egress to other clouds or on-premises**, which is charged at standard internet rates unless you have a dedicated interconnect.',
       ],
     },
@@ -272,11 +272,11 @@ module.exports = {
     { t: 'h2', x: 'A worked example' },
     {
       t: 'p',
-      x: 'Take a typical production web application: three 4-vCPU / 16 GB instances running around the clock, 500 GB of block storage, 1 TB of object storage, 750 GB of monthly egress, one managed 2-vCPU / 8 GB Postgres instance and a load balancer. Those are the calculator’s default inputs, and they land at roughly **$680–730 per month** on-demand depending on provider — with compute alone making up about 60% of it. The spread between cheapest and dearest is only about 7%, which is the point: on a compute-heavy workload the provider choice barely moves the bill.',
+      x: 'The default workload has three 4-vCPU, 16 GB instances running continuously, 500 GB of block storage, 1 TB of object storage, 750 GB of monthly outbound transfer, one managed 2-vCPU, 8 GB PostgreSQL instance and one load balancer. With the listed rates, its on-demand estimate is about **$680–730 per month**, depending on provider, and compute accounts for about 60%. The difference between the lowest and highest estimate is about 7%.',
     },
     {
       t: 'p',
-      x: 'Now switch the commitment dropdown to three years. The same workload drops to roughly **$400 per month — a 42% cut** — because the discount lands on compute and the database, which is where the money already was. That is the single largest legitimate saving available to a stable workload, and it requires no architectural change at all. If your baseline is genuinely steady, not committing is leaving money on the table.',
+      x: 'With a three-year commitment selected, the same modeled workload falls to about **$400 per month, a 42% reduction**. The discount applies to compute and the managed database, not storage, transfer or load balancing. Confirm that the baseline is stable and review the provider’s commitment terms before purchasing.',
     },
 
     { t: 'h2', x: 'Related tools and reading' },
@@ -286,19 +286,19 @@ module.exports = {
         {
           eyebrow: 'Tool',
           title: 'SaaS Seat Cost Calculator',
-          desc: 'Model per-seat software spend across a growing team and compare annual vs monthly billing.',
+          desc: 'Project per-seat software costs as headcount changes and compare monthly with annual billing.',
           href: '/tools/saas-seat-cost-calculator/',
         },
         {
           eyebrow: 'Buying guide',
           title: 'Best Cloud Backup for Business',
-          desc: 'What actually matters when comparing business backup vendors, including the egress traps.',
+          desc: 'Compare business backup vendors, including restore and outbound transfer costs.',
           href: '/reviews/best-cloud-backup-for-business/',
         },
         {
           eyebrow: 'Guide',
           title: 'Fixing Docker containers that exit immediately',
-          desc: 'The five causes behind a container that starts and stops before you can read the logs.',
+          desc: 'Check common reasons a container starts and then exits before producing useful logs.',
           href: '/guides/docker-container-exits-immediately/',
         },
       ],
@@ -308,24 +308,24 @@ module.exports = {
       t: 'faq',
       items: [
         {
-          q: 'Is AWS actually more expensive than Azure and Google Cloud?',
-          a: 'Not meaningfully, on compute. List prices for equivalent general-purpose instances sit within about 2% of each other across all three. Real cost differences come from data transfer rates, managed-service pricing, committed-use discount structures and the negotiated enterprise agreement you can get — not from the sticker price of a virtual machine.',
+          q: 'Is AWS more expensive than Azure and Google Cloud?',
+          a: 'Not necessarily. The representative general-purpose compute rates in this model are within about 2% of one another. Transfer, managed services, commitment terms, region and negotiated pricing can create larger differences than the virtual-machine rate.',
         },
         {
           q: 'Does this calculator include free tier credits?',
-          a: 'Only the 100 GB of free monthly egress that all three providers offer, since that materially changes small workloads. Signup credits and 12-month free tiers are excluded because they expire, and planning a budget around them produces a nasty surprise in month 13.',
+          a: 'It includes only the modeled 100 GB monthly outbound-transfer allowance. Signup credits and time-limited free tiers are excluded because they do not represent the ongoing cost after the promotion ends.',
         },
         {
           q: 'How accurate is the commitment discount?',
-          a: 'It is a blended approximation. AWS Savings Plans, Azure Reserved Instances and Google committed use discounts each have different coverage rules, payment options and flexibility. All-upfront three-year terms reach the top of the range; monthly no-upfront terms sit near the bottom. Expect the real figure to land within a few points of the estimate.',
+          a: 'It is a blended approximation. AWS Savings Plans, Azure Reservations and Google Cloud committed use discounts differ in coverage, payment timing and flexibility. Upfront terms can have larger discounts than no-upfront terms. Use the vendor calculator for an exact offer.',
         },
         {
           q: 'Should I run this workload on a cheaper VPS provider instead?',
-          a: 'For a single application with predictable traffic, providers like Hetzner, DigitalOcean or OVH are often several times cheaper for raw compute and include far more generous transfer allowances. What you give up is the managed-service catalogue, the compliance certifications and the regional footprint. If you are not using those, you are paying for them anyway.',
+          a: 'A VPS provider may quote lower raw compute and include more transfer for a predictable application. Compare the managed services, compliance certifications, support and regions you need before treating the compute price as equivalent.',
         },
         {
           q: 'Does my data leave the browser?',
-          a: 'No. Every calculation here runs in JavaScript on your own device. Nothing you type is transmitted to JunePoint or anyone else, and there is no server to send it to.',
+          a: 'No. The calculation runs in client-side JavaScript, and this tool does not send the entered values to a server.',
         },
       ],
     },

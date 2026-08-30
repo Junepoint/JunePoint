@@ -15,7 +15,7 @@
       try {
         localStorage.setItem('jp-theme', next);
       } catch (e) {
-        /* private mode — theme just won't persist */
+        /* In private mode, the theme just won't persist. */
       }
     });
   }

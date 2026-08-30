@@ -12,7 +12,7 @@ receives a blank shell. That is fine for a portfolio and unusable for content
 that needs to rank or pass AdSense review.
 
 Anything in `public/` is served as-is. So the network is generated as real
-static HTML — no JavaScript required to read a page, no hydration, one cached
+static HTML. No JavaScript is required to read a page, there is no hydration, and one cached
 stylesheet across the whole site. The React app is never touched.
 
 ```
@@ -32,7 +32,7 @@ Generated output is gitignored. `content/data/**` is the source of truth.
 ## Ads
 
 **Ads only ever appear on generated pages.** The React portfolio at `/` and its
-routes receive no ad markup and no loader script — `lib/ads.js` is only reachable
+routes receive no ad markup and no loader script. `lib/ads.js` is only reachable
 from this generator.
 
 Nothing is emitted until a publisher ID is set, because an unfilled `<ins>`
@@ -55,7 +55,7 @@ footer unit.
 ## Adding a page
 
 Drop a file in `content/data/{tools,guides,reviews}/`. The filename must match
-the `slug` — the build asserts this. It is picked up automatically: hub listing,
+the `slug`; the build asserts this. It is picked up automatically: hub listing,
 sitemap entry, sidebar cross-links and structured data all follow.
 
 ```js
@@ -78,7 +78,7 @@ module.exports = {
 
 Tools additionally take `tool: { html, js }`. The JS is inlined at the end of the
 page and must be vanilla and self-contained. **Avoid backticks and `${` in that
-string** — it lives inside a template literal in the data file.
+string** because it lives inside a template literal in the data file.
 
 ## Content blocks
 
@@ -109,7 +109,7 @@ Inline formatting inside any `x` string: `**bold**`, `*italic*`, `` `code` ``,
 ```
 content/
   config.js            site identity, sections, AdSense wiring
-  build.js             entry point — loads data, renders, writes public/
+  build.js             entry point; loads data, renders, writes public/
   assets/              site.css and site.js, copied to public/assets/jp/
   lib/
     html.js            escaping, inline formatting, slugs
@@ -130,6 +130,6 @@ content/
 
 The buying guides state plainly that they are desk research rather than hands-on
 testing, and `/legal/editorial-policy/` sets out what that method cannot tell
-you. That framing is deliberate — fabricated test results would be both
+you. That framing is deliberate. Fabricated test results would be both
 dishonest and a Google "helpful content" liability. Keep it if you extend the
 reviews section, and keep pricing dated with a note to verify.

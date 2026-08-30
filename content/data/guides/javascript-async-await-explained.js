@@ -1,13 +1,13 @@
 module.exports = {
   slug: 'javascript-async-await-explained',
-  title: 'JavaScript async/await Explained (With the Traps)',
-  h1: 'JavaScript async/await, properly explained',
+  title: 'JavaScript async/await: Execution, Concurrency and Errors',
+  h1: 'How JavaScript async/await behaves',
   eyebrow: 'JavaScript',
   schemaType: 'TechArticle',
   description:
-    'How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them.',
+    'Understand what async and await do, when work is sequential or concurrent, why forEach drops Promises, and how errors propagate.',
   standfirst:
-    'Most async bugs come from four misunderstandings. Here they are, with the pattern that fixes each one.',
+    'Async code becomes easier to reason about when you track when each Promise starts, who awaits it, and where a rejection can be handled.',
   keywords: [
     'async await javascript',
     'await in for loop',
@@ -17,18 +17,18 @@ module.exports = {
   ],
   published: '2026-06-04',
   updated: '2026-08-09',
-  author: 'alexander',
-  cardDesc: 'Sequential awaits, forEach silently ignoring async, and error handling that does not swallow failures.',
+  author: 'jackson',
+  cardDesc: 'Trace Promise start order, choose sequential or concurrent work, and keep asynchronous failures visible.',
 
   blocks: [
     { t: 'h2', x: 'What `async` and `await` actually do' },
     {
       t: 'p',
-      x: '`async` on a function means one thing: **it returns a Promise.** If you return a value, it is wrapped in a resolved Promise; if you throw, you get a rejected one.',
+      x: 'An `async` function **always returns a Promise**. Returning an ordinary value fulfills that Promise with the value; throwing rejects it with the error.',
     },
     {
       t: 'p',
-      x: '`await` pauses that function until a Promise settles, then unwraps it. Crucially, it pauses **only that function** — the rest of the program continues. JavaScript is still single-threaded, and `await` never blocks the main thread.',
+      x: '`await` suspends the current async function until its Promise settles, then produces the fulfilled value or throws the rejection. It suspends **only that function**. Other event-loop work continues, and JavaScript remains single-threaded.',
     },
     {
       t: 'code',
@@ -43,35 +43,35 @@ function getUser(id) {
 }`,
     },
 
-    { t: 'h2', x: 'Trap 1: awaiting in a loop when you did not need to' },
+    { t: 'h2', x: 'Independent work should not wait in a line' },
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Sequential — 100 requests × 200ms = 20 seconds
+      x: `// ✗ Sequential: 100 requests × 200ms = 20 seconds
 const users = [];
 for (const id of ids) {
   users.push(await fetchUser(id));
 }
 
-// ✓ Concurrent — all in flight at once, ~200ms
+// ✓ Concurrent: all in flight at once, ~200ms
 const users = await Promise.all(ids.map(id => fetchUser(id)));`,
     },
     {
       t: 'p',
-      x: 'The first version waits for each request before starting the next. Since the requests do not depend on each other, that is pure waste. `Promise.all` starts them all immediately and resolves when the last finishes.',
+      x: 'The loop waits for each request before starting another. When the requests are independent, create all their Promises first and await the group. `Promise.all` fulfills after every input fulfills and rejects when any input rejects.',
     },
     {
       t: 'p',
-      x: 'Sequential is correct when each iteration **depends** on the previous, or when you are deliberately rate-limiting. Otherwise it is a performance bug — and one of the easiest large speedups available in most codebases.',
+      x: 'Sequential execution is appropriate when an iteration **depends** on the previous result or when you are intentionally limiting request rate. Otherwise, measure whether unnecessary serialization is contributing to the slow path.',
     },
     {
       t: 'note',
       kind: 'warn',
       title: 'Do not fire 10,000 requests at once',
-      x: '`Promise.all` over a large array will exhaust sockets, trip rate limits or take down the service you are calling. Batch it — with `p-limit`, a chunked loop, or a small concurrency pool. Concurrency of 5 to 20 is usually the sweet spot for HTTP.',
+      x: '`Promise.all` over a large array can exhaust sockets, trigger rate limits or overload the service being called. Use `p-limit`, a chunked loop or another bounded concurrency pool. For HTTP work, 5 to 20 concurrent requests is a reasonable starting range, but measure against the service’s limits.',
     },
 
-    { t: 'h2', x: 'Trap 2: `forEach` ignores your async callback' },
+    { t: 'h2', x: '`forEach` does not consume callback Promises' },
     {
       t: 'code',
       lang: 'javascript',
@@ -83,7 +83,7 @@ console.log('done');`,
     },
     {
       t: 'p',
-      x: '`forEach` calls your function and discards the return value. Your callback returns a Promise; `forEach` throws it away. Nothing waits for anything, and — worse — a rejection inside becomes an unhandled rejection that can crash a Node process.',
+      x: '`forEach` calls its callback and ignores each return value. An async callback therefore creates Promises that the surrounding code neither returns nor awaits. A rejection from one of those Promises can become unhandled and terminate a Node process.',
     },
     {
       t: 'code',
@@ -98,13 +98,13 @@ for (const item of items) {
     },
     {
       t: 'p',
-      x: 'The rule: **`for…of` supports `await`; `forEach` does not.** The same applies to `map`, `filter` and `reduce` — an async callback gives you an array of Promises, which is fine for `map` (feed it to `Promise.all`) and useless for `filter`.',
+      x: 'Use **`for…of` with `await`** for sequential work, or `map` plus `Promise.all` for concurrent work. An async callback passed to `map`, `filter` or `reduce` still returns a Promise. That is useful with `map` when you await the resulting array, but it does not make `filter` understand asynchronous predicates.',
     },
 
-    { t: 'h2', x: 'Trap 3: one rejection kills the whole batch' },
+    { t: 'h2', x: 'Choose how a group should handle rejection' },
     {
       t: 'p',
-      x: '`Promise.all` rejects as soon as any input rejects, and you lose the results that did succeed. When partial success is acceptable, use `allSettled`:',
+      x: '`Promise.all` rejects when any input rejects, so its result does not contain the fulfilled values from the same batch. When callers need every outcome, use `Promise.allSettled`:',
     },
     {
       t: 'code',
@@ -123,13 +123,13 @@ console.warn(\`\${failed.length} of \${ids.length} failed\`);`,
         ['`Promise.all`', 'All fulfil, or any rejects', 'All-or-nothing work'],
         ['`Promise.allSettled`', 'All settle, whatever the outcome', 'Batch jobs where partial success is fine'],
         ['`Promise.race`', 'The first one settles, fulfilled or rejected', 'Timeouts'],
-        ['`Promise.any`', 'The first one fulfils', 'Redundant sources — try several mirrors'],
+        ['`Promise.any`', 'The first one fulfils', 'Redundant sources, such as several mirrors'],
       ],
     },
     {
       t: 'code',
       lang: 'javascript',
-      x: `// A timeout with Promise.race — but prefer AbortSignal, below,
+      x: `// Promise.race can implement a timeout, but prefer AbortSignal below
 // because race leaves the losing request running.
 const result = await Promise.race([
   fetchData(),
@@ -140,11 +140,11 @@ const result = await Promise.race([
 const response = await fetch(url, { signal: AbortSignal.timeout(5000) });`,
     },
 
-    { t: 'h2', x: 'Trap 4: error handling that hides the failure' },
+    { t: 'h2', x: 'Do not turn a rejection into unexplained undefined' },
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Swallows the error and returns undefined — the caller has no idea
+      x: `// ✗ Logs the error and returns undefined, leaving the caller uninformed
 async function getUser(id) {
   try {
     return await api.get(\`/users/\${id}\`);
@@ -155,7 +155,7 @@ async function getUser(id) {
     },
     {
       t: 'p',
-      x: 'The caller receives `undefined` and carries on. The failure surfaces later as a `TypeError` somewhere unrelated, with no trace of the original cause. **Only catch an error if you are going to do something about it** — otherwise let it propagate.',
+      x: 'The caller receives `undefined` and may fail later with an unrelated `TypeError`. Catch an error where you can recover, translate it for an API boundary or add useful context. Otherwise, allow the rejection to propagate to code that can handle it.',
     },
     {
       t: 'code',
@@ -171,16 +171,16 @@ async function getUser(id) {
     },
     {
       t: 'p',
-      x: 'The `cause` option preserves the original error and its stack, so your logs show both the context and the root failure.',
+      x: 'The `cause` option keeps the original error attached, allowing logs to show both the operation that failed and the lower-level reason.',
     },
     {
       t: 'note',
       kind: 'tip',
       title: '`return await` inside `try` is not redundant',
-      x: 'Dropping the `await` in `return await somePromise()` inside a `try` block means the function returns before the Promise settles — so a rejection escapes your `catch` entirely. Outside a `try`, the `await` genuinely is redundant. Inside one, keep it.',
+      x: 'Without `await`, returning a Promise from inside `try` ends the block before that Promise settles, so its later rejection bypasses the local `catch`. Outside a `try` that needs to catch the rejection, `return await` is usually redundant. Inside one, keep it.',
     },
 
-    { t: 'h2', x: 'The fetch mistake everyone makes' },
+    { t: 'h2', x: 'Fetch resolves for HTTP error statuses' },
     {
       t: 'code',
       lang: 'javascript',
@@ -190,7 +190,7 @@ const data = await response.json();   // throws a confusing JSON parse error`,
     },
     {
       t: 'p',
-      x: '`fetch` only rejects on a network failure. A 404 or a 500 is a perfectly successful HTTP transaction as far as it is concerned. You must check `response.ok` yourself:',
+      x: '`fetch` rejects for network-level failures, not for an HTTP 404 or 500 response. Check `response.ok` before parsing a body that assumes success:',
     },
     {
       t: 'code',
@@ -205,18 +205,18 @@ const data = await response.json();`,
     },
     {
       t: 'p',
-      x: 'This is why so many apps report "Unexpected token < in JSON at position 0" — the server returned an HTML error page, and `json()` tried to parse it.',
+      x: 'The familiar "Unexpected token < in JSON at position 0" message often means the server returned an HTML error page and `json()` attempted to parse it as JSON.',
     },
 
     { t: 'h2', x: 'Starting work before you await it' },
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Sequential — 300ms total
+      x: `// ✗ Sequential: 300ms total
 const user  = await fetchUser(id);
 const posts = await fetchPosts(id);
 
-// ✓ Concurrent — 200ms, and neither depends on the other
+// ✓ Concurrent: 200ms, and neither depends on the other
 const userPromise  = fetchUser(id);
 const postsPromise = fetchPosts(id);
 const [user, posts] = [await userPromise, await postsPromise];
@@ -226,7 +226,7 @@ const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);`,
     },
     {
       t: 'p',
-      x: 'A Promise starts executing the moment it is created, not when you await it. Creating both first, then awaiting, overlaps the work. This is worth reaching for whenever two awaits sit next to each other and neither uses the other’s result.',
+      x: 'The operation that produces a Promise starts when you call it, not when you later await its result. Creating both Promises first allows the operations to overlap. Check adjacent awaits for this opportunity when neither call uses the other’s result.',
     },
 
     { t: 'h2', x: 'Unhandled rejections' },
@@ -247,7 +247,7 @@ window.addEventListener('unhandledrejection', (event) => {
     },
     {
       t: 'p',
-      x: 'The usual sources are a forgotten `await`, an async callback passed to `forEach`, and an async event handler with no internal try/catch. Handlers cannot await your function, so an error inside one has nowhere to go.',
+      x: 'Common sources include a missing `await`, an async callback passed to `forEach`, and an async event handler whose returned Promise is ignored. Catch an event-handler error inside the handler or pass its Promise to code that records failures.',
     },
 
     {
@@ -255,7 +255,7 @@ window.addEventListener('unhandledrejection', (event) => {
       items: [
         {
           q: 'Does await block the main thread?',
-          a: 'No. It suspends only the async function it appears in and returns control to the event loop, so timers, event handlers and rendering continue. Long synchronous work between awaits does block — await is not a fix for a slow loop.',
+          a: 'No. It suspends the current async function and returns control to the event loop, allowing timers, handlers and rendering to continue. Synchronous work between awaits still blocks the thread, so adding await does not make a CPU-heavy loop nonblocking.',
         },
         {
           q: 'Why does await not work inside forEach?',
@@ -263,7 +263,7 @@ window.addEventListener('unhandledrejection', (event) => {
         },
         {
           q: 'Should I use await in a loop?',
-          a: 'Only when each iteration depends on the previous one, or when you are deliberately rate-limiting. If the operations are independent, awaiting in a loop turns parallel work into sequential work and multiplies the total time by the number of items.',
+          a: 'Use it when an iteration depends on the previous result or when sequential execution is your rate limit. For independent operations, create the Promises together and await them with a bounded concurrency strategy appropriate to the workload.',
         },
         {
           q: 'What is the difference between Promise.all and Promise.allSettled?',
@@ -271,11 +271,11 @@ window.addEventListener('unhandledrejection', (event) => {
         },
         {
           q: 'Why does my fetch not throw on a 404?',
-          a: 'By design — fetch only rejects on network failure. A 404 or 500 is a completed HTTP exchange. Check response.ok and throw yourself, otherwise .json() will attempt to parse an HTML error page and produce a misleading parse error.',
+          a: 'Fetch treats a 404 or 500 as a completed HTTP exchange and rejects only when the request fails at the network level. Check response.ok and throw an application error before parsing a success body.',
         },
         {
           q: 'Can I use await at the top level of a file?',
-          a: 'Yes, in ES modules — top-level await is supported in modern Node and all current browsers. It is not available in CommonJS files, where you still need an async wrapper function.',
+          a: 'Yes, in ES modules. Modern Node releases and current browsers support top-level await there. CommonJS files still need an async wrapper function.',
         },
       ],
     },

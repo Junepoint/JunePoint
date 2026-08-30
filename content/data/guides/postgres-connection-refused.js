@@ -1,13 +1,13 @@
 module.exports = {
   slug: 'postgres-connection-refused',
-  title: 'PostgreSQL "Connection Refused" — Fix It in Order',
+  title: 'PostgreSQL "Connection Refused": Check Each Layer in Order',
   h1: 'Fixing PostgreSQL connection refused',
   eyebrow: 'Troubleshooting',
   schemaType: 'TechArticle',
   description:
-    'Work through the six layers between client and Postgres — process, port, listen_addresses, pg_hba.conf, firewall and Docker — in fault-finding order.',
+    'Trace a PostgreSQL connection failure through the process, listener, listen_addresses, pg_hba.conf, network and client configuration.',
   standfirst:
-    '"Connection refused" means nothing was listening. "Connection timed out" means a firewall ate it. Those are different problems, and the distinction saves you an hour.',
+    'A refused connection and a timed-out connection point to different layers. Identify the exact error first, then test each boundary from the server process outward.',
   keywords: [
     'postgres connection refused',
     'could not connect to server postgresql',
@@ -18,19 +18,19 @@ module.exports = {
   published: '2026-03-05',
   updated: '2026-08-12',
   author: 'jackson',
-  cardDesc: 'Six layers, checked in the right order — plus the pg_hba.conf and Docker networking traps.',
+  cardDesc: 'Check the process, listener, access rules, network and Docker address from the server outward.',
 
   blocks: [
-    { t: 'h2', x: 'First: read which error you actually have' },
+    { t: 'h2', x: 'Start with the exact error' },
     {
       t: 'table',
       head: ['Message', 'Meaning', 'Go to'],
       rows: [
-        ['`Connection refused`', 'Something answered and said no — nothing is listening on that port', 'Layers 1–3'],
-        ['`Connection timed out`', 'Nothing answered at all — a firewall dropped the packet', 'Layer 5'],
+        ['`Connection refused`', 'The host rejected the TCP connection; nothing is listening on that address and port', 'Layers 1–3'],
+        ['`Connection timed out`', 'No TCP response arrived; a firewall or network path may have dropped the packet', 'Layer 5'],
         ['`no pg_hba.conf entry for host`', 'Postgres is running and reachable, but refuses this client', 'Layer 4'],
         ['`password authentication failed`', 'You reached Postgres. Credentials are wrong.', 'Layer 6'],
-        ['`could not connect to server: No such file or directory`', 'A Unix-socket attempt — the socket path is wrong', 'Layer 2'],
+        ['`could not connect to server: No such file or directory`', 'A Unix-socket attempt used a path where no server socket exists', 'Layer 2'],
         ['`database "x" does not exist`', 'Fully connected. Wrong database name.', 'Layer 6'],
       ],
     },
@@ -38,7 +38,7 @@ module.exports = {
       t: 'note',
       kind: 'tip',
       title: 'Refused versus timed out',
-      x: '**Refused** is an active rejection: the host is reachable, nothing is bound to that port. **Timed out** means the packet vanished — almost always a firewall or security group. Getting this distinction right eliminates half the possible causes before you start.',
+      x: '**Refused** is an active TCP rejection, which confirms the host was reachable but no process accepted the connection on that address and port. **Timed out** means no response came back, commonly because of a firewall, security group or broken route. Use the distinction to choose between server-listener and network checks.',
     },
 
     { t: 'h2', x: 'Layer 1: is Postgres actually running?' },
@@ -59,7 +59,7 @@ docker logs <container>`,
     },
     {
       t: 'p',
-      x: 'If the service will not start, the logs say why — usually a port already in use, a permissions problem on the data directory, or an unclean shutdown needing recovery.',
+      x: 'If the service does not start, read its logs before changing connection settings. Common causes include another process using the port, incorrect data-directory permissions and recovery after an unclean shutdown.',
     },
     {
       t: 'code',
@@ -91,13 +91,13 @@ nc -zv localhost 5432`,
     },
     {
       t: 'p',
-      x: 'A second Postgres is a common cause of confusion: Homebrew’s and Postgres.app’s, or a local install and a Docker container, both wanting 5432. The one you are talking to is not the one you think you are configuring. If two versions are installed, they will be on 5432 and 5433.',
+      x: 'Multiple installations can obscure which server you are configuring. Homebrew and Postgres.app, or a local service and a container, may both try to use 5432. Check the process bound to each port; a second installed version may have moved to 5433.',
     },
 
     { t: 'h2', x: 'Layer 3: `listen_addresses`' },
     {
       t: 'p',
-      x: 'Postgres binds to localhost only by default. To accept remote connections, edit `postgresql.conf`:',
+      x: 'Postgres normally binds to localhost by default. To accept a remote TCP connection, edit the `postgresql.conf` used by the running process:',
     },
     {
       t: 'code',
@@ -112,13 +112,13 @@ port = 5432`,
     },
     {
       t: 'p',
-      x: 'This change requires a **restart**, not a reload — it is one of the few settings that does. `SHOW config_file` is worth knowing: on a machine with several installations, editing the wrong `postgresql.conf` is an easy hour to lose.',
+      x: 'A `listen_addresses` change requires a **restart**, not only a reload. Use `SHOW config_file` to confirm the active file, especially on a machine with several PostgreSQL installations.',
     },
 
     { t: 'h2', x: 'Layer 4: `pg_hba.conf`' },
     {
       t: 'p',
-      x: 'This is client authentication, evaluated **top to bottom, first match wins**. If you see `no pg_hba.conf entry for host`, you have reached Postgres successfully and it has declined to talk to you.',
+      x: '`pg_hba.conf` controls client authentication and is evaluated **top to bottom; the first matching rule wins**. An error saying `no pg_hba.conf entry for host` confirms that the connection reached PostgreSQL but matched no permitted rule.',
     },
     {
       t: 'code',
@@ -133,7 +133,7 @@ hostssl all       all   0.0.0.0/0        scram-sha-256    ← require TLS for th
     },
     {
       t: 'p',
-      x: 'Then reload — no restart needed:',
+      x: 'Reload the configuration after editing this file; a full restart is not required:',
     },
     {
       t: 'code',
@@ -146,11 +146,11 @@ psql -U postgres -c 'SELECT pg_reload_conf();'`,
       t: 'note',
       kind: 'warn',
       title: 'Never use `trust` on a network address',
-      x: '`trust` means *no password at all* — anyone who can reach the port is a superuser. It is occasionally defensible for `local` on a development laptop and never acceptable for a `host` line. Compromised Postgres instances found by internet scanners are overwhelmingly this line.',
+      x: '`trust` accepts the database identity without a password. On a `host` rule, anyone who can reach the port can claim an allowed role, including a superuser role. Limit any development use to an appropriate local connection; use authenticated methods such as `scram-sha-256` for network clients.',
     },
     {
       t: 'p',
-      x: 'The `peer` method for `local` connections matches your **operating system** username against the database role. This is why `psql mydb` works as your own user but `psql -U postgres mydb` fails on a fresh Ubuntu install — you are not logged in as `postgres`. Use `sudo -u postgres psql` instead.',
+      x: 'For `local` connections, the `peer` method compares the **operating-system** user with the requested database role. On a fresh Ubuntu installation, `psql mydb` may work as your own user while `psql -U postgres mydb` fails because the shell user is not `postgres`. Use `sudo -u postgres psql` for that administrative role.',
     },
 
     { t: 'h2', x: 'Layer 5: firewalls, security groups and the network' },
@@ -168,16 +168,16 @@ sudo firewall-cmd --reload`,
     {
       t: 'ul',
       items: [
-        '**AWS RDS** — the inbound rule on the security group must allow port 5432 from your source. Check "Publicly accessible" too, and note that a public instance still needs the security group.',
-        '**Cloud SQL / Azure Database** — add your IP to authorised networks, or connect through the proxy.',
-        '**Kubernetes** — a `ClusterIP` service is unreachable from outside the cluster by design. Port-forward to test: `kubectl port-forward svc/postgres 5432:5432`.',
+        '**AWS RDS:** the security group needs an inbound rule allowing port 5432 from the client source. Also check "Publicly accessible" when connecting over the public internet; that setting does not replace the security-group rule.',
+        '**Cloud SQL / Azure Database:** add the client IP to the provider’s authorised network rules or connect through the supported proxy.',
+        '**Kubernetes:** a `ClusterIP` service is reachable only from within the cluster. To test from your machine, run `kubectl port-forward svc/postgres 5432:5432`.',
       ],
     },
     {
       t: 'note',
       kind: 'danger',
       title: 'Do not open 5432 to the internet',
-      x: 'Automated scanners find exposed Postgres instances within hours. Put it on a private subnet and reach it through a bastion, a VPN or a managed proxy. If public access is genuinely unavoidable, require TLS with `hostssl`, use strong `scram-sha-256` credentials, and restrict by source address.',
+      x: 'Automated scanners continuously probe public database ports. Prefer a private subnet reached through a bastion, VPN or managed proxy. When public access is unavoidable, restrict source addresses, require TLS with `hostssl`, and use strong `scram-sha-256` credentials.',
     },
 
     { t: 'h2', x: 'Layer 6: connection strings and credentials' },
@@ -189,16 +189,16 @@ sudo firewall-cmd --reload`,
     {
       t: 'ul',
       items: [
-        '**Special characters in the password must be percent-encoded.** An `@` in a password splits the URL in the wrong place and produces a baffling host-not-found error. `@` is `%40`, `#` is `%23`, `/` is `%2F`.',
-        '**`localhost` and `127.0.0.1` are not always equivalent.** `localhost` may resolve to IPv6 `::1`, and if Postgres only listens on IPv4 you get a refusal. Try the literal `127.0.0.1`.',
-        '**Check `sslmode`.** Managed providers usually require `require` or `verify-full`. Some clients default to `prefer` and fall back silently, others fail outright.',
+        '**Percent-encode special characters in the password.** An `@` can split the URL at the wrong point and produce a misleading host error. `@` is `%40`, `#` is `%23`, and `/` is `%2F`.',
+        '**`localhost` and `127.0.0.1` may resolve differently.** `localhost` can resolve to IPv6 `::1`; a server listening only on IPv4 will refuse that connection. Test with the literal `127.0.0.1`.',
+        '**Check `sslmode`.** Managed providers commonly require `require` or `verify-full`. Client defaults vary: some prefer TLS and fall back, while others fail when their expected mode is unavailable.',
       ],
     },
 
     { t: 'h2', x: 'The Docker special case' },
     {
       t: 'p',
-      x: 'Inside a container, `localhost` is *that container*, not your machine and not another container. This is the single most common Docker–Postgres error.',
+      x: 'Inside a container, `localhost` refers to that container’s own network namespace. It does not refer to the host or to another Compose service.',
     },
     {
       t: 'code',
@@ -218,7 +218,7 @@ sudo firewall-cmd --reload`,
   api:
     build: .
     environment:
-      # 'db' — the service name. NOT localhost.
+      # 'db' is the service name, not localhost.
       DATABASE_URL: postgresql://postgres:secret@db:5432/app
     depends_on:
       db:
@@ -227,17 +227,17 @@ sudo firewall-cmd --reload`,
     {
       t: 'ul',
       items: [
-        '**Container to container:** use the service name (`db`), on the container port (5432), regardless of any host port mapping.',
-        '**Host to container:** use `localhost` and the *host* side of the mapping.',
-        '**Container to host machine:** use `host.docker.internal` on Docker Desktop, or `172.17.0.1` on Linux.',
-        '**Postgres takes a few seconds to become ready.** `depends_on` without `condition: service_healthy` starts your app too early, and the first connection is refused.',
+        '**Container to container:** use the Compose service name (`db`) and the container port (5432), regardless of the host port mapping.',
+        '**Host to container:** use `localhost` with the host side of the published port mapping.',
+        '**Container to host machine:** use `host.docker.internal` on Docker Desktop or `172.17.0.1` on a typical Linux bridge.',
+        '**Account for database startup time.** Without `condition: service_healthy`, `depends_on` starts the application after the database container starts, not after PostgreSQL is ready for connections.',
       ],
     },
     {
       t: 'note',
       kind: 'tip',
       title: 'Environment variables are ignored on an existing volume',
-      x: '`POSTGRES_PASSWORD` and `POSTGRES_DB` only take effect when the data directory is initialised. Changing them later does nothing, because the database already exists. Remove the volume (`docker compose down -v`) to reinitialise — destroying the data, so be certain first.',
+      x: '`POSTGRES_PASSWORD` and `POSTGRES_DB` apply only when the image initializes an empty data directory. Changing them later does not alter the existing database. Removing the volume with `docker compose down -v` forces reinitialization and destroys its data, so confirm that loss is acceptable first.',
     },
 
     { t: 'h2', x: 'A one-pass diagnostic' },
@@ -256,7 +256,7 @@ nc -zv db-host 5432
 # 4. Local connection as the postgres OS user
 sudo -u postgres psql -c 'SELECT version();'
 
-# 5. TCP connection with explicit host — bypasses the Unix socket
+# 5. TCP connection with an explicit host; this bypasses the Unix socket
 psql -h 127.0.0.1 -p 5432 -U myuser -d mydb
 
 # 6. What does the server think it is configured with?
@@ -264,7 +264,7 @@ sudo -u postgres psql -c 'SHOW listen_addresses; SHOW port; SHOW hba_file;'`,
     },
     {
       t: 'p',
-      x: 'Whichever step first fails identifies the layer. Step 4 succeeding while step 5 fails points squarely at `listen_addresses` or `pg_hba.conf`.',
+      x: 'The first failed step narrows the layer to investigate. For example, step 4 succeeding while step 5 fails shows that the server is running but its TCP listener or `pg_hba.conf` rules need attention.',
     },
 
     {
@@ -272,7 +272,7 @@ sudo -u postgres psql -c 'SHOW listen_addresses; SHOW port; SHOW hba_file;'`,
       items: [
         {
           q: 'What is the difference between connection refused and connection timed out?',
-          a: 'Refused means the host was reachable and actively rejected the connection — nothing is listening on that port. Timed out means the packet was silently dropped, which is firewall behaviour. Refused points at the database configuration; timed out points at the network.',
+          a: 'Refused means the host returned an active TCP rejection because nothing accepted the connection on that address and port. Timed out means no response arrived, commonly because a firewall or network path dropped the traffic. Start with the listener for a refusal and the network path for a timeout.',
         },
         {
           q: 'Why does psql work locally but my application cannot connect?',
@@ -284,7 +284,7 @@ sudo -u postgres psql -c 'SHOW listen_addresses; SHOW port; SHOW hba_file;'`,
         },
         {
           q: 'What does "no pg_hba.conf entry for host" mean?',
-          a: 'Good news, in a sense: you reached Postgres. It has no rule permitting your client IP, database and user combination. Add a matching host line and reload the configuration — no restart required.',
+          a: 'The connection reached PostgreSQL, but no rule permits that combination of client address, database and role. Add an appropriately scoped host rule and reload the configuration; this change does not require a restart.',
         },
         {
           q: 'Do I need to restart Postgres after changing configuration?',

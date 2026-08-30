@@ -1,13 +1,13 @@
 module.exports = {
   slug: 'ssh-permission-denied-publickey',
-  title: 'SSH "Permission denied (publickey)" — How to Fix It',
+  title: 'SSH "Permission denied (publickey)": How to Diagnose It',
   h1: 'Fixing SSH permission denied (publickey)',
   eyebrow: 'Troubleshooting',
   schemaType: 'TechArticle',
   description:
     'Diagnose SSH key rejection with verbose output: wrong key offered, wrong username, bad file permissions, agent problems and unsupported key formats.',
   standfirst:
-    'The server rejected every key you offered. `ssh -vvv` tells you which keys were tried and why each failed — and that output makes the fix obvious.',
+    'The final error says only that public-key authentication failed. Use `ssh -vvv` to see whether a key was found, offered, accepted or rejected, then investigate that stage.',
   keywords: [
     'permission denied publickey',
     'ssh key not working',
@@ -18,13 +18,13 @@ module.exports = {
   published: '2026-03-19',
   updated: '2026-08-11',
   author: 'jackson',
-  cardDesc: 'Read ssh -vvv properly, then fix the cause: wrong key, wrong user, bad permissions or an empty agent.',
+  cardDesc: 'Read the ssh -vvv trace to find a missing key, rejected identity, wrong user, permission problem or legacy algorithm.',
 
   blocks: [
     { t: 'h2', x: 'Start with verbose output' },
     {
       t: 'p',
-      x: 'Do not guess. `-vvv` shows every key SSH offered and what the server said about each.',
+      x: '`-vvv` shows which identities the client considered, which keys it offered and how the server responded. That sequence tells you where authentication stopped.',
     },
     {
       t: 'code',
@@ -34,7 +34,7 @@ ssh -vvv -i ~/.ssh/id_ed25519 user@server.example.com`,
     },
     {
       t: 'p',
-      x: 'The lines that matter:',
+      x: 'Look for a sequence like this:',
     },
     {
       t: 'code',
@@ -48,18 +48,18 @@ Permission denied (publickey).`,
       t: 'table',
       head: ['What you see', 'What it means'],
       rows: [
-        ['No `Offering public key` lines at all', 'SSH never found a key to try — see cause 2'],
-        ['`Offering…` then `Authentications that can continue`', 'The key was offered and rejected — see cause 1'],
-        ['`Server accepts key` then failure', 'Authentication succeeded, authorisation did not — see cause 5'],
-        ['`Bad permissions`, `UNPROTECTED PRIVATE KEY FILE`', 'File mode problem — see cause 3'],
-        ['`send_pubkey_test: no mutual signature algorithm`', 'Old RSA key against a modern server — see cause 6'],
+        ['No `Offering public key` lines at all', 'The client found no usable key to offer; see cause 2'],
+        ['`Offering…` then `Authentications that can continue`', 'The server rejected the offered key; see cause 1'],
+        ['`Server accepts key` then failure', 'The key test passed, but a later authentication or authorisation step failed; see cause 5'],
+        ['`Bad permissions`, `UNPROTECTED PRIVATE KEY FILE`', 'The client rejected a key because of its file mode; see cause 3'],
+        ['`send_pubkey_test: no mutual signature algorithm`', 'The client and server do not share an allowed signature algorithm; see cause 6'],
       ],
     },
 
     { t: 'h2', x: 'Cause 1: the server does not have your public key' },
     {
       t: 'p',
-      x: 'The key was offered and refused, so the corresponding public key is not in `~/.ssh/authorized_keys` on the server — or it is there with a typo.',
+      x: 'When the trace shows a key being offered and then rejected, compare it with the entries in that account’s `~/.ssh/authorized_keys`. The matching public key may be absent, malformed or installed for a different user.',
     },
     {
       t: 'code',
@@ -73,7 +73,7 @@ cat ~/.ssh/id_ed25519.pub | ssh user@server \\
     },
     {
       t: 'p',
-      x: 'Verify the fingerprint the client offered matches one the server holds. This turns "is my key installed?" into a definite yes or no:',
+      x: 'Compare fingerprints instead of relying on filenames. This establishes whether the exact key offered by the client appears in the server file:',
     },
     {
       t: 'code',
@@ -88,13 +88,13 @@ ssh-keygen -lf ~/.ssh/authorized_keys`,
       t: 'note',
       kind: 'warn',
       title: 'One key per line, no wrapping',
-      x: 'Each entry in `authorized_keys` must be a single unbroken line. Copying through an editor or a chat client often inserts a line break, which silently invalidates the key. The file will look right and never work.',
+      x: 'Each `authorized_keys` entry must remain on one line. An editor or chat client can insert a line break while copying, leaving a visually plausible entry that OpenSSH cannot parse.',
     },
 
     { t: 'h2', x: 'Cause 2: no key was offered' },
     {
       t: 'p',
-      x: 'If there are no `Offering public key` lines, SSH found nothing to send. Either no key exists, or it has a non-default name SSH does not look for automatically.',
+      x: 'If the trace contains no `Offering public key` line, the client found no identity it could send. Confirm that a private key exists and that SSH knows its path.',
     },
     {
       t: 'code',
@@ -106,7 +106,7 @@ ssh-keygen -t ed25519 -C "you@example.com"`,
     },
     {
       t: 'p',
-      x: 'SSH only tries `id_rsa`, `id_ecdsa` and `id_ed25519` by default. A key named `work_key` is invisible unless you point at it. Configure it once rather than typing `-i` forever:',
+      x: 'By default, SSH looks for names such as `id_rsa`, `id_ecdsa` and `id_ed25519`. A key named `work_key` needs an `IdentityFile` entry or an explicit `-i` argument. Put recurring host-specific choices in `~/.ssh/config`:',
     },
     {
       t: 'code',
@@ -128,13 +128,13 @@ Host prod
       t: 'note',
       kind: 'tip',
       title: 'IdentitiesOnly yes is doing real work',
-      x: 'Without it, SSH offers every key it knows about, in an arbitrary order. Servers commonly cap authentication attempts at six, so with several keys loaded you can be disconnected before your correct key is ever tried. `IdentitiesOnly yes` sends only the key you named.',
+      x: 'Without this setting, the client may also offer identities from its agent. Servers commonly cap authentication attempts at six, so a connection can close before the intended key is tried. `IdentitiesOnly yes` limits offers to identities selected for that host.',
     },
 
     { t: 'h2', x: 'Cause 3: file permissions' },
     {
       t: 'p',
-      x: 'SSH refuses to use keys that others can read, and `sshd` ignores an `authorized_keys` file in a directory others can write to. Both refusals are silent from the other end.',
+      x: 'The client refuses a private key that other users can read. On the server, `sshd` can ignore `authorized_keys` when the file or a containing directory is writable by other users. The remote client often receives only the generic authentication error.',
     },
     {
       t: 'code',
@@ -155,13 +155,13 @@ chmod 755 ~`,
     },
     {
       t: 'p',
-      x: 'The home directory permission catches people out. If `~` is mode 775 or 777, `sshd` refuses to read `authorized_keys` and logs nothing useful to the client.',
+      x: 'Remember to inspect the home directory as well as `.ssh`. If `~` is mode 775 or 777, `sshd` may refuse to trust `authorized_keys`; the useful explanation appears in the server log rather than the client error.',
     },
 
     { t: 'h2', x: 'Cause 4: the wrong username' },
     {
       t: 'p',
-      x: 'SSH defaults to your local username. On the server, the key lives in one specific user’s `authorized_keys`.',
+      x: 'Unless configured otherwise, SSH uses the local username for the remote account. Public keys are installed per account, so a correct key offered for the wrong username is still rejected.',
     },
     {
       t: 'code',
@@ -178,7 +178,7 @@ ssh core@…        # Flatcar / CoreOS`,
     },
     {
       t: 'p',
-      x: 'A successful GitHub test prints `Hi username! You\'ve successfully authenticated, but GitHub does not provide shell access.` That message is the goal — it is not an error.',
+      x: 'A successful GitHub test prints `Hi username! You\'ve successfully authenticated, but GitHub does not provide shell access.` The lack of shell access is expected; the message confirms that the key was accepted.',
     },
 
     { t: 'h2', x: 'Cause 5: the agent, and forwarding' },
@@ -197,7 +197,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519`,
     },
     {
       t: 'p',
-      x: 'On macOS, add this to `~/.ssh/config` so keys load automatically:',
+      x: 'On macOS, the following host defaults load the named key through the agent and Keychain:',
     },
     {
       t: 'code',
@@ -209,7 +209,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519`,
     },
     {
       t: 'p',
-      x: 'If you are hopping through a bastion, forward the agent rather than copying a private key onto the intermediate host — a private key on a shared jump box is a key you have effectively published:',
+      x: 'For a connection through a bastion, agent forwarding avoids placing the private-key file on the intermediate host. Copying a private key to a shared jump box gives that machine direct access to the credential:',
     },
     {
       t: 'code',
@@ -227,7 +227,7 @@ Host prod-*
     { t: 'h2', x: 'Cause 6: your key format is too old' },
     {
       t: 'p',
-      x: 'OpenSSH 8.8 (2021) disabled `ssh-rsa` — RSA with SHA-1 signatures — by default. Older RSA keys that worked for years began failing after a server upgrade, with a distinctive message:',
+      x: 'OpenSSH 8.8, released in 2021, disabled `ssh-rsa` signatures using SHA-1 by default. An older RSA setup may therefore stop working after an upgrade and report this distinctive message:',
     },
     {
       t: 'code',
@@ -236,7 +236,7 @@ Host prod-*
     },
     {
       t: 'p',
-      x: 'The correct fix is a new key. Ed25519 is smaller, faster and has no SHA-1 problem:',
+      x: 'Generate an Ed25519 key when both ends support it. It is smaller and faster than legacy RSA configurations and does not depend on SHA-1 signatures:',
     },
     {
       t: 'code',
@@ -245,7 +245,7 @@ Host prod-*
     },
     {
       t: 'p',
-      x: 'If you genuinely cannot rotate yet, re-enable the algorithm for that host only — and treat it as temporary:',
+      x: 'If rotation must be delayed, re-enable the legacy algorithm only for the affected host and keep the exception temporary:',
     },
     {
       t: 'code',
@@ -256,7 +256,7 @@ Host prod-*
     },
     {
       t: 'p',
-      x: 'GitHub removed `ssh-rsa` support in 2022 and DSA keys are gone entirely from OpenSSH 9.8. If your key is more than a few years old, regenerating is the fix.',
+      x: 'GitHub removed `ssh-rsa` support in 2022, and OpenSSH 9.8 removed DSA support entirely. Replace keys and algorithms that depend on those legacy options.',
     },
 
     { t: 'h2', x: 'When you have access to the server' },
@@ -275,23 +275,23 @@ sudo sshd -t`,
     },
     {
       t: 'p',
-      x: 'Server-side settings that produce this exact error even with a perfect key:',
+      x: 'A valid key can still be rejected by the effective server configuration. Check these settings in the `sshd -T` output:',
     },
     {
       t: 'ul',
       items: [
-        '`PubkeyAuthentication no` — key authentication disabled entirely.',
+        '`PubkeyAuthentication no`: public-key authentication is disabled.',
         '`AllowUsers` or `AllowGroups` that does not include your account.',
         '`PermitRootLogin no` when you are connecting as root.',
         '`AuthorizedKeysFile` pointing somewhere other than `.ssh/authorized_keys`.',
-        'SELinux contexts on RHEL-family systems — fix with `restorecon -R -v ~/.ssh`.',
+        'Incorrect SELinux contexts on RHEL-family systems; repair them with `restorecon -R -v ~/.ssh`.',
       ],
     },
     {
       t: 'note',
       kind: 'warn',
       title: 'Keep a second session open',
-      x: 'Before restarting `sshd` after a configuration change, run `sudo sshd -t` and keep your existing session connected. Test the new setting in a *separate* terminal. A mistake in `sshd_config` with no open session means a console or rescue-mode recovery.',
+      x: 'Before restarting `sshd`, validate the configuration with `sudo sshd -t` and leave the current session connected. Test the new settings in a *separate* terminal. If the configuration blocks new sessions, the existing connection gives you a way to repair it without console or rescue access.',
     },
 
     {
@@ -299,11 +299,11 @@ sudo sshd -t`,
       items: [
         {
           q: 'Why does permission denied (publickey) appear even though my key is correct?',
-          a: 'Most often the key is not in the right user’s authorized_keys on the server, or file permissions are too open, or SSH is not offering that key at all. Run ssh -vvv: if you see no "Offering public key" lines, the key is never being tried and the problem is client-side configuration.',
+          a: 'A valid key can be installed for a different remote user, ignored because of file permissions or absent from the client’s offered identities. Run ssh -vvv. If it shows no "Offering public key" line, inspect client-side identity selection before changing the server.',
         },
         {
           q: 'How do I know which key SSH is using?',
-          a: 'ssh -vvv shows every key offered with its fingerprint. Compare against ssh-keygen -lf on the public key and against the fingerprints in the server’s authorized_keys. This turns guesswork into a definitive check.',
+          a: 'ssh -vvv prints each offered key and its fingerprint. Compare that value with ssh-keygen -lf on the local public key and with the fingerprints from the server’s authorized_keys file.',
         },
         {
           q: 'Why did my RSA key stop working?',
@@ -311,7 +311,7 @@ sudo sshd -t`,
         },
         {
           q: 'What permissions should ~/.ssh have?',
-          a: '700 for the directory, 600 for private keys and authorized_keys, 644 for public keys. Your home directory must not be group- or world-writable — 755 or stricter. SSH silently ignores files that are too permissive.',
+          a: 'Use 700 for the .ssh directory, 600 for private keys and authorized_keys, and 644 for public keys. The home directory must not be group- or world-writable; 755 or stricter is appropriate. Check server logs when sshd ignores an overly permissive path.',
         },
         {
           q: 'Why does it work with -i but not without?',
@@ -319,7 +319,7 @@ sudo sshd -t`,
         },
         {
           q: 'Can I use the same key on several machines?',
-          a: 'Technically yes, but do not. A private key should never leave the device that generated it. Generate a separate key per machine and add each public key to the server — then losing one laptop means revoking one key rather than rotating everywhere.',
+          a: 'The protocol allows it, but separate keys per device give you better revocation boundaries. Keep each private key on the device that generated it and install all required public keys on the server. Losing one device then requires revoking only its key.',
         },
       ],
     },
