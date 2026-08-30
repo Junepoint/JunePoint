@@ -8,7 +8,7 @@ export const personalWebsites = [
       "/imgs/jack_portfolio.png"
     ],
     tech: ["React", "TailwindCSS", "JavaScript"],
-    liveUrl: "https://portfolio.jackabeyta.com/",
+    liveUrl: "https://jackabeyta.com",
     status: "Live"
   },
   {
