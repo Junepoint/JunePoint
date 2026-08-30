@@ -45,9 +45,15 @@ jobs:
           CONTENT_MODEL: ${{ vars.CONTENT_MODEL || 'claude-opus-5' }}
         run: node content/editorial/draft.js --count ${{ github.event.inputs.count || '2' }}
 
-      # draft.js runs these too, but repeating them here makes a bad draft fail
-      # the workflow visibly rather than only inside a log line.
-      - name: Enforce house style
+      # Gate the drafts this run produced, not the whole corpus. Failing on a
+      # pre-existing page would block every future run over something the bot
+      # did not write and cannot fix.
+      - name: Enforce house style on new drafts
+        run: node content/editorial/house-style-lint.js --changed
+
+      # Whole-corpus scan is advisory: it surfaces drift without blocking.
+      - name: Report house style across all content
+        continue-on-error: true
         run: node content/editorial/house-style-lint.js
 
       - name: Build and validate
