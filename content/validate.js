@@ -83,6 +83,19 @@ for (const file of files) {
   const dupeIds = ids.filter((id, i) => ids.indexOf(id) !== i);
   if (dupeIds.length) problems.push(`${rel} — duplicate ids: ${[...new Set(dupeIds)].join(', ')}`);
 
+  // Image accessibility.
+  // Every <img> needs descriptive alt text: screen readers announce it, and it
+  // is the only content a search engine can take from an image. An empty alt is
+  // valid only for purely decorative images, of which this site has none, so it
+  // is treated as a defect rather than silently allowed.
+  for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+    if (!/\salt=/.test(tag)) {
+      problems.push(`${rel} — <img> with no alt attribute: ${tag.slice(0, 80)}`);
+    } else if (/\salt=""/.test(tag)) {
+      problems.push(`${rel} — <img> with empty alt: ${tag.slice(0, 80)}`);
+    }
+  }
+
   // Internal link collection
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)"/g)) linkRefs.push({ from: rel, href });
 

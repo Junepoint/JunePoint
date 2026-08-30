@@ -2,6 +2,7 @@
 
 const authors = require('./authors');
 const { site } = require('../config');
+const { esc } = require('../lib/html');
 
 const UPDATED = '2026-08-29';
 const legalParent = { label: 'Legal', href: '/legal/privacy/' };
@@ -9,7 +10,7 @@ const legalParent = { label: 'Legal', href: '/legal/privacy/' };
 const authorCards = Object.values(authors)
   .map(
     (a) => `<div class="jp-author" id="${a.id}">
-      <img src="${a.image}" alt="" width="74" height="74" loading="lazy" />
+      <img src="${esc(a.image)}" alt="Portrait of ${esc(a.name)}" width="74" height="74" loading="lazy" />
       <div>
         <h3>${a.name}</h3>
         <p class="jp-author-role">${a.role}</p>
