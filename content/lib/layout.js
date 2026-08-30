@@ -24,7 +24,7 @@ function metaTags({ title, description, canonical, image, robots, published, upd
     `<link rel="canonical" href="${esc(canonical)}" />`,
     robots ? `<meta name="robots" content="${esc(robots)}" />` : '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />',
     `<meta property="og:type" content="${esc(type === 'article' ? 'article' : 'website')}" />`,
-    `<meta property="og:site_name" content="${esc(site.publication)}" />`,
+    `<meta property="og:site_name" content="${esc(site.name)}" />`,
     `<meta property="og:title" content="${esc(title)}" />`,
     `<meta property="og:description" content="${esc(description)}" />`,
     `<meta property="og:url" content="${esc(canonical)}" />`,
@@ -171,7 +171,8 @@ function page(opts) {
     ${metaTags({ ...opts, canonical })}
     <link rel="preload" as="style" href="/assets/jp/site.css?v=${ASSET_VERSION}" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=${ASSET_VERSION}" />
-    <link rel="icon" href="/imgs/junepoint.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="${site.favicon}" />
+    <link rel="apple-touch-icon" href="${site.favicon}" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     ${ads.enabled() ? '<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />' : ''}
     ${ads.verificationMeta()}

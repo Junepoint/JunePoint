@@ -24,6 +24,7 @@ function website() {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     name: site.name,
+    alternateName: site.alternateName,
     url: `${SITE_URL}/`,
     description: site.description,
     publisher: { '@id': `${SITE_URL}/#organization` },

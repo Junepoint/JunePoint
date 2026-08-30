@@ -82,7 +82,8 @@ const sections = {
 };
 
 const site = {
-  name: 'JunePoint',
+  name: 'JunePoint Software',
+  alternateName: ['JunePoint', 'junepoint.com'],
   author: 'Jackson Abeyta',
   /** Public identity for generated resource pages. */
   publication: 'JunePoint Resources',
@@ -96,6 +97,7 @@ const site = {
   twitter: '@junepoint',
   email: 'jackson@allwatermarinegroup.com',
   logo: '/imgs/junepoint.png',
+  favicon: '/favicon.png',
   founded: '2025',
   organization: 'JunePoint',
 };
