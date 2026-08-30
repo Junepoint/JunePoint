@@ -9,7 +9,7 @@ const { site, sections, SITE_URL } = require('../config');
 const { esc, jsonLd, displayDate } = require('./html');
 const ads = require('./ads');
 
-const ASSET_VERSION = '2';
+const ASSET_VERSION = '5';
 
 const NAV = [
   { href: '/tools/', label: sections.tools.navLabel },

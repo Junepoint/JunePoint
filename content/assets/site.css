@@ -117,7 +117,9 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
   max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem 4rem;
   display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 3rem; align-items: start;
 }
-.jp-side { position: sticky; top: 92px; display: grid; gap: 1.25rem; }
+.jp-side {
+  position: sticky; top: 92px; display: grid; gap: 1.25rem; align-self: start;
+}
 @media (max-width: 1040px) {
   .jp-layout { grid-template-columns: minmax(0, 1fr); }
   .jp-side { position: static; }
@@ -284,9 +286,9 @@ code {
 .jp-toc h2 { font-size: 0.75rem !important; text-transform: uppercase; letter-spacing: 0.13em; color: var(--text-mute); margin: 0 0 0.7rem !important; }
 .jp-toc ol { margin: 0; padding-left: 1.15rem; }
 .jp-toc li { margin-bottom: 0.4rem; }
-.jp-toc a { color: var(--text-soft); text-decoration: none; }
+.jp-toc a { color: var(--text-soft); text-decoration: none; font-weight: 600; }
 .jp-toc a:hover, .jp-toc a.is-active { color: var(--brand); }
-.jp-toc a.is-active { font-weight: 700; }
+.jp-toc a.is-active { text-decoration: underline; text-decoration-thickness: 2px; }
 
 .jp-panel { padding: 1.15rem 1.25rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .jp-panel h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--text-mute); margin: 0 0 0.75rem; }
@@ -436,7 +438,6 @@ input[type="color"].jp-range { height: 34px; padding: 2px; border: 1px solid var
 }
 .jp-ad ins { width: 100%; }
 .jp-ad--sidebar { margin: 0; min-height: 600px; }
-.jp-ad--sticky { position: sticky; top: 92px; }
 .jp-ad--footer { margin: 2.5rem 0 0; }
 .jp-ad--preview {
   border: 2px dashed var(--border-strong); border-radius: 12px; color: var(--text-mute);
