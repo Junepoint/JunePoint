@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>UUID v4 and v7 Generator with Bulk Output</title>
     <meta name="description" content="Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats." />
     <link rel="canonical" href="https://junepoint.com/tools/uuid-generator/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="UUID v4 and v7 Generator with Bulk Output" />
     <meta name="twitter:description" content="Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -199,9 +197,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -225,7 +220,7 @@
 
     <div class="jp-ad jp-ad--toolTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="4320423881" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
     
@@ -270,7 +265,7 @@
 </div>
     <div class="jp-ad jp-ad--toolResult">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6359886563" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
 
@@ -300,24 +295,24 @@ v7:  019512a3-4f80-7c21-9d3e-1a2b3c4d5e6f   ← 019512a3-4f80 is the timestamp
 <p>A UUID contains 16 bytes, while its canonical text form uses 36 characters. A native UUID type or 16-byte binary column uses less index and row storage than <code>VARCHAR(36)</code> and avoids text collation during comparison.</p>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Database</th><th scope="col">Use this</th><th scope="col">Not this</th></tr></thead><tbody><tr><th scope="row">PostgreSQL</th><td><code>uuid</code> (native, 16 bytes)</td><td><code>varchar(36)</code> / <code>text</code></td></tr><tr><th scope="row">MySQL 8+</th><td><code>BINARY(16)</code> with <code>UUID_TO_BIN(uuid, 1)</code></td><td><code>CHAR(36)</code></td></tr><tr><th scope="row">SQL Server</th><td><code>uniqueidentifier</code></td><td><code>nvarchar(36)</code></td></tr><tr><th scope="row">SQLite</th><td><code>BLOB</code>, or <code>TEXT</code> when readability is preferred</td><td>Not applicable</td></tr></tbody></table><p class="jp-table-note">The second argument to MySQL’s UUID_TO_BIN swaps time fields to improve index locality for version 1 UUIDs.</p></div>
 <h2 id="generating-uuids-in-your-own-code">Generating UUIDs in your own code</h2>
-<pre class="jp-code" data-lang="javascript"><code>// JavaScript; built in since 2021, no dependency needed.
-// Requires a secure context (HTTPS or localhost).
+<pre class="jp-code" data-lang="javascript"><code>// Browser API available since 2021
+    // Requires HTTPS or localhost
 const id = crypto.randomUUID();
 
-// Node.js
+    // Node API
 import { randomUUID } from &#39;node:crypto&#39;;
 const id = randomUUID();</code></pre>
-<pre class="jp-code" data-lang="sql"><code>-- PostgreSQL 13+ (v4)
+<pre class="jp-code" data-lang="sql"><code>-- PostgreSQL 13+ generates v4
 SELECT gen_random_uuid();
 
--- PostgreSQL 18+ adds native v7
+    -- PostgreSQL 18+ includes v7
 SELECT uuidv7();
 
--- MySQL 8+ (v1, not v4; note the difference)
+    -- MySQL 8+ generates v1 rather than v4
 SELECT UUID();</code></pre>
 <pre class="jp-code" data-lang="python"><code>import uuid
-uuid.uuid4()          # random
-str(uuid.uuid4())     # canonical string form</code></pre>
+    uuid.uuid4()          # Creates a random UUID
+    str(uuid.uuid4())     # Converts to canonical text</code></pre>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">crypto.randomUUID is undefined on plain HTTP</p>
         <p><code>crypto.randomUUID()</code> is available only in secure contexts. An HTTP page opened through a LAN IP may not expose it. Use <code>localhost</code> during local development or serve the page over HTTPS.</p>
@@ -360,7 +355,7 @@ str(uuid.uuid4())     # canonical string form</code></pre>
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -372,7 +367,7 @@ str(uuid.uuid4())     # canonical string form</code></pre>
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -402,15 +397,14 @@ str(uuid.uuid4())     # canonical string form</code></pre>
   function v4() {
     if (crypto.randomUUID) return crypto.randomUUID();
     var bytes = randomBytes(16);
-    bytes[6] = (bytes[6] & 0x0f) | 0x40;  // version 4
-    bytes[8] = (bytes[8] & 0x3f) | 0x80;  // RFC 4122 variant
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;  // Sets version 4
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;  // Sets the RFC 4122 variant
     return format(bytes);
   }
 
-  // v7: 48-bit big-endian Unix millisecond timestamp, then version, variant and
-  // random. The 12 bits after the version hold a counter (RFC 9562 "method 1")
-  // so that UUIDs minted inside the same millisecond still sort in creation
-  // order. Without it, a bulk generation comes out shuffled.
+  // UUID v7 starts with a 48 bit Unix millisecond timestamp.
+  // The next 12 bits store a counter from RFC 9562 method 1.
+  // This keeps IDs created in one millisecond in sequence.
   var lastMs = 0;
   var counter = 0;
 
@@ -420,10 +414,10 @@ str(uuid.uuid4())     # canonical string form</code></pre>
 
     if (ms === lastMs) {
       counter++;
-      if (counter > 0xfff) { ms = ++lastMs; counter = 0; }  // borrow from the next ms
+      if (counter > 0xfff) { ms = ++lastMs; counter = 0; }  // Uses the next millisecond
     } else {
       lastMs = ms;
-      // Seed low in the range so there is room to count up within this ms.
+      // Start low enough to leave room for increments.
       counter = ((bytes[6] & 0x0f) << 4) | (bytes[7] & 0x0f);
     }
 
@@ -433,9 +427,9 @@ str(uuid.uuid4())     # canonical string form</code></pre>
     bytes[3] = (ms / 65536) & 0xff;
     bytes[4] = (ms / 256) & 0xff;
     bytes[5] = ms & 0xff;
-    bytes[6] = 0x70 | ((counter >> 8) & 0x0f);  // version 7 + counter high bits
-    bytes[7] = counter & 0xff;                  // counter low bits
-    bytes[8] = (bytes[8] & 0x3f) | 0x80;        // variant
+    bytes[6] = 0x70 | ((counter >> 8) & 0x0f);  // Stores high counter bits with version 7
+    bytes[7] = counter & 0xff;                  // Stores low counter bits
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;        // Sets the UUID variant
     return format(bytes);
   }
 
@@ -515,7 +509,7 @@ str(uuid.uuid4())     # canonical string form</code></pre>
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

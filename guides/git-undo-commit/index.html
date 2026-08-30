@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>How to Undo a Git Commit Without Losing Work</title>
     <meta name="description" content="Choose between Git reset, revert, amend and rebase based on whether a commit was shared and whether its file changes should be kept." />
     <link rel="canonical" href="https://junepoint.com/guides/git-undo-commit/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="How to Undo a Git Commit Without Losing Work" />
     <meta name="twitter:description" content="Choose between Git reset, revert, amend and rebase based on whether a commit was shared and whether its file changes should be kept." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -188,9 +186,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -220,7 +215,7 @@
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Your situation</th><th scope="col">Command</th></tr></thead><tbody><tr><th scope="row">Fix the message of the last commit</th><td><code>git commit --amend</code></td></tr><tr><th scope="row">Undo last commit, keep changes staged</th><td><code>git reset --soft HEAD~1</code></td></tr><tr><th scope="row">Undo last commit, keep changes unstaged</th><td><code>git reset HEAD~1</code></td></tr><tr><th scope="row">Undo last commit, discard changes</th><td><code>git reset --hard HEAD~1</code></td></tr><tr><th scope="row">Undo a commit that is already pushed</th><td><code>git revert &lt;sha&gt;</code></td></tr><tr><th scope="row">Undo an old commit, keep the ones after it</th><td><code>git revert &lt;sha&gt;</code></td></tr><tr><th scope="row">Remove an old commit from history entirely</th><td><code>git rebase -i &lt;sha&gt;~1</code></td></tr><tr><th scope="row">Undo a merge</th><td><code>git revert -m 1 &lt;merge-sha&gt;</code></td></tr><tr><th scope="row">Recover something you destroyed</th><td><code>git reflog</code> then <code>git reset --hard &lt;sha&gt;</code></td></tr></tbody></table></div>
 <div class="jp-ad jp-ad--articleTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="2180968406" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="decide-whether-the-history-is-shared">Decide whether the history is shared</h2>
 <p><strong>Has the commit been pushed to a shared branch?</strong></p>
@@ -228,21 +223,21 @@
 <p>After that, choose whether the original file changes should stay staged, remain unstaged or be discarded.</p>
 <h2 id="fixing-the-last-commit">Fixing the last commit</h2>
 <h3 id="wrong-message-or-you-forgot-a-file">Wrong message, or you forgot a file</h3>
-<pre class="jp-code" data-lang="bash"><code># Reword the message
+<pre class="jp-code" data-lang="bash"><code># Edit the message
 git commit --amend -m &quot;fix: correct tax rounding on invoices&quot;
 
-# Forgot a file? Stage it and fold it into the previous commit
+    # Add a missing file to the previous commit
 git add src/tax.ts
 git commit --amend --no-edit</code></pre>
 <p><code>--amend</code> creates a replacement for the previous commit, so its SHA changes. Use it freely before pushing. After publishing the original commit, updating the remote requires a force-push and coordination with anyone using that branch.</p>
 <h3 id="undo-the-commit-but-keep-the-work">Undo the commit but keep the work</h3>
-<pre class="jp-code" data-lang="bash"><code># Changes return to the staging area, ready to re-commit
+<pre class="jp-code" data-lang="bash"><code># Keep the changes staged
 git reset --soft HEAD~1
 
-# Changes return to the working directory, unstaged
-git reset HEAD~1          # --mixed is the default
+# Keep the changes unstaged
+    git reset HEAD~1          # Mixed mode is the default
 
-# Changes are destroyed. Nothing is kept.
+    # Destroy every change from the commit
 git reset --hard HEAD~1</code></pre>
 <p>The three modes differ only in what happens to your files:</p>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Mode</th><th scope="col">Moves branch pointer</th><th scope="col">Staging area</th><th scope="col">Working directory</th></tr></thead><tbody><tr><th scope="row"><code>--soft</code></th><td>Yes</td><td>Keeps your changes</td><td>Untouched</td></tr><tr><th scope="row"><code>--mixed</code> (default)</th><td>Yes</td><td>Cleared</td><td>Keeps your changes</td></tr><tr><th scope="row"><code>--hard</code></th><td>Yes</td><td>Cleared</td><td><strong>Overwritten; work lost</strong></td></tr></tbody></table></div>
@@ -252,22 +247,22 @@ git reset --hard HEAD~1</code></pre>
       </aside>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="undoing-a-commit-that-is-already-pushed">Undoing a commit that is already pushed</h2>
 <p><code>git revert</code> creates a <strong>new</strong> commit containing the inverse of an earlier commit. Existing history remains in place, so collaborators can receive the change with an ordinary pull.</p>
-<pre class="jp-code" data-lang="bash"><code># Undo one commit
+<pre class="jp-code" data-lang="bash"><code># Revert one commit
 git revert a1b2c3d
 
-# Undo several, newest first
+    # Revert several commits, newest first
 git revert a1b2c3d b4e5f6a
 
-# Stage the inverse without committing, so you can adjust it
+    # Stage the inverse for review
 git revert --no-commit a1b2c3d</code></pre>
 <p>The new commit appears in the log as &quot;Revert ...&quot;. That extra entry records both what happened and how it was corrected. On a shared branch, this trace is preferable to rewriting commits that others may already have based work on.</p>
 <h3 id="reverting-a-merge">Reverting a merge</h3>
 <p>A merge commit has two parents, so Git needs to know which one to treat as the mainline:</p>
-<pre class="jp-code" data-lang="bash"><code># -m 1 means &quot;keep the first parent,&quot; usually the branch you merged into
+<pre class="jp-code" data-lang="bash"><code># Mainline 1 keeps the first parent, usually the target branch
 git revert -m 1 &lt;merge-sha&gt;</code></pre>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">A reverted merge remains part of history</p>
@@ -275,11 +270,11 @@ git revert -m 1 &lt;merge-sha&gt;</code></pre>
       </aside>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="removing-a-commit-from-the-middle-of-history">Removing a commit from the middle of history</h2>
 <p>Interactive rebase rewrites every affected commit from the selected point forward. Keep it to unpushed work or a personal branch that no one else is using.</p>
-<pre class="jp-code" data-lang="bash"><code># Rewrite the last five commits
+<pre class="jp-code" data-lang="bash"><code># Rewrite the five most recent commits
 git rebase -i HEAD~5</code></pre>
 <p>An editor opens with one line per commit. Change the verb at the start of a line to change what happens:</p>
 <pre class="jp-code" data-lang="text"><code>pick   a1b2c3d  feat: add invoice export
@@ -289,42 +284,42 @@ reword d0e1f2a  feat: tax rounding          ← change the message only
 edit   e3f4a5b  refactor: extract helper    ← stop here to amend it</code></pre>
 <p>Save and close the editor to begin. If a conflict appears, resolve it, stage the resolved files with <code>git add</code>, then run <code>git rebase --continue</code>. Use <code>git rebase --abort</code> to return to the pre-rebase state.</p>
 <h2 id="undoing-things-that-are-not-commits">Undoing things that are not commits</h2>
-<pre class="jp-code" data-lang="bash"><code># Unstage a file, keep the edits
+<pre class="jp-code" data-lang="bash"><code># Unstage a file while keeping its edits
 git restore --staged src/app.ts
 
-# Discard uncommitted edits to a file. This is NOT recoverable.
+    # Permanently discard edits to one file
 git restore src/app.ts
 
-# Discard everything uncommitted
+    # Permanently discard every uncommitted edit
 git restore .
 
-# Remove untracked files (-n previews, -d includes directories)
+    # Preview, then remove untracked files and directories
 git clean -nd
 git clean -fd
 
-# Park your work instead of destroying it
+    # Stash work for later
 git stash push -m &quot;half-finished refactor&quot;
 git stash pop</code></pre>
 <p>Git 2.23 introduced <code>git restore</code> and <code>git switch</code> to separate file restoration from branch changes. <code>git checkout -- file</code> still works, but <code>restore</code> states the file operation more clearly.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="i-ran-the-wrong-command-getting-your-work-back">Recovering after the wrong command</h2>
 <p>The reflog is a local record of recent <code>HEAD</code> positions, including commits that no branch currently names. Use it to locate the state before a mistaken reset, rebase or branch deletion.</p>
 <pre class="jp-code" data-lang="bash"><code>git reflog
 
-# a1b2c3d HEAD@{0}: reset: moving to HEAD~3      ← the mistake
-# f9e8d7c HEAD@{1}: commit: feat: add reporting  ← where you want to be
-# 8b7a6c5 HEAD@{2}: commit: fix: rounding
+# a1b2c3d HEAD@{0}: mistaken reset to HEAD~3
+# f9e8d7c HEAD@{1}: desired reporting commit
+# 8b7a6c5 HEAD@{2}: earlier rounding fix
 
-# Go back to where you were before the reset
+# Return to the state before the reset
 git reset --hard HEAD@{1}</code></pre>
-<pre class="jp-code" data-lang="bash"><code># Recover a branch you deleted
+<pre class="jp-code" data-lang="bash"><code># Recover a deleted branch
 git reflog
 git branch recovered-feature f9e8d7c
 
-# Find commits no branch references at all
+    # Find commits without branch references
 git fsck --lost-found</code></pre>
 <p>Reflog entries survive for 90 days by default (30 for unreachable commits) before garbage collection. The practical limit on recovery is therefore time, not permanence.</p>
 <aside class="jp-note jp-note--danger">
@@ -333,10 +328,10 @@ git fsck --lost-found</code></pre>
       </aside>
 <h2 id="force-pushing-without-hurting-anyone">Force-pushing without hurting anyone</h2>
 <p>If you intentionally rewrote a branch that already exists on the remote, update it with the guarded force option:</p>
-<pre class="jp-code" data-lang="bash"><code># Refuses to push if someone else has pushed since you last fetched
+<pre class="jp-code" data-lang="bash"><code># Stop if the remote changed since your last fetch
 git push --force-with-lease
 
-# Never do this on a shared branch
+    # Unsafe on a shared branch
 git push --force</code></pre>
 <p><code>--force-with-lease</code> verifies that the remote branch still points where your clone expects. If another push changed it, Git rejects your update instead of overwriting those commits. Plain <code>--force</code> omits that protection.</p>
 <section class="jp-faq">
@@ -380,7 +375,7 @@ git push --force</code></pre>
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -392,7 +387,7 @@ git push --force</code></pre>
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -436,7 +431,7 @@ git push --force</code></pre>
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

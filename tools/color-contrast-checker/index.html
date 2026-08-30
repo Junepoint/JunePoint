@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>Color Contrast Checker for WCAG AA and AAA</title>
     <meta name="description" content="Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option." />
     <link rel="canonical" href="https://junepoint.com/tools/color-contrast-checker/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="Color Contrast Checker for WCAG AA and AAA" />
     <meta name="twitter:description" content="Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -199,9 +197,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -225,7 +220,7 @@
 
     <div class="jp-ad jp-ad--toolTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="4320423881" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
     
@@ -269,7 +264,7 @@
 </div>
     <div class="jp-ad jp-ad--toolResult">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6359886563" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
 
@@ -294,7 +289,7 @@
     const s = c / 255;
     return s &lt;= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
   });
-  return 0.2126 * R + 0.7152 * G + 0.0722 * B;   // green dominates
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B;   // Green has the greatest weight
 }</code></pre>
 <p>The green coefficient is larger because human vision is more sensitive to green than blue. As a result, pure blue <code>#0000ff</code> on white has a ratio of about 8.6:1, while pure yellow <code>#ffff00</code> on white is about 1.07:1.</p>
 <p>The ratio ranges from 1:1 (identical colours) to 21:1 (pure black on pure white).</p>
@@ -343,7 +338,7 @@
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -355,7 +350,7 @@
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -393,7 +388,7 @@
     }).join('');
   }
 
-  // WCAG 2.x relative luminance.
+  // Calculate relative luminance for WCAG 2.x.
   function luminance(rgb) {
     var channels = rgb.map(function (c) {
       var s = c / 255;
@@ -440,8 +435,8 @@
       '<dt>AAA · large text</dt><dd>' + badge(r >= 4.5) + ' requires 4.5:1</dd>';
   }
 
-  // Walk the foreground toward black or white, whichever is farther from the
-  // background, until it clears 4.5:1.
+  // Move the foreground toward the more distant endpoint.
+  // Stop when contrast reaches 4.5:1.
   document.getElementById('cx-fix').addEventListener('click', function () {
     var f = parse(fg.value), b = parse(bg.value);
     var note = document.getElementById('cx-fix-note');
@@ -509,7 +504,7 @@
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

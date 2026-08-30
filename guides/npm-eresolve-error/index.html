@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>npm ERESOLVE: Diagnose and Fix a Dependency Conflict</title>
     <meta name="description" content="Read an npm ERESOLVE report, identify the incompatible peer ranges, and choose between an upgrade, override or temporary install policy." />
     <link rel="canonical" href="https://junepoint.com/guides/npm-eresolve-error/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="npm ERESOLVE: Diagnose and Fix a Dependency Conflict" />
     <meta name="twitter:description" content="Read an npm ERESOLVE report, identify the incompatible peer ranges, and choose between an upgrade, override or temporary install policy." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -180,9 +178,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -212,7 +207,7 @@
 <p>A <strong>peer dependency</strong> declares that a package integrates with a dependency supplied by the consuming project. A React component library lists <code>react</code> as a peer so it uses the application’s React instance instead of bundling another copy.</p>
 <div class="jp-ad jp-ad--articleTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="2180968406" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><p>npm reports ERESOLVE when it cannot produce a tree that meets the declared requirements. npm 7 began installing and enforcing peer dependencies more strictly than npm 6. Because Node upgrades often bring a newer npm, an existing conflict may first become visible after upgrading Node.</p>
 <h2 id="reading-the-conflict-report">Reading the conflict report</h2>
@@ -255,14 +250,14 @@ npm install react-legacy-ui@latest</code></pre>
 <pre class="jp-code" data-lang="bash"><code>npm install --legacy-peer-deps</code></pre>
 <p>This restores npm 6-style peer handling: npm does not build the tree around peer requirements and does not fail on their conflicts. The switch applies to the <strong>whole project</strong>, including dependencies added later, not only the package currently failing.</p>
 <p>That can be a practical temporary policy for a large legacy tree. If the project depends on it, commit the setting so each environment uses the same resolver behavior:</p>
-<pre class="jp-code" data-lang="bash"><code># .npmrc in the project root
+<pre class="jp-code" data-lang="bash"><code># Project .npmrc settings
 legacy-peer-deps=true</code></pre>
 <h3 id="4-force">4. <code>--force</code></h3>
 <p><code>--force</code> tells npm to continue despite protections and conflicts. The resulting tree may contain duplicate framework instances, such as two copies of React, which can later surface as an &quot;Invalid hook call&quot; rather than an install error.</p>
 <p><strong><code>--force</code> is not a stronger form of <code>--legacy-peer-deps</code>.</strong> The latter changes peer-dependency resolution, while the former disables several npm safeguards. A failure that remains under the legacy policy needs its report investigated rather than a stronger flag by default.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="when-nothing-works-reset-the-tree">When nothing works: reset the tree</h2>
 <pre class="jp-code" data-lang="bash"><code>rm -rf node_modules package-lock.json
@@ -275,13 +270,13 @@ npm install</code></pre>
       </aside>
 <h2 id="making-ci-behave-the-same-as-your-laptop">Making CI behave the same as your laptop</h2>
 <p>A command-line flag used on one laptop does not automatically apply in CI. Put a resolver policy that the project requires in the repository:</p>
-<pre class="jp-code" data-lang="bash"><code># .npmrc; commit this file
+<pre class="jp-code" data-lang="bash"><code># Commit these project .npmrc settings
 legacy-peer-deps=true
 engine-strict=true</code></pre>
 <p>Use <code>npm ci</code> in CI rather than <code>npm install</code>. It installs from the lockfile, fails when <code>package.json</code> and the lockfile disagree, and avoids resolving a different dependency tree on each run. It is also generally faster for a clean automated install.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="preventing-the-next-one">Preventing the next one</h2>
 <ul><li><strong>Keep the lockfile in version control.</strong> For applications and libraries, it makes development and CI installs reproducible even though library consumers resolve their own tree.</li><li><strong>Update in manageable batches.</strong> Running <code>npm outdated</code> regularly makes it easier to associate a conflict with the release that introduced it.</li><li><strong>Check peer requirements before adding a package.</strong> <code>npm view &lt;pkg&gt; peerDependencies</code> exposes compatibility constraints before installation.</li><li><strong>Pin your Node version</strong> with <code>.nvmrc</code> and an <code>engines</code> field. Different Node versions ship different npm versions, and npm 6, 7 and 9+ resolve trees differently.</li><li><strong>Consider pnpm when stricter dependency boundaries help the project.</strong> Its symlinked <code>node_modules</code> prevents undeclared phantom dependencies and reports peer issues differently from npm.</li></ul>
@@ -323,7 +318,7 @@ engine-strict=true</code></pre>
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -335,7 +330,7 @@ engine-strict=true</code></pre>
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -379,7 +374,7 @@ engine-strict=true</code></pre>
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

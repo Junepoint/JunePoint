@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>Cron Expression Generator and Next Run Calculator</title>
     <meta name="description" content="Build or parse a standard five-field cron expression, read its schedule and calculate the next ten runs in local time." />
     <link rel="canonical" href="https://junepoint.com/tools/cron-expression-generator/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="Cron Expression Generator and Next Run Calculator" />
     <meta name="twitter:description" content="Build or parse a standard five-field cron expression, read its schedule and calculate the next ten runs in local time." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -199,9 +197,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -225,7 +220,7 @@
 
     <div class="jp-ad jp-ad--toolTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="4320423881" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
     
@@ -256,7 +251,7 @@
 </div>
     <div class="jp-ad jp-ad--toolResult">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6359886563" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
 
@@ -287,17 +282,17 @@ Quartz (6)      0 30 3 ? * MON-FRI      leading seconds, ? for unused day field
 EventBridge     30 3 ? * MON-FRI *      trailing year</code></pre>
 <p>A valid expression for one scheduler may be invalid or mean something different in another. This tool validates the standard five-field format only.</p>
 <h2 id="making-cron-failures-visible">Making cron failures visible</h2>
-<pre class="jp-code" data-lang="bash"><code># Edit the current user&#39;s crontab
+<pre class="jp-code" data-lang="bash"><code># Open the current user crontab
 crontab -e
 
-# List it
+    # Display the current crontab
 crontab -l
 
-# Redirect output; cron mails it otherwise, and on most servers
-# that mail goes nowhere and the failure is invisible.
+    # Send output to a log because cron mail is often unread
+    # This keeps failures visible
 30 3 * * 1-5 /usr/local/bin/backup.sh &gt;&gt; /var/log/backup.log 2&gt;&amp;1
 
-# Percent signs are special in crontab and must be escaped
+    # Escape percent signs in crontab commands
 0 4 * * * /usr/bin/pg_dump db &gt; /backups/db-$(date +\%Y\%m\%d).sql</code></pre>
 <ul><li><strong>Use absolute paths.</strong> Cron often has a minimal <code>PATH</code>, such as <code>/usr/bin:/bin</code>. Use full paths for commands that may not be available there.</li><li><strong>Load required environment explicitly.</strong> Do not assume cron reads <code>.bashrc</code>, <code>.profile</code>, <code>nvm</code> configuration or a virtual environment.</li><li><strong>Escape <code>%</code>.</strong> A percent sign represents a newline in a crontab. An unescaped <code>date +%Y</code> can truncate the command.</li><li><strong>End the file with a newline.</strong> Some cron implementations ignore a final crontab line that has no newline.</li><li><strong>Prevent overlapping runs.</strong> If a job can exceed its interval, a lock such as <code>flock -n /tmp/job.lock</code> can stop another copy from starting.</li></ul>
 <aside class="jp-note jp-note--tip">
@@ -342,7 +337,7 @@ crontab -l
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -354,7 +349,7 @@ crontab -l
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -396,7 +391,7 @@ crontab -l
     sun:0,mon:1,tue:2,wed:3,thu:4,fri:5,sat:6
   };
 
-  /* Expand one field into the explicit set of values it permits. */
+  /* Convert one field into its allowed values. */
   function expand(spec, field) {
     var values = [];
     spec.split(',').forEach(function (part) {
@@ -489,7 +484,7 @@ crontab -l
     var cursor = new Date();
     cursor.setSeconds(0, 0);
     cursor.setMinutes(cursor.getMinutes() + 1);
-    // Four years of minutes is enough to prove even a 29 February schedule.
+    // Four years covers every possible 29 February schedule.
     for (var i = 0; i < 2103840 && runs.length < count; i++) {
       if (matches(cursor, sets, parts)) runs.push(new Date(cursor));
       cursor.setMinutes(cursor.getMinutes() + 1);
@@ -592,7 +587,7 @@ crontab -l
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

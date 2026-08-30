@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>PostgreSQL &quot;Connection Refused&quot;: Check Each Layer in Order</title>
     <meta name="description" content="Trace a PostgreSQL connection failure through the process, listener, listen_addresses, pg_hba.conf, network and client configuration." />
     <link rel="canonical" href="https://junepoint.com/guides/postgres-connection-refused/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="PostgreSQL &quot;Connection Refused&quot;: Check Each Layer in Order" />
     <meta name="twitter:description" content="Trace a PostgreSQL connection failure through the process, listener, listen_addresses, pg_hba.conf, network and client configuration." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -180,9 +178,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -212,29 +207,29 @@
       </aside>
 <div class="jp-ad jp-ad--articleTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="2180968406" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="layer-1-is-postgres-actually-running">Layer 1: is Postgres actually running?</h2>
-<pre class="jp-code" data-lang="bash"><code># Linux
+<pre class="jp-code" data-lang="bash"><code># Linux service
 sudo systemctl status postgresql
 sudo systemctl start postgresql
 
-# macOS (Homebrew)
+    # Homebrew on macOS
 brew services list
 brew services start postgresql@16
 
-# Docker
+    # Docker container
 docker ps -a | grep postgres
 docker logs &lt;container&gt;</code></pre>
 <p>If the service does not start, read its logs before changing connection settings. Common causes include another process using the port, incorrect data-directory permissions and recovery after an unclean shutdown.</p>
-<pre class="jp-code" data-lang="bash"><code>sudo tail -50 /var/log/postgresql/postgresql-16-main.log   # Debian/Ubuntu
-tail -50 /usr/local/var/log/postgresql@16.log              # macOS Homebrew</code></pre>
+<pre class="jp-code" data-lang="bash"><code>sudo tail -50 /var/log/postgresql/postgresql-16-main.log   # Debian or Ubuntu log
+    tail -50 /usr/local/var/log/postgresql@16.log              # Homebrew log on macOS</code></pre>
 <h2 id="layer-2-is-anything-listening-on-5432">Layer 2: is anything listening on 5432?</h2>
-<pre class="jp-code" data-lang="bash"><code># What is bound to the port
+<pre class="jp-code" data-lang="bash"><code># Show the process bound to the port
 sudo lsof -i :5432
 sudo ss -tlnp | grep 5432
 
-# Can you reach it at all?
+    # Test whether the port is reachable
 nc -zv localhost 5432</code></pre>
 <p>Look closely at the <strong>address</strong> in the output, not just the port:</p>
 <pre class="jp-code" data-lang="text"><code>127.0.0.1:5432   ← localhost only. Remote clients will be refused.
@@ -242,21 +237,21 @@ nc -zv localhost 5432</code></pre>
 <p>Multiple installations can obscure which server you are configuring. Homebrew and Postgres.app, or a local service and a container, may both try to use 5432. Check the process bound to each port; a second installed version may have moved to 5433.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="layer-3-listen-addresses">Layer 3: <code>listen_addresses</code></h2>
 <p>Postgres normally binds to localhost by default. To accept a remote TCP connection, edit the <code>postgresql.conf</code> used by the running process:</p>
-<pre class="jp-code" data-lang="bash"><code># Find the file the running server is actually using
+<pre class="jp-code" data-lang="bash"><code># Find the active configuration file
 psql -U postgres -c &#39;SHOW config_file;&#39;
 
-# In postgresql.conf
-listen_addresses = &#39;*&#39;          # all interfaces
-# listen_addresses = &#39;localhost,10.0.1.5&#39;   # or be specific
+    # Settings for postgresql.conf
+    listen_addresses = &#39;*&#39;          # Listen on every interface
+    # listen_addresses = &#39;localhost,10.0.1.5&#39;   # Bind only selected addresses
 port = 5432</code></pre>
 <p>A <code>listen_addresses</code> change requires a <strong>restart</strong>, not only a reload. Use <code>SHOW config_file</code> to confirm the active file, especially on a machine with several PostgreSQL installations.</p>
 <h2 id="layer-4-pg-hba-conf">Layer 4: <code>pg_hba.conf</code></h2>
 <p><code>pg_hba.conf</code> controls client authentication and is evaluated <strong>top to bottom; the first matching rule wins</strong>. An error saying <code>no pg_hba.conf entry for host</code> confirms that the connection reached PostgreSQL but matched no permitted rule.</p>
-<pre class="jp-code" data-lang="text"><code># TYPE  DATABASE  USER  ADDRESS          METHOD
+<pre class="jp-code" data-lang="text"><code># Rule columns: TYPE  DATABASE  USER  ADDRESS          METHOD
 
 local   all       all                    peer
 host    all       all   127.0.0.1/32     scram-sha-256
@@ -265,7 +260,7 @@ host    all       all   10.0.0.0/8       scram-sha-256    ← add your subnet
 hostssl all       all   0.0.0.0/0        scram-sha-256    ← require TLS for the internet</code></pre>
 <p>Reload the configuration after editing this file; a full restart is not required:</p>
 <pre class="jp-code" data-lang="bash"><code>sudo systemctl reload postgresql
-# or
+    # Reload through SQL instead
 psql -U postgres -c &#39;SELECT pg_reload_conf();&#39;</code></pre>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Never use <code>trust</code> on a network address</p>
@@ -274,14 +269,14 @@ psql -U postgres -c &#39;SELECT pg_reload_conf();&#39;</code></pre>
 <p>For <code>local</code> connections, the <code>peer</code> method compares the <strong>operating-system</strong> user with the requested database role. On a fresh Ubuntu installation, <code>psql mydb</code> may work as your own user while <code>psql -U postgres mydb</code> fails because the shell user is not <code>postgres</code>. Use <code>sudo -u postgres psql</code> for that administrative role.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="layer-5-firewalls-security-groups-and-the-network">Layer 5: firewalls, security groups and the network</h2>
-<pre class="jp-code" data-lang="bash"><code># Ubuntu
+<pre class="jp-code" data-lang="bash"><code># Ubuntu firewall
 sudo ufw allow from 10.0.0.0/8 to any port 5432
 sudo ufw status
 
-# RHEL / Fedora
+    # RHEL or Fedora firewall
 sudo firewall-cmd --permanent --add-port=5432/tcp
 sudo firewall-cmd --reload</code></pre>
 <ul><li><strong>AWS RDS:</strong> the security group needs an inbound rule allowing port 5432 from the client source. Also check &quot;Publicly accessible&quot; when connecting over the public internet; that setting does not replace the security-group rule.</li><li><strong>Cloud SQL / Azure Database:</strong> add the client IP to the provider’s authorised network rules or connect through the supported proxy.</li><li><strong>Kubernetes:</strong> a <code>ClusterIP</code> service is reachable only from within the cluster. To test from your machine, run <code>kubectl port-forward svc/postgres 5432:5432</code>.</li></ul>
@@ -294,7 +289,7 @@ sudo firewall-cmd --reload</code></pre>
 <ul><li><strong>Percent-encode special characters in the password.</strong> An <code>@</code> can split the URL at the wrong point and produce a misleading host error. <code>@</code> is <code>%40</code>, <code>#</code> is <code>%23</code>, and <code>/</code> is <code>%2F</code>.</li><li><strong><code>localhost</code> and <code>127.0.0.1</code> may resolve differently.</strong> <code>localhost</code> can resolve to IPv6 <code>::1</code>; a server listening only on IPv4 will refuse that connection. Test with the literal <code>127.0.0.1</code>.</li><li><strong>Check <code>sslmode</code>.</strong> Managed providers commonly require <code>require</code> or <code>verify-full</code>. Client defaults vary: some prefer TLS and fall back, while others fail when their expected mode is unavailable.</li></ul>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="the-docker-special-case">The Docker special case</h2>
 <p>Inside a container, <code>localhost</code> refers to that container’s own network namespace. It does not refer to the host or to another Compose service.</p>
@@ -304,7 +299,7 @@ sudo firewall-cmd --reload</code></pre>
     environment:
       POSTGRES_PASSWORD: secret
     ports:
-      - &quot;5432:5432&quot;        # only needed to reach it from the HOST
+      - &quot;5432:5432&quot;        # Publish only for host access
     healthcheck:
       test: [&quot;CMD-SHELL&quot;, &quot;pg_isready -U postgres&quot;]
       interval: 5s
@@ -313,7 +308,7 @@ sudo firewall-cmd --reload</code></pre>
   api:
     build: .
     environment:
-      # &#39;db&#39; is the service name, not localhost.
+      # Use the db service name instead of localhost
       DATABASE_URL: postgresql://postgres:secret@db:5432/app
     depends_on:
       db:
@@ -324,22 +319,22 @@ sudo firewall-cmd --reload</code></pre>
         <p><code>POSTGRES_PASSWORD</code> and <code>POSTGRES_DB</code> apply only when the image initializes an empty data directory. Changing them later does not alter the existing database. Removing the volume with <code>docker compose down -v</code> forces reinitialization and destroys its data, so confirm that loss is acceptable first.</p>
       </aside>
 <h2 id="a-one-pass-diagnostic">A one-pass diagnostic</h2>
-<pre class="jp-code" data-lang="bash"><code># 1. Is the process alive?
+<pre class="jp-code" data-lang="bash"><code># 1. Check whether the process is running
 sudo systemctl status postgresql
 
-# 2. Is it listening, and on what address?
+    # 2. Find the listening address
 sudo ss -tlnp | grep 5432
 
-# 3. Can you reach the port from the client machine?
+    # 3. Test the port from the client
 nc -zv db-host 5432
 
-# 4. Local connection as the postgres OS user
+    # 4. Connect locally as the postgres system user
 sudo -u postgres psql -c &#39;SELECT version();&#39;
 
-# 5. TCP connection with an explicit host; this bypasses the Unix socket
+    # 5. Bypass the Unix socket with an explicit TCP host
 psql -h 127.0.0.1 -p 5432 -U myuser -d mydb
 
-# 6. What does the server think it is configured with?
+    # 6. Read the active server settings
 sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#39;</code></pre>
 <p>The first failed step narrows the layer to investigate. For example, step 4 succeeding while step 5 fails shows that the server is running but its TCP listener or <code>pg_hba.conf</code> rules need attention.</p>
 <section class="jp-faq">
@@ -380,7 +375,7 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -392,7 +387,7 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -436,7 +431,7 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

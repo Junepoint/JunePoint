@@ -1,2 +1,2 @@
-# Authorized Digital Sellers: https://iabtechlab.com/ads-txt/
+# Authorized Digital Sellers
 google.com, pub-6080878404566929, DIRECT, f08c47fec0942fa0

@@ -1,41 +1,7 @@
-/* ==========================================================================
-  JunePoint Resources: shared stylesheet for the generated content network.
-   One file, no webfonts, no framework. Cached across every page in the network
-   so tier-to-tier navigation costs nothing after the first paint.
-   ========================================================================== */
+/* Shared styles for generated content pages. */
 
 :root {
-  --bg: #ffffff;
-  --bg-soft: #f6f8fb;
-  --bg-sunk: #eef2f7;
-  --surface: #ffffff;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --text: #0f172a;
-  --text-soft: #475569;
-  --text-mute: #64748b;
-  --brand: #2563eb;
-  --brand-dark: #1d4ed8;
-  --brand-soft: #eff6ff;
-  --accent: #0891b2;
-  --ok: #059669;
-  --ok-soft: #ecfdf5;
-  --warn: #b45309;
-  --warn-soft: #fffbeb;
-  --danger: #dc2626;
-  --danger-soft: #fef2f2;
-  --shadow-sm: 0 1px 2px rgb(15 23 42 / 6%), 0 1px 3px rgb(15 23 42 / 4%);
-  --shadow-md: 0 4px 16px rgb(15 23 42 / 8%);
-  --shadow-lg: 0 18px 48px rgb(15 23 42 / 12%);
-  --radius: 14px;
-  --radius-lg: 22px;
-  --maxw: 1200px;
-  --measure: 68ch;
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-html[data-theme="dark"] {
+  color-scheme: dark;
   --bg: #0b1220;
   --bg-soft: #0f172a;
   --bg-sunk: #111c31;
@@ -58,33 +24,12 @@ html[data-theme="dark"] {
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
   --shadow-md: 0 6px 20px rgb(0 0 0 / 45%);
   --shadow-lg: 0 20px 50px rgb(0 0 0 / 55%);
-}
-
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) {
-    --bg: #0b1220;
-    --bg-soft: #0f172a;
-    --bg-sunk: #111c31;
-    --surface: #131f36;
-    --border: #24334d;
-    --border-strong: #33455f;
-    --text: #e8eefb;
-    --text-soft: #b3c0d6;
-    --text-mute: #8ea0bd;
-    --brand: #60a5fa;
-    --brand-dark: #93c5fd;
-    --brand-soft: #16233c;
-    --accent: #22d3ee;
-    --ok: #34d399;
-    --ok-soft: #0e2a22;
-    --warn: #fbbf24;
-    --warn-soft: #2a2110;
-    --danger: #f87171;
-    --danger-soft: #2c1618;
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
-    --shadow-md: 0 6px 20px rgb(0 0 0 / 45%);
-    --shadow-lg: 0 20px 50px rgb(0 0 0 / 55%);
-  }
+  --radius: 14px;
+  --radius-lg: 22px;
+  --maxw: 1200px;
+  --measure: 68ch;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -116,7 +61,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 }
 .jp-skip:focus { left: 0; color: #fff; }
 
-/* ---------- Header ------------------------------------------------------- */
+/* Header */
 
 .jp-header {
   position: sticky; top: 0; z-index: 100;
@@ -151,12 +96,6 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
   padding: 0.4rem 0.7rem; border: 1px solid var(--border); border-radius: 999px; white-space: nowrap;
 }
 .jp-header-portfolio:hover { border-color: var(--brand); color: var(--brand); }
-.jp-theme {
-  display: grid; place-items: center; width: 34px; height: 34px; padding: 0;
-  background: transparent; border: 1px solid var(--border); border-radius: 50%;
-  color: var(--text-soft); cursor: pointer;
-}
-.jp-theme:hover { color: var(--brand); border-color: var(--brand); }
 .jp-menu { display: none; flex-direction: column; gap: 4px; background: none; border: 0; padding: 8px; cursor: pointer; }
 .jp-menu span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
 .jp-mobile-nav { display: none; flex-direction: column; padding: 0.5rem 1.25rem 1rem; border-top: 1px solid var(--border); }
@@ -169,7 +108,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
   .jp-mobile-nav:not([hidden]) { display: flex; }
 }
 
-/* ---------- Layout primitives -------------------------------------------- */
+/* Layout */
 
 .jp-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem; }
 .jp-narrow { max-width: 780px; margin: 0 auto; padding: 0 1.25rem; }
@@ -185,7 +124,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
   .jp-side .jp-ad--sticky { display: none; }
 }
 
-/* ---------- Page head ---------------------------------------------------- */
+/* Page heading */
 
 .jp-pagehead { padding: 2rem 0 1.5rem; }
 .jp-pagehead--hero {
@@ -218,7 +157,7 @@ h1 { font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.12; letter-spacing: -0.
 .jp-byline-author { color: var(--text-soft); font-weight: 600; }
 .jp-dot { color: var(--border-strong); }
 
-/* ---------- Article typography ------------------------------------------- */
+/* Article typography */
 
 .jp-article { max-width: var(--measure); }
 .jp-article > * { max-width: 100%; }
@@ -288,7 +227,7 @@ code {
 .jp-table tbody tr:hover { background: var(--bg-soft); }
 .jp-table-note { font-size: 0.83rem; color: var(--text-mute); margin: 0.5rem 0 0; }
 
-/* ---------- Buyer-guide picks -------------------------------------------- */
+/* Buyer guide picks */
 
 .jp-pick {
   margin: 2rem 0; padding: 1.5rem; border: 1px solid var(--border);
@@ -320,7 +259,7 @@ code {
   .jp-pick-meta > div { grid-template-columns: 1fr; gap: 0.1rem; }
 }
 
-/* ---------- FAQ ---------------------------------------------------------- */
+/* Common questions */
 
 .jp-faq { margin: 2.5rem 0; }
 .jp-faq-item { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 0.6rem; background: var(--surface); }
@@ -336,7 +275,7 @@ code {
 .jp-faq-answer { padding: 0 1.1rem 1rem; color: var(--text-soft); }
 .jp-faq-answer p:last-child { margin-bottom: 0; }
 
-/* ---------- Table of contents & sidebar ---------------------------------- */
+/* Contents and sidebar */
 
 .jp-toc {
   padding: 1.15rem 1.25rem; border: 1px solid var(--border); border-radius: var(--radius);
@@ -358,7 +297,7 @@ code {
 .jp-panel a:hover { text-decoration: underline; }
 .jp-panel-note { font-size: 0.85rem; color: var(--text-mute); margin: 0.75rem 0 0; }
 
-/* ---------- Cards & indexes ---------------------------------------------- */
+/* Cards and indexes */
 
 .jp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin: 1.5rem 0 2.5rem; }
 .jp-card {
@@ -425,7 +364,7 @@ code {
 .jp-btn--ghost { background: transparent; color: var(--brand) !important; border: 1px solid var(--border-strong); }
 .jp-btn--ghost:hover { background: var(--bg-sunk); border-color: var(--brand); }
 
-/* ---------- Tools -------------------------------------------------------- */
+/* Tools */
 
 .jp-tool {
   margin: 0 0 2rem; padding: 1.5rem; border: 1px solid var(--border-strong);
@@ -485,7 +424,7 @@ input[type="color"].jp-range { height: 34px; padding: 2px; border: 1px solid var
 
 .jp-match { background: color-mix(in srgb, var(--brand) 30%, transparent); border-radius: 3px; }
 
-/* ---------- Ads ---------------------------------------------------------- */
+/* Ads */
 
 .jp-ad {
   margin: 2.25rem 0; text-align: center; min-height: 100px;
@@ -505,7 +444,7 @@ input[type="color"].jp-range { height: 34px; padding: 2px; border: 1px solid var
 }
 .jp-ad--preview.jp-ad--sidebar { min-height: 600px; }
 
-/* ---------- Footer ------------------------------------------------------- */
+/* Footer */
 
 .jp-footer { border-top: 1px solid var(--border); background: var(--bg-soft); margin-top: 4rem; }
 .jp-footer-inner {
@@ -528,7 +467,7 @@ input[type="color"].jp-range { height: 34px; padding: 2px; border: 1px solid var
 @media (max-width: 780px) { .jp-footer-inner { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 460px) { .jp-footer-inner { grid-template-columns: 1fr; } }
 
-/* ---------- Prose pages (legal, about) ----------------------------------- */
+/* Prose pages */
 
 .jp-prose { max-width: var(--measure); margin: 0 auto; padding: 0 1.25rem 4rem; }
 .jp-prose h2 { font-size: 1.4rem; margin: 2.4rem 0 0.75rem; letter-spacing: -0.02em; }

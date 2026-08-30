@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>JavaScript async/await: Execution, Concurrency and Errors</title>
     <meta name="description" content="Understand what async and await do, when work is sequential or concurrent, why forEach drops Promises, and how errors propagate." />
     <link rel="canonical" href="https://junepoint.com/guides/javascript-async-await-explained/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="JavaScript async/await: Execution, Concurrency and Errors" />
     <meta name="twitter:description" content="Understand what async and await do, when work is sequential or concurrent, why forEach drops Promises, and how errors propagate." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -188,9 +186,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -217,24 +212,24 @@
 <p><code>await</code> suspends the current async function until its Promise settles, then produces the fulfilled value or throws the rejection. It suspends <strong>only that function</strong>. Other event-loop work continues, and JavaScript remains single-threaded.</p>
 <div class="jp-ad jp-ad--articleTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="2180968406" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><pre class="jp-code" data-lang="javascript"><code>async function getUser(id) {
-  return { id };            // returns Promise&lt;{id}&gt;
+  return { id };            // Returns Promise&lt;{id}&gt;
 }
 
-// Identical behaviour, written with the underlying Promise API
+// The Promise API behaves the same way
 function getUser(id) {
   return Promise.resolve({ id });
 }</code></pre>
 <h2 id="independent-work-should-not-wait-in-a-line">Independent work should not wait in a line</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential: 100 requests × 200ms = 20 seconds
+<pre class="jp-code" data-lang="javascript"><code>// Sequential: 100 requests × 200ms = 20 seconds
 const users = [];
 for (const id of ids) {
   users.push(await fetchUser(id));
 }
 
-// ✓ Concurrent: all in flight at once, ~200ms
+// Concurrent: all requests run together, ~200ms
 const users = await Promise.all(ids.map(id =&gt; fetchUser(id)));</code></pre>
 <p>The loop waits for each request before starting another. When the requests are independent, create all their Promises first and await the group. <code>Promise.all</code> fulfills after every input fulfills and rejects when any input rejects.</p>
 <p>Sequential execution is appropriate when an iteration <strong>depends</strong> on the previous result or when you are intentionally limiting request rate. Otherwise, measure whether unnecessary serialization is contributing to the slow path.</p>
@@ -243,23 +238,23 @@ const users = await Promise.all(ids.map(id =&gt; fetchUser(id)));</code></pre>
         <p><code>Promise.all</code> over a large array can exhaust sockets, trigger rate limits or overload the service being called. Use <code>p-limit</code>, a chunked loop or another bounded concurrency pool. For HTTP work, 5 to 20 concurrent requests is a reasonable starting range, but measure against the service’s limits.</p>
       </aside>
 <h2 id="foreach-does-not-consume-callback-promises"><code>forEach</code> does not consume callback Promises</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ Logs &quot;done&quot; immediately; nothing has been saved yet
+<pre class="jp-code" data-lang="javascript"><code>// Logs &quot;done&quot; before any save finishes
 items.forEach(async (item) =&gt; {
   await save(item);
 });
 console.log(&#39;done&#39;);</code></pre>
 <p><code>forEach</code> calls its callback and ignores each return value. An async callback therefore creates Promises that the surrounding code neither returns nor awaits. A rejection from one of those Promises can become unhandled and terminate a Node process.</p>
-<pre class="jp-code" data-lang="javascript"><code>// ✓ Concurrent, and awaited
+<pre class="jp-code" data-lang="javascript"><code>// Concurrent and awaited
 await Promise.all(items.map(item =&gt; save(item)));
 
-// ✓ Sequential, when order matters
+    // Sequential when order matters
 for (const item of items) {
   await save(item);
 }</code></pre>
 <p>Use <strong><code>for…of</code> with <code>await</code></strong> for sequential work, or <code>map</code> plus <code>Promise.all</code> for concurrent work. An async callback passed to <code>map</code>, <code>filter</code> or <code>reduce</code> still returns a Promise. That is useful with <code>map</code> when you await the resulting array, but it does not make <code>filter</code> understand asynchronous predicates.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="choose-how-a-group-should-handle-rejection">Choose how a group should handle rejection</h2>
 <p><code>Promise.all</code> rejects when any input rejects, so its result does not contain the fulfilled values from the same batch. When callers need every outcome, use <code>Promise.allSettled</code>:</p>
@@ -270,17 +265,17 @@ const failed = results.filter(r =&gt; r.status === &#39;rejected&#39;).map(r =&g
 
 console.warn(`${failed.length} of ${ids.length} failed`);</code></pre>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Combinator</th><th scope="col">Settles when</th><th scope="col">Use for</th></tr></thead><tbody><tr><th scope="row"><code>Promise.all</code></th><td>All fulfil, or any rejects</td><td>All-or-nothing work</td></tr><tr><th scope="row"><code>Promise.allSettled</code></th><td>All settle, whatever the outcome</td><td>Batch jobs where partial success is fine</td></tr><tr><th scope="row"><code>Promise.race</code></th><td>The first one settles, fulfilled or rejected</td><td>Timeouts</td></tr><tr><th scope="row"><code>Promise.any</code></th><td>The first one fulfils</td><td>Redundant sources, such as several mirrors</td></tr></tbody></table></div>
-<pre class="jp-code" data-lang="javascript"><code>// Promise.race can implement a timeout, but prefer AbortSignal below
-// because race leaves the losing request running.
+<pre class="jp-code" data-lang="javascript"><code>// Promise.race can enforce a timeout
+    // The losing request still runs after the race settles
 const result = await Promise.race([
   fetchData(),
   new Promise((_, reject) =&gt; setTimeout(() =&gt; reject(new Error(&#39;timeout&#39;)), 5000)),
 ]);
 
-// Better: actually cancel the request
+// AbortSignal also cancels the request
 const response = await fetch(url, { signal: AbortSignal.timeout(5000) });</code></pre>
 <h2 id="do-not-turn-a-rejection-into-unexplained-undefined">Do not turn a rejection into unexplained undefined</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ Logs the error and returns undefined, leaving the caller uninformed
+<pre class="jp-code" data-lang="javascript"><code>// Logs the error and returns undefined
 async function getUser(id) {
   try {
     return await api.get(`/users/${id}`);
@@ -289,7 +284,7 @@ async function getUser(id) {
   }
 }</code></pre>
 <p>The caller receives <code>undefined</code> and may fail later with an unrelated <code>TypeError</code>. Catch an error where you can recover, translate it for an API boundary or add useful context. Otherwise, allow the rejection to propagate to code that can handle it.</p>
-<pre class="jp-code" data-lang="javascript"><code>// ✓ Add context, keep the original cause attached
+<pre class="jp-code" data-lang="javascript"><code>// Adds context while retaining the original cause
 async function getUser(id) {
   try {
     return await api.get(`/users/${id}`);
@@ -304,12 +299,12 @@ async function getUser(id) {
       </aside>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="fetch-resolves-for-http-error-statuses">Fetch resolves for HTTP error statuses</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ fetch does NOT reject on 404 or 500
+<pre class="jp-code" data-lang="javascript"><code>// fetch does not reject for 404 or 500 responses
 const response = await fetch(&#39;/api/users&#39;);
-const data = await response.json();   // throws a confusing JSON parse error</code></pre>
+    const data = await response.json();   // JSON parsing can hide the HTTP error</code></pre>
 <p><code>fetch</code> rejects for network-level failures, not for an HTTP 404 or 500 response. Check <code>response.ok</code> before parsing a body that assumes success:</p>
 <pre class="jp-code" data-lang="javascript"><code>const response = await fetch(&#39;/api/users&#39;);
 
@@ -320,33 +315,33 @@ if (!response.ok) {
 const data = await response.json();</code></pre>
 <p>The familiar &quot;Unexpected token &lt; in JSON at position 0&quot; message often means the server returned an HTML error page and <code>json()</code> attempted to parse it as JSON.</p>
 <h2 id="starting-work-before-you-await-it">Starting work before you await it</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential: 300ms total
+<pre class="jp-code" data-lang="javascript"><code>// Sequential: 300ms total
 const user  = await fetchUser(id);
 const posts = await fetchPosts(id);
 
-// ✓ Concurrent: 200ms, and neither depends on the other
+// Concurrent: 200ms, and neither depends on the other
 const userPromise  = fetchUser(id);
 const postsPromise = fetchPosts(id);
 const [user, posts] = [await userPromise, await postsPromise];
 
-// ✓ Equivalent and clearer
+// Equivalent and clearer
 const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);</code></pre>
 <p>The operation that produces a Promise starts when you call it, not when you later await its result. Creating both Promises first allows the operations to overlap. Check adjacent awaits for this opportunity when neither call uses the other’s result.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="unhandled-rejections">Unhandled rejections</h2>
-<pre class="jp-code" data-lang="javascript"><code>// Node: crashes the process by default since v15
+<pre class="jp-code" data-lang="javascript"><code>// Node exits the process by default since v15
 process.on(&#39;unhandledRejection&#39;, (reason) =&gt; {
   logger.fatal({ reason }, &#39;unhandled rejection&#39;);
   process.exit(1);
 });
 
-// Browser
+// Browser handling
 window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
   reportError(event.reason);
-  event.preventDefault();   // stop the console noise once reported
+  event.preventDefault();   // prevents duplicate console reporting
 });</code></pre>
 <p>Common sources include a missing <code>await</code>, an async callback passed to <code>forEach</code>, and an async event handler whose returned Promise is ignored. Catch an event-handler error inside the handler or pass its Promise to code that records failures.</p>
 <section class="jp-faq">
@@ -390,7 +385,7 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -402,7 +397,7 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -446,7 +441,7 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

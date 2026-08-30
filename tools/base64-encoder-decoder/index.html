@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>Base64 Encoder and Decoder for UTF-8 and Base64url</title>
     <meta name="description" content="Encode UTF-8 text as Base64 or Base64url, or decode it locally in your browser. Emoji and accented characters are supported." />
     <link rel="canonical" href="https://junepoint.com/tools/base64-encoder-decoder/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="Base64 Encoder and Decoder for UTF-8 and Base64url" />
     <meta name="twitter:description" content="Encode UTF-8 text as Base64 or Base64url, or decode it locally in your browser. Emoji and accented characters are supported." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -199,9 +197,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -225,7 +220,7 @@
 
     <div class="jp-ad jp-ad--toolTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="4320423881" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
     
@@ -261,7 +256,7 @@
 </div>
     <div class="jp-ad jp-ad--toolResult">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6359886563" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
 
@@ -280,11 +275,11 @@
 <h2 id="why-unicode-needs-an-extra-step">Why Unicode needs an extra step</h2>
 <p>The browser’s <code>btoa()</code> function accepts only Latin-1 characters. Passing an emoji, a Chinese character or a curly apostrophe directly to it throws an error:</p>
 <pre class="jp-code" data-lang="javascript"><code>btoa(&#39;café ☕&#39;)
-// InvalidCharacterError: The string to be encoded contains
-// characters outside of the Latin1 range.</code></pre>
+    // InvalidCharacterError occurs for code points
+    // outside the Latin 1 range.</code></pre>
 <p>Convert the text to UTF-8 bytes before encoding it. To decode, reverse those steps and interpret the bytes as UTF-8. This tool follows that process for emoji and accented text:</p>
 <pre class="jp-code" data-lang="javascript"><code>function toBase64(text) {
-  const bytes = new TextEncoder().encode(text);      // UTF-8 bytes
+  const bytes = new TextEncoder().encode(text);      // Encoded UTF 8 bytes
   let binary = &#39;&#39;;
   for (const b of bytes) binary += String.fromCharCode(b);
   return btoa(binary);
@@ -298,19 +293,19 @@ function fromBase64(b64) {
 <h2 id="common-uses">Common uses</h2>
 <ul><li><strong>HTTP Basic authentication:</strong> the <code>Authorization: Basic </code> header contains <code>username:password</code> encoded as Base64. It provides no protection without HTTPS.</li><li><strong>JWTs:</strong> the header and payload are Base64url-encoded JSON. Use the <a href="/tools/jwt-decoder/">JWT decoder</a> to inspect their claims.</li><li><strong>Data URIs:</strong> <code>data:image/png;base64,…</code> embeds a file in HTML or CSS. It avoids a separate request but adds Base64 overhead and prevents separate caching.</li><li><strong>Email attachments:</strong> MIME represents binary attachment data as Base64 text.</li><li><strong>Kubernetes secrets:</strong> values in a Secret manifest are Base64-encoded for transport, not protected. Anyone who can read the manifest can decode them.</li><li><strong>SSH keys and certificates:</strong> the content between the header and footer of a PEM file is Base64-encoded DER.</li></ul>
 <h2 id="using-base64-from-the-command-line">Using Base64 from the command line</h2>
-<pre class="jp-code" data-lang="bash"><code># Encode a string (the -n stops echo adding a newline to the input)
+<pre class="jp-code" data-lang="bash"><code># Encode text without the newline from echo
 echo -n &#39;hello world&#39; | base64
 
-# Decode
+    # Decode text
 echo &#39;aGVsbG8gd29ybGQ=&#39; | base64 --decode
 
-# macOS uses -D instead of --decode
+    # macOS uses the capital D option
 echo &#39;aGVsbG8gd29ybGQ=&#39; | base64 -D
 
-# Encode a file
+    # Encode a file into another file
 base64 -i logo.png -o logo.txt
 
-# Read a Kubernetes secret value
+    # Decode a Kubernetes secret value
 kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --decode</code></pre>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">The <code>-n</code> matters</p>
@@ -354,7 +349,7 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -366,7 +361,7 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -389,8 +384,8 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
     status.className = 'jp-status' + (kind ? ' jp-status--' + kind : '');
   }
 
-  // btoa() only handles Latin-1, so anything above U+00FF has to become UTF-8
-  // bytes first. Skipping this step is why "btoa(emoji)" throws.
+  // btoa() accepts only Latin 1 code points.
+  // Encode text as UTF 8 bytes before calling it.
   function toBase64(text) {
     var bytes = new TextEncoder().encode(text);
     var binary = '';
@@ -500,7 +495,7 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

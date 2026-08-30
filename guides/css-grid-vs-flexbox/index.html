@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>CSS Grid vs. Flexbox: How to Choose</title>
     <meta name="description" content="A practical way to choose between Grid and Flexbox, with common layout patterns and the details that prevent overflow and alignment bugs." />
     <link rel="canonical" href="https://junepoint.com/guides/css-grid-vs-flexbox/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="CSS Grid vs. Flexbox: How to Choose" />
     <meta name="twitter:description" content="A practical way to choose between Grid and Flexbox, with common layout patterns and the details that prevent overflow and alignment bugs." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -188,9 +186,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -220,7 +215,7 @@
 <p><strong>Choose Grid when both rows and columns matter. Choose Flexbox when one axis does most of the work.</strong></p>
 <div class="jp-ad jp-ad--articleTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="2180968406" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><p>With Grid, you define a structure such as three columns and two rows, then decide where content belongs. With Flexbox, you give a container some items and describe how they should use the available space. The items’ intrinsic sizes remain part of that calculation.</p>
 <p>If you know the shape of the layout before its content arrives, Grid is a good starting point. If you have a row or column of items with variable sizes, Flexbox is often the simpler fit.</p>
@@ -282,7 +277,7 @@
 }
 
 .nav-links {
-  margin-left: auto;   /* absorbs all remaining space */
+  margin-left: auto;   /* uses the remaining space */
 }</code></pre>
 <p>On a flex item, <code>margin-left: auto</code> consumes the free space before that item and pushes it, along with anything after it, to the end. This stays predictable when the navigation contains more than two groups.</p>
 <h3 id="footer-pinned-to-the-bottom-on-short-pages">Footer pinned to the bottom on short pages</h3>
@@ -292,39 +287,38 @@
   flex-direction: column;
 }
 
-main { flex: 1; }   /* takes all leftover height */</code></pre>
+main { flex: 1; }   /* fills the remaining height */</code></pre>
 <h3 id="centring">Centring</h3>
-<pre class="jp-code" data-lang="css"><code>/* Either works. Grid is one line shorter. */
+<pre class="jp-code" data-lang="css"><code>/* Both approaches center the content. */
 .centre { display: grid; place-items: center; }
 .centre { display: flex; align-items: center; justify-content: center; }</code></pre>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="common-trouble-spots">Common trouble spots</h2>
 <h3 id="using-margins-instead-of-gap">Using margins instead of <code>gap</code></h3>
-<pre class="jp-code" data-lang="css"><code>/* ✗ Needs a hack to remove the trailing margin */
+<pre class="jp-code" data-lang="css"><code>/* Requires a trailing margin override. */
 .item { margin-right: 1rem; }
 .item:last-child { margin-right: 0; }
 
-/* ✓ */
 .container { display: flex; gap: 1rem; }</code></pre>
 <p>Flexbox <code>gap</code> has had broad browser support since 2021. It applies only between items, which avoids trailing space and removes the need for a <code>:last-child</code> override.</p>
 <h3 id="not-understanding-flex-1">Not understanding <code>flex: 1</code></h3>
-<pre class="jp-code" data-lang="css"><code>flex: 1;        /* = flex: 1 1 0%: equal widths regardless of content */
-flex: auto;     /* = flex: 1 1 auto: sized by content, then grows */
-flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
+<pre class="jp-code" data-lang="css"><code>flex: 1;        /* equal widths with a zero basis */
+flex: auto;     /* starts at the natural width, then grows */
+flex: none;     /* prevents growing and shrinking */</code></pre>
 <p>The important difference between <code>flex: 1</code> and <code>flex: auto</code> is the basis. A basis of <code>0%</code> ignores the content’s width before distributing space, while <code>auto</code> starts from the natural width. Use <code>flex: 1</code> when equal shares matter more than intrinsic size.</p>
 <h3 id="flex-items-overflowing-their-container">Flex items overflowing their container</h3>
 <p>A flex item defaults to <code>min-width: auto</code>, so it will not shrink below the width its content requires. A long unbroken string or wide table can then push the whole container wider.</p>
 <pre class="jp-code" data-lang="css"><code>.flex-child {
-  min-width: 0;        /* allow shrinking below content size */
-  overflow-x: auto;    /* let the content scroll instead */
+  min-width: 0;        /* permits shrinking below the content width */
+  overflow-x: auto;    /* scrolls content that still overflows */
 }</code></pre>
 <p>For unexplained horizontal scrolling, inspect <code>min-width</code> on flex children and the minimum value of Grid tracks before changing the outer container.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="keep-visual-and-document-order-together">Keep visual and document order together</h2>
 <p>Flexbox <code>order</code> and explicit Grid placement change only the <strong>visual</strong> order. Screen readers still announce the DOM order, and keyboard focus follows it as well.</p>
@@ -343,7 +337,7 @@ flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
 .card {
   display: grid;
   grid-row: span 3;
-  grid-template-rows: subgrid;   /* title, body and footer align across all cards */
+  grid-template-rows: subgrid;   /* aligns each card section across the row */
 }</code></pre>
 <p>Current versions of the major browsers have supported Subgrid since late 2023. For older browser versions, use a fixed <code>min-height</code> on the title or make each card a flex column and apply <code>margin-top: auto</code> to its footer.</p>
 <section class="jp-faq">
@@ -387,7 +381,7 @@ flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -399,7 +393,7 @@ flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -443,7 +437,7 @@ flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>

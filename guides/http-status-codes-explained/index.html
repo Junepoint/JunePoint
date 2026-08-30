@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Jackson Abeyta" />
-    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" />
     <title>HTTP Status Codes: A Practical API Reference</title>
     <meta name="description" content="A working reference for common HTTP status codes, including authentication, validation, redirects, retries and gateway failures." />
     <link rel="canonical" href="https://junepoint.com/guides/http-status-codes-explained/" />
@@ -24,14 +23,13 @@
     <meta name="twitter:title" content="HTTP Status Codes: A Practical API Reference" />
     <meta name="twitter:description" content="A working reference for common HTTP status codes, including authentication, validation, redirects, retries and gateway failures." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=2" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=2" />
     <link rel="icon" href="/imgs/junepoint.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <meta name="google-adsense-account" content="ca-pub-6080878404566929" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6080878404566929" crossorigin="anonymous"></script>
-    <script>(function(){try{var t=localStorage.getItem('jp-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@graph": [
@@ -188,9 +186,6 @@
     <nav class="jp-nav" aria-label="Sections"><a href="/tools/">Tools</a><a href="/guides/" aria-current="page">Guides</a><a href="/reviews/">Software</a></nav>
     <div class="jp-header-actions">
       <a class="jp-header-portfolio" href="/">Studio&nbsp;&rsaquo;</a>
-      <button class="jp-theme" type="button" data-theme-toggle aria-label="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.7-6.7-1.4 1.4M7.7 16.3l-1.4 1.4m12 0-1.4-1.4M7.7 7.7 6.3 6.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
     </div>
     <button class="jp-menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="jp-mobile-nav" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -217,7 +212,7 @@
 <p>The 4xx and 5xx boundary matters to monitoring and retry behavior. A validation failure belongs in 4xx because the caller can change the request. A 5xx response tells operators and clients that the server failed, so using it for invalid input creates false incident signals.</p>
 <div class="jp-ad jp-ad--articleTop">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="2180968406" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="the-common-application-codes">The common application codes</h2>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Name</th><th scope="col">When</th></tr></thead><tbody><tr><th scope="row"><code>200</code></th><td>OK</td><td>Successful GET, PUT or PATCH with a body</td></tr><tr><th scope="row"><code>201</code></th><td>Created</td><td>POST created a resource; include a <code>Location</code> header</td></tr><tr><th scope="row"><code>204</code></th><td>No Content</td><td>Success with nothing to return, such as DELETE or a PUT you do not echo</td></tr><tr><th scope="row"><code>301</code></th><td>Moved Permanently</td><td>The URL has changed for good</td></tr><tr><th scope="row"><code>302</code></th><td>Found</td><td>Temporary redirect; compare its method behavior with 307</td></tr><tr><th scope="row"><code>304</code></th><td>Not Modified</td><td>The cached copy is still good</td></tr><tr><th scope="row"><code>400</code></th><td>Bad Request</td><td>Malformed request the server cannot parse</td></tr><tr><th scope="row"><code>401</code></th><td>Unauthorized</td><td>Valid authentication is missing</td></tr><tr><th scope="row"><code>403</code></th><td>Forbidden</td><td>Authenticated, but not allowed</td></tr><tr><th scope="row"><code>404</code></th><td>Not Found</td><td>No such resource</td></tr><tr><th scope="row"><code>409</code></th><td>Conflict</td><td>State conflict, such as a duplicate or concurrent edit</td></tr><tr><th scope="row"><code>422</code></th><td>Unprocessable Content</td><td>Well-formed but semantically invalid</td></tr><tr><th scope="row"><code>429</code></th><td>Too Many Requests</td><td>Rate limited; include <code>Retry-After</code></td></tr><tr><th scope="row"><code>500</code></th><td>Internal Server Error</td><td>You have a bug</td></tr><tr><th scope="row"><code>503</code></th><td>Service Unavailable</td><td>Temporarily down or overloaded</td></tr></tbody></table></div>
@@ -243,7 +238,7 @@
 <p>This follows RFC 9457, Problem Details for HTTP APIs. Adopting that structure gives clients one documented error format instead of a different shape for each endpoint.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="redirects-301-302-307-308">Redirects: 301, 302, 307, 308</h2>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Duration</th><th scope="col">Method preserved?</th></tr></thead><tbody><tr><th scope="row"><code>301</code></th><td>Permanent</td><td>No; POST usually becomes GET</td></tr><tr><th scope="row"><code>302</code></th><td>Temporary</td><td>No; POST usually becomes GET</td></tr><tr><th scope="row"><code>307</code></th><td>Temporary</td><td><strong>Yes</strong></td></tr><tr><th scope="row"><code>308</code></th><td>Permanent</td><td><strong>Yes</strong></td></tr></tbody></table></div>
@@ -271,7 +266,7 @@ X-RateLimit-Reset: 1767229200</code></pre>
 <p>When <code>GET /users?role=admin</code> finds no matches, return <strong>200 with an empty array</strong>. The collection exists and the filter produced no members. A 404 suggests that the resource or route itself does not exist.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="which-errors-are-safe-to-retry">Which errors are safe to retry</h2>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Retry?</th><th scope="col">Strategy</th></tr></thead><tbody><tr><th scope="row"><code>408</code>, <code>429</code></th><td>Yes</td><td>Honour <code>Retry-After</code></td></tr><tr><th scope="row"><code>500</code>, <code>502</code>, <code>503</code>, <code>504</code></th><td>Yes</td><td>Exponential backoff with jitter</td></tr><tr><th scope="row"><code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>422</code></th><td>No</td><td>Retrying cannot change the outcome</td></tr><tr><th scope="row"><code>409</code></th><td>Sometimes</td><td>Only after re-reading the current state</td></tr></tbody></table></div>
@@ -284,7 +279,7 @@ X-RateLimit-Reset: 1767229200</code></pre>
       const retryable = [408, 429, 500, 502, 503, 504].includes(error.status);
       if (!retryable || i === attempts - 1) throw error;
 
-      const base = 2 ** i * 250;                  // 250, 500, 1000 ms
+      const base = 2 ** i * 250;                  // Retry delays are 250, 500, 1000 ms
       await new Promise(r =&gt; setTimeout(r, base + Math.random() * base));
     }
   }
@@ -294,7 +289,7 @@ X-RateLimit-Reset: 1767229200</code></pre>
 <p>Use the gateway’s observation to choose the first check. For 502, verify that the process is healthy and returning valid HTTP. For 504, trace where the upstream request spent its time.</p>
 <div class="jp-ad jp-ad--inContent">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="fluid" data-ad-layout="in-article"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="5737070032" data-ad-format="fluid" data-ad-layout="in-article"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div><h2 id="two-worth-knowing-that-you-rarely-see">Two worth knowing that you rarely see</h2>
 <ul><li><strong><code>202 Accepted</code>:</strong> the server accepted the request but has not finished processing it. For asynchronous work, return 202 with a status URL the client can poll instead of holding the original connection open.</li><li><strong><code>412 Precondition Failed</code>:</strong> use <code>If-Match</code> with <code>ETag</code> for optimistic concurrency control. The client sends the version it read; if that resource has since changed, the server rejects the update instead of overwriting newer work.</li></ul>
@@ -339,7 +334,7 @@ X-RateLimit-Reset: 1767229200</code></pre>
     </article>
     <div class="jp-ad jp-ad--footer">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="8611022687" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   </main>
@@ -351,7 +346,7 @@ X-RateLimit-Reset: 1767229200</code></pre>
   
   <div class="jp-ad jp-ad--sidebar jp-ad--sticky">
   <span class="jp-ad-label">Advertisement</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6080878404566929" data-ad-slot="6176431039" data-ad-format="auto" data-full-width-responsive="true"></ins>
   <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 </div>
   <div class="jp-panel">
@@ -395,7 +390,7 @@ X-RateLimit-Reset: 1767229200</code></pre>
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=1" defer></script>
+    <script src="/assets/jp/site.js?v=2" defer></script>
     
   </body>
 </html>
