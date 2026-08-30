@@ -163,10 +163,16 @@ function main() {
     if (doc.robots !== 'noindex') record(doc.path, doc.updated, doc.priority || '0.4', 'yearly');
   });
 
-  // Only the portfolio home page belongs in the sitemap. Its React routes render
-  // through the fallback document, but GitHub Pages still returns HTTP 404 for
-  // direct requests. Omitting those routes avoids submitting known error responses.
   record('/', today, '1.0', 'monthly');
+
+  // The portfolio sub-routes are prerendered into real 200 pages by
+  // content/prerender-routes.js after the React build, so they are now
+  // indexable and belong in the sitemap. They were previously excluded because
+  // GitHub Pages answered 404 for them and submitting a known-dead URL is worse
+  // than omitting it.
+  require('./data/portfolio-routes').routes.forEach((route) =>
+    record(route.path, today, '0.7', 'monthly')
+  );
 
   written.push(write('sitemap.xml', sitemap(sitemapEntries)));
   written.push(write('robots.txt', robots()));
