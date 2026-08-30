@@ -16,12 +16,11 @@ module.exports = {
     html: `
 <div class="jp-tool">
   <div class="jp-toolbar">
-    <button class="jp-btn" type="button" id="b64-encode">Encode as Base64 &darr;</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="b64-decode">&uarr; Decode to text</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="b64-swap">Swap</button>
+    <button class="jp-btn" type="button" id="b64-encode">Encode text</button>
+    <button class="jp-btn jp-btn--ghost" type="button" id="b64-decode">Decode Base64</button>
     <button class="jp-btn jp-btn--ghost" type="button" id="b64-clear">Clear</button>
-    <label class="jp-checkline"><input type="checkbox" id="b64-urlsafe" /> Use Base64url</label>
-    <label class="jp-checkline"><input type="checkbox" id="b64-wrap" /> Wrap lines at 76 characters</label>
+    <label class="jp-checkline"><input type="checkbox" id="b64-urlsafe" /> Encode as Base64url</label>
+    <label class="jp-checkline"><input type="checkbox" id="b64-wrap" /> Wrap Base64 at 76 characters</label>
   </div>
 
   <div class="jp-field">
@@ -89,7 +88,7 @@ module.exports = {
 
   function encode() {
     var text = plain.value;
-    if (!text) { encoded.value = ''; setStatus(''); stats.innerHTML = ''; return; }
+    if (!text) { setStatus('Enter text to encode.', 'err'); stats.innerHTML = ''; plain.focus(); return; }
     try {
       var out = toBase64(text);
       if (urlsafe.checked) out = out.replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');
@@ -104,7 +103,7 @@ module.exports = {
 
   function decode() {
     var raw = encoded.value.replace(/\\s+/g, '');
-    if (!raw) { plain.value = ''; setStatus(''); stats.innerHTML = ''; return; }
+    if (!raw) { setStatus('Enter Base64 to decode.', 'err'); stats.innerHTML = ''; encoded.focus(); return; }
     var normalised = raw.replace(/-/g, '+').replace(/_/g, '/');
     while (normalised.length % 4) normalised += '=';
     try {
@@ -127,13 +126,16 @@ module.exports = {
   document.getElementById('b64-clear').addEventListener('click', function () {
     plain.value = ''; encoded.value = ''; setStatus(''); stats.innerHTML = ''; plain.focus();
   });
-  document.getElementById('b64-swap').addEventListener('click', function () {
-    var a = plain.value; plain.value = encoded.value; encoded.value = a;
-  });
-  plain.addEventListener('input', encode);
-  encoded.addEventListener('input', function () { if (document.activeElement === encoded) decode(); });
-  urlsafe.addEventListener('change', encode);
-  wrap.addEventListener('change', encode);
+
+  function clearResult() {
+    setStatus('');
+    stats.innerHTML = '';
+  }
+
+  plain.addEventListener('input', clearResult);
+  encoded.addEventListener('input', clearResult);
+  urlsafe.addEventListener('change', clearResult);
+  wrap.addEventListener('change', clearResult);
 })();`,
   },
 
