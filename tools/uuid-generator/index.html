@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>UUID Generator — v4 and v7, Bulk, Cryptographic</title>
-    <meta name="description" content="Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved." />
+    <title>UUID v4 and v7 Generator with Bulk Output</title>
+    <meta name="description" content="Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats." />
     <link rel="canonical" href="https://junepoint.com/tools/uuid-generator/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="UUID Generator — v4 and v7, Bulk, Cryptographic" />
-    <meta property="og:description" content="Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved." />
+    <meta property="og:title" content="UUID v4 and v7 Generator with Bulk Output" />
+    <meta property="og:description" content="Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats." />
     <meta property="og:url" content="https://junepoint.com/tools/uuid-generator/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-17" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="UUID Generator — v4 and v7, Bulk, Cryptographic" />
-    <meta name="twitter:description" content="Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved." />
+    <meta name="twitter:title" content="UUID v4 and v7 Generator with Bulk Output" />
+    <meta name="twitter:description" content="Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -64,7 +65,7 @@
       "@id": "https://junepoint.com/about/#jackson-abeyta",
       "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
         "https://linkedin.com/in/jackson-abeyta",
@@ -99,7 +100,7 @@
       "@type": "SoftwareApplication",
       "@id": "https://junepoint.com/tools/uuid-generator/#app",
       "name": "UUID Generator",
-      "description": "Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved.",
+      "description": "Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats.",
       "url": "https://junepoint.com/tools/uuid-generator/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Any (web browser)",
@@ -118,8 +119,8 @@
       "@type": "TechArticle",
       "@id": "https://junepoint.com/tools/uuid-generator/#article",
       "headline": "UUID Generator",
-      "name": "UUID Generator — v4 and v7, Bulk, Cryptographic",
-      "description": "Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved.",
+      "name": "UUID v4 and v7 Generator with Bulk Output",
+      "description": "Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats.",
       "datePublished": "2026-03-18",
       "dateModified": "2026-08-17",
       "inLanguage": "en",
@@ -146,7 +147,7 @@
           "name": "Are these UUIDs generated on your server?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. They are produced in your browser by the Web Crypto API, which draws from the operating system’s cryptographically secure random source. Nothing is transmitted, logged or stored, so no one — including us — has ever seen the values you generate."
+            "text": "No. The browser generates them through the Web Crypto API, which uses a cryptographically secure random source supplied by the platform. This tool does not send or store the generated values."
           }
         },
         {
@@ -154,7 +155,7 @@
           "name": "What is the difference between a UUID and a GUID?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Nothing meaningful. GUID is Microsoft’s name for the same 128-bit identifier. The braced uppercase format in the dropdown above is the conventional Windows presentation of it."
+            "text": "GUID is Microsoft terminology for the same general 128-bit identifier format. Windows APIs often display GUIDs in uppercase inside braces, which is one of the output options above."
           }
         },
         {
@@ -162,7 +163,7 @@
           "name": "Should I use a UUID or an auto-incrementing integer?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Integers are smaller and faster but require a database round trip, reveal how many rows you have, and are painful to merge across shards or offline clients. UUIDs cost more storage but can be generated anywhere with no coordination. UUID v7 narrows the performance gap enough that it is a reasonable default for distributed systems."
+            "text": "Integers use less storage and preserve insertion order, but a central sequence may require coordination and can reveal approximate row counts. UUIDs can be generated independently across services and offline clients at the cost of larger keys. UUID v7 adds time ordering when index locality is important."
           }
         },
         {
@@ -170,7 +171,7 @@
           "name": "Is v7 finalised?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. UUID v7 was standardised in RFC 9562, published in May 2024, which supersedes RFC 4122. Library and database support has been arriving steadily since — PostgreSQL added a native uuidv7() function in version 18."
+            "text": "Yes. RFC 9562 standardized UUID v7 in May 2024 and superseded RFC 4122. PostgreSQL added a native `uuidv7()` function in version 18, while support in other libraries and databases varies by version."
           }
         },
         {
@@ -178,7 +179,7 @@
           "name": "What are the nil and max UUIDs for?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The nil UUID (all zeroes) is the conventional \"no value\" sentinel where null is not available. The max UUID (all ones) was formalised in RFC 9562 and is useful as an upper bound in range queries. Neither is random and neither should ever be used as a real identifier."
+            "text": "The nil UUID contains all zero bits and can serve as a sentinel when `null` is unavailable. RFC 9562 defines the max UUID with all bits set, which can serve as an upper range bound. Neither value is random, so do not assign either as a unique entity ID."
           }
         }
       ]
@@ -217,7 +218,7 @@
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Developer tool</p>
       <h1>UUID Generator</h1>
-      <p class="jp-standfirst">Generate cryptographically random UUID v4 or time-sortable UUID v7, one at a time or a thousand at once. Everything is produced locally by your browser’s crypto API.</p>
+      <p class="jp-standfirst">Choose UUID v4, UUID v7, nil or max values, then generate lowercase, uppercase, compact, braced, URN or SQL output.</p>
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published March 18, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 17, 2026</span></div>
     </header>
 
@@ -228,14 +229,14 @@
     <div class="jp-field">
       <label for="uu-version">Version</label>
       <select class="jp-select" id="uu-version">
-        <option value="4">v4 — random (the default choice)</option>
-        <option value="7">v7 — time-ordered (best for database keys)</option>
+        <option value="4">v4: random</option>
+        <option value="7">v7: time-ordered</option>
         <option value="nil">Nil UUID (all zeroes)</option>
         <option value="max">Max UUID (all ones)</option>
       </select>
     </div>
     <div class="jp-field">
-      <label for="uu-count">How many</label>
+      <label for="uu-count">Number to generate</label>
       <input class="jp-input" type="number" id="uu-count" value="10" min="1" max="1000" step="1" />
     </div>
     <div class="jp-field">
@@ -244,15 +245,15 @@
         <option value="lower">Lowercase with hyphens (canonical)</option>
         <option value="upper">UPPERCASE with hyphens</option>
         <option value="plain">No hyphens</option>
-        <option value="braces">Braced {…} — Microsoft style</option>
-        <option value="urn">URN — urn:uuid:…</option>
+        <option value="braces">Braced {…} format</option>
+        <option value="urn">URN format: urn:uuid:…</option>
         <option value="sql">SQL INSERT values</option>
       </select>
     </div>
   </div>
 
   <div class="jp-toolbar">
-    <button class="jp-btn" type="button" id="uu-generate">Generate</button>
+    <button class="jp-btn" type="button" id="uu-generate">Generate UUIDs</button>
     <button class="jp-btn jp-btn--ghost" type="button" data-copy="uu-output">Copy all</button>
   </div>
 
@@ -265,32 +266,32 @@
     
 
     <article class="jp-article">
-      <h2 id="v4-or-v7-the-decision-in-one-paragraph">v4 or v7? The decision in one paragraph</h2>
-<p>If the UUID is a <strong>primary key in a database</strong>, use v7. If it is anything else — a correlation ID, an idempotency key, a filename, a request trace — use v4. That single rule covers almost every real case, and the reason comes down to what random keys do to a B-tree index.</p>
-<h2 id="why-random-uuids-hurt-database-performance">Why random UUIDs hurt database performance</h2>
-<p>A v4 UUID is 122 bits of randomness. Consecutive inserts land at unrelated points in the index, so the database is writing to pages scattered all over the disk instead of appending to the end. Three things get worse at once:</p>
-<ul><li><strong>Page splits.</strong> Inserting into the middle of a full index page splits it, which is expensive and leaves both halves partly empty.</li><li><strong>Index bloat.</strong> Those half-empty pages mean the index consumes far more space than the data justifies — and a bigger index is a slower index.</li><li><strong>Cache misses.</strong> Random writes touch pages that are not in memory. On a large table with a hot insert path, this is the difference between a buffer-pool hit and a disk read.</li></ul>
-<p>The effect is invisible on a table with ten thousand rows and unmissable on one with fifty million. It is also worse on MySQL with InnoDB, where the primary key <em>is</em> the physical row order, than on PostgreSQL, where the heap is separate — but it is real on both.</p>
+      <h2 id="choosing-uuid-v4-or-v7">Choosing UUID v4 or v7</h2>
+<p>Use v4 when you need an opaque random identifier, such as a correlation ID, idempotency key or filename. Consider v7 for a database key when insertion order matters. Its leading timestamp makes new values sort by creation time, but it also reveals when the ID was created.</p>
+<h2 id="how-random-uuids-affect-database-indexes">How random UUIDs affect database indexes</h2>
+<p>A v4 UUID contains 122 random bits. Consecutive values can land at unrelated positions in a B-tree index instead of near its right edge. On write-heavy indexed tables, that pattern can increase:</p>
+<ul><li><strong>Page splits.</strong> An insert into a full interior index page can split the page and leave unused space in both resulting pages.</li><li><strong>Index size.</strong> Lower page occupancy can make the index larger than one built from sequential values.</li><li><strong>Cache misses.</strong> Inserts distributed across the index may touch more pages than inserts concentrated near one edge.</li></ul>
+<p>The effect depends on table size, write rate, cache and database engine. It can matter more in MySQL InnoDB, where the primary key controls clustered row order, than in PostgreSQL, where heap storage is separate from the index.</p>
 <h2 id="what-v7-changes">What v7 changes</h2>
-<p>UUID v7 puts a 48-bit Unix millisecond timestamp in the leading bits and fills the rest with randomness. The result is still a 128-bit UUID that fits every existing UUID column and library, but it sorts by creation time — so inserts append to the right-hand edge of the index exactly like an auto-incrementing integer.</p>
+<p>UUID v7 places a 48-bit Unix millisecond timestamp in the leading bits and uses the remaining fields for version, variant and random or monotonic data. It remains a 128-bit UUID and sorts broadly by creation time, which gives index inserts more locality than v4.</p>
 <pre class="jp-code" data-lang="text"><code>v4:  9f8d1c47-3b2e-4a15-9c6d-8e7f0a1b2c3d   ← nothing sortable
      b1e05c92-7d4a-4f68-a2b1-5c9e3d7f8a0b   ← lands somewhere else entirely
 
 v7:  019512a3-4f80-7c21-9d3e-1a2b3c4d5e6f   ← 019512a3-4f80 is the timestamp
      019512a3-5b1c-7e04-8f2a-6b7c8d9e0f1a   ← next insert sorts after it</code></pre>
-<p>You keep what made UUIDs attractive — generate them on the client, no round trip to the database, no coordination between services, no leaking of row counts — while dropping most of the index penalty. Generate a few v7s above and note that they arrive in ascending order.</p>
+<p>UUID v7 values can still be generated without a database sequence or coordination between services, and they do not expose a simple row count. This generator uses a counter within the same millisecond so values produced in one batch remain ordered.</p>
 <aside class="jp-note jp-note--warn">
-        <p class="jp-note-title">v7 leaks a creation timestamp</p>
-        <p>The time an entity was created is recoverable from its ID, to the millisecond. That is usually harmless and occasionally useful, but if the IDs are public and the timing is sensitive — signup order, medical records, sealed bids — that is a real disclosure. Use v4 there.</p>
+        <p class="jp-note-title">v7 exposes a creation timestamp</p>
+        <p>The leading bits reveal the generation time to millisecond precision. Use v4 when a public identifier must not disclose timing, such as an ID associated with signup order, medical records or sealed bids.</p>
       </aside>
-<h2 id="collision-risk-concretely">Collision risk, concretely</h2>
-<p>The standard reassurance is that UUID v4 collisions are &quot;practically impossible&quot;, which is true but unhelpfully vague. The actual figure: you would need to generate roughly <strong>2.7 quintillion</strong> v4 UUIDs before reaching a 50% chance of a single collision. At a million per second, that is about 85,000 years.</p>
-<p>The caveat that matters far more than the birthday maths: this holds <strong>only with a cryptographically secure random source.</strong> A <code>Math.random()</code>-based generator has vastly less entropy and produces predictable, occasionally colliding values. This tool uses <code>crypto.randomUUID()</code> where available and <code>crypto.getRandomValues()</code> otherwise — never <code>Math.random()</code>.</p>
+<h2 id="uuid-v4-collision-probability">UUID v4 collision probability</h2>
+<p>A v4 UUID has 122 random bits after its version and variant bits are fixed. The birthday bound reaches a 50% chance of at least one collision after roughly <strong>2.7 quintillion</strong> generated values. At one million values per second, reaching that count would take about 85,000 years.</p>
+<p>That probability assumes a <strong>cryptographically secure random source</strong>. <code>Math.random()</code> is not suitable because its entropy and predictability depend on the implementation. This tool uses <code>crypto.randomUUID()</code> when available and <code>crypto.getRandomValues()</code> as its fallback.</p>
 <h2 id="storing-uuids-efficiently">Storing UUIDs efficiently</h2>
-<p>A UUID is 16 bytes. Its canonical text form is 36 characters. Storing it as <code>VARCHAR(36)</code> therefore more than doubles the storage and slows every comparison, and this is one of the most common schema mistakes in the wild.</p>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Database</th><th scope="col">Use this</th><th scope="col">Not this</th></tr></thead><tbody><tr><th scope="row">PostgreSQL</th><td><code>uuid</code> (native, 16 bytes)</td><td><code>varchar(36)</code> / <code>text</code></td></tr><tr><th scope="row">MySQL 8+</th><td><code>BINARY(16)</code> with <code>UUID_TO_BIN(uuid, 1)</code></td><td><code>CHAR(36)</code></td></tr><tr><th scope="row">SQL Server</th><td><code>uniqueidentifier</code></td><td><code>nvarchar(36)</code></td></tr><tr><th scope="row">SQLite</th><td><code>BLOB</code>, or <code>TEXT</code> if you value readability</td><td>—</td></tr></tbody></table><p class="jp-table-note">The second argument to MySQL’s UUID_TO_BIN swaps the time fields to improve index locality for v1 UUIDs.</p></div>
+<p>A UUID contains 16 bytes, while its canonical text form uses 36 characters. A native UUID type or 16-byte binary column uses less index and row storage than <code>VARCHAR(36)</code> and avoids text collation during comparison.</p>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Database</th><th scope="col">Use this</th><th scope="col">Not this</th></tr></thead><tbody><tr><th scope="row">PostgreSQL</th><td><code>uuid</code> (native, 16 bytes)</td><td><code>varchar(36)</code> / <code>text</code></td></tr><tr><th scope="row">MySQL 8+</th><td><code>BINARY(16)</code> with <code>UUID_TO_BIN(uuid, 1)</code></td><td><code>CHAR(36)</code></td></tr><tr><th scope="row">SQL Server</th><td><code>uniqueidentifier</code></td><td><code>nvarchar(36)</code></td></tr><tr><th scope="row">SQLite</th><td><code>BLOB</code>, or <code>TEXT</code> when readability is preferred</td><td>Not applicable</td></tr></tbody></table><p class="jp-table-note">The second argument to MySQL’s UUID_TO_BIN swaps time fields to improve index locality for version 1 UUIDs.</p></div>
 <h2 id="generating-uuids-in-your-own-code">Generating UUIDs in your own code</h2>
-<pre class="jp-code" data-lang="javascript"><code>// JavaScript — built in since 2021, no dependency needed.
+<pre class="jp-code" data-lang="javascript"><code>// JavaScript; built in since 2021, no dependency needed.
 // Requires a secure context (HTTPS or localhost).
 const id = crypto.randomUUID();
 
@@ -303,32 +304,32 @@ SELECT gen_random_uuid();
 -- PostgreSQL 18+ adds native v7
 SELECT uuidv7();
 
--- MySQL 8+ (v1, not v4 — note the difference)
+-- MySQL 8+ (v1, not v4; note the difference)
 SELECT UUID();</code></pre>
 <pre class="jp-code" data-lang="python"><code>import uuid
 uuid.uuid4()          # random
 str(uuid.uuid4())     # canonical string form</code></pre>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">crypto.randomUUID is undefined on plain HTTP</p>
-        <p>It is restricted to secure contexts. On an insecure origin — a LAN IP during development, for instance — it is simply not there, which produces a confusing <code>crypto.randomUUID is not a function</code>. Use <code>localhost</code> rather than the IP address, or enable HTTPS locally.</p>
+        <p><code>crypto.randomUUID()</code> is available only in secure contexts. An HTTP page opened through a LAN IP may not expose it. Use <code>localhost</code> during local development or serve the page over HTTPS.</p>
       </aside>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>Are these UUIDs generated on your server?</h3></summary>
-              <div class="jp-faq-answer"><p>No. They are produced in your browser by the Web Crypto API, which draws from the operating system’s cryptographically secure random source. Nothing is transmitted, logged or stored, so no one — including us — has ever seen the values you generate.</p></div>
+              <div class="jp-faq-answer"><p>No. The browser generates them through the Web Crypto API, which uses a cryptographically secure random source supplied by the platform. This tool does not send or store the generated values.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What is the difference between a UUID and a GUID?</h3></summary>
-              <div class="jp-faq-answer"><p>Nothing meaningful. GUID is Microsoft’s name for the same 128-bit identifier. The braced uppercase format in the dropdown above is the conventional Windows presentation of it.</p></div>
+              <div class="jp-faq-answer"><p>GUID is Microsoft terminology for the same general 128-bit identifier format. Windows APIs often display GUIDs in uppercase inside braces, which is one of the output options above.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Should I use a UUID or an auto-incrementing integer?</h3></summary>
-              <div class="jp-faq-answer"><p>Integers are smaller and faster but require a database round trip, reveal how many rows you have, and are painful to merge across shards or offline clients. UUIDs cost more storage but can be generated anywhere with no coordination. UUID v7 narrows the performance gap enough that it is a reasonable default for distributed systems.</p></div>
+              <div class="jp-faq-answer"><p>Integers use less storage and preserve insertion order, but a central sequence may require coordination and can reveal approximate row counts. UUIDs can be generated independently across services and offline clients at the cost of larger keys. UUID v7 adds time ordering when index locality is important.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Is v7 finalised?</h3></summary>
-              <div class="jp-faq-answer"><p>Yes. UUID v7 was standardised in RFC 9562, published in May 2024, which supersedes RFC 4122. Library and database support has been arriving steadily since — PostgreSQL added a native uuidv7() function in version 18.</p></div>
+              <div class="jp-faq-answer"><p>Yes. RFC 9562 standardized UUID v7 in May 2024 and superseded RFC 4122. PostgreSQL added a native <code>uuidv7()</code> function in version 18, while support in other libraries and databases varies by version.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What are the nil and max UUIDs for?</h3></summary>
-              <div class="jp-faq-answer"><p>The nil UUID (all zeroes) is the conventional &quot;no value&quot; sentinel where null is not available. The max UUID (all ones) was formalised in RFC 9562 and is useful as an upper bound in range queries. Neither is random and neither should ever be used as a real identifier.</p></div>
+              <div class="jp-faq-answer"><p>The nil UUID contains all zero bits and can serve as a sentinel when <code>null</code> is unavailable. RFC 9562 defines the max UUID with all bits set, which can serve as an upper range bound. Neither value is random, so do not assign either as a unique entity ID.</p></div>
             </details>
       </section>
       <section class="jp-related">
@@ -336,15 +337,15 @@ str(uuid.uuid4())     # canonical string form</code></pre>
   <div class="jp-cards"><a class="jp-card" href="/tools/base64-encoder-decoder/">
         <span class="jp-card-eyebrow"></span>
         <h3>Base64 Encoder and Decoder</h3>
-        <p>Encode and decode Base64 and Base64url in your browser, with correct UTF-8 handling for emoji and accented characters. No uploads, no tracking.</p>
+        <p>Encode UTF-8 text as Base64 or Base64url, or decode it locally in your browser. Emoji and accented characters are supported.</p>
       </a><a class="jp-card" href="/tools/jwt-decoder/">
         <span class="jp-card-eyebrow"></span>
         <h3>JWT Decoder</h3>
-        <p>Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted.</p>
+        <p>Decode a JSON Web Token in your browser to inspect its header, payload, registered claims and expiry time.</p>
       </a><a class="jp-card" href="/guides/postgres-connection-refused/">
         <span class="jp-card-eyebrow"></span>
         <h3>Fixing PostgreSQL connection refused</h3>
-        <p>Six layers, checked in the right order — plus the pg_hba.conf and Docker networking traps.</p>
+        <p>Check the process, listener, access rules, network and Docker address from the server outward.</p>
       </a></div>
 </section>
     </article>
@@ -353,7 +354,7 @@ str(uuid.uuid4())     # canonical string form</code></pre>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#v4-or-v7-the-decision-in-one-paragraph">v4 or v7? The decision in one paragraph</a></li><li><a href="#why-random-uuids-hurt-database-performance">Why random UUIDs hurt database performance</a></li><li><a href="#what-v7-changes">What v7 changes</a></li><li><a href="#collision-risk-concretely">Collision risk, concretely</a></li><li><a href="#storing-uuids-efficiently">Storing UUIDs efficiently</a></li><li><a href="#generating-uuids-in-your-own-code">Generating UUIDs in your own code</a></li></ol>
+  <ol><li><a href="#choosing-uuid-v4-or-v7">Choosing UUID v4 or v7</a></li><li><a href="#how-random-uuids-affect-database-indexes">How random UUIDs affect database indexes</a></li><li><a href="#what-v7-changes">What v7 changes</a></li><li><a href="#uuid-v4-collision-probability">UUID v4 collision probability</a></li><li><a href="#storing-uuids-efficiently">Storing UUIDs efficiently</a></li><li><a href="#generating-uuids-in-your-own-code">Generating UUIDs in your own code</a></li></ol>
 </nav>
   
   
@@ -392,7 +393,7 @@ str(uuid.uuid4())     # canonical string form</code></pre>
   // v7: 48-bit big-endian Unix millisecond timestamp, then version, variant and
   // random. The 12 bits after the version hold a counter (RFC 9562 "method 1")
   // so that UUIDs minted inside the same millisecond still sort in creation
-  // order — without it, a bulk generation comes out shuffled.
+  // order. Without it, a bulk generation comes out shuffled.
   var lastMs = 0;
   var counter = 0;
 
@@ -453,7 +454,7 @@ str(uuid.uuid4())     # canonical string form</code></pre>
     }
 
     output.value = list.join('\n');
-    status.textContent = count + ' UUID' + (count === 1 ? '' : 's') + ' generated locally using crypto.getRandomValues()';
+    status.textContent = 'Generated ' + count + ' UUID' + (count === 1 ? '' : 's') + ' locally in this browser.';
   }
 
   ['uu-version', 'uu-count', 'uu-format'].forEach(function (id) {

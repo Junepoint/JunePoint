@@ -3,23 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <title>Developer Guides &amp; Troubleshooting | JunePoint</title>
-    <meta name="description" content="Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS — with the reasoning, not just the command." />
+    <meta name="description" content="Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS, with the reasoning behind each command." />
     <link rel="canonical" href="https://junepoint.com/guides/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="JunePoint Resources" />
     <meta property="og:title" content="Developer Guides &amp; Troubleshooting | JunePoint" />
-    <meta property="og:description" content="Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS — with the reasoning, not just the command." />
+    <meta property="og:description" content="Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS, with the reasoning behind each command." />
     <meta property="og:url" content="https://junepoint.com/guides/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
     <meta name="twitter:title" content="Developer Guides &amp; Troubleshooting | JunePoint" />
-    <meta name="twitter:description" content="Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS — with the reasoning, not just the command." />
+    <meta name="twitter:description" content="Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS, with the reasoning behind each command." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -78,7 +79,7 @@
       "@type": "CollectionPage",
       "@id": "https://junepoint.com/guides/#page",
       "name": "Developer Guides & Troubleshooting",
-      "description": "Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS — with the reasoning, not just the command.",
+      "description": "Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS, with the reasoning behind each command.",
       "url": "https://junepoint.com/guides/",
       "isPartOf": {
         "@id": "https://junepoint.com/#website"
@@ -135,19 +136,19 @@
         {
           "@type": "ListItem",
           "position": 8,
-          "name": "CSS Grid vs Flexbox",
+          "name": "CSS Grid vs. Flexbox",
           "url": "https://junepoint.com/guides/css-grid-vs-flexbox/"
         },
         {
           "@type": "ListItem",
           "position": 9,
-          "name": "JavaScript async/await, properly explained",
+          "name": "How JavaScript async/await behaves",
           "url": "https://junepoint.com/guides/javascript-async-await-explained/"
         },
         {
           "@type": "ListItem",
           "position": 10,
-          "name": "HTTP status codes, and which to actually use",
+          "name": "HTTP status codes for application developers",
           "url": "https://junepoint.com/guides/http-status-codes-explained/"
         }
       ]
@@ -186,56 +187,56 @@
     <p class="jp-eyebrow">Tier 2 · Developer Guides</p>
     <h1>Developer Guides &amp; Troubleshooting</h1>
     <p class="jp-standfirst">Plain-English fixes for the errors that stop a build, and the concepts behind them.</p>
-    <ul class="jp-pills"><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li><li><a href="/guides/ssh-permission-denied-publickey/">Fixing SSH permission denied (publickey)</a></li><li><a href="/guides/css-grid-vs-flexbox/">CSS Grid vs Flexbox</a></li></ul>
+    <ul class="jp-pills"><li><a href="/guides/git-undo-commit/">How to undo a Git commit</a></li><li><a href="/guides/fix-cors-errors/">How to fix CORS errors</a></li><li><a href="/guides/react-usestate-not-updating/">Why your React useState is not updating</a></li><li><a href="/guides/npm-eresolve-error/">Fixing npm ERESOLVE dependency conflicts</a></li><li><a href="/guides/docker-container-exits-immediately/">Why your Docker container exits immediately</a></li><li><a href="/guides/postgres-connection-refused/">Fixing PostgreSQL connection refused</a></li><li><a href="/guides/ssh-permission-denied-publickey/">Fixing SSH permission denied (publickey)</a></li><li><a href="/guides/css-grid-vs-flexbox/">CSS Grid vs. Flexbox</a></li></ul>
   </div>
 </header>
 <main id="main" class="jp-wrap">
   <div class="jp-article" style="max-width:none">
-    <p class="jp-lede">Troubleshooting guides and technical explainers written the way we would want to read them at 2am: the fix first, then the reason it works, then the version that stops it happening again.</p><p>Every command has been run, every error message is the real one you will see in your terminal, and where a popular answer on the internet is wrong or dangerous we say so and explain why.</p>
+    <p class="jp-lede">The troubleshooting guides lead with the fix, then explain why it works and how to prevent the problem from returning.</p><p>Commands are checked before publication, and quoted errors match the terminal output. The guides also identify common fixes that are unsafe or do not address the cause.</p>
   </div>
   
   <div class="jp-section-head"><h2>Most used</h2></div><div class="jp-cards"><a class="jp-card" href="/guides/git-undo-commit/">
           <span class="jp-card-eyebrow">Troubleshooting</span>
           <h3>How to undo a Git commit</h3>
-          <p>reset, revert, rebase and reflog — which one to use, and how to recover when you pick wrong.</p>
+          <p>Choose reset, revert, amend or rebase, and use the reflog when a history rewrite goes wrong.</p>
         </a><a class="jp-card" href="/guides/fix-cors-errors/">
           <span class="jp-card-eyebrow">Troubleshooting</span>
           <h3>How to fix CORS errors</h3>
-          <p>Read the exact error, find the real cause, fix it on the server. Includes the wildcard-plus-credentials trap.</p>
+          <p>Match the browser error to a missing header, failed preflight, origin mismatch or credential conflict.</p>
         </a><a class="jp-card" href="/guides/css-grid-vs-flexbox/">
           <span class="jp-card-eyebrow">CSS</span>
-          <h3>CSS Grid vs Flexbox</h3>
-          <p>The one-dimensional / two-dimensional rule, plus copy-paste patterns for holy grail, card grids and sidebars.</p>
+          <h3>CSS Grid vs. Flexbox</h3>
+          <p>A practical Grid-or-Flexbox decision rule, with patterns for card grids, sidebars and component layouts.</p>
         </a></div>
   <div class="jp-section-head"><h2>Everything else</h2></div>
   <ul class="jp-list"><li><a href="/guides/react-usestate-not-updating/">
           <span class="jp-list-meta">React · Updated August 15, 2026</span>
           <h3>Why your React useState is not updating</h3>
-          <p>Stale closures, mutation, batching and the setInterval trap — why state logs the old value.</p>
+          <p>Check captured values, state mutation, batching and effect dependencies when a state update seems to disappear.</p>
         </a></li><li><a href="/guides/npm-eresolve-error/">
           <span class="jp-list-meta">Troubleshooting · Updated August 14, 2026</span>
           <h3>Fixing npm ERESOLVE dependency conflicts</h3>
-          <p>Read the conflict report properly, then pick between overrides, --legacy-peer-deps and an actual upgrade.</p>
+          <p>Find the incompatible peer range, then choose an upgrade, targeted override or documented temporary policy.</p>
         </a></li><li><a href="/guides/docker-container-exits-immediately/">
           <span class="jp-list-meta">Troubleshooting · Updated August 13, 2026</span>
           <h3>Why your Docker container exits immediately</h3>
-          <p>Exit codes decoded, plus how to get a shell inside an image that will not stay running.</p>
+          <p>Use logs and exit codes to find why a container stopped, then inspect the image without keeping a failed service artificially alive.</p>
         </a></li><li><a href="/guides/postgres-connection-refused/">
           <span class="jp-list-meta">Troubleshooting · Updated August 12, 2026</span>
           <h3>Fixing PostgreSQL connection refused</h3>
-          <p>Six layers, checked in the right order — plus the pg_hba.conf and Docker networking traps.</p>
+          <p>Check the process, listener, access rules, network and Docker address from the server outward.</p>
         </a></li><li><a href="/guides/ssh-permission-denied-publickey/">
           <span class="jp-list-meta">Troubleshooting · Updated August 11, 2026</span>
           <h3>Fixing SSH permission denied (publickey)</h3>
-          <p>Read ssh -vvv properly, then fix the cause: wrong key, wrong user, bad permissions or an empty agent.</p>
+          <p>Read the ssh -vvv trace to find a missing key, rejected identity, wrong user, permission problem or legacy algorithm.</p>
         </a></li><li><a href="/guides/javascript-async-await-explained/">
           <span class="jp-list-meta">JavaScript · Updated August 9, 2026</span>
-          <h3>JavaScript async/await, properly explained</h3>
-          <p>Sequential awaits, forEach silently ignoring async, and error handling that does not swallow failures.</p>
+          <h3>How JavaScript async/await behaves</h3>
+          <p>Trace Promise start order, choose sequential or concurrent work, and keep asynchronous failures visible.</p>
         </a></li><li><a href="/guides/http-status-codes-explained/">
           <span class="jp-list-meta">Web fundamentals · Updated August 8, 2026</span>
-          <h3>HTTP status codes, and which to actually use</h3>
-          <p>401 vs 403, 301 vs 308, 400 vs 422 — the distinctions that matter, and the codes worth using.</p>
+          <h3>HTTP status codes for application developers</h3>
+          <p>Choose useful status codes for authentication, validation, redirects, retries and upstream failures.</p>
         </a></li></ul>
   
 </main>

@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>PostgreSQL &quot;Connection Refused&quot; — Fix It in Order</title>
-    <meta name="description" content="Work through the six layers between client and Postgres — process, port, listen_addresses, pg_hba.conf, firewall and Docker — in fault-finding order." />
+    <title>PostgreSQL &quot;Connection Refused&quot;: Check Each Layer in Order</title>
+    <meta name="description" content="Trace a PostgreSQL connection failure through the process, listener, listen_addresses, pg_hba.conf, network and client configuration." />
     <link rel="canonical" href="https://junepoint.com/guides/postgres-connection-refused/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="PostgreSQL &quot;Connection Refused&quot; — Fix It in Order" />
-    <meta property="og:description" content="Work through the six layers between client and Postgres — process, port, listen_addresses, pg_hba.conf, firewall and Docker — in fault-finding order." />
+    <meta property="og:title" content="PostgreSQL &quot;Connection Refused&quot;: Check Each Layer in Order" />
+    <meta property="og:description" content="Trace a PostgreSQL connection failure through the process, listener, listen_addresses, pg_hba.conf, network and client configuration." />
     <meta property="og:url" content="https://junepoint.com/guides/postgres-connection-refused/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-12" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="PostgreSQL &quot;Connection Refused&quot; — Fix It in Order" />
-    <meta name="twitter:description" content="Work through the six layers between client and Postgres — process, port, listen_addresses, pg_hba.conf, firewall and Docker — in fault-finding order." />
+    <meta name="twitter:title" content="PostgreSQL &quot;Connection Refused&quot;: Check Each Layer in Order" />
+    <meta name="twitter:description" content="Trace a PostgreSQL connection failure through the process, listener, listen_addresses, pg_hba.conf, network and client configuration." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -64,7 +65,7 @@
       "@id": "https://junepoint.com/about/#jackson-abeyta",
       "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
         "https://linkedin.com/in/jackson-abeyta",
@@ -99,8 +100,8 @@
       "@type": "TechArticle",
       "@id": "https://junepoint.com/guides/postgres-connection-refused/#article",
       "headline": "Fixing PostgreSQL connection refused",
-      "name": "PostgreSQL \"Connection Refused\" — Fix It in Order",
-      "description": "Work through the six layers between client and Postgres — process, port, listen_addresses, pg_hba.conf, firewall and Docker — in fault-finding order.",
+      "name": "PostgreSQL \"Connection Refused\": Check Each Layer in Order",
+      "description": "Trace a PostgreSQL connection failure through the process, listener, listen_addresses, pg_hba.conf, network and client configuration.",
       "datePublished": "2026-03-05",
       "dateModified": "2026-08-12",
       "inLanguage": "en",
@@ -127,7 +128,7 @@
           "name": "What is the difference between connection refused and connection timed out?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Refused means the host was reachable and actively rejected the connection — nothing is listening on that port. Timed out means the packet was silently dropped, which is firewall behaviour. Refused points at the database configuration; timed out points at the network."
+            "text": "Refused means the host returned an active TCP rejection because nothing accepted the connection on that address and port. Timed out means no response arrived, commonly because a firewall or network path dropped the traffic. Start with the listener for a refusal and the network path for a timeout."
           }
         },
         {
@@ -151,7 +152,7 @@
           "name": "What does \"no pg_hba.conf entry for host\" mean?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Good news, in a sense: you reached Postgres. It has no rule permitting your client IP, database and user combination. Add a matching host line and reload the configuration — no restart required."
+            "text": "The connection reached PostgreSQL, but no rule permits that combination of client address, database and role. Add an appropriately scoped host rule and reload the configuration; this change does not require a restart."
           }
         },
         {
@@ -198,15 +199,15 @@
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Troubleshooting</p>
       <h1>Fixing PostgreSQL connection refused</h1>
-      <p class="jp-standfirst">&quot;Connection refused&quot; means nothing was listening. &quot;Connection timed out&quot; means a firewall ate it. Those are different problems, and the distinction saves you an hour.</p>
+      <p class="jp-standfirst">A refused connection and a timed-out connection point to different layers. Identify the exact error first, then test each boundary from the server process outward.</p>
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published March 5, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 12, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
     </header>
     <article class="jp-article">
-      <h2 id="first-read-which-error-you-actually-have">First: read which error you actually have</h2>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Message</th><th scope="col">Meaning</th><th scope="col">Go to</th></tr></thead><tbody><tr><th scope="row"><code>Connection refused</code></th><td>Something answered and said no — nothing is listening on that port</td><td>Layers 1–3</td></tr><tr><th scope="row"><code>Connection timed out</code></th><td>Nothing answered at all — a firewall dropped the packet</td><td>Layer 5</td></tr><tr><th scope="row"><code>no pg_hba.conf entry for host</code></th><td>Postgres is running and reachable, but refuses this client</td><td>Layer 4</td></tr><tr><th scope="row"><code>password authentication failed</code></th><td>You reached Postgres. Credentials are wrong.</td><td>Layer 6</td></tr><tr><th scope="row"><code>could not connect to server: No such file or directory</code></th><td>A Unix-socket attempt — the socket path is wrong</td><td>Layer 2</td></tr><tr><th scope="row"><code>database &quot;x&quot; does not exist</code></th><td>Fully connected. Wrong database name.</td><td>Layer 6</td></tr></tbody></table></div>
+      <h2 id="start-with-the-exact-error">Start with the exact error</h2>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Message</th><th scope="col">Meaning</th><th scope="col">Go to</th></tr></thead><tbody><tr><th scope="row"><code>Connection refused</code></th><td>The host rejected the TCP connection; nothing is listening on that address and port</td><td>Layers 1–3</td></tr><tr><th scope="row"><code>Connection timed out</code></th><td>No TCP response arrived; a firewall or network path may have dropped the packet</td><td>Layer 5</td></tr><tr><th scope="row"><code>no pg_hba.conf entry for host</code></th><td>Postgres is running and reachable, but refuses this client</td><td>Layer 4</td></tr><tr><th scope="row"><code>password authentication failed</code></th><td>You reached Postgres. Credentials are wrong.</td><td>Layer 6</td></tr><tr><th scope="row"><code>could not connect to server: No such file or directory</code></th><td>A Unix-socket attempt used a path where no server socket exists</td><td>Layer 2</td></tr><tr><th scope="row"><code>database &quot;x&quot; does not exist</code></th><td>Fully connected. Wrong database name.</td><td>Layer 6</td></tr></tbody></table></div>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">Refused versus timed out</p>
-        <p><strong>Refused</strong> is an active rejection: the host is reachable, nothing is bound to that port. <strong>Timed out</strong> means the packet vanished — almost always a firewall or security group. Getting this distinction right eliminates half the possible causes before you start.</p>
+        <p><strong>Refused</strong> is an active TCP rejection, which confirms the host was reachable but no process accepted the connection on that address and port. <strong>Timed out</strong> means no response came back, commonly because of a firewall, security group or broken route. Use the distinction to choose between server-listener and network checks.</p>
       </aside>
 <h2 id="layer-1-is-postgres-actually-running">Layer 1: is Postgres actually running?</h2>
 <pre class="jp-code" data-lang="bash"><code># Linux
@@ -220,7 +221,7 @@ brew services start postgresql@16
 # Docker
 docker ps -a | grep postgres
 docker logs &lt;container&gt;</code></pre>
-<p>If the service will not start, the logs say why — usually a port already in use, a permissions problem on the data directory, or an unclean shutdown needing recovery.</p>
+<p>If the service does not start, read its logs before changing connection settings. Common causes include another process using the port, incorrect data-directory permissions and recovery after an unclean shutdown.</p>
 <pre class="jp-code" data-lang="bash"><code>sudo tail -50 /var/log/postgresql/postgresql-16-main.log   # Debian/Ubuntu
 tail -50 /usr/local/var/log/postgresql@16.log              # macOS Homebrew</code></pre>
 <h2 id="layer-2-is-anything-listening-on-5432">Layer 2: is anything listening on 5432?</h2>
@@ -233,9 +234,9 @@ nc -zv localhost 5432</code></pre>
 <p>Look closely at the <strong>address</strong> in the output, not just the port:</p>
 <pre class="jp-code" data-lang="text"><code>127.0.0.1:5432   ← localhost only. Remote clients will be refused.
 0.0.0.0:5432     ← all interfaces. Reachable from outside.</code></pre>
-<p>A second Postgres is a common cause of confusion: Homebrew’s and Postgres.app’s, or a local install and a Docker container, both wanting 5432. The one you are talking to is not the one you think you are configuring. If two versions are installed, they will be on 5432 and 5433.</p>
+<p>Multiple installations can obscure which server you are configuring. Homebrew and Postgres.app, or a local service and a container, may both try to use 5432. Check the process bound to each port; a second installed version may have moved to 5433.</p>
 <h2 id="layer-3-listen-addresses">Layer 3: <code>listen_addresses</code></h2>
-<p>Postgres binds to localhost only by default. To accept remote connections, edit <code>postgresql.conf</code>:</p>
+<p>Postgres normally binds to localhost by default. To accept a remote TCP connection, edit the <code>postgresql.conf</code> used by the running process:</p>
 <pre class="jp-code" data-lang="bash"><code># Find the file the running server is actually using
 psql -U postgres -c &#39;SHOW config_file;&#39;
 
@@ -243,9 +244,9 @@ psql -U postgres -c &#39;SHOW config_file;&#39;
 listen_addresses = &#39;*&#39;          # all interfaces
 # listen_addresses = &#39;localhost,10.0.1.5&#39;   # or be specific
 port = 5432</code></pre>
-<p>This change requires a <strong>restart</strong>, not a reload — it is one of the few settings that does. <code>SHOW config_file</code> is worth knowing: on a machine with several installations, editing the wrong <code>postgresql.conf</code> is an easy hour to lose.</p>
+<p>A <code>listen_addresses</code> change requires a <strong>restart</strong>, not only a reload. Use <code>SHOW config_file</code> to confirm the active file, especially on a machine with several PostgreSQL installations.</p>
 <h2 id="layer-4-pg-hba-conf">Layer 4: <code>pg_hba.conf</code></h2>
-<p>This is client authentication, evaluated <strong>top to bottom, first match wins</strong>. If you see <code>no pg_hba.conf entry for host</code>, you have reached Postgres successfully and it has declined to talk to you.</p>
+<p><code>pg_hba.conf</code> controls client authentication and is evaluated <strong>top to bottom; the first matching rule wins</strong>. An error saying <code>no pg_hba.conf entry for host</code> confirms that the connection reached PostgreSQL but matched no permitted rule.</p>
 <pre class="jp-code" data-lang="text"><code># TYPE  DATABASE  USER  ADDRESS          METHOD
 
 local   all       all                    peer
@@ -253,15 +254,15 @@ host    all       all   127.0.0.1/32     scram-sha-256
 host    all       all   ::1/128          scram-sha-256
 host    all       all   10.0.0.0/8       scram-sha-256    ← add your subnet
 hostssl all       all   0.0.0.0/0        scram-sha-256    ← require TLS for the internet</code></pre>
-<p>Then reload — no restart needed:</p>
+<p>Reload the configuration after editing this file; a full restart is not required:</p>
 <pre class="jp-code" data-lang="bash"><code>sudo systemctl reload postgresql
 # or
 psql -U postgres -c &#39;SELECT pg_reload_conf();&#39;</code></pre>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Never use <code>trust</code> on a network address</p>
-        <p><code>trust</code> means <em>no password at all</em> — anyone who can reach the port is a superuser. It is occasionally defensible for <code>local</code> on a development laptop and never acceptable for a <code>host</code> line. Compromised Postgres instances found by internet scanners are overwhelmingly this line.</p>
+        <p><code>trust</code> accepts the database identity without a password. On a <code>host</code> rule, anyone who can reach the port can claim an allowed role, including a superuser role. Limit any development use to an appropriate local connection; use authenticated methods such as <code>scram-sha-256</code> for network clients.</p>
       </aside>
-<p>The <code>peer</code> method for <code>local</code> connections matches your <strong>operating system</strong> username against the database role. This is why <code>psql mydb</code> works as your own user but <code>psql -U postgres mydb</code> fails on a fresh Ubuntu install — you are not logged in as <code>postgres</code>. Use <code>sudo -u postgres psql</code> instead.</p>
+<p>For <code>local</code> connections, the <code>peer</code> method compares the <strong>operating-system</strong> user with the requested database role. On a fresh Ubuntu installation, <code>psql mydb</code> may work as your own user while <code>psql -U postgres mydb</code> fails because the shell user is not <code>postgres</code>. Use <code>sudo -u postgres psql</code> for that administrative role.</p>
 <h2 id="layer-5-firewalls-security-groups-and-the-network">Layer 5: firewalls, security groups and the network</h2>
 <pre class="jp-code" data-lang="bash"><code># Ubuntu
 sudo ufw allow from 10.0.0.0/8 to any port 5432
@@ -270,16 +271,16 @@ sudo ufw status
 # RHEL / Fedora
 sudo firewall-cmd --permanent --add-port=5432/tcp
 sudo firewall-cmd --reload</code></pre>
-<ul><li><strong>AWS RDS</strong> — the inbound rule on the security group must allow port 5432 from your source. Check &quot;Publicly accessible&quot; too, and note that a public instance still needs the security group.</li><li><strong>Cloud SQL / Azure Database</strong> — add your IP to authorised networks, or connect through the proxy.</li><li><strong>Kubernetes</strong> — a <code>ClusterIP</code> service is unreachable from outside the cluster by design. Port-forward to test: <code>kubectl port-forward svc/postgres 5432:5432</code>.</li></ul>
+<ul><li><strong>AWS RDS:</strong> the security group needs an inbound rule allowing port 5432 from the client source. Also check &quot;Publicly accessible&quot; when connecting over the public internet; that setting does not replace the security-group rule.</li><li><strong>Cloud SQL / Azure Database:</strong> add the client IP to the provider’s authorised network rules or connect through the supported proxy.</li><li><strong>Kubernetes:</strong> a <code>ClusterIP</code> service is reachable only from within the cluster. To test from your machine, run <code>kubectl port-forward svc/postgres 5432:5432</code>.</li></ul>
 <aside class="jp-note jp-note--danger">
         <p class="jp-note-title">Do not open 5432 to the internet</p>
-        <p>Automated scanners find exposed Postgres instances within hours. Put it on a private subnet and reach it through a bastion, a VPN or a managed proxy. If public access is genuinely unavoidable, require TLS with <code>hostssl</code>, use strong <code>scram-sha-256</code> credentials, and restrict by source address.</p>
+        <p>Automated scanners continuously probe public database ports. Prefer a private subnet reached through a bastion, VPN or managed proxy. When public access is unavoidable, restrict source addresses, require TLS with <code>hostssl</code>, and use strong <code>scram-sha-256</code> credentials.</p>
       </aside>
 <h2 id="layer-6-connection-strings-and-credentials">Layer 6: connection strings and credentials</h2>
 <pre class="jp-code" data-lang="text"><code>postgresql://user:password@host:5432/dbname?sslmode=require</code></pre>
-<ul><li><strong>Special characters in the password must be percent-encoded.</strong> An <code>@</code> in a password splits the URL in the wrong place and produces a baffling host-not-found error. <code>@</code> is <code>%40</code>, <code>#</code> is <code>%23</code>, <code>/</code> is <code>%2F</code>.</li><li><strong><code>localhost</code> and <code>127.0.0.1</code> are not always equivalent.</strong> <code>localhost</code> may resolve to IPv6 <code>::1</code>, and if Postgres only listens on IPv4 you get a refusal. Try the literal <code>127.0.0.1</code>.</li><li><strong>Check <code>sslmode</code>.</strong> Managed providers usually require <code>require</code> or <code>verify-full</code>. Some clients default to <code>prefer</code> and fall back silently, others fail outright.</li></ul>
+<ul><li><strong>Percent-encode special characters in the password.</strong> An <code>@</code> can split the URL at the wrong point and produce a misleading host error. <code>@</code> is <code>%40</code>, <code>#</code> is <code>%23</code>, and <code>/</code> is <code>%2F</code>.</li><li><strong><code>localhost</code> and <code>127.0.0.1</code> may resolve differently.</strong> <code>localhost</code> can resolve to IPv6 <code>::1</code>; a server listening only on IPv4 will refuse that connection. Test with the literal <code>127.0.0.1</code>.</li><li><strong>Check <code>sslmode</code>.</strong> Managed providers commonly require <code>require</code> or <code>verify-full</code>. Client defaults vary: some prefer TLS and fall back, while others fail when their expected mode is unavailable.</li></ul>
 <h2 id="the-docker-special-case">The Docker special case</h2>
-<p>Inside a container, <code>localhost</code> is <em>that container</em>, not your machine and not another container. This is the single most common Docker–Postgres error.</p>
+<p>Inside a container, <code>localhost</code> refers to that container’s own network namespace. It does not refer to the host or to another Compose service.</p>
 <pre class="jp-code" data-lang="yaml"><code>services:
   db:
     image: postgres:16
@@ -295,15 +296,15 @@ sudo firewall-cmd --reload</code></pre>
   api:
     build: .
     environment:
-      # &#39;db&#39; — the service name. NOT localhost.
+      # &#39;db&#39; is the service name, not localhost.
       DATABASE_URL: postgresql://postgres:secret@db:5432/app
     depends_on:
       db:
         condition: service_healthy</code></pre>
-<ul><li><strong>Container to container:</strong> use the service name (<code>db</code>), on the container port (5432), regardless of any host port mapping.</li><li><strong>Host to container:</strong> use <code>localhost</code> and the <em>host</em> side of the mapping.</li><li><strong>Container to host machine:</strong> use <code>host.docker.internal</code> on Docker Desktop, or <code>172.17.0.1</code> on Linux.</li><li><strong>Postgres takes a few seconds to become ready.</strong> <code>depends_on</code> without <code>condition: service_healthy</code> starts your app too early, and the first connection is refused.</li></ul>
+<ul><li><strong>Container to container:</strong> use the Compose service name (<code>db</code>) and the container port (5432), regardless of the host port mapping.</li><li><strong>Host to container:</strong> use <code>localhost</code> with the host side of the published port mapping.</li><li><strong>Container to host machine:</strong> use <code>host.docker.internal</code> on Docker Desktop or <code>172.17.0.1</code> on a typical Linux bridge.</li><li><strong>Account for database startup time.</strong> Without <code>condition: service_healthy</code>, <code>depends_on</code> starts the application after the database container starts, not after PostgreSQL is ready for connections.</li></ul>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">Environment variables are ignored on an existing volume</p>
-        <p><code>POSTGRES_PASSWORD</code> and <code>POSTGRES_DB</code> only take effect when the data directory is initialised. Changing them later does nothing, because the database already exists. Remove the volume (<code>docker compose down -v</code>) to reinitialise — destroying the data, so be certain first.</p>
+        <p><code>POSTGRES_PASSWORD</code> and <code>POSTGRES_DB</code> apply only when the image initializes an empty data directory. Changing them later does not alter the existing database. Removing the volume with <code>docker compose down -v</code> forces reinitialization and destroys its data, so confirm that loss is acceptable first.</p>
       </aside>
 <h2 id="a-one-pass-diagnostic">A one-pass diagnostic</h2>
 <pre class="jp-code" data-lang="bash"><code># 1. Is the process alive?
@@ -318,17 +319,17 @@ nc -zv db-host 5432
 # 4. Local connection as the postgres OS user
 sudo -u postgres psql -c &#39;SELECT version();&#39;
 
-# 5. TCP connection with explicit host — bypasses the Unix socket
+# 5. TCP connection with an explicit host; this bypasses the Unix socket
 psql -h 127.0.0.1 -p 5432 -U myuser -d mydb
 
 # 6. What does the server think it is configured with?
 sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#39;</code></pre>
-<p>Whichever step first fails identifies the layer. Step 4 succeeding while step 5 fails points squarely at <code>listen_addresses</code> or <code>pg_hba.conf</code>.</p>
+<p>The first failed step narrows the layer to investigate. For example, step 4 succeeding while step 5 fails shows that the server is running but its TCP listener or <code>pg_hba.conf</code> rules need attention.</p>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>What is the difference between connection refused and connection timed out?</h3></summary>
-              <div class="jp-faq-answer"><p>Refused means the host was reachable and actively rejected the connection — nothing is listening on that port. Timed out means the packet was silently dropped, which is firewall behaviour. Refused points at the database configuration; timed out points at the network.</p></div>
+              <div class="jp-faq-answer"><p>Refused means the host returned an active TCP rejection because nothing accepted the connection on that address and port. Timed out means no response arrived, commonly because a firewall or network path dropped the traffic. Start with the listener for a refusal and the network path for a timeout.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why does psql work locally but my application cannot connect?</h3></summary>
               <div class="jp-faq-answer"><p>psql without -h uses a Unix socket, which bypasses listen_addresses and matches a &quot;local&quot; line in pg_hba.conf. Your application uses TCP, which needs both listen_addresses to include the interface and a matching &quot;host&quot; line. Test with psql -h 127.0.0.1 to reproduce what your app is doing.</p></div>
@@ -337,7 +338,7 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
               <div class="jp-faq-answer"><p>Because inside a container, localhost is the container itself. Use the Compose service name to reach another container, or host.docker.internal to reach a service on your machine.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What does &quot;no pg_hba.conf entry for host&quot; mean?</h3></summary>
-              <div class="jp-faq-answer"><p>Good news, in a sense: you reached Postgres. It has no rule permitting your client IP, database and user combination. Add a matching host line and reload the configuration — no restart required.</p></div>
+              <div class="jp-faq-answer"><p>The connection reached PostgreSQL, but no rule permits that combination of client address, database and role. Add an appropriately scoped host rule and reload the configuration; this change does not require a restart.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Do I need to restart Postgres after changing configuration?</h3></summary>
               <div class="jp-faq-answer"><p>pg_hba.conf changes need only a reload. listen_addresses, port and shared_buffers require a full restart. SHOW pending_restart in psql lists settings you have changed that are waiting for one.</p></div>
@@ -348,15 +349,15 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
   <div class="jp-cards"><a class="jp-card" href="/guides/docker-container-exits-immediately/">
         <span class="jp-card-eyebrow"></span>
         <h3>Why your Docker container exits immediately</h3>
-        <p>Exit codes decoded, plus how to get a shell inside an image that will not stay running.</p>
+        <p>Use logs and exit codes to find why a container stopped, then inspect the image without keeping a failed service artificially alive.</p>
       </a><a class="jp-card" href="/tools/uuid-generator/">
         <span class="jp-card-eyebrow"></span>
         <h3>UUID Generator</h3>
-        <p>Generate UUID v4 and time-ordered UUID v7 in bulk, using your browser’s cryptographic random source. Multiple formats, no server involved.</p>
+        <p>Generate UUID v4 or time-ordered UUID v7 values with the browser Web Crypto API, in batches of up to 1,000 and several output formats.</p>
       </a><a class="jp-card" href="/guides/ssh-permission-denied-publickey/">
         <span class="jp-card-eyebrow"></span>
         <h3>Fixing SSH permission denied (publickey)</h3>
-        <p>Read ssh -vvv properly, then fix the cause: wrong key, wrong user, bad permissions or an empty agent.</p>
+        <p>Read the ssh -vvv trace to find a missing key, rejected identity, wrong user, permission problem or legacy algorithm.</p>
       </a></div>
 </section>
     </article>
@@ -365,7 +366,7 @@ sudo -u postgres psql -c &#39;SHOW listen_addresses; SHOW port; SHOW hba_file;&#
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#first-read-which-error-you-actually-have">First: read which error you actually have</a></li><li><a href="#layer-1-is-postgres-actually-running">Layer 1: is Postgres actually running?</a></li><li><a href="#layer-2-is-anything-listening-on-5432">Layer 2: is anything listening on 5432?</a></li><li><a href="#layer-3-listen-addresses">Layer 3: `listen_addresses`</a></li><li><a href="#layer-4-pg-hba-conf">Layer 4: `pg_hba.conf`</a></li><li><a href="#layer-5-firewalls-security-groups-and-the-network">Layer 5: firewalls, security groups and the network</a></li><li><a href="#layer-6-connection-strings-and-credentials">Layer 6: connection strings and credentials</a></li><li><a href="#the-docker-special-case">The Docker special case</a></li><li><a href="#a-one-pass-diagnostic">A one-pass diagnostic</a></li></ol>
+  <ol><li><a href="#start-with-the-exact-error">Start with the exact error</a></li><li><a href="#layer-1-is-postgres-actually-running">Layer 1: is Postgres actually running?</a></li><li><a href="#layer-2-is-anything-listening-on-5432">Layer 2: is anything listening on 5432?</a></li><li><a href="#layer-3-listen-addresses">Layer 3: `listen_addresses`</a></li><li><a href="#layer-4-pg-hba-conf">Layer 4: `pg_hba.conf`</a></li><li><a href="#layer-5-firewalls-security-groups-and-the-network">Layer 5: firewalls, security groups and the network</a></li><li><a href="#layer-6-connection-strings-and-credentials">Layer 6: connection strings and credentials</a></li><li><a href="#the-docker-special-case">The Docker special case</a></li><li><a href="#a-one-pass-diagnostic">A one-pass diagnostic</a></li></ol>
 </nav>
   
   

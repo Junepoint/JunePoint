@@ -3,15 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>SSH &quot;Permission denied (publickey)&quot; — How to Fix It</title>
+    <title>SSH &quot;Permission denied (publickey)&quot;: How to Diagnose It</title>
     <meta name="description" content="Diagnose SSH key rejection with verbose output: wrong key offered, wrong username, bad file permissions, agent problems and unsupported key formats." />
     <link rel="canonical" href="https://junepoint.com/guides/ssh-permission-denied-publickey/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="SSH &quot;Permission denied (publickey)&quot; — How to Fix It" />
+    <meta property="og:title" content="SSH &quot;Permission denied (publickey)&quot;: How to Diagnose It" />
     <meta property="og:description" content="Diagnose SSH key rejection with verbose output: wrong key offered, wrong username, bad file permissions, agent problems and unsupported key formats." />
     <meta property="og:url" content="https://junepoint.com/guides/ssh-permission-denied-publickey/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
@@ -20,7 +21,7 @@
     <meta property="article:modified_time" content="2026-08-11" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="SSH &quot;Permission denied (publickey)&quot; — How to Fix It" />
+    <meta name="twitter:title" content="SSH &quot;Permission denied (publickey)&quot;: How to Diagnose It" />
     <meta name="twitter:description" content="Diagnose SSH key rejection with verbose output: wrong key offered, wrong username, bad file permissions, agent problems and unsupported key formats." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
@@ -64,7 +65,7 @@
       "@id": "https://junepoint.com/about/#jackson-abeyta",
       "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
         "https://linkedin.com/in/jackson-abeyta",
@@ -99,7 +100,7 @@
       "@type": "TechArticle",
       "@id": "https://junepoint.com/guides/ssh-permission-denied-publickey/#article",
       "headline": "Fixing SSH permission denied (publickey)",
-      "name": "SSH \"Permission denied (publickey)\" — How to Fix It",
+      "name": "SSH \"Permission denied (publickey)\": How to Diagnose It",
       "description": "Diagnose SSH key rejection with verbose output: wrong key offered, wrong username, bad file permissions, agent problems and unsupported key formats.",
       "datePublished": "2026-03-19",
       "dateModified": "2026-08-11",
@@ -127,7 +128,7 @@
           "name": "Why does permission denied (publickey) appear even though my key is correct?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Most often the key is not in the right user’s authorized_keys on the server, or file permissions are too open, or SSH is not offering that key at all. Run ssh -vvv: if you see no \"Offering public key\" lines, the key is never being tried and the problem is client-side configuration."
+            "text": "A valid key can be installed for a different remote user, ignored because of file permissions or absent from the client’s offered identities. Run ssh -vvv. If it shows no \"Offering public key\" line, inspect client-side identity selection before changing the server."
           }
         },
         {
@@ -135,7 +136,7 @@
           "name": "How do I know which key SSH is using?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "ssh -vvv shows every key offered with its fingerprint. Compare against ssh-keygen -lf on the public key and against the fingerprints in the server’s authorized_keys. This turns guesswork into a definitive check."
+            "text": "ssh -vvv prints each offered key and its fingerprint. Compare that value with ssh-keygen -lf on the local public key and with the fingerprints from the server’s authorized_keys file."
           }
         },
         {
@@ -151,7 +152,7 @@
           "name": "What permissions should ~/.ssh have?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "700 for the directory, 600 for private keys and authorized_keys, 644 for public keys. Your home directory must not be group- or world-writable — 755 or stricter. SSH silently ignores files that are too permissive."
+            "text": "Use 700 for the .ssh directory, 600 for private keys and authorized_keys, and 644 for public keys. The home directory must not be group- or world-writable; 755 or stricter is appropriate. Check server logs when sshd ignores an overly permissive path."
           }
         },
         {
@@ -167,7 +168,7 @@
           "name": "Can I use the same key on several machines?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Technically yes, but do not. A private key should never leave the device that generated it. Generate a separate key per machine and add each public key to the server — then losing one laptop means revoking one key rather than rotating everywhere."
+            "text": "The protocol allows it, but separate keys per device give you better revocation boundaries. Keep each private key on the device that generated it and install all required public keys on the server. Losing one device then requires revoking only its key."
           }
         }
       ]
@@ -206,29 +207,29 @@
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Troubleshooting</p>
       <h1>Fixing SSH permission denied (publickey)</h1>
-      <p class="jp-standfirst">The server rejected every key you offered. <code>ssh -vvv</code> tells you which keys were tried and why each failed — and that output makes the fix obvious.</p>
+      <p class="jp-standfirst">The final error says only that public-key authentication failed. Use <code>ssh -vvv</code> to see whether a key was found, offered, accepted or rejected, then investigate that stage.</p>
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published March 19, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 11, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
     </header>
     <article class="jp-article">
       <h2 id="start-with-verbose-output">Start with verbose output</h2>
-<p>Do not guess. <code>-vvv</code> shows every key SSH offered and what the server said about each.</p>
+<p><code>-vvv</code> shows which identities the client considered, which keys it offered and how the server responded. That sequence tells you where authentication stopped.</p>
 <pre class="jp-code" data-lang="bash"><code>ssh -vvv git@github.com
 ssh -vvv -i ~/.ssh/id_ed25519 user@server.example.com</code></pre>
-<p>The lines that matter:</p>
+<p>Look for a sequence like this:</p>
 <pre class="jp-code" data-lang="text"><code>debug1: Offering public key: /home/you/.ssh/id_ed25519 ED25519 SHA256:AbC...
 debug1: Authentications that can continue: publickey        ← rejected, trying next
 debug1: No more authentication methods to try.
 Permission denied (publickey).</code></pre>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">What you see</th><th scope="col">What it means</th></tr></thead><tbody><tr><th scope="row">No <code>Offering public key</code> lines at all</th><td>SSH never found a key to try — see cause 2</td></tr><tr><th scope="row"><code>Offering…</code> then <code>Authentications that can continue</code></th><td>The key was offered and rejected — see cause 1</td></tr><tr><th scope="row"><code>Server accepts key</code> then failure</th><td>Authentication succeeded, authorisation did not — see cause 5</td></tr><tr><th scope="row"><code>Bad permissions</code>, <code>UNPROTECTED PRIVATE KEY FILE</code></th><td>File mode problem — see cause 3</td></tr><tr><th scope="row"><code>send_pubkey_test: no mutual signature algorithm</code></th><td>Old RSA key against a modern server — see cause 6</td></tr></tbody></table></div>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">What you see</th><th scope="col">What it means</th></tr></thead><tbody><tr><th scope="row">No <code>Offering public key</code> lines at all</th><td>The client found no usable key to offer; see cause 2</td></tr><tr><th scope="row"><code>Offering…</code> then <code>Authentications that can continue</code></th><td>The server rejected the offered key; see cause 1</td></tr><tr><th scope="row"><code>Server accepts key</code> then failure</th><td>The key test passed, but a later authentication or authorisation step failed; see cause 5</td></tr><tr><th scope="row"><code>Bad permissions</code>, <code>UNPROTECTED PRIVATE KEY FILE</code></th><td>The client rejected a key because of its file mode; see cause 3</td></tr><tr><th scope="row"><code>send_pubkey_test: no mutual signature algorithm</code></th><td>The client and server do not share an allowed signature algorithm; see cause 6</td></tr></tbody></table></div>
 <h2 id="cause-1-the-server-does-not-have-your-public-key">Cause 1: the server does not have your public key</h2>
-<p>The key was offered and refused, so the corresponding public key is not in <code>~/.ssh/authorized_keys</code> on the server — or it is there with a typo.</p>
+<p>When the trace shows a key being offered and then rejected, compare it with the entries in that account’s <code>~/.ssh/authorized_keys</code>. The matching public key may be absent, malformed or installed for a different user.</p>
 <pre class="jp-code" data-lang="bash"><code># The reliable way to install it (fixes permissions for you)
 ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server
 
 # By hand, if password auth is disabled and you have another route in
 cat ~/.ssh/id_ed25519.pub | ssh user@server \
   &#39;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&#39;</code></pre>
-<p>Verify the fingerprint the client offered matches one the server holds. This turns &quot;is my key installed?&quot; into a definite yes or no:</p>
+<p>Compare fingerprints instead of relying on filenames. This establishes whether the exact key offered by the client appears in the server file:</p>
 <pre class="jp-code" data-lang="bash"><code># Local key fingerprint
 ssh-keygen -lf ~/.ssh/id_ed25519.pub
 
@@ -236,15 +237,15 @@ ssh-keygen -lf ~/.ssh/id_ed25519.pub
 ssh-keygen -lf ~/.ssh/authorized_keys</code></pre>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">One key per line, no wrapping</p>
-        <p>Each entry in <code>authorized_keys</code> must be a single unbroken line. Copying through an editor or a chat client often inserts a line break, which silently invalidates the key. The file will look right and never work.</p>
+        <p>Each <code>authorized_keys</code> entry must remain on one line. An editor or chat client can insert a line break while copying, leaving a visually plausible entry that OpenSSH cannot parse.</p>
       </aside>
 <h2 id="cause-2-no-key-was-offered">Cause 2: no key was offered</h2>
-<p>If there are no <code>Offering public key</code> lines, SSH found nothing to send. Either no key exists, or it has a non-default name SSH does not look for automatically.</p>
+<p>If the trace contains no <code>Offering public key</code> line, the client found no identity it could send. Confirm that a private key exists and that SSH knows its path.</p>
 <pre class="jp-code" data-lang="bash"><code>ls -la ~/.ssh/
 
 # Create one if needed
 ssh-keygen -t ed25519 -C &quot;you@example.com&quot;</code></pre>
-<p>SSH only tries <code>id_rsa</code>, <code>id_ecdsa</code> and <code>id_ed25519</code> by default. A key named <code>work_key</code> is invisible unless you point at it. Configure it once rather than typing <code>-i</code> forever:</p>
+<p>By default, SSH looks for names such as <code>id_rsa</code>, <code>id_ecdsa</code> and <code>id_ed25519</code>. A key named <code>work_key</code> needs an <code>IdentityFile</code> entry or an explicit <code>-i</code> argument. Put recurring host-specific choices in <code>~/.ssh/config</code>:</p>
 <pre class="jp-code" data-lang="text"><code># ~/.ssh/config
 Host github.com
   HostName github.com
@@ -259,10 +260,10 @@ Host prod
   IdentitiesOnly yes</code></pre>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">IdentitiesOnly yes is doing real work</p>
-        <p>Without it, SSH offers every key it knows about, in an arbitrary order. Servers commonly cap authentication attempts at six, so with several keys loaded you can be disconnected before your correct key is ever tried. <code>IdentitiesOnly yes</code> sends only the key you named.</p>
+        <p>Without this setting, the client may also offer identities from its agent. Servers commonly cap authentication attempts at six, so a connection can close before the intended key is tried. <code>IdentitiesOnly yes</code> limits offers to identities selected for that host.</p>
       </aside>
 <h2 id="cause-3-file-permissions">Cause 3: file permissions</h2>
-<p>SSH refuses to use keys that others can read, and <code>sshd</code> ignores an <code>authorized_keys</code> file in a directory others can write to. Both refusals are silent from the other end.</p>
+<p>The client refuses a private key that other users can read. On the server, <code>sshd</code> can ignore <code>authorized_keys</code> when the file or a containing directory is writable by other users. The remote client often receives only the generic authentication error.</p>
 <pre class="jp-code" data-lang="bash"><code># On the client
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/id_ed25519
@@ -276,9 +277,9 @@ chown -R $USER:$USER ~/.ssh
 
 # Your home directory must not be group- or world-writable
 chmod 755 ~</code></pre>
-<p>The home directory permission catches people out. If <code>~</code> is mode 775 or 777, <code>sshd</code> refuses to read <code>authorized_keys</code> and logs nothing useful to the client.</p>
+<p>Remember to inspect the home directory as well as <code>.ssh</code>. If <code>~</code> is mode 775 or 777, <code>sshd</code> may refuse to trust <code>authorized_keys</code>; the useful explanation appears in the server log rather than the client error.</p>
 <h2 id="cause-4-the-wrong-username">Cause 4: the wrong username</h2>
-<p>SSH defaults to your local username. On the server, the key lives in one specific user’s <code>authorized_keys</code>.</p>
+<p>Unless configured otherwise, SSH uses the local username for the remote account. Public keys are installed per account, so a correct key offered for the wrong username is still rejected.</p>
 <pre class="jp-code" data-lang="bash"><code># Git hosts always want their service account, never your name
 ssh -T git@github.com          # ✓
 ssh -T jackson@github.com      # ✗ Permission denied (publickey)
@@ -288,7 +289,7 @@ ssh ubuntu@…      # Ubuntu on AWS
 ssh ec2-user@…    # Amazon Linux
 ssh admin@…       # Debian
 ssh core@…        # Flatcar / CoreOS</code></pre>
-<p>A successful GitHub test prints <code>Hi username! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> That message is the goal — it is not an error.</p>
+<p>A successful GitHub test prints <code>Hi username! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> The lack of shell access is expected; the message confirms that the key was accepted.</p>
 <h2 id="cause-5-the-agent-and-forwarding">Cause 5: the agent, and forwarding</h2>
 <pre class="jp-code" data-lang="bash"><code># What is the agent holding?
 ssh-add -l
@@ -299,12 +300,12 @@ ssh-add ~/.ssh/id_ed25519
 
 # macOS: store the passphrase in the keychain so it survives reboots
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519</code></pre>
-<p>On macOS, add this to <code>~/.ssh/config</code> so keys load automatically:</p>
+<p>On macOS, the following host defaults load the named key through the agent and Keychain:</p>
 <pre class="jp-code" data-lang="text"><code>Host *
   AddKeysToAgent yes
   UseKeychain yes
   IdentityFile ~/.ssh/id_ed25519</code></pre>
-<p>If you are hopping through a bastion, forward the agent rather than copying a private key onto the intermediate host — a private key on a shared jump box is a key you have effectively published:</p>
+<p>For a connection through a bastion, agent forwarding avoids placing the private-key file on the intermediate host. Copying a private key to a shared jump box gives that machine direct access to the credential:</p>
 <pre class="jp-code" data-lang="text"><code>Host bastion
   HostName bastion.example.com
   User jump
@@ -314,15 +315,15 @@ Host prod-*
   ProxyJump bastion
   User deploy</code></pre>
 <h2 id="cause-6-your-key-format-is-too-old">Cause 6: your key format is too old</h2>
-<p>OpenSSH 8.8 (2021) disabled <code>ssh-rsa</code> — RSA with SHA-1 signatures — by default. Older RSA keys that worked for years began failing after a server upgrade, with a distinctive message:</p>
+<p>OpenSSH 8.8, released in 2021, disabled <code>ssh-rsa</code> signatures using SHA-1 by default. An older RSA setup may therefore stop working after an upgrade and report this distinctive message:</p>
 <pre class="jp-code" data-lang="text"><code>debug1: send_pubkey_test: no mutual signature algorithm</code></pre>
-<p>The correct fix is a new key. Ed25519 is smaller, faster and has no SHA-1 problem:</p>
+<p>Generate an Ed25519 key when both ends support it. It is smaller and faster than legacy RSA configurations and does not depend on SHA-1 signatures:</p>
 <pre class="jp-code" data-lang="bash"><code>ssh-keygen -t ed25519 -C &quot;you@example.com&quot;</code></pre>
-<p>If you genuinely cannot rotate yet, re-enable the algorithm for that host only — and treat it as temporary:</p>
+<p>If rotation must be delayed, re-enable the legacy algorithm only for the affected host and keep the exception temporary:</p>
 <pre class="jp-code" data-lang="text"><code>Host legacy-server
   PubkeyAcceptedAlgorithms +ssh-rsa
   HostKeyAlgorithms +ssh-rsa</code></pre>
-<p>GitHub removed <code>ssh-rsa</code> support in 2022 and DSA keys are gone entirely from OpenSSH 9.8. If your key is more than a few years old, regenerating is the fix.</p>
+<p>GitHub removed <code>ssh-rsa</code> support in 2022, and OpenSSH 9.8 removed DSA support entirely. Replace keys and algorithms that depend on those legacy options.</p>
 <h2 id="when-you-have-access-to-the-server">When you have access to the server</h2>
 <pre class="jp-code" data-lang="bash"><code># The server-side reason, which the client is never told
 sudo tail -f /var/log/auth.log          # Debian/Ubuntu
@@ -333,32 +334,32 @@ sudo sshd -T | grep -Ei &#39;pubkey|authorizedkeys|permitroot|allowusers&#39;
 
 # Validate a config change before restarting and locking yourself out
 sudo sshd -t</code></pre>
-<p>Server-side settings that produce this exact error even with a perfect key:</p>
-<ul><li><code>PubkeyAuthentication no</code> — key authentication disabled entirely.</li><li><code>AllowUsers</code> or <code>AllowGroups</code> that does not include your account.</li><li><code>PermitRootLogin no</code> when you are connecting as root.</li><li><code>AuthorizedKeysFile</code> pointing somewhere other than <code>.ssh/authorized_keys</code>.</li><li>SELinux contexts on RHEL-family systems — fix with <code>restorecon -R -v ~/.ssh</code>.</li></ul>
+<p>A valid key can still be rejected by the effective server configuration. Check these settings in the <code>sshd -T</code> output:</p>
+<ul><li><code>PubkeyAuthentication no</code>: public-key authentication is disabled.</li><li><code>AllowUsers</code> or <code>AllowGroups</code> that does not include your account.</li><li><code>PermitRootLogin no</code> when you are connecting as root.</li><li><code>AuthorizedKeysFile</code> pointing somewhere other than <code>.ssh/authorized_keys</code>.</li><li>Incorrect SELinux contexts on RHEL-family systems; repair them with <code>restorecon -R -v ~/.ssh</code>.</li></ul>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Keep a second session open</p>
-        <p>Before restarting <code>sshd</code> after a configuration change, run <code>sudo sshd -t</code> and keep your existing session connected. Test the new setting in a <em>separate</em> terminal. A mistake in <code>sshd_config</code> with no open session means a console or rescue-mode recovery.</p>
+        <p>Before restarting <code>sshd</code>, validate the configuration with <code>sudo sshd -t</code> and leave the current session connected. Test the new settings in a <em>separate</em> terminal. If the configuration blocks new sessions, the existing connection gives you a way to repair it without console or rescue access.</p>
       </aside>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>Why does permission denied (publickey) appear even though my key is correct?</h3></summary>
-              <div class="jp-faq-answer"><p>Most often the key is not in the right user’s authorized_keys on the server, or file permissions are too open, or SSH is not offering that key at all. Run ssh -vvv: if you see no &quot;Offering public key&quot; lines, the key is never being tried and the problem is client-side configuration.</p></div>
+              <div class="jp-faq-answer"><p>A valid key can be installed for a different remote user, ignored because of file permissions or absent from the client’s offered identities. Run ssh -vvv. If it shows no &quot;Offering public key&quot; line, inspect client-side identity selection before changing the server.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>How do I know which key SSH is using?</h3></summary>
-              <div class="jp-faq-answer"><p>ssh -vvv shows every key offered with its fingerprint. Compare against ssh-keygen -lf on the public key and against the fingerprints in the server’s authorized_keys. This turns guesswork into a definitive check.</p></div>
+              <div class="jp-faq-answer"><p>ssh -vvv prints each offered key and its fingerprint. Compare that value with ssh-keygen -lf on the local public key and with the fingerprints from the server’s authorized_keys file.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why did my RSA key stop working?</h3></summary>
               <div class="jp-faq-answer"><p>OpenSSH 8.8 disabled SHA-1 RSA signatures by default, and GitHub removed ssh-rsa support in 2022. Generate an Ed25519 key: ssh-keygen -t ed25519. Re-enabling ssh-rsa is possible per-host but should be a stopgap only.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What permissions should ~/.ssh have?</h3></summary>
-              <div class="jp-faq-answer"><p>700 for the directory, 600 for private keys and authorized_keys, 644 for public keys. Your home directory must not be group- or world-writable — 755 or stricter. SSH silently ignores files that are too permissive.</p></div>
+              <div class="jp-faq-answer"><p>Use 700 for the .ssh directory, 600 for private keys and authorized_keys, and 644 for public keys. The home directory must not be group- or world-writable; 755 or stricter is appropriate. Check server logs when sshd ignores an overly permissive path.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why does it work with -i but not without?</h3></summary>
               <div class="jp-faq-answer"><p>SSH only auto-loads keys named id_rsa, id_ecdsa and id_ed25519. A differently named key must be declared with IdentityFile in ~/.ssh/config, ideally with IdentitiesOnly yes so it is the only key offered.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Can I use the same key on several machines?</h3></summary>
-              <div class="jp-faq-answer"><p>Technically yes, but do not. A private key should never leave the device that generated it. Generate a separate key per machine and add each public key to the server — then losing one laptop means revoking one key rather than rotating everywhere.</p></div>
+              <div class="jp-faq-answer"><p>The protocol allows it, but separate keys per device give you better revocation boundaries. Keep each private key on the device that generated it and install all required public keys on the server. Losing one device then requires revoking only its key.</p></div>
             </details>
       </section>
       <section class="jp-related">
@@ -366,15 +367,15 @@ sudo sshd -t</code></pre>
   <div class="jp-cards"><a class="jp-card" href="/guides/git-undo-commit/">
         <span class="jp-card-eyebrow"></span>
         <h3>How to undo a Git commit</h3>
-        <p>reset, revert, rebase and reflog — which one to use, and how to recover when you pick wrong.</p>
+        <p>Choose reset, revert, amend or rebase, and use the reflog when a history rewrite goes wrong.</p>
       </a><a class="jp-card" href="/guides/postgres-connection-refused/">
         <span class="jp-card-eyebrow"></span>
         <h3>Fixing PostgreSQL connection refused</h3>
-        <p>Six layers, checked in the right order — plus the pg_hba.conf and Docker networking traps.</p>
+        <p>Check the process, listener, access rules, network and Docker address from the server outward.</p>
       </a><a class="jp-card" href="/tools/base64-encoder-decoder/">
         <span class="jp-card-eyebrow"></span>
         <h3>Base64 Encoder and Decoder</h3>
-        <p>Encode and decode Base64 and Base64url in your browser, with correct UTF-8 handling for emoji and accented characters. No uploads, no tracking.</p>
+        <p>Encode UTF-8 text as Base64 or Base64url, or decode it locally in your browser. Emoji and accented characters are supported.</p>
       </a></div>
 </section>
     </article>

@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>JWT Decoder — Inspect Token Claims Offline</title>
-    <meta name="description" content="Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted." />
+    <title>JWT Decoder for Claims and Expiry</title>
+    <meta name="description" content="Decode a JSON Web Token in your browser to inspect its header, payload, registered claims and expiry time." />
     <link rel="canonical" href="https://junepoint.com/tools/jwt-decoder/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="JWT Decoder — Inspect Token Claims Offline" />
-    <meta property="og:description" content="Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted." />
+    <meta property="og:title" content="JWT Decoder for Claims and Expiry" />
+    <meta property="og:description" content="Decode a JSON Web Token in your browser to inspect its header, payload, registered claims and expiry time." />
     <meta property="og:url" content="https://junepoint.com/tools/jwt-decoder/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-20" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="JWT Decoder — Inspect Token Claims Offline" />
-    <meta name="twitter:description" content="Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted." />
+    <meta name="twitter:title" content="JWT Decoder for Claims and Expiry" />
+    <meta name="twitter:description" content="Decode a JSON Web Token in your browser to inspect its header, payload, registered claims and expiry time." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -64,7 +65,7 @@
       "@id": "https://junepoint.com/about/#jackson-abeyta",
       "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
         "https://linkedin.com/in/jackson-abeyta",
@@ -99,7 +100,7 @@
       "@type": "SoftwareApplication",
       "@id": "https://junepoint.com/tools/jwt-decoder/#app",
       "name": "JWT Decoder",
-      "description": "Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted.",
+      "description": "Decode a JSON Web Token in your browser to inspect its header, payload, registered claims and expiry time.",
       "url": "https://junepoint.com/tools/jwt-decoder/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Any (web browser)",
@@ -118,8 +119,8 @@
       "@type": "TechArticle",
       "@id": "https://junepoint.com/tools/jwt-decoder/#article",
       "headline": "JWT Decoder",
-      "name": "JWT Decoder — Inspect Token Claims Offline",
-      "description": "Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted.",
+      "name": "JWT Decoder for Claims and Expiry",
+      "description": "Decode a JSON Web Token in your browser to inspect its header, payload, registered claims and expiry time.",
       "datePublished": "2026-03-04",
       "dateModified": "2026-08-20",
       "inLanguage": "en",
@@ -146,7 +147,7 @@
           "name": "Is my token sent to your server?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Decoding happens in your browser using the built-in atob and TextDecoder APIs. There is no network request and no server component. That said, treat any live production token as a credential — the safest habit is to use expired or test tokens when debugging in any web tool, including this one."
+            "text": "No. Decoding uses the browser’s `atob` and `TextDecoder` APIs, and this tool does not send the token to a server. A live production token is still a credential, so use an expired or test token when possible."
           }
         },
         {
@@ -154,7 +155,7 @@
           "name": "Why can I read the payload without a key?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Because JWTs are signed, not encrypted. Base64url is an encoding, not a cipher. The signature guarantees the contents have not been altered; it does nothing to hide them. If you need confidentiality, you want JWE — or, far more simply, do not put secrets in tokens."
+            "text": "Base64url is an encoding, not encryption. A valid signature can prove that the signed content was not altered, but it does not hide that content. Do not put secrets in a signed JWT; use JWE when encrypted token content is required."
           }
         },
         {
@@ -162,7 +163,7 @@
           "name": "Can this tool verify the signature?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Deliberately not. Verification needs the signing secret or public key, and asking you to paste a signing key into a web page would be irresponsible regardless of where the code runs. Verify on your server with a maintained library."
+            "text": "No. Verification requires the expected signing secret or public key. Keep that material in your application and verify the token on the server with a maintained library."
           }
         },
         {
@@ -170,7 +171,7 @@
           "name": "My token looks valid but the API still returns 401. What now?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Check the audience and issuer claims against what that specific service expects, confirm the kid in the header matches a key the server currently holds, and check for clock skew — a server running two minutes fast will reject a freshly minted token that looks perfectly valid on your machine."
+            "text": "Compare `aud` and `iss` with the service configuration, confirm that `kid` matches a current verification key, and compare the issuer and server clocks. A clock difference can make `nbf` or `exp` fail even when the token appears current on your machine."
           }
         },
         {
@@ -178,7 +179,7 @@
           "name": "What is the difference between a JWT and a session cookie?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A session cookie is a pointer to state your server holds, so you can revoke it instantly by deleting that state. A JWT carries the state itself, so it needs no lookup — and cannot be revoked before it expires without reintroducing exactly the server-side store it was meant to remove. Short lifetimes are the standard compromise."
+            "text": "A session cookie can point to server-side state that you revoke by deleting the session. A self-contained JWT can be checked without a session lookup, but early revocation requires a denylist or another server-side check. Short access-token lifetimes limit that tradeoff."
           }
         }
       ]
@@ -217,7 +218,7 @@
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Developer tool</p>
       <h1>JWT Decoder</h1>
-      <p class="jp-standfirst">Paste a JWT to read its header and payload, see exactly when it expires, and check the claims an API is rejecting. Nothing leaves your browser.</p>
+      <p class="jp-standfirst">Paste a JWT to read its claims and validity window. The decoder runs locally and does not verify the signature.</p>
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published March 4, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 20, 2026</span></div>
     </header>
 
@@ -225,13 +226,13 @@
     
 <div class="jp-tool">
   <div class="jp-field">
-    <label for="jd-input">Paste a JSON Web Token</label>
+    <label for="jd-input">JSON Web Token</label>
     <textarea class="jp-textarea" id="jd-input" spellcheck="false" autocapitalize="off" autocorrect="off"
       style="min-height:120px" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSJ9.signature"></textarea>
-    <span class="jp-hint">Tokens are decoded locally. Even so, avoid pasting live production tokens into any web page.</span>
+    <span class="jp-hint">Decoding happens locally. Avoid entering a live production token into any web page.</span>
   </div>
   <div class="jp-toolbar">
-    <button class="jp-btn jp-btn--ghost" type="button" id="jd-sample">Load sample</button>
+    <button class="jp-btn jp-btn--ghost" type="button" id="jd-sample">Load sample token</button>
     <button class="jp-btn jp-btn--ghost" type="button" id="jd-clear">Clear</button>
   </div>
 
@@ -239,13 +240,13 @@
   <div class="jp-results" id="jd-summary"></div>
 
   <div id="jd-panels" hidden>
-    <h2 class="jp-tool-h" style="margin-top:1.5rem">Header</h2>
+    <h2 class="jp-tool-h" style="margin-top:1.5rem">Decoded header</h2>
     <pre class="jp-out" id="jd-header"></pre>
-    <h2 class="jp-tool-h" style="margin-top:1.25rem">Payload</h2>
+    <h2 class="jp-tool-h" style="margin-top:1.25rem">Decoded payload</h2>
     <pre class="jp-out" id="jd-payload"></pre>
     <h2 class="jp-tool-h" style="margin-top:1.25rem">Registered claims</h2>
     <dl class="jp-kv" id="jd-claims"></dl>
-    <h2 class="jp-tool-h" style="margin-top:1.25rem">Signature</h2>
+    <h2 class="jp-tool-h" style="margin-top:1.25rem">Encoded signature</h2>
     <pre class="jp-out" id="jd-signature"></pre>
   </div>
 </div>
@@ -254,36 +255,36 @@
     <article class="jp-article">
       <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Decoding is not verifying</p>
-        <p>This tool reads a token. It does <strong>not</strong> check the signature, because doing so requires the secret or public key — and you should never paste either into a web page. A decoded token tells you what the issuer claims; only signature verification on your server tells you whether to believe it.</p>
+        <p>This tool reads the token but does <strong>not</strong> check its signature. Verification requires the expected public key or secret, which should not be pasted into a web page. Decoding shows the issuer’s claims; server-side signature verification determines whether the token can be trusted.</p>
       </aside>
-<h2 id="what-a-jwt-actually-is">What a JWT actually is</h2>
-<p>A JSON Web Token is three Base64url-encoded segments joined by dots: <code>header.payload.signature</code>. The first two are plain JSON with the padding stripped — anyone holding the token can read them, no key required.</p>
-<p>That last point is the one that trips people up most often. <strong>A JWT is signed, not encrypted.</strong> Encoding is not obfuscation. If you put an internal user ID, an email address or a permissions matrix in a payload, every client holding that token can read all of it, and so can anything that logs the token.</p>
+<h2 id="how-a-jwt-is-structured">How a JWT is structured</h2>
+<p>A JSON Web Token has three Base64url-encoded segments separated by dots: <code>header.payload.signature</code>. The header and payload contain JSON with Base64 padding omitted. Anyone who has the token can decode those two segments without a key.</p>
+<p><strong>A signed JWT is not encrypted.</strong> Base64url encoding does not hide the payload. A client or logging system that receives the token can read any user IDs, email addresses, roles or other data stored in it.</p>
 <pre class="jp-code" data-lang="text"><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9   ← header  { &quot;alg&quot;: &quot;HS256&quot;, &quot;typ&quot;: &quot;JWT&quot; }
 .
 eyJzdWIiOiJ1c2VyXzk5ODIiLCJleHAiOjE3Njd9  ← payload { &quot;sub&quot;: &quot;user_9982&quot;, &quot;exp&quot;: ... }
 .
 SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQ    ← signature over the first two segments</code></pre>
-<h2 id="the-registered-claims-and-what-they-are-for">The registered claims and what they are for</h2>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Claim</th><th scope="col">Name</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row"><code>iss</code></th><td>Issuer</td><td>Who minted the token. Your API should reject anything from an unexpected issuer.</td></tr><tr><th scope="row"><code>sub</code></th><td>Subject</td><td>Who the token is about — usually a stable, opaque user ID.</td></tr><tr><th scope="row"><code>aud</code></th><td>Audience</td><td>Who the token is <em>for</em>. Checking it stops a token minted for one service being replayed against another.</td></tr><tr><th scope="row"><code>exp</code></th><td>Expiry</td><td>Unix seconds after which the token must be rejected. Not optional in practice.</td></tr><tr><th scope="row"><code>nbf</code></th><td>Not before</td><td>Unix seconds before which the token is not yet valid.</td></tr><tr><th scope="row"><code>iat</code></th><td>Issued at</td><td>When it was minted. Useful for detecting suspiciously old tokens.</td></tr><tr><th scope="row"><code>jti</code></th><td>Token ID</td><td>A unique identifier, which lets you build a revocation list.</td></tr></tbody></table><p class="jp-table-note">All timestamps are seconds since the Unix epoch — not milliseconds. That off-by-1000 is a classic bug.</p></div>
-<h2 id="debugging-a-401-with-this-tool">Debugging a 401 with this tool</h2>
-<p>When an API rejects a token, the cause is almost always one of five things, and the decoder tells you which within seconds.</p>
-<ol><li><strong>It expired.</strong> Check the status panel. Clock skew between your machine and the server can also expire a token that looks live to you — most libraries allow a 30–60 second leeway for exactly this reason.</li><li><strong>Wrong audience.</strong> The <code>aud</code> claim does not match what the receiving service expects. Extremely common when several services share one identity provider.</li><li><strong>Wrong issuer.</strong> A staging token sent at a production API, or vice versa. Compare <code>iss</code> against the environment you are calling.</li><li><strong>Missing scopes or roles.</strong> Look at the payload for <code>scope</code>, <code>permissions</code> or a custom roles claim. A 403 rather than a 401 usually means the token was valid but under-privileged.</li><li><strong>Signed with the wrong key.</strong> If <code>kid</code> in the header points at a key the server does not have — after a rotation, say — verification fails even though everything else looks perfect.</li></ol>
+<h2 id="registered-claims">Registered claims</h2>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Claim</th><th scope="col">Name</th><th scope="col">What it does</th></tr></thead><tbody><tr><th scope="row"><code>iss</code></th><td>Issuer</td><td>Identifies who issued the token. Reject values your API does not trust.</td></tr><tr><th scope="row"><code>sub</code></th><td>Subject</td><td>Identifies the token’s subject, often with a stable opaque user ID.</td></tr><tr><th scope="row"><code>aud</code></th><td>Audience</td><td>Identifies the intended recipient. Validate it to prevent use against a different service.</td></tr><tr><th scope="row"><code>exp</code></th><td>Expiry</td><td>Gives the Unix time after which the token must be rejected.</td></tr><tr><th scope="row"><code>nbf</code></th><td>Not before</td><td>Gives the Unix time before which the token is not valid.</td></tr><tr><th scope="row"><code>iat</code></th><td>Issued at</td><td>Records when the token was issued and helps identify unexpectedly old tokens.</td></tr><tr><th scope="row"><code>jti</code></th><td>Token ID</td><td>Provides a unique identifier that can be used in a revocation list.</td></tr></tbody></table><p class="jp-table-note">JWT timestamps use seconds since the Unix epoch, not milliseconds. Using milliseconds shifts the date by a factor of 1,000.</p></div>
+<h2 id="checking-a-token-after-a-401-response">Checking a token after a 401 response</h2>
+<p>Use the decoded header and payload to check these common causes of token rejection.</p>
+<ol><li><strong>Expired token.</strong> Check <code>exp</code> and the status panel. Allow for clock differences between the issuer and verifier; many libraries support a small tolerance such as 30–60 seconds.</li><li><strong>Wrong audience.</strong> Compare <code>aud</code> with the audience configured by the receiving service, especially when services share an identity provider.</li><li><strong>Wrong issuer.</strong> Compare <code>iss</code> with the expected issuer for the environment. A staging token should not be accepted by production.</li><li><strong>Missing scopes or roles.</strong> Inspect <code>scope</code>, <code>permissions</code> and custom role claims. A 403 often means authentication succeeded but the token lacks permission.</li><li><strong>Wrong signing key.</strong> Confirm that the <code>kid</code> in the header identifies a key the server currently has, including after key rotation.</li></ol>
 <aside class="jp-note jp-note--tip">
-        <p class="jp-note-title">Bearer prefixes are handled</p>
-        <p>You can paste the whole <code>Authorization: Bearer eyJ…</code> value straight from your network tab. The tool strips the prefix for you.</p>
+        <p class="jp-note-title">Bearer prefixes are accepted</p>
+        <p>You can paste a value beginning with <code>Bearer </code>. The decoder removes that prefix before splitting the token.</p>
       </aside>
-<h2 id="security-notes-worth-internalising">Security notes worth internalising</h2>
+<h2 id="security-checks">Security checks</h2>
 <h3 id="never-accept-alg-none">Never accept <code>alg: none</code></h3>
-<p>The JWT specification includes an unsigned mode. A verifier that reads the algorithm out of the <em>token</em> rather than from its own configuration can be handed a token with <code>alg</code> set to <code>none</code> and no signature — and some early libraries accepted it. Always pin the expected algorithm server-side. This tool flags <code>none</code> in red for that reason.</p>
+<p>The JWT specification defines an unsigned mode. If a verifier accepts the algorithm named by the token instead of enforcing its own configuration, it may accept <code>alg: none</code> with no signature. Configure the expected algorithm on the server. The decoder flags <code>none</code> as a warning.</p>
 <h3 id="the-rs256-to-hs256-confusion-attack">The RS256-to-HS256 confusion attack</h3>
-<p>If a server verifies with whatever algorithm the header names, an attacker can take your <em>public</em> RSA key, switch <code>alg</code> to <code>HS256</code>, and sign a forged token using that public key as the HMAC secret. The server then verifies it successfully. The fix is the same: never let the token choose the algorithm.</p>
+<p>A verifier that trusts the header’s algorithm can confuse asymmetric and symmetric verification. An attacker can change <code>RS256</code> to <code>HS256</code> and use the public RSA key as an HMAC secret. Prevent this by configuring the permitted algorithm independently of the token.</p>
 <h3 id="keep-lifetimes-short">Keep lifetimes short</h3>
-<p>Because a stateless JWT cannot be revoked before it expires, its lifetime is the window an attacker gets with a stolen token. Access tokens should live minutes, not days, with a refresh token doing the long-lived work. A 30-day access token is a 30-day breach.</p>
+<p>A stateless access token usually remains usable until it expires unless the system adds a revocation check. Keep access-token lifetimes short and use a refresh-token flow for longer sessions. A stolen token can otherwise remain valid for its full lifetime.</p>
 <h3 id="storage">Storage</h3>
-<p>A token in <code>localStorage</code> is readable by any JavaScript that runs on your page, which makes any XSS bug a total account compromise. An <code>HttpOnly</code>, <code>Secure</code>, <code>SameSite=Strict</code> cookie is not reachable from JavaScript at all. The cookie approach requires CSRF protection; the <code>localStorage</code> approach requires XSS to never happen. Choose accordingly.</p>
-<h2 id="verifying-properly-server-side">Verifying properly, server-side</h2>
-<p>Decoding is for humans; verification is for code. In Node, with the <code>jose</code> library:</p>
+<p>JavaScript running on the page can read a token in <code>localStorage</code>, so an XSS vulnerability can expose it. JavaScript cannot read an <code>HttpOnly</code>, <code>Secure</code>, <code>SameSite=Strict</code> cookie, but cookie-based authentication still needs appropriate CSRF protection. Choose storage based on both risks.</p>
+<h2 id="verifying-a-jwt-on-the-server">Verifying a JWT on the server</h2>
+<p>Applications must verify tokens in code. This Node example uses the <code>jose</code> library:</p>
 <pre class="jp-code" data-lang="javascript"><code>import { jwtVerify, createRemoteJWKSet } from &#39;jose&#39;;
 
 const jwks = createRemoteJWKSet(new URL(&#39;https://auth.example.com/.well-known/jwks.json&#39;));
@@ -291,27 +292,27 @@ const jwks = createRemoteJWKSet(new URL(&#39;https://auth.example.com/.well-know
 const { payload } = await jwtVerify(token, jwks, {
   issuer: &#39;https://auth.example.com&#39;,   // pin the issuer
   audience: &#39;api.example.com&#39;,          // pin the audience
-  algorithms: [&#39;RS256&#39;],                // pin the algorithm — do not trust the header
+  algorithms: [&#39;RS256&#39;],                // pin the algorithm; do not trust the header
   clockTolerance: 30,                   // seconds of allowed skew
 });</code></pre>
-<p>Every one of those options matters. Omit <code>algorithms</code> and you are open to the confusion attack above; omit <code>audience</code> and a token for another service will sail through.</p>
+<p>Each constraint is part of verification. The <code>algorithms</code> option prevents algorithm confusion, while <code>issuer</code> and <code>audience</code> reject tokens created for a different authority or service.</p>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>Is my token sent to your server?</h3></summary>
-              <div class="jp-faq-answer"><p>No. Decoding happens in your browser using the built-in atob and TextDecoder APIs. There is no network request and no server component. That said, treat any live production token as a credential — the safest habit is to use expired or test tokens when debugging in any web tool, including this one.</p></div>
+              <div class="jp-faq-answer"><p>No. Decoding uses the browser’s <code>atob</code> and <code>TextDecoder</code> APIs, and this tool does not send the token to a server. A live production token is still a credential, so use an expired or test token when possible.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why can I read the payload without a key?</h3></summary>
-              <div class="jp-faq-answer"><p>Because JWTs are signed, not encrypted. Base64url is an encoding, not a cipher. The signature guarantees the contents have not been altered; it does nothing to hide them. If you need confidentiality, you want JWE — or, far more simply, do not put secrets in tokens.</p></div>
+              <div class="jp-faq-answer"><p>Base64url is an encoding, not encryption. A valid signature can prove that the signed content was not altered, but it does not hide that content. Do not put secrets in a signed JWT; use JWE when encrypted token content is required.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Can this tool verify the signature?</h3></summary>
-              <div class="jp-faq-answer"><p>Deliberately not. Verification needs the signing secret or public key, and asking you to paste a signing key into a web page would be irresponsible regardless of where the code runs. Verify on your server with a maintained library.</p></div>
+              <div class="jp-faq-answer"><p>No. Verification requires the expected signing secret or public key. Keep that material in your application and verify the token on the server with a maintained library.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>My token looks valid but the API still returns 401. What now?</h3></summary>
-              <div class="jp-faq-answer"><p>Check the audience and issuer claims against what that specific service expects, confirm the kid in the header matches a key the server currently holds, and check for clock skew — a server running two minutes fast will reject a freshly minted token that looks perfectly valid on your machine.</p></div>
+              <div class="jp-faq-answer"><p>Compare <code>aud</code> and <code>iss</code> with the service configuration, confirm that <code>kid</code> matches a current verification key, and compare the issuer and server clocks. A clock difference can make <code>nbf</code> or <code>exp</code> fail even when the token appears current on your machine.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What is the difference between a JWT and a session cookie?</h3></summary>
-              <div class="jp-faq-answer"><p>A session cookie is a pointer to state your server holds, so you can revoke it instantly by deleting that state. A JWT carries the state itself, so it needs no lookup — and cannot be revoked before it expires without reintroducing exactly the server-side store it was meant to remove. Short lifetimes are the standard compromise.</p></div>
+              <div class="jp-faq-answer"><p>A session cookie can point to server-side state that you revoke by deleting the session. A self-contained JWT can be checked without a session lookup, but early revocation requires a denylist or another server-side check. Short access-token lifetimes limit that tradeoff.</p></div>
             </details>
       </section>
       <section class="jp-related">
@@ -319,15 +320,15 @@ const { payload } = await jwtVerify(token, jwks, {
   <div class="jp-cards"><a class="jp-card" href="/tools/base64-encoder-decoder/">
         <span class="jp-card-eyebrow"></span>
         <h3>Base64 Encoder and Decoder</h3>
-        <p>Encode and decode Base64 and Base64url in your browser, with correct UTF-8 handling for emoji and accented characters. No uploads, no tracking.</p>
+        <p>Encode UTF-8 text as Base64 or Base64url, or decode it locally in your browser. Emoji and accented characters are supported.</p>
       </a><a class="jp-card" href="/tools/json-formatter/">
         <span class="jp-card-eyebrow"></span>
         <h3>JSON Formatter and Validator</h3>
-        <p>Format, validate, minify and sort JSON in your browser. Pinpoints syntax errors by line and column. Nothing is uploaded — your data never leaves the page.</p>
+        <p>Format, validate, minify and sort JSON in your browser. Syntax errors include the line, column and nearby text.</p>
       </a><a class="jp-card" href="/guides/fix-cors-errors/">
         <span class="jp-card-eyebrow"></span>
         <h3>How to fix CORS errors</h3>
-        <p>Read the exact error, find the real cause, fix it on the server. Includes the wildcard-plus-credentials trap.</p>
+        <p>Match the browser error to a missing header, failed preflight, origin mismatch or credential conflict.</p>
       </a></div>
 </section>
     </article>
@@ -336,7 +337,7 @@ const { payload } = await jwtVerify(token, jwks, {
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#what-a-jwt-actually-is">What a JWT actually is</a></li><li><a href="#the-registered-claims-and-what-they-are-for">The registered claims and what they are for</a></li><li><a href="#debugging-a-401-with-this-tool">Debugging a 401 with this tool</a></li><li><a href="#security-notes-worth-internalising">Security notes worth internalising</a></li><li><a href="#verifying-properly-server-side">Verifying properly, server-side</a></li></ol>
+  <ol><li><a href="#how-a-jwt-is-structured">How a JWT is structured</a></li><li><a href="#registered-claims">Registered claims</a></li><li><a href="#checking-a-token-after-a-401-response">Checking a token after a 401 response</a></li><li><a href="#security-checks">Security checks</a></li><li><a href="#verifying-a-jwt-on-the-server">Verifying a JWT on the server</a></li></ol>
 </nav>
   
   
@@ -401,7 +402,7 @@ const { payload } = await jwtVerify(token, jwks, {
 
     var parts = raw.split('.');
     if (parts.length !== 3) {
-      setStatus('Not a JWT — expected three dot-separated segments, found ' + parts.length + '.', 'err');
+      setStatus('A JWT needs three dot-separated segments. This value has ' + parts.length + '.', 'err');
       panels.hidden = true; summary.innerHTML = '';
       return;
     }
@@ -411,7 +412,7 @@ const { payload } = await jwtVerify(token, jwks, {
       header = JSON.parse(b64urlDecode(parts[0]));
       payload = JSON.parse(b64urlDecode(parts[1]));
     } catch (error) {
-      setStatus('Could not decode: ' + error.message, 'err');
+      setStatus('Could not decode the token: ' + error.message, 'err');
       panels.hidden = true; summary.innerHTML = '';
       return;
     }
@@ -419,29 +420,29 @@ const { payload } = await jwtVerify(token, jwks, {
     panels.hidden = false;
     document.getElementById('jd-header').textContent = JSON.stringify(header, null, 2);
     document.getElementById('jd-payload').textContent = JSON.stringify(payload, null, 2);
-    document.getElementById('jd-signature').textContent = parts[2] || '(none)';
+    document.getElementById('jd-signature').textContent = parts[2] || 'No signature data';
 
     var now = Math.floor(Date.now() / 1000);
     var expired = typeof payload.exp === 'number' && payload.exp < now;
     var notYet = typeof payload.nbf === 'number' && payload.nbf > now;
 
-    setStatus('Decoded — signature not verified (see below)', 'ok');
+    setStatus('Token decoded. The signature has not been verified.', 'ok');
 
     var lifetime = (typeof payload.exp === 'number' && typeof payload.iat === 'number')
       ? Math.round((payload.exp - payload.iat) / 60) + ' min'
-      : '—';
+      : 'Not available';
 
     summary.innerHTML =
       '<div class="jp-stat' + (expired ? '' : ' jp-stat--primary') + '">' +
         '<p class="jp-stat-label">Status</p><p class="jp-stat-value" style="font-size:1.2rem">' +
         (expired ? 'Expired' : notYet ? 'Not yet valid' : 'Within validity window') + '</p>' +
-        '<p class="jp-stat-sub">' + (typeof payload.exp === 'number' ? relative(payload.exp) : 'no exp claim') + '</p></div>' +
+        '<p class="jp-stat-sub">' + (typeof payload.exp === 'number' ? relative(payload.exp) : 'No exp claim') + '</p></div>' +
       '<div class="jp-stat"><p class="jp-stat-label">Algorithm</p><p class="jp-stat-value" style="font-size:1.2rem">' +
-        (header.alg || '—') + '</p><p class="jp-stat-sub">' + (header.kid ? 'kid: ' + header.kid : 'no key id') + '</p></div>' +
+        (header.alg || 'Not available') + '</p><p class="jp-stat-sub">' + (header.kid ? 'kid: ' + header.kid : 'No kid claim') + '</p></div>' +
       '<div class="jp-stat"><p class="jp-stat-label">Lifetime</p><p class="jp-stat-value" style="font-size:1.2rem">' +
-        lifetime + '</p><p class="jp-stat-sub">iat to exp</p></div>' +
+        lifetime + '</p><p class="jp-stat-sub">From iat to exp</p></div>' +
       '<div class="jp-stat"><p class="jp-stat-label">Claims</p><p class="jp-stat-value" style="font-size:1.2rem">' +
-        Object.keys(payload).length + '</p><p class="jp-stat-sub">in the payload</p></div>';
+        Object.keys(payload).length + '</p><p class="jp-stat-sub">Payload properties</p></div>';
 
     var claims = document.getElementById('jd-claims');
     claims.innerHTML = Object.keys(CLAIM_NAMES).filter(function (key) {
@@ -452,13 +453,13 @@ const { payload } = await jwtVerify(token, jwks, {
         ? timestamp(value)
         : (Array.isArray(value) ? value.join(', ') : String(value));
       var flag = '';
-      if (key === 'exp' && expired) flag = ' <span class="jp-badge jp-badge--fail">EXPIRED</span>';
-      if (key === 'nbf' && notYet) flag = ' <span class="jp-badge jp-badge--fail">TOO EARLY</span>';
+      if (key === 'exp' && expired) flag = ' <span class="jp-badge jp-badge--fail">Expired</span>';
+      if (key === 'nbf' && notYet) flag = ' <span class="jp-badge jp-badge--fail">Not active yet</span>';
       return '<dt>' + CLAIM_NAMES[key] + ' (' + key + ')</dt><dd>' + display + flag + '</dd>';
-    }).join('') || '<dt>—</dt><dd>No registered claims present</dd>';
+    }).join('') || '<dt>Status</dt><dd>No registered claims found.</dd>';
 
     if (header.alg === 'none') {
-      setStatus('Warning: alg is "none" — this token is unsigned and must never be trusted.', 'err');
+      setStatus('Warning: alg is "none". This token is unsigned and must not be trusted.', 'err');
     }
   }
 

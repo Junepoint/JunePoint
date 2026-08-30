@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>CSS Grid vs Flexbox: Which to Use, and When</title>
-    <meta name="description" content="A practical rule for choosing between Grid and Flexbox, the layouts each one does better, and copy-paste patterns for the ones you build most often." />
+    <title>CSS Grid vs. Flexbox: How to Choose</title>
+    <meta name="description" content="A practical way to choose between Grid and Flexbox, with common layout patterns and the details that prevent overflow and alignment bugs." />
     <link rel="canonical" href="https://junepoint.com/guides/css-grid-vs-flexbox/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="CSS Grid vs Flexbox: Which to Use, and When" />
-    <meta property="og:description" content="A practical rule for choosing between Grid and Flexbox, the layouts each one does better, and copy-paste patterns for the ones you build most often." />
+    <meta property="og:title" content="CSS Grid vs. Flexbox: How to Choose" />
+    <meta property="og:description" content="A practical way to choose between Grid and Flexbox, with common layout patterns and the details that prevent overflow and alignment bugs." />
     <meta property="og:url" content="https://junepoint.com/guides/css-grid-vs-flexbox/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-10" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="CSS Grid vs Flexbox: Which to Use, and When" />
-    <meta name="twitter:description" content="A practical rule for choosing between Grid and Flexbox, the layouts each one does better, and copy-paste patterns for the ones you build most often." />
+    <meta name="twitter:title" content="CSS Grid vs. Flexbox: How to Choose" />
+    <meta name="twitter:description" content="A practical way to choose between Grid and Flexbox, with common layout patterns and the details that prevent overflow and alignment bugs." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -61,15 +62,15 @@
     },
     {
       "@type": "Person",
-      "@id": "https://junepoint.com/about/#alexander-pace",
-      "name": "Alexander Pace",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Alexander works across React and Node.js applications with a focus on backend systems and user experience. He covers front-end technique, CSS and the business-software research on this site.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
-        "https://www.linkedin.com/in/alexander-pace-0648b6270/",
-        "https://github.com/snf-alex",
-        "https://snf-alex.github.io/PortfolioWebsiteV2/"
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
       ]
     },
     {
@@ -90,7 +91,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "CSS Grid vs Flexbox",
+          "name": "CSS Grid vs. Flexbox",
           "item": "https://junepoint.com/guides/css-grid-vs-flexbox/"
         }
       ]
@@ -98,9 +99,9 @@
     {
       "@type": "TechArticle",
       "@id": "https://junepoint.com/guides/css-grid-vs-flexbox/#article",
-      "headline": "CSS Grid vs Flexbox",
-      "name": "CSS Grid vs Flexbox: Which to Use, and When",
-      "description": "A practical rule for choosing between Grid and Flexbox, the layouts each one does better, and copy-paste patterns for the ones you build most often.",
+      "headline": "CSS Grid vs. Flexbox",
+      "name": "CSS Grid vs. Flexbox: How to Choose",
+      "description": "A practical way to choose between Grid and Flexbox, with common layout patterns and the details that prevent overflow and alignment bugs.",
       "datePublished": "2026-05-14",
       "dateModified": "2026-08-10",
       "inLanguage": "en",
@@ -110,7 +111,7 @@
         "@id": "https://junepoint.com/guides/css-grid-vs-flexbox/"
       },
       "author": {
-        "@id": "https://junepoint.com/about/#alexander-pace"
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
       },
       "publisher": {
         "@id": "https://junepoint.com/#organization"
@@ -127,7 +128,7 @@
           "name": "Should I use Grid or Flexbox?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Grid when you are defining a layout in two dimensions and want content placed into it. Flexbox when you are distributing a row or column of items whose sizes you do not control. Most pages use both — Grid for page structure, Flexbox inside components."
+            "text": "Start with Grid when you are defining rows and columns and placing content within them. Start with Flexbox when you are distributing a row or column of items whose sizes vary. It is normal to use Grid for page structure and Flexbox inside individual components."
           }
         },
         {
@@ -135,7 +136,7 @@
           "name": "Is Grid slower than Flexbox?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not in any way you will measure. Both are implemented natively and highly optimised. Choose on which one expresses the layout more clearly; layout performance problems in practice come from thrashing and forced reflows, not from the choice of layout module."
+            "text": "The performance difference is not meaningful for normal layouts. Browsers implement both natively. Choose the module that describes the layout clearly; repeated layout reads and writes or forced reflows are more likely sources of a rendering problem."
           }
         },
         {
@@ -143,7 +144,7 @@
           "name": "Can I nest Grid inside Flexbox and vice versa?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, and you should. A flex navbar containing a grid dropdown is entirely normal. Each container establishes its own formatting context, so they compose freely."
+            "text": "Yes. A flex navigation bar can contain a Grid-based dropdown, and a Grid cell can contain a flex toolbar. Each container establishes its own formatting context, so nesting them is routine."
           }
         },
         {
@@ -151,7 +152,7 @@
           "name": "Why is my grid item overflowing its column?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Because 1fr has a minimum of auto, so wide content forces the track wider. Use minmax(0, 1fr) instead, and add overflow-x: auto to the offending child. The Flexbox equivalent is min-width: 0."
+            "text": "A 1fr track has an automatic minimum, so wide content can force the track to grow. Try minmax(0, 1fr), then add overflow-x: auto to the child that should scroll. For a Flexbox child, the corresponding fix is min-width: 0."
           }
         },
         {
@@ -159,7 +160,7 @@
           "name": "What is the difference between auto-fill and auto-fit?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "auto-fill keeps empty tracks in place when there are not enough items, so three cards in a six-column grid stay card-width. auto-fit collapses the empty tracks, letting the three cards stretch across the whole row. Choose based on whether you want items to stretch when few."
+            "text": "auto-fill preserves empty tracks, so three cards in a six-column grid remain at their track width. auto-fit collapses empty tracks and allows those three cards to fill the row. The choice depends on whether a small number of items should stretch."
           }
         },
         {
@@ -167,7 +168,7 @@
           "name": "Do I still need media queries?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Far fewer. minmax with auto-fill handles most responsive grids intrinsically. Container queries go further, letting a component respond to its own width rather than the viewport — which is what you usually wanted from a media query in the first place."
+            "text": "Yes, but intrinsic sizing can remove some of them. minmax with auto-fill handles many responsive grids without a breakpoint. Container queries cover another common case by letting a component respond to its own width instead of the viewport."
           }
         }
       ]
@@ -200,36 +201,36 @@
     <a href="/">JunePoint Studio</a>
   </nav>
 </header>
-    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">CSS Grid vs Flexbox</li></ol></nav></div>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">CSS Grid vs. Flexbox</li></ol></nav></div>
 <div class="jp-layout">
   <main id="main">
     <header class="jp-pagehead">
       <p class="jp-eyebrow">CSS</p>
-      <h1>CSS Grid vs Flexbox</h1>
-      <p class="jp-standfirst">One rule decides it in most cases: Grid for two-dimensional layout you control, Flexbox for one-dimensional distribution of content whose size you do not know.</p>
-      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#alexander-pace">Alexander Pace</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published May 14, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 10, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
+      <h1>CSS Grid vs. Flexbox</h1>
+      <p class="jp-standfirst">Use Grid when rows and columns need to work together. Use Flexbox when items need to share space along one axis. Most layouts become easier once you start with that distinction.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published May 14, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 10, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
     </header>
     <article class="jp-article">
       <aside class="jp-takeaways">
         <h2 id="key-takeaways">Key takeaways</h2>
-        <ul><li><strong>Grid</strong> controls rows and columns at once; you define the layout and place content into it.</li><li><strong>Flexbox</strong> distributes items along a single axis; content sizes itself and the container adapts.</li><li>They are not competitors. Almost every real page uses Grid for page structure and Flexbox inside the components.</li><li><code>gap</code> works in both, and has for years. Stop using margins for spacing between layout items.</li></ul>
+        <ul><li><strong>Grid</strong> manages rows and columns together. The container defines the tracks, and content is placed into them.</li><li><strong>Flexbox</strong> distributes items along one axis. Their content influences their size, and the container handles the remaining space.</li><li>The two are complementary. A page might use Grid for its main structure and Flexbox within a navigation bar or toolbar.</li><li><code>gap</code> works with both modules and is usually clearer than item margins for spacing within a layout.</li></ul>
       </aside>
-<h2 id="the-rule">The rule</h2>
-<p><strong>Grid is layout-first. Flexbox is content-first.</strong></p>
-<p>With Grid you draw the structure — three columns, two rows, this item spans two of them — and place content into it. With Flexbox you hand items to a container and say how to distribute whatever space is left over. The items’ own sizes drive the result.</p>
-<p>So: do you know the shape you want? Use Grid. Do you have a row of things of unknown width that should sit sensibly next to each other? Use Flexbox.</p>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col"></th><th scope="col">Grid</th><th scope="col">Flexbox</th></tr></thead><tbody><tr><th scope="row">Axes</th><td>Two at once</td><td>One at a time</td></tr><tr><th scope="row">Driven by</th><td>The container’s definition</td><td>The items’ content</td></tr><tr><th scope="row">Overlapping items</th><td>Yes, via grid areas</td><td>No</td></tr><tr><th scope="row">Alignment across rows</th><td>Columns line up automatically</td><td>Each line is independent</td></tr><tr><th scope="row">Best for</th><td>Page structure, dashboards, card grids, forms</td><td>Navbars, toolbars, button groups, tag lists, centring</td></tr></tbody></table></div>
-<h2 id="the-tell-does-content-need-to-line-up-across-rows">The tell: does content need to line up across rows?</h2>
-<p>This is the most reliable practical test. In a wrapped Flexbox container, each line is laid out independently — so items on row two need not align with those on row one. In Grid, columns are defined once and every row obeys them.</p>
-<p>A card grid where every card must be the same width is a Grid. A row of filter pills that wraps naturally is Flexbox. Building a card grid with Flexbox is the most common misapplication in production CSS, and it is why so many grids have a ragged final row.</p>
-<h2 id="patterns-worth-memorising">Patterns worth memorising</h2>
+<h2 id="start-with-the-layout-s-dimensions">Start with the layout’s dimensions</h2>
+<p><strong>Choose Grid when both rows and columns matter. Choose Flexbox when one axis does most of the work.</strong></p>
+<p>With Grid, you define a structure such as three columns and two rows, then decide where content belongs. With Flexbox, you give a container some items and describe how they should use the available space. The items’ intrinsic sizes remain part of that calculation.</p>
+<p>If you know the shape of the layout before its content arrives, Grid is a good starting point. If you have a row or column of items with variable sizes, Flexbox is often the simpler fit.</p>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col"></th><th scope="col">Grid</th><th scope="col">Flexbox</th></tr></thead><tbody><tr><th scope="row">Axes</th><td>Two at once</td><td>One at a time</td></tr><tr><th scope="row">Driven by</th><td>The container’s definition</td><td>The items’ content</td></tr><tr><th scope="row">Overlapping items</th><td>Yes, via grid areas</td><td>No</td></tr><tr><th scope="row">Alignment across rows</th><td>Columns line up automatically</td><td>Each line is independent</td></tr><tr><th scope="row">Good fit for</th><td>Page structure, dashboards, card grids, forms</td><td>Navbars, toolbars, button groups, tag lists, centring</td></tr></tbody></table></div>
+<h2 id="check-whether-separate-rows-must-align">Check whether separate rows must align</h2>
+<p>This is a useful test when the choice is not obvious. A wrapped Flexbox container lays out each line independently, so the items on one row do not have to align with the next row. Grid defines its columns once and uses them for every row.</p>
+<p>A set of equal-width cards usually belongs in Grid. A row of filter pills that should wrap according to their labels usually belongs in Flexbox. Flexbox can make a card layout, but its independent lines often leave the last row looking unrelated to the rows above it.</p>
+<h2 id="useful-layout-patterns">Useful layout patterns</h2>
 <h3 id="responsive-card-grid-with-no-media-queries">Responsive card grid with no media queries</h3>
 <pre class="jp-code" data-lang="css"><code>.cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1rem;
 }</code></pre>
-<p>Columns are at least 260px, share space equally, and the count adjusts to the viewport. No breakpoints, no JavaScript. <code>auto-fill</code> keeps empty tracks when there are few items; <code>auto-fit</code> collapses them so the items stretch to fill the row — that one keyword is the entire difference between the two.</p>
+<p>Each column is at least 260px wide, and the available columns share the remaining space equally. The count changes with the viewport without a breakpoint or JavaScript. <code>auto-fill</code> retains empty tracks when there are only a few items; <code>auto-fit</code> collapses those tracks and lets the existing items stretch.</p>
 <h3 id="sidebar-that-collapses-on-narrow-screens">Sidebar that collapses on narrow screens</h3>
 <pre class="jp-code" data-lang="css"><code>.layout {
   display: grid;
@@ -242,7 +243,7 @@
 }</code></pre>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">Use <code>minmax(0, 1fr)</code>, not <code>1fr</code></p>
-        <p>A <code>1fr</code> track has a minimum size of <code>auto</code>, so a wide element inside — a long code block, a table, a <code>&lt;pre&gt;</code> — forces the track wider and breaks your layout. <code>minmax(0, 1fr)</code> lets the track shrink so its content scrolls instead. This single substitution fixes most mysterious horizontal-scroll bugs in Grid layouts.</p>
+        <p>A <code>1fr</code> track has a minimum size of <code>auto</code>. Wide content such as a long code block, table or <code>&lt;pre&gt;</code> can therefore force the track beyond its container. <code>minmax(0, 1fr)</code> allows the track to shrink so the child can scroll instead. Check this first when a Grid layout causes unexpected horizontal scrolling.</p>
       </aside>
 <h3 id="full-page-layout-with-named-areas">Full page layout with named areas</h3>
 <pre class="jp-code" data-lang="css"><code>.page {
@@ -267,7 +268,7 @@
     grid-template-areas: &quot;header&quot; &quot;main&quot; &quot;sidebar&quot; &quot;footer&quot;;
   }
 }</code></pre>
-<p>Named areas make the layout legible in the stylesheet itself, and rearranging for mobile is a rewritten template rather than a pile of overrides. Note <code>100dvh</code> rather than <code>100vh</code> — it accounts for mobile browser chrome that appears and disappears on scroll.</p>
+<p>Named areas make the page structure visible in the stylesheet. For a narrow screen, you can rewrite the template instead of overriding each item’s position. The example uses <code>100dvh</code> rather than <code>100vh</code> so the height responds to mobile browser controls appearing and disappearing.</p>
 <h3 id="navbar-logo-left-links-right">Navbar: logo left, links right</h3>
 <pre class="jp-code" data-lang="css"><code>.nav {
   display: flex;
@@ -278,7 +279,7 @@
 .nav-links {
   margin-left: auto;   /* absorbs all remaining space */
 }</code></pre>
-<p><code>margin-left: auto</code> on a flex item is the cleanest way to push it and everything after it to the end. It beats <code>justify-content: space-between</code> when you have three or more groups to position.</p>
+<p>On a flex item, <code>margin-left: auto</code> consumes the free space before that item and pushes it, along with anything after it, to the end. This stays predictable when the navigation contains more than two groups.</p>
 <h3 id="footer-pinned-to-the-bottom-on-short-pages">Footer pinned to the bottom on short pages</h3>
 <pre class="jp-code" data-lang="css"><code>body {
   min-height: 100dvh;
@@ -291,7 +292,7 @@ main { flex: 1; }   /* takes all leftover height */</code></pre>
 <pre class="jp-code" data-lang="css"><code>/* Either works. Grid is one line shorter. */
 .centre { display: grid; place-items: center; }
 .centre { display: flex; align-items: center; justify-content: center; }</code></pre>
-<h2 id="things-people-get-wrong">Things people get wrong</h2>
+<h2 id="common-trouble-spots">Common trouble spots</h2>
 <h3 id="using-margins-instead-of-gap">Using margins instead of <code>gap</code></h3>
 <pre class="jp-code" data-lang="css"><code>/* ✗ Needs a hack to remove the trailing margin */
 .item { margin-right: 1rem; }
@@ -299,27 +300,27 @@ main { flex: 1; }   /* takes all leftover height */</code></pre>
 
 /* ✓ */
 .container { display: flex; gap: 1rem; }</code></pre>
-<p><code>gap</code> has been supported in Flexbox by every major browser since 2021. It only applies <em>between</em> items, so there is no trailing space and no <code>:last-child</code> override.</p>
+<p>Flexbox <code>gap</code> has had broad browser support since 2021. It applies only between items, which avoids trailing space and removes the need for a <code>:last-child</code> override.</p>
 <h3 id="not-understanding-flex-1">Not understanding <code>flex: 1</code></h3>
-<pre class="jp-code" data-lang="css"><code>flex: 1;        /* = flex: 1 1 0%   — equal widths regardless of content */
-flex: auto;     /* = flex: 1 1 auto — sized by content, then grows */
-flex: none;     /* = flex: 0 0 auto — never grows or shrinks */</code></pre>
-<p>The difference between <code>flex: 1</code> and <code>flex: auto</code> is the basis: <code>0%</code> ignores content size entirely and gives every item an equal share; <code>auto</code> starts from the content’s natural width. Choosing the wrong one is why &quot;equal columns&quot; sometimes are not.</p>
+<pre class="jp-code" data-lang="css"><code>flex: 1;        /* = flex: 1 1 0%: equal widths regardless of content */
+flex: auto;     /* = flex: 1 1 auto: sized by content, then grows */
+flex: none;     /* = flex: 0 0 auto: never grows or shrinks */</code></pre>
+<p>The important difference between <code>flex: 1</code> and <code>flex: auto</code> is the basis. A basis of <code>0%</code> ignores the content’s width before distributing space, while <code>auto</code> starts from the natural width. Use <code>flex: 1</code> when equal shares matter more than intrinsic size.</p>
 <h3 id="flex-items-overflowing-their-container">Flex items overflowing their container</h3>
-<p>A flex item’s default <code>min-width</code> is <code>auto</code>, meaning it refuses to shrink below its content. A long unbroken string or a wide table then blows out the layout.</p>
+<p>A flex item defaults to <code>min-width: auto</code>, so it will not shrink below the width its content requires. A long unbroken string or wide table can then push the whole container wider.</p>
 <pre class="jp-code" data-lang="css"><code>.flex-child {
   min-width: 0;        /* allow shrinking below content size */
   overflow-x: auto;    /* let the content scroll instead */
 }</code></pre>
-<p>Together with <code>minmax(0, 1fr)</code> in Grid, this is the answer to nearly every &quot;why does my page scroll sideways on mobile&quot; question.</p>
-<h2 id="order-and-why-it-can-be-an-accessibility-bug">Order, and why it can be an accessibility bug</h2>
-<p>Both <code>order</code> in Flexbox and explicit placement in Grid change <strong>visual</strong> order only. The DOM order is unchanged, and that is what screen readers announce and what Tab follows.</p>
+<p>For unexplained horizontal scrolling, inspect <code>min-width</code> on flex children and the minimum value of Grid tracks before changing the outer container.</p>
+<h2 id="keep-visual-and-document-order-together">Keep visual and document order together</h2>
+<p>Flexbox <code>order</code> and explicit Grid placement change only the <strong>visual</strong> order. Screen readers still announce the DOM order, and keyboard focus follows it as well.</p>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Visual order and focus order must match</p>
-        <p>Reordering items visually so that keyboard focus jumps around the screen is a WCAG 2.4.3 failure. It is genuinely disorienting for keyboard and screen-reader users. Use reordering for cosmetic adjustments; if the reading order should change, change the HTML.</p>
+        <p>When visual reordering makes keyboard focus jump around the screen, the page fails WCAG 2.4.3 and becomes difficult to follow. Reserve CSS reordering for minor presentation changes. If the reading sequence needs to change, update the HTML order.</p>
       </aside>
 <h2 id="subgrid">Subgrid</h2>
-<p>Subgrid lets a nested grid inherit its parent’s tracks — which finally solves aligning content <em>inside</em> cards across a row. Without it, three cards with different-length titles have their buttons at three different heights.</p>
+<p>Subgrid lets a nested grid inherit the tracks of its parent. That makes it possible to align content inside neighboring cards even when their titles and body text have different lengths.</p>
 <pre class="jp-code" data-lang="css"><code>.cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -331,27 +332,27 @@ flex: none;     /* = flex: 0 0 auto — never grows or shrinks */</code></pre>
   grid-row: span 3;
   grid-template-rows: subgrid;   /* title, body and footer align across all cards */
 }</code></pre>
-<p>Supported in every current major browser since late 2023. If you must support older versions, the fallback is a fixed <code>min-height</code> on the title, or Flexbox with <code>margin-top: auto</code> on the footer.</p>
+<p>Current versions of the major browsers have supported Subgrid since late 2023. For older browser versions, use a fixed <code>min-height</code> on the title or make each card a flex column and apply <code>margin-top: auto</code> to its footer.</p>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>Should I use Grid or Flexbox?</h3></summary>
-              <div class="jp-faq-answer"><p>Grid when you are defining a layout in two dimensions and want content placed into it. Flexbox when you are distributing a row or column of items whose sizes you do not control. Most pages use both — Grid for page structure, Flexbox inside components.</p></div>
+              <div class="jp-faq-answer"><p>Start with Grid when you are defining rows and columns and placing content within them. Start with Flexbox when you are distributing a row or column of items whose sizes vary. It is normal to use Grid for page structure and Flexbox inside individual components.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Is Grid slower than Flexbox?</h3></summary>
-              <div class="jp-faq-answer"><p>Not in any way you will measure. Both are implemented natively and highly optimised. Choose on which one expresses the layout more clearly; layout performance problems in practice come from thrashing and forced reflows, not from the choice of layout module.</p></div>
+              <div class="jp-faq-answer"><p>The performance difference is not meaningful for normal layouts. Browsers implement both natively. Choose the module that describes the layout clearly; repeated layout reads and writes or forced reflows are more likely sources of a rendering problem.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Can I nest Grid inside Flexbox and vice versa?</h3></summary>
-              <div class="jp-faq-answer"><p>Yes, and you should. A flex navbar containing a grid dropdown is entirely normal. Each container establishes its own formatting context, so they compose freely.</p></div>
+              <div class="jp-faq-answer"><p>Yes. A flex navigation bar can contain a Grid-based dropdown, and a Grid cell can contain a flex toolbar. Each container establishes its own formatting context, so nesting them is routine.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why is my grid item overflowing its column?</h3></summary>
-              <div class="jp-faq-answer"><p>Because 1fr has a minimum of auto, so wide content forces the track wider. Use minmax(0, 1fr) instead, and add overflow-x: auto to the offending child. The Flexbox equivalent is min-width: 0.</p></div>
+              <div class="jp-faq-answer"><p>A 1fr track has an automatic minimum, so wide content can force the track to grow. Try minmax(0, 1fr), then add overflow-x: auto to the child that should scroll. For a Flexbox child, the corresponding fix is min-width: 0.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What is the difference between auto-fill and auto-fit?</h3></summary>
-              <div class="jp-faq-answer"><p>auto-fill keeps empty tracks in place when there are not enough items, so three cards in a six-column grid stay card-width. auto-fit collapses the empty tracks, letting the three cards stretch across the whole row. Choose based on whether you want items to stretch when few.</p></div>
+              <div class="jp-faq-answer"><p>auto-fill preserves empty tracks, so three cards in a six-column grid remain at their track width. auto-fit collapses empty tracks and allows those three cards to fill the row. The choice depends on whether a small number of items should stretch.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Do I still need media queries?</h3></summary>
-              <div class="jp-faq-answer"><p>Far fewer. minmax with auto-fill handles most responsive grids intrinsically. Container queries go further, letting a component respond to its own width rather than the viewport — which is what you usually wanted from a media query in the first place.</p></div>
+              <div class="jp-faq-answer"><p>Yes, but intrinsic sizing can remove some of them. minmax with auto-fill handles many responsive grids without a breakpoint. Container queries cover another common case by letting a component respond to its own width instead of the viewport.</p></div>
             </details>
       </section>
       <section class="jp-related">
@@ -359,15 +360,15 @@ flex: none;     /* = flex: 0 0 auto — never grows or shrinks */</code></pre>
   <div class="jp-cards"><a class="jp-card" href="/tools/color-contrast-checker/">
         <span class="jp-card-eyebrow"></span>
         <h3>Colour Contrast Checker</h3>
-        <p>Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes.</p>
+        <p>Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option.</p>
       </a><a class="jp-card" href="/guides/react-usestate-not-updating/">
         <span class="jp-card-eyebrow"></span>
         <h3>Why your React useState is not updating</h3>
-        <p>Stale closures, mutation, batching and the setInterval trap — why state logs the old value.</p>
+        <p>Check captured values, state mutation, batching and effect dependencies when a state update seems to disappear.</p>
       </a><a class="jp-card" href="/guides/javascript-async-await-explained/">
         <span class="jp-card-eyebrow"></span>
-        <h3>JavaScript async/await, properly explained</h3>
-        <p>Sequential awaits, forEach silently ignoring async, and error handling that does not swallow failures.</p>
+        <h3>How JavaScript async/await behaves</h3>
+        <p>Trace Promise start order, choose sequential or concurrent work, and keep asynchronous failures visible.</p>
       </a></div>
 </section>
     </article>
@@ -376,7 +377,7 @@ flex: none;     /* = flex: 0 0 auto — never grows or shrinks */</code></pre>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#the-rule">The rule</a></li><li><a href="#the-tell-does-content-need-to-line-up-across-rows">The tell: does content need to line up across rows?</a></li><li><a href="#patterns-worth-memorising">Patterns worth memorising</a></li><li><a href="#things-people-get-wrong">Things people get wrong</a></li><li><a href="#order-and-why-it-can-be-an-accessibility-bug">Order, and why it can be an accessibility bug</a></li><li><a href="#subgrid">Subgrid</a></li></ol>
+  <ol><li><a href="#start-with-the-layout-s-dimensions">Start with the layout’s dimensions</a></li><li><a href="#check-whether-separate-rows-must-align">Check whether separate rows must align</a></li><li><a href="#useful-layout-patterns">Useful layout patterns</a></li><li><a href="#common-trouble-spots">Common trouble spots</a></li><li><a href="#keep-visual-and-document-order-together">Keep visual and document order together</a></li><li><a href="#subgrid">Subgrid</a></li></ol>
 </nav>
   
   

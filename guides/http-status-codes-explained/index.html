@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>HTTP Status Codes Explained (And Which to Actually Use)</title>
-    <meta name="description" content="A working reference to HTTP status codes: what each class means, the dozen you will really use, and the ones API developers routinely get wrong." />
+    <title>HTTP Status Codes: A Practical API Reference</title>
+    <meta name="description" content="A working reference for common HTTP status codes, including authentication, validation, redirects, retries and gateway failures." />
     <link rel="canonical" href="https://junepoint.com/guides/http-status-codes-explained/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="HTTP Status Codes Explained (And Which to Actually Use)" />
-    <meta property="og:description" content="A working reference to HTTP status codes: what each class means, the dozen you will really use, and the ones API developers routinely get wrong." />
+    <meta property="og:title" content="HTTP Status Codes: A Practical API Reference" />
+    <meta property="og:description" content="A working reference for common HTTP status codes, including authentication, validation, redirects, retries and gateway failures." />
     <meta property="og:url" content="https://junepoint.com/guides/http-status-codes-explained/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-08" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="HTTP Status Codes Explained (And Which to Actually Use)" />
-    <meta name="twitter:description" content="A working reference to HTTP status codes: what each class means, the dozen you will really use, and the ones API developers routinely get wrong." />
+    <meta name="twitter:title" content="HTTP Status Codes: A Practical API Reference" />
+    <meta name="twitter:description" content="A working reference for common HTTP status codes, including authentication, validation, redirects, retries and gateway failures." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -64,7 +65,7 @@
       "@id": "https://junepoint.com/about/#jackson-abeyta",
       "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
         "https://linkedin.com/in/jackson-abeyta",
@@ -90,7 +91,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "HTTP status codes, and which to actually use",
+          "name": "HTTP status codes for application developers",
           "item": "https://junepoint.com/guides/http-status-codes-explained/"
         }
       ]
@@ -98,9 +99,9 @@
     {
       "@type": "TechArticle",
       "@id": "https://junepoint.com/guides/http-status-codes-explained/#article",
-      "headline": "HTTP status codes, and which to actually use",
-      "name": "HTTP Status Codes Explained (And Which to Actually Use)",
-      "description": "A working reference to HTTP status codes: what each class means, the dozen you will really use, and the ones API developers routinely get wrong.",
+      "headline": "HTTP status codes for application developers",
+      "name": "HTTP Status Codes: A Practical API Reference",
+      "description": "A working reference for common HTTP status codes, including authentication, validation, redirects, retries and gateway failures.",
       "datePublished": "2026-06-25",
       "dateModified": "2026-08-08",
       "inLanguage": "en",
@@ -127,7 +128,7 @@
           "name": "What is the difference between 401 and 403?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "401 means not authenticated — no valid credentials were supplied, and providing some might work. 403 means authenticated but not permitted — the same credentials will never grant access. The name \"Unauthorized\" for 401 is a historical misnomer."
+            "text": "401 means the request lacks valid authentication, so supplying valid credentials might work. 403 means the server recognizes the caller but does not grant that identity permission. The name \"Unauthorized\" for 401 is a historical misnomer."
           }
         },
         {
@@ -135,7 +136,7 @@
           "name": "Should I use 301 or 302 for a redirect?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "301 for permanent moves, which is what transfers SEO ranking. 302 for temporary ones. If the request might be a POST, use 308 or 307 instead — 301 and 302 cause browsers to convert POST to GET and drop the body."
+            "text": "Use 301 for a permanent move and 302 for a temporary one. Search engines use 301 as a signal to update indexing and ranking. If the original request may be a POST, use 308 or 307 to preserve its method and body."
           }
         },
         {
@@ -143,7 +144,7 @@
           "name": "Is it acceptable to return 200 with an error in the body?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. It defeats every layer that reads status codes: client libraries, retry logic, monitoring, caching and health checks. Your dashboards will show a zero error rate while users are failing."
+            "text": "Not for a failed HTTP operation. Client libraries, retry logic, monitoring, caches and health checks all interpret 200 as success. Return an appropriate error status and put the structured details in the response body."
           }
         },
         {
@@ -159,7 +160,7 @@
           "name": "When should I use 422 instead of 400?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "400 when the request cannot be parsed — malformed JSON, missing required fields. 422 when it parses cleanly but the values are invalid. Many APIs use 400 for both and put detail in the body, which is fine as long as it is consistent and documented."
+            "text": "Use 400 when the request cannot be parsed or is missing its required shape. Use 422 when parsing succeeds but the values fail semantic validation. Some APIs use 400 for both; consistency and a documented error body matter more than forcing this distinction."
           }
         },
         {
@@ -167,7 +168,7 @@
           "name": "Which status codes are safe to retry automatically?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "408, 429 and the 5xx family, using exponential backoff with jitter and honouring Retry-After. Never retry 400, 401, 403, 404 or 422 — the request is wrong and repeating it will not help."
+            "text": "408, 429 and transient 5xx responses are typical retry candidates. Use exponential backoff with jitter and honor Retry-After. Do not automatically retry 400, 401, 403, 404 or 422 without changing the request or credentials."
           }
         }
       ]
@@ -200,31 +201,31 @@
     <a href="/">JunePoint Studio</a>
   </nav>
 </header>
-    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">HTTP status codes, and which to actually use</li></ol></nav></div>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">HTTP status codes for application developers</li></ol></nav></div>
 <div class="jp-layout">
   <main id="main">
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Web fundamentals</p>
-      <h1>HTTP status codes, and which to actually use</h1>
-      <p class="jp-standfirst">There are 60-odd status codes and you need about a dozen. Here they are, plus the distinctions that matter — 401 vs 403, 301 vs 308, 400 vs 422.</p>
+      <h1>HTTP status codes for application developers</h1>
+      <p class="jp-standfirst">Most application code uses a small part of the HTTP status registry. Focus on the codes your clients can act on, especially the distinctions between 401 and 403, 400 and 422, and temporary and permanent redirects.</p>
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published June 25, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 8, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
     </header>
     <article class="jp-article">
       <h2 id="the-five-classes">The five classes</h2>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Class</th><th scope="col">Meaning</th><th scope="col">Who should fix it</th></tr></thead><tbody><tr><th scope="row"><code>1xx</code></th><td>Informational — request received, still processing</td><td>Nobody; rarely seen</td></tr><tr><th scope="row"><code>2xx</code></th><td>Success</td><td>Nobody</td></tr><tr><th scope="row"><code>3xx</code></th><td>Redirection — go somewhere else</td><td>Nobody, if configured correctly</td></tr><tr><th scope="row"><code>4xx</code></th><td>Client error — the request was wrong</td><td>The caller</td></tr><tr><th scope="row"><code>5xx</code></th><td>Server error — the request was fine, the server failed</td><td>You</td></tr></tbody></table></div>
-<p>That last distinction is the one that matters operationally. <strong>4xx means the client sent something invalid; 5xx means you broke.</strong> Returning 500 for a validation failure sends your error rate through the roof and pages someone at 3am for a user who typed a bad email address.</p>
-<h2 id="the-dozen-you-will-actually-use">The dozen you will actually use</h2>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Name</th><th scope="col">When</th></tr></thead><tbody><tr><th scope="row"><code>200</code></th><td>OK</td><td>Successful GET, PUT or PATCH with a body</td></tr><tr><th scope="row"><code>201</code></th><td>Created</td><td>POST created a resource — include a <code>Location</code> header</td></tr><tr><th scope="row"><code>204</code></th><td>No Content</td><td>Success with nothing to return — DELETE, or a PUT you do not echo</td></tr><tr><th scope="row"><code>301</code></th><td>Moved Permanently</td><td>The URL has changed for good</td></tr><tr><th scope="row"><code>302</code></th><td>Found</td><td>Temporary redirect — but see 307 below</td></tr><tr><th scope="row"><code>304</code></th><td>Not Modified</td><td>The cached copy is still good</td></tr><tr><th scope="row"><code>400</code></th><td>Bad Request</td><td>Malformed request the server cannot parse</td></tr><tr><th scope="row"><code>401</code></th><td>Unauthorized</td><td>Not authenticated — who are you?</td></tr><tr><th scope="row"><code>403</code></th><td>Forbidden</td><td>Authenticated, but not allowed</td></tr><tr><th scope="row"><code>404</code></th><td>Not Found</td><td>No such resource</td></tr><tr><th scope="row"><code>409</code></th><td>Conflict</td><td>State conflict — duplicate, or a concurrent edit</td></tr><tr><th scope="row"><code>422</code></th><td>Unprocessable Content</td><td>Well-formed but semantically invalid</td></tr><tr><th scope="row"><code>429</code></th><td>Too Many Requests</td><td>Rate limited — always include <code>Retry-After</code></td></tr><tr><th scope="row"><code>500</code></th><td>Internal Server Error</td><td>You have a bug</td></tr><tr><th scope="row"><code>503</code></th><td>Service Unavailable</td><td>Temporarily down or overloaded</td></tr></tbody></table></div>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Class</th><th scope="col">Meaning</th><th scope="col">Who should fix it</th></tr></thead><tbody><tr><th scope="row"><code>1xx</code></th><td>Informational; request received, still processing</td><td>Usually protocol handling; rarely seen in application code</td></tr><tr><th scope="row"><code>2xx</code></th><td>Success</td><td>Nobody</td></tr><tr><th scope="row"><code>3xx</code></th><td>Redirection to another location or cached representation</td><td>Configuration, if the destination is wrong</td></tr><tr><th scope="row"><code>4xx</code></th><td>The request cannot be fulfilled as sent</td><td>The caller</td></tr><tr><th scope="row"><code>5xx</code></th><td>The server failed to complete a valid request</td><td>The service operator</td></tr></tbody></table></div>
+<p>The 4xx and 5xx boundary matters to monitoring and retry behavior. A validation failure belongs in 4xx because the caller can change the request. A 5xx response tells operators and clients that the server failed, so using it for invalid input creates false incident signals.</p>
+<h2 id="the-common-application-codes">The common application codes</h2>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Name</th><th scope="col">When</th></tr></thead><tbody><tr><th scope="row"><code>200</code></th><td>OK</td><td>Successful GET, PUT or PATCH with a body</td></tr><tr><th scope="row"><code>201</code></th><td>Created</td><td>POST created a resource; include a <code>Location</code> header</td></tr><tr><th scope="row"><code>204</code></th><td>No Content</td><td>Success with nothing to return, such as DELETE or a PUT you do not echo</td></tr><tr><th scope="row"><code>301</code></th><td>Moved Permanently</td><td>The URL has changed for good</td></tr><tr><th scope="row"><code>302</code></th><td>Found</td><td>Temporary redirect; compare its method behavior with 307</td></tr><tr><th scope="row"><code>304</code></th><td>Not Modified</td><td>The cached copy is still good</td></tr><tr><th scope="row"><code>400</code></th><td>Bad Request</td><td>Malformed request the server cannot parse</td></tr><tr><th scope="row"><code>401</code></th><td>Unauthorized</td><td>Valid authentication is missing</td></tr><tr><th scope="row"><code>403</code></th><td>Forbidden</td><td>Authenticated, but not allowed</td></tr><tr><th scope="row"><code>404</code></th><td>Not Found</td><td>No such resource</td></tr><tr><th scope="row"><code>409</code></th><td>Conflict</td><td>State conflict, such as a duplicate or concurrent edit</td></tr><tr><th scope="row"><code>422</code></th><td>Unprocessable Content</td><td>Well-formed but semantically invalid</td></tr><tr><th scope="row"><code>429</code></th><td>Too Many Requests</td><td>Rate limited; include <code>Retry-After</code></td></tr><tr><th scope="row"><code>500</code></th><td>Internal Server Error</td><td>You have a bug</td></tr><tr><th scope="row"><code>503</code></th><td>Service Unavailable</td><td>Temporarily down or overloaded</td></tr></tbody></table></div>
 <h2 id="401-vs-403-authentication-vs-authorisation">401 vs 403: authentication vs authorisation</h2>
-<p>The naming is genuinely unhelpful — 401 is called &quot;Unauthorized&quot; but means <em>unauthenticated</em>.</p>
-<ul><li><strong>401</strong> — I do not know who you are. No credentials, expired token, invalid signature. Retrying with valid credentials could work. The response <strong>must</strong> include a <code>WWW-Authenticate</code> header, though most APIs ignore this requirement.</li><li><strong>403</strong> — I know who you are and you may not do this. Retrying with the same credentials will never work.</li></ul>
+<p>The historical name of 401 is misleading. In application terms, 401 means the request is not authenticated, while 403 concerns permission after the caller is known.</p>
+<ul><li><strong>401:</strong> no credentials, an expired token or an invalid signature. Supplying valid credentials could change the outcome. The response <strong>must</strong> include a <code>WWW-Authenticate</code> header, although many APIs omit it.</li><li><strong>403:</strong> the server recognizes the caller but does not allow this action. Retrying with the same identity will not change the result.</li></ul>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title">When 404 is the better answer than 403</p>
-        <p>Returning 403 confirms that a resource exists. For anything where the identifier itself is sensitive — private repositories, other tenants’ records — returning 404 for both &quot;does not exist&quot; and &quot;not yours&quot; avoids leaking existence. GitHub does exactly this on private repositories.</p>
+        <p>A 403 response confirms that the target exists. When existence is sensitive, as with private repositories or another tenant’s records, returning 404 for both &quot;not found&quot; and &quot;not visible to this caller&quot; avoids that disclosure. GitHub uses this approach for private repositories.</p>
       </aside>
 <h2 id="400-vs-422">400 vs 422</h2>
-<ul><li><strong>400</strong> — the server cannot understand the request at all: malformed JSON, a missing required parameter, a broken <code>Content-Type</code>.</li><li><strong>422</strong> — the syntax is fine and the meaning is invalid: an email that is not an email, an end date before the start date, a quantity of −1.</li></ul>
-<p>This is a genuine grey area and reasonable teams disagree. Many large APIs use 400 for everything and put the detail in the body, which is defensible and simpler. What is not defensible is being inconsistent within one API. Pick a convention, document it, and return machine-readable details either way:</p>
+<ul><li><strong>400:</strong> the server cannot process the request syntax or basic shape, such as malformed JSON, a missing required parameter or an invalid <code>Content-Type</code>.</li><li><strong>422:</strong> the syntax is valid but the values fail semantic validation, such as a malformed email, an end date before the start date or a quantity of −1.</li></ul>
+<p>Reasonable APIs draw this line differently. Some use 400 for both parsing and validation errors, then describe the distinction in the body. Either approach can work if it is documented and consistent within the API. Return machine-readable details so clients do not have to parse prose:</p>
 <pre class="jp-code" data-lang="json"><code>{
   &quot;type&quot;: &quot;https://api.example.com/errors/validation&quot;,
   &quot;title&quot;: &quot;Validation failed&quot;,
@@ -234,34 +235,34 @@
     { &quot;field&quot;: &quot;endDate&quot;, &quot;code&quot;: &quot;before_start&quot;,   &quot;message&quot;: &quot;Must be after startDate&quot; }
   ]
 }</code></pre>
-<p>That shape follows RFC 9457 (Problem Details for HTTP APIs), which is worth adopting — it gives clients a documented structure instead of a bespoke one per endpoint.</p>
+<p>This follows RFC 9457, Problem Details for HTTP APIs. Adopting that structure gives clients one documented error format instead of a different shape for each endpoint.</p>
 <h2 id="redirects-301-302-307-308">Redirects: 301, 302, 307, 308</h2>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Duration</th><th scope="col">Method preserved?</th></tr></thead><tbody><tr><th scope="row"><code>301</code></th><td>Permanent</td><td>No — POST usually becomes GET</td></tr><tr><th scope="row"><code>302</code></th><td>Temporary</td><td>No — POST usually becomes GET</td></tr><tr><th scope="row"><code>307</code></th><td>Temporary</td><td><strong>Yes</strong></td></tr><tr><th scope="row"><code>308</code></th><td>Permanent</td><td><strong>Yes</strong></td></tr></tbody></table></div>
-<p>The method-changing behaviour of 301 and 302 was never in the specification — browsers did it, and it became so widespread the standard documented it. 307 and 308 exist to give you the same redirect semantics without the surprise.</p>
-<ul><li><strong>Moving a page permanently, for SEO:</strong> use 301. It is the code search engines treat as a signal to transfer ranking and update the index.</li><li><strong>Redirecting an API POST:</strong> use 307 or 308, or the request body will be silently dropped.</li><li><strong>Post/Redirect/Get after a form submission:</strong> 303 See Other is the correct code — it deliberately converts the follow-up to a GET so a refresh does not resubmit.</li></ul>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Duration</th><th scope="col">Method preserved?</th></tr></thead><tbody><tr><th scope="row"><code>301</code></th><td>Permanent</td><td>No; POST usually becomes GET</td></tr><tr><th scope="row"><code>302</code></th><td>Temporary</td><td>No; POST usually becomes GET</td></tr><tr><th scope="row"><code>307</code></th><td>Temporary</td><td><strong>Yes</strong></td></tr><tr><th scope="row"><code>308</code></th><td>Permanent</td><td><strong>Yes</strong></td></tr></tbody></table></div>
+<p>Browsers historically changed POST to GET when following 301 and 302, even though the original specifications did not define that behavior. The standards later documented the established practice. Codes 307 and 308 provide temporary and permanent redirects while preserving the method and body.</p>
+<ul><li><strong>Moving a page permanently, for SEO:</strong> use 301. It is the code search engines treat as a signal to transfer ranking and update the index.</li><li><strong>Redirecting an API POST:</strong> use 307 or 308, or the request body will be silently dropped.</li><li><strong>Post/Redirect/Get after a form submission:</strong> use 303 See Other. It deliberately converts the follow-up request to GET so refreshing the result does not resubmit the form.</li></ul>
 <aside class="jp-note jp-note--warn">
-        <p class="jp-note-title">301 responses are cached aggressively and effectively forever</p>
-        <p>Browsers cache permanent redirects on disk and may not recheck for months. A 301 pointing at the wrong place is very hard to take back from users who already received it. Test redirect rules with a 302, then switch to 301 once you are certain.</p>
+        <p class="jp-note-title">Test a permanent redirect before publishing it</p>
+        <p>Browsers can cache permanent redirects on disk for months. Correcting a bad 301 may not help clients that already stored it. Test the routing rule with a 302, then change it to 301 after confirming the destination.</p>
       </aside>
-<h2 id="the-codes-api-developers-get-wrong">The codes API developers get wrong</h2>
+<h2 id="status-code-mistakes-that-affect-clients">Status-code mistakes that affect clients</h2>
 <h3 id="returning-200-with-an-error-in-the-body">Returning 200 with an error in the body</h3>
 <pre class="jp-code" data-lang="json"><code>HTTP/1.1 200 OK
 { &quot;success&quot;: false, &quot;error&quot;: &quot;User not found&quot; }</code></pre>
-<p>This breaks everything that reads status codes: HTTP client error handling, retry logic, monitoring, CDN caching, load-balancer health checks. Your error rate looks like zero while users see failures. Use the status line — it exists for this.</p>
+<p>A 200 response tells client libraries, retry code, monitoring, caches and health checks that the request succeeded. Putting an error only in the body hides the failure from each of those layers. Return the error status on the HTTP status line and use the body for detail.</p>
 <h3 id="using-500-for-anything-you-did-not-anticipate">Using 500 for anything you did not anticipate</h3>
-<p>500 should mean &quot;there is a bug in my code&quot;. If a user sent bad input, that is a 4xx. Conflating the two makes your error dashboards useless: you cannot distinguish a real incident from a client sending nonsense.</p>
+<p>Reserve 500 for an unexpected server failure. Invalid input belongs in 4xx. Keeping those categories separate makes dashboards and alerts reflect service incidents instead of routine client mistakes.</p>
 <h3 id="forgetting-retry-after-on-429-and-503">Forgetting <code>Retry-After</code> on 429 and 503</h3>
 <pre class="jp-code" data-lang="http"><code>HTTP/1.1 429 Too Many Requests
 Retry-After: 60
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 0
 X-RateLimit-Reset: 1767229200</code></pre>
-<p>Without <code>Retry-After</code>, well-behaved clients guess — and badly behaved ones retry immediately, turning a rate limit into a self-inflicted denial of service. It accepts either a delay in seconds or an HTTP date.</p>
+<p>Without <code>Retry-After</code>, clients must guess when to try again, and immediate retries can increase load during an already constrained period. The header accepts either a delay in seconds or an HTTP date.</p>
 <h3 id="using-404-for-an-empty-collection">Using 404 for an empty collection</h3>
-<p><code>GET /users?role=admin</code> matching nothing is a <strong>200 with an empty array</strong>. The collection exists; it happens to be empty. 404 means the endpoint itself does not exist, and clients will treat it as a routing bug.</p>
+<p>When <code>GET /users?role=admin</code> finds no matches, return <strong>200 with an empty array</strong>. The collection exists and the filter produced no members. A 404 suggests that the resource or route itself does not exist.</p>
 <h2 id="which-errors-are-safe-to-retry">Which errors are safe to retry</h2>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Code</th><th scope="col">Retry?</th><th scope="col">Strategy</th></tr></thead><tbody><tr><th scope="row"><code>408</code>, <code>429</code></th><td>Yes</td><td>Honour <code>Retry-After</code></td></tr><tr><th scope="row"><code>500</code>, <code>502</code>, <code>503</code>, <code>504</code></th><td>Yes</td><td>Exponential backoff with jitter</td></tr><tr><th scope="row"><code>400</code>, <code>401</code>, <code>403</code>, <code>404</code>, <code>422</code></th><td>No</td><td>Retrying cannot change the outcome</td></tr><tr><th scope="row"><code>409</code></th><td>Sometimes</td><td>Only after re-reading the current state</td></tr></tbody></table></div>
-<p><strong>Add jitter to your backoff.</strong> Without it, every client that failed during an outage retries at the same instants and hammers the service just as it recovers — the thundering herd that turns a brief blip into a long outage.</p>
+<p><strong>Add jitter to exponential backoff.</strong> Without it, clients that failed together also retry together, producing synchronized load while the service is recovering. A random component spreads those attempts over time.</p>
 <pre class="jp-code" data-lang="javascript"><code>async function withRetry(fn, attempts = 4) {
   for (let i = 0; i &lt; attempts; i++) {
     try {
@@ -276,30 +277,30 @@ X-RateLimit-Reset: 1767229200</code></pre>
   }
 }</code></pre>
 <h2 id="502-503-and-504-which-layer-failed">502, 503 and 504: which layer failed</h2>
-<ul><li><strong>502 Bad Gateway</strong> — the proxy reached your application and got an invalid response, or none. Usually the app crashed or is not listening.</li><li><strong>503 Service Unavailable</strong> — the server is up but deliberately not serving: maintenance mode, no healthy backends, or a shed load. The only 5xx that is often intentional.</li><li><strong>504 Gateway Timeout</strong> — the app was reachable but too slow. Look at slow queries and upstream calls, not at the proxy.</li></ul>
-<p>The distinction tells you where to look: 502 means &quot;is the process alive?&quot;, 504 means &quot;why is it slow?&quot;. Guessing between them wastes the first ten minutes of an incident.</p>
+<ul><li><strong>502 Bad Gateway:</strong> the proxy received an invalid response from the application, or no response at all. Check whether the app crashed or is listening on the expected address.</li><li><strong>503 Service Unavailable:</strong> the server is available but cannot currently serve the request, for example during maintenance, load shedding or when no healthy backend remains.</li><li><strong>504 Gateway Timeout:</strong> the upstream application was reachable but did not respond in time. Investigate slow queries and upstream calls as well as configured timeouts.</li></ul>
+<p>Use the gateway’s observation to choose the first check. For 502, verify that the process is healthy and returning valid HTTP. For 504, trace where the upstream request spent its time.</p>
 <h2 id="two-worth-knowing-that-you-rarely-see">Two worth knowing that you rarely see</h2>
-<ul><li><strong><code>202 Accepted</code></strong> — the request is valid and queued, but not finished. The right answer for anything asynchronous: return 202 with a status URL the client can poll, rather than holding a connection open.</li><li><strong><code>412 Precondition Failed</code></strong> — with <code>If-Match</code> and <code>ETag</code>, this gives you optimistic concurrency control. The client sends the version it read; if the resource has changed since, the update is rejected instead of silently overwriting someone else’s work.</li></ul>
+<ul><li><strong><code>202 Accepted</code>:</strong> the server accepted the request but has not finished processing it. For asynchronous work, return 202 with a status URL the client can poll instead of holding the original connection open.</li><li><strong><code>412 Precondition Failed</code>:</strong> use <code>If-Match</code> with <code>ETag</code> for optimistic concurrency control. The client sends the version it read; if that resource has since changed, the server rejects the update instead of overwriting newer work.</li></ul>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>What is the difference between 401 and 403?</h3></summary>
-              <div class="jp-faq-answer"><p>401 means not authenticated — no valid credentials were supplied, and providing some might work. 403 means authenticated but not permitted — the same credentials will never grant access. The name &quot;Unauthorized&quot; for 401 is a historical misnomer.</p></div>
+              <div class="jp-faq-answer"><p>401 means the request lacks valid authentication, so supplying valid credentials might work. 403 means the server recognizes the caller but does not grant that identity permission. The name &quot;Unauthorized&quot; for 401 is a historical misnomer.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Should I use 301 or 302 for a redirect?</h3></summary>
-              <div class="jp-faq-answer"><p>301 for permanent moves, which is what transfers SEO ranking. 302 for temporary ones. If the request might be a POST, use 308 or 307 instead — 301 and 302 cause browsers to convert POST to GET and drop the body.</p></div>
+              <div class="jp-faq-answer"><p>Use 301 for a permanent move and 302 for a temporary one. Search engines use 301 as a signal to update indexing and ranking. If the original request may be a POST, use 308 or 307 to preserve its method and body.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Is it acceptable to return 200 with an error in the body?</h3></summary>
-              <div class="jp-faq-answer"><p>No. It defeats every layer that reads status codes: client libraries, retry logic, monitoring, caching and health checks. Your dashboards will show a zero error rate while users are failing.</p></div>
+              <div class="jp-faq-answer"><p>Not for a failed HTTP operation. Client libraries, retry logic, monitoring, caches and health checks all interpret 200 as success. Return an appropriate error status and put the structured details in the response body.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What should an API return when nothing matches a filter?</h3></summary>
               <div class="jp-faq-answer"><p>200 with an empty array. The collection exists and is empty. 404 signals that the endpoint itself does not exist, which clients reasonably interpret as a bug in their URL.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>When should I use 422 instead of 400?</h3></summary>
-              <div class="jp-faq-answer"><p>400 when the request cannot be parsed — malformed JSON, missing required fields. 422 when it parses cleanly but the values are invalid. Many APIs use 400 for both and put detail in the body, which is fine as long as it is consistent and documented.</p></div>
+              <div class="jp-faq-answer"><p>Use 400 when the request cannot be parsed or is missing its required shape. Use 422 when parsing succeeds but the values fail semantic validation. Some APIs use 400 for both; consistency and a documented error body matter more than forcing this distinction.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Which status codes are safe to retry automatically?</h3></summary>
-              <div class="jp-faq-answer"><p>408, 429 and the 5xx family, using exponential backoff with jitter and honouring Retry-After. Never retry 400, 401, 403, 404 or 422 — the request is wrong and repeating it will not help.</p></div>
+              <div class="jp-faq-answer"><p>408, 429 and transient 5xx responses are typical retry candidates. Use exponential backoff with jitter and honor Retry-After. Do not automatically retry 400, 401, 403, 404 or 422 without changing the request or credentials.</p></div>
             </details>
       </section>
       <section class="jp-related">
@@ -307,15 +308,15 @@ X-RateLimit-Reset: 1767229200</code></pre>
   <div class="jp-cards"><a class="jp-card" href="/guides/fix-cors-errors/">
         <span class="jp-card-eyebrow"></span>
         <h3>How to fix CORS errors</h3>
-        <p>Read the exact error, find the real cause, fix it on the server. Includes the wildcard-plus-credentials trap.</p>
+        <p>Match the browser error to a missing header, failed preflight, origin mismatch or credential conflict.</p>
       </a><a class="jp-card" href="/guides/javascript-async-await-explained/">
         <span class="jp-card-eyebrow"></span>
-        <h3>JavaScript async/await, properly explained</h3>
-        <p>Sequential awaits, forEach silently ignoring async, and error handling that does not swallow failures.</p>
+        <h3>How JavaScript async/await behaves</h3>
+        <p>Trace Promise start order, choose sequential or concurrent work, and keep asynchronous failures visible.</p>
       </a><a class="jp-card" href="/tools/jwt-decoder/">
         <span class="jp-card-eyebrow"></span>
         <h3>JWT Decoder</h3>
-        <p>Decode a JSON Web Token to read its header and claims, with expiry shown in plain English. Runs entirely in your browser — the token is never transmitted.</p>
+        <p>Decode a JSON Web Token in your browser to inspect its header, payload, registered claims and expiry time.</p>
       </a></div>
 </section>
     </article>
@@ -324,7 +325,7 @@ X-RateLimit-Reset: 1767229200</code></pre>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#the-five-classes">The five classes</a></li><li><a href="#the-dozen-you-will-actually-use">The dozen you will actually use</a></li><li><a href="#401-vs-403-authentication-vs-authorisation">401 vs 403: authentication vs authorisation</a></li><li><a href="#400-vs-422">400 vs 422</a></li><li><a href="#redirects-301-302-307-308">Redirects: 301, 302, 307, 308</a></li><li><a href="#the-codes-api-developers-get-wrong">The codes API developers get wrong</a></li><li><a href="#which-errors-are-safe-to-retry">Which errors are safe to retry</a></li><li><a href="#502-503-and-504-which-layer-failed">502, 503 and 504: which layer failed</a></li><li><a href="#two-worth-knowing-that-you-rarely-see">Two worth knowing that you rarely see</a></li></ol>
+  <ol><li><a href="#the-five-classes">The five classes</a></li><li><a href="#the-common-application-codes">The common application codes</a></li><li><a href="#401-vs-403-authentication-vs-authorisation">401 vs 403: authentication vs authorisation</a></li><li><a href="#400-vs-422">400 vs 422</a></li><li><a href="#redirects-301-302-307-308">Redirects: 301, 302, 307, 308</a></li><li><a href="#status-code-mistakes-that-affect-clients">Status-code mistakes that affect clients</a></li><li><a href="#which-errors-are-safe-to-retry">Which errors are safe to retry</a></li><li><a href="#502-503-and-504-which-layer-failed">502, 503 and 504: which layer failed</a></li><li><a href="#two-worth-knowing-that-you-rarely-see">Two worth knowing that you rarely see</a></li></ol>
 </nav>
   
   

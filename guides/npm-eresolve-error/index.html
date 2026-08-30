@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>Fix npm ERESOLVE: Unable to Resolve Dependency Tree</title>
-    <meta name="description" content="What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes." />
+    <title>npm ERESOLVE: Diagnose and Fix a Dependency Conflict</title>
+    <meta name="description" content="Read an npm ERESOLVE report, identify the incompatible peer ranges, and choose between an upgrade, override or temporary install policy." />
     <link rel="canonical" href="https://junepoint.com/guides/npm-eresolve-error/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="Fix npm ERESOLVE: Unable to Resolve Dependency Tree" />
-    <meta property="og:description" content="What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes." />
+    <meta property="og:title" content="npm ERESOLVE: Diagnose and Fix a Dependency Conflict" />
+    <meta property="og:description" content="Read an npm ERESOLVE report, identify the incompatible peer ranges, and choose between an upgrade, override or temporary install policy." />
     <meta property="og:url" content="https://junepoint.com/guides/npm-eresolve-error/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-14" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="Fix npm ERESOLVE: Unable to Resolve Dependency Tree" />
-    <meta name="twitter:description" content="What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes." />
+    <meta name="twitter:title" content="npm ERESOLVE: Diagnose and Fix a Dependency Conflict" />
+    <meta name="twitter:description" content="Read an npm ERESOLVE report, identify the incompatible peer ranges, and choose between an upgrade, override or temporary install policy." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -64,7 +65,7 @@
       "@id": "https://junepoint.com/about/#jackson-abeyta",
       "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
         "https://linkedin.com/in/jackson-abeyta",
@@ -99,8 +100,8 @@
       "@type": "TechArticle",
       "@id": "https://junepoint.com/guides/npm-eresolve-error/#article",
       "headline": "Fixing npm ERESOLVE dependency conflicts",
-      "name": "Fix npm ERESOLVE: Unable to Resolve Dependency Tree",
-      "description": "What ERESOLVE actually means, how to read the conflict report, and why --force and --legacy-peer-deps are not the same thing. With permanent fixes.",
+      "name": "npm ERESOLVE: Diagnose and Fix a Dependency Conflict",
+      "description": "Read an npm ERESOLVE report, identify the incompatible peer ranges, and choose between an upgrade, override or temporary install policy.",
       "datePublished": "2026-02-05",
       "dateModified": "2026-08-14",
       "inLanguage": "en",
@@ -127,7 +128,7 @@
           "name": "Is --legacy-peer-deps safe to use permanently?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It works, and plenty of large projects run this way. The cost is that you lose peer-dependency checking entirely, so a genuinely incompatible package installs without complaint. Treat it as technical debt with a note explaining why it is there, not as a settled configuration."
+            "text": "A project can keep this setting, but npm will no longer enforce peer requirements while building its tree. That allows genuinely incompatible packages to install without a peer-conflict error. Document why the setting is needed and revisit it as the affected dependencies are upgraded."
           }
         },
         {
@@ -135,7 +136,7 @@
           "name": "What is the difference between --force and --legacy-peer-deps?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "--legacy-peer-deps ignores peer dependency rules, reverting to npm 6 behaviour. --force tells npm to write a dependency tree it has already judged invalid, which can produce duplicate copies of a framework in one bundle. Reach for --legacy-peer-deps first; --force is rarely the right tool."
+            "text": "--legacy-peer-deps uses npm 6-style peer handling and does not enforce peer ranges while constructing the tree. --force disables npm safeguards more broadly and may install duplicate framework copies. Investigate the declared conflict before choosing either project-wide behavior."
           }
         },
         {
@@ -143,7 +144,7 @@
           "name": "Why did this start after upgrading Node?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Because a Node upgrade brings a new npm. npm 6 ignored peer conflicts silently; npm 7 and later enforce them. The conflict was almost certainly present before — you are only now being told about it."
+            "text": "Node releases ship with npm versions that may resolve peer dependencies differently. npm 6 did not enforce peer conflicts the way npm 7 and later do, so a pre-existing incompatible range can become an installation error after the upgrade."
           }
         },
         {
@@ -151,7 +152,7 @@
           "name": "Should I delete package-lock.json?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not routinely — it is what makes builds reproducible. Deleting and regenerating it is a legitimate troubleshooting step when the tree is genuinely corrupt, but it should be a deliberate action followed by a full test run, not a reflex."
+            "text": "Not as a routine first step. The lockfile makes installs reproducible. Regenerate it when evidence points to corrupt or incompatible lock data, then review the dependency changes and run the full test suite."
           }
         },
         {
@@ -198,17 +199,17 @@
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Troubleshooting</p>
       <h1>Fixing npm ERESOLVE dependency conflicts</h1>
-      <p class="jp-standfirst">The error is npm telling you two packages disagree about a shared dependency. Here is how to read the report, and which of the four fixes is right for your case.</p>
+      <p class="jp-standfirst">ERESOLVE means npm cannot satisfy two declared requirements in one dependency tree. Find the package with the incompatible peer range before choosing how to resolve it.</p>
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published February 5, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 14, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>6 min read</span></div>
     </header>
     <article class="jp-article">
       <aside class="jp-takeaways">
         <h2 id="key-takeaways">Key takeaways</h2>
-        <ul><li>ERESOLVE means two packages require incompatible versions of a shared <strong>peer</strong> dependency.</li><li><code>--legacy-peer-deps</code> ignores peer requirements entirely. <code>--force</code> installs a tree npm knows is broken. They are not interchangeable.</li><li>The correct permanent fix is usually <code>overrides</code> in <code>package.json</code>, or upgrading the package that is behind.</li><li>Whatever you choose, put it in <code>.npmrc</code> so CI and your teammates get the same tree — a flag typed by one person is not a fix.</li></ul>
+        <ul><li>ERESOLVE commonly means that declared <strong>peer dependency</strong> ranges cannot all be satisfied by one installed version.</li><li><code>--legacy-peer-deps</code> skips peer requirements. <code>--force</code> overrides npm’s refusal to install a conflicting tree; the flags solve different problems.</li><li>Prefer upgrading the package with the stale peer range. A targeted <code>overrides</code> entry can be reasonable after compatibility has been checked.</li><li>Record any project-wide install policy in <code>.npmrc</code> so local development and CI resolve dependencies the same way.</li></ul>
       </aside>
 <h2 id="what-the-error-means">What the error means</h2>
-<p>A <strong>peer dependency</strong> is a package’s way of saying &quot;I plug into this, and there must be exactly one copy of it&quot;. React components declare <code>react</code> as a peer so that they use <em>your</em> React rather than bundling a second, incompatible copy.</p>
-<p>ERESOLVE fires when two packages state peer requirements that cannot both be satisfied. npm 7 began enforcing this strictly; npm 6 installed anyway and let you discover the breakage at runtime, which is why upgrading Node often surfaces conflicts that were always there.</p>
+<p>A <strong>peer dependency</strong> declares that a package integrates with a dependency supplied by the consuming project. A React component library lists <code>react</code> as a peer so it uses the application’s React instance instead of bundling another copy.</p>
+<p>npm reports ERESOLVE when it cannot produce a tree that meets the declared requirements. npm 7 began installing and enforcing peer dependencies more strictly than npm 6. Because Node upgrades often bring a newer npm, an existing conflict may first become visible after upgrading Node.</p>
 <h2 id="reading-the-conflict-report">Reading the conflict report</h2>
 <pre class="jp-code" data-lang="text"><code>npm ERR! code ERESOLVE
 npm ERR! ERESOLVE unable to resolve dependency tree
@@ -222,16 +223,16 @@ npm ERR! Could not resolve dependency:
 npm ERR! peer react@&quot;^17.0.0&quot; from react-legacy-ui@3.2.0   ← what wants something else
 npm ERR! node_modules/react-legacy-ui
 npm ERR!   react-legacy-ui@&quot;^3.2.0&quot; from the root project</code></pre>
-<p>Three lines carry all the information:</p>
-<ol><li><strong><code>Found:</code></strong> — the version currently in the tree, and who asked for it.</li><li><strong><code>Could not resolve dependency: peer …</code></strong> — the requirement that cannot be met.</li><li><strong>The package name on the following line</strong> — the culprit. Here, <code>react-legacy-ui</code> has not been updated for React 18.</li></ol>
-<p>Before choosing a fix, check whether the culprit has simply been updated. <code>npm view react-legacy-ui peerDependencies</code> shows the requirement for the latest version, and <code>npm view react-legacy-ui versions --json</code> lists what exists. Very often the answer is a one-line version bump.</p>
-<h2 id="the-four-fixes-best-first">The four fixes, best first</h2>
+<p>Start with these three parts of the report:</p>
+<ol><li><strong><code>Found:</code></strong> identifies the version currently selected and the package that requested it.</li><li><strong><code>Could not resolve dependency: peer …</code></strong> shows the range that conflicts with that selection.</li><li><strong>The package name on the following line</strong> identifies the package declaring the incompatible range. In this example, <code>react-legacy-ui</code> declares support for React 17 rather than React 18.</li></ol>
+<p>Check for a newer compatible release before changing npm’s policy. <code>npm view react-legacy-ui peerDependencies</code> shows the latest package’s peer range, and <code>npm view react-legacy-ui versions --json</code> lists available versions. If the maintainer widened the range, a normal package upgrade resolves the conflict cleanly.</p>
+<h2 id="four-resolution-paths">Four resolution paths</h2>
 <h3 id="1-upgrade-the-outdated-package">1. Upgrade the outdated package</h3>
-<p>The real fix, when it is available. The maintainer has usually already widened the peer range:</p>
+<p>An updated release is the least surprising fix because it carries the maintainer’s declared compatibility. Check the release before applying a broader workaround:</p>
 <pre class="jp-code" data-lang="bash"><code>npm view react-legacy-ui versions --json
 npm install react-legacy-ui@latest</code></pre>
 <h3 id="2-use-overrides-to-force-one-version">2. Use <code>overrides</code> to force one version</h3>
-<p>When the package works fine with the newer version but its declared range is merely stale — very common — tell npm to substitute it. This is a targeted, committed, reviewable fix, and it is the right answer far more often than the flags below.</p>
+<p>If testing confirms that the package works with the selected dependency and only its declared range is stale, an override records that decision in <code>package.json</code>. This is narrower and easier to review than disabling peer checks across the project.</p>
 <pre class="jp-code" data-lang="json"><code>{
   &quot;overrides&quot;: {
     &quot;react-legacy-ui&quot;: {
@@ -240,51 +241,51 @@ npm install react-legacy-ui@latest</code></pre>
     }
   }
 }</code></pre>
-<p>The <code>$</code> syntax means &quot;whatever version the root project uses&quot;, so it stays correct when you upgrade React later. You can also pin a literal version. Yarn calls this <code>resolutions</code>; pnpm uses <code>pnpm.overrides</code>.</p>
+<p>The <code>$</code> syntax refers to the dependency specification in the root project, so the override follows later React upgrades. You can instead pin a literal version. Yarn provides <code>resolutions</code>, while pnpm uses <code>pnpm.overrides</code>.</p>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Overrides make a claim on your behalf</p>
-        <p>You are asserting the package works with a version its author did not test against. That is usually true for a minor React bump and occasionally false. Exercise the affected components before shipping.</p>
+        <p>An override asserts compatibility beyond the range published by the package author. A stale range may be harmless, but the constraint may also reflect a real incompatibility. Exercise the affected integration before shipping the override.</p>
       </aside>
 <h3 id="3-legacy-peer-deps">3. <code>--legacy-peer-deps</code></h3>
 <pre class="jp-code" data-lang="bash"><code>npm install --legacy-peer-deps</code></pre>
-<p>Restores npm 6 behaviour: peer dependencies are not installed automatically and conflicts are ignored. It is a <strong>global</strong> switch — it silences every peer check in the project, not just the one that failed, so a genuinely broken dependency added six months from now installs silently.</p>
-<p>Reasonable as a temporary measure on a large legacy tree. If you use it, commit it so everyone gets the same result:</p>
+<p>This restores npm 6-style peer handling: npm does not build the tree around peer requirements and does not fail on their conflicts. The switch applies to the <strong>whole project</strong>, including dependencies added later, not only the package currently failing.</p>
+<p>That can be a practical temporary policy for a large legacy tree. If the project depends on it, commit the setting so each environment uses the same resolver behavior:</p>
 <pre class="jp-code" data-lang="bash"><code># .npmrc in the project root
 legacy-peer-deps=true</code></pre>
 <h3 id="4-force">4. <code>--force</code></h3>
-<p>The last resort, and rarely correct. <code>--force</code> installs a tree npm has determined is broken, which can mean two copies of React in one bundle — producing &quot;Invalid hook call&quot; errors that look nothing like a dependency problem.</p>
-<p><strong><code>--force</code> is not a stronger <code>--legacy-peer-deps</code>.</strong> They do different things: one ignores peer requirements, the other overrides npm’s refusal to write a conflicting tree. If <code>--legacy-peer-deps</code> did not work, <code>--force</code> is unlikely to be the answer.</p>
+<p><code>--force</code> tells npm to continue despite protections and conflicts. The resulting tree may contain duplicate framework instances, such as two copies of React, which can later surface as an &quot;Invalid hook call&quot; rather than an install error.</p>
+<p><strong><code>--force</code> is not a stronger form of <code>--legacy-peer-deps</code>.</strong> The latter changes peer-dependency resolution, while the former disables several npm safeguards. A failure that remains under the legacy policy needs its report investigated rather than a stronger flag by default.</p>
 <h2 id="when-nothing-works-reset-the-tree">When nothing works: reset the tree</h2>
 <pre class="jp-code" data-lang="bash"><code>rm -rf node_modules package-lock.json
 npm cache clean --force
 npm install</code></pre>
-<p>A lockfile that was generated under a different npm major version, or hand-edited during a merge conflict, can encode a tree that cannot be reproduced. Regenerating it resolves a surprising share of otherwise inexplicable ERESOLVE failures.</p>
+<p>A lockfile generated by a different npm major or edited during conflict resolution can describe a tree the current npm cannot reproduce. If the declarations themselves are compatible, regenerating the tree is a useful diagnostic step.</p>
 <aside class="jp-note jp-note--tip">
-        <p class="jp-note-title">Never resolve a package-lock.json conflict by hand</p>
-        <p>Take either side wholesale, then regenerate: <code>git checkout --theirs package-lock.json &amp;&amp; npm install</code>. A hand-merged lockfile is a tree no npm version ever produced.</p>
+        <p class="jp-note-title">Regenerate a conflicted package-lock.json</p>
+        <p>Choose the appropriate side, then let npm rebuild the lock data: <code>git checkout --theirs package-lock.json &amp;&amp; npm install</code>. Line-by-line conflict resolution can create a combination that no npm invocation produced.</p>
       </aside>
 <h2 id="making-ci-behave-the-same-as-your-laptop">Making CI behave the same as your laptop</h2>
-<p>A flag you type locally does not exist in CI, which is why &quot;works on my machine&quot; is such a common ending to this story. Put the decision in the repository:</p>
-<pre class="jp-code" data-lang="bash"><code># .npmrc — commit this file
+<p>A command-line flag used on one laptop does not automatically apply in CI. Put a resolver policy that the project requires in the repository:</p>
+<pre class="jp-code" data-lang="bash"><code># .npmrc; commit this file
 legacy-peer-deps=true
 engine-strict=true</code></pre>
-<p>And use <code>npm ci</code> in CI rather than <code>npm install</code>. It installs strictly from the lockfile, fails if <code>package.json</code> and the lockfile disagree, and is considerably faster. It also means a dependency conflict fails the build instead of being silently resolved differently on each run.</p>
+<p>Use <code>npm ci</code> in CI rather than <code>npm install</code>. It installs from the lockfile, fails when <code>package.json</code> and the lockfile disagree, and avoids resolving a different dependency tree on each run. It is also generally faster for a clean automated install.</p>
 <h2 id="preventing-the-next-one">Preventing the next one</h2>
-<ul><li><strong>Keep the lockfile in version control.</strong> Always, including for libraries — it makes CI reproducible even though consumers ignore it.</li><li><strong>Update in small batches.</strong> <code>npm outdated</code> weekly is far less painful than a twelve-month arrears bump that changes forty packages at once.</li><li><strong>Check peer requirements before adding a package.</strong> <code>npm view &lt;pkg&gt; peerDependencies</code> takes two seconds.</li><li><strong>Pin your Node version</strong> with <code>.nvmrc</code> and an <code>engines</code> field. Different Node versions ship different npm versions, and npm 6, 7 and 9+ resolve trees differently.</li><li><strong>Consider pnpm.</strong> Its strict, symlinked <code>node_modules</code> makes phantom dependencies impossible and surfaces peer problems more clearly than npm does.</li></ul>
+<ul><li><strong>Keep the lockfile in version control.</strong> For applications and libraries, it makes development and CI installs reproducible even though library consumers resolve their own tree.</li><li><strong>Update in manageable batches.</strong> Running <code>npm outdated</code> regularly makes it easier to associate a conflict with the release that introduced it.</li><li><strong>Check peer requirements before adding a package.</strong> <code>npm view &lt;pkg&gt; peerDependencies</code> exposes compatibility constraints before installation.</li><li><strong>Pin your Node version</strong> with <code>.nvmrc</code> and an <code>engines</code> field. Different Node versions ship different npm versions, and npm 6, 7 and 9+ resolve trees differently.</li><li><strong>Consider pnpm when stricter dependency boundaries help the project.</strong> Its symlinked <code>node_modules</code> prevents undeclared phantom dependencies and reports peer issues differently from npm.</li></ul>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>Is --legacy-peer-deps safe to use permanently?</h3></summary>
-              <div class="jp-faq-answer"><p>It works, and plenty of large projects run this way. The cost is that you lose peer-dependency checking entirely, so a genuinely incompatible package installs without complaint. Treat it as technical debt with a note explaining why it is there, not as a settled configuration.</p></div>
+              <div class="jp-faq-answer"><p>A project can keep this setting, but npm will no longer enforce peer requirements while building its tree. That allows genuinely incompatible packages to install without a peer-conflict error. Document why the setting is needed and revisit it as the affected dependencies are upgraded.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What is the difference between --force and --legacy-peer-deps?</h3></summary>
-              <div class="jp-faq-answer"><p>--legacy-peer-deps ignores peer dependency rules, reverting to npm 6 behaviour. --force tells npm to write a dependency tree it has already judged invalid, which can produce duplicate copies of a framework in one bundle. Reach for --legacy-peer-deps first; --force is rarely the right tool.</p></div>
+              <div class="jp-faq-answer"><p>--legacy-peer-deps uses npm 6-style peer handling and does not enforce peer ranges while constructing the tree. --force disables npm safeguards more broadly and may install duplicate framework copies. Investigate the declared conflict before choosing either project-wide behavior.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why did this start after upgrading Node?</h3></summary>
-              <div class="jp-faq-answer"><p>Because a Node upgrade brings a new npm. npm 6 ignored peer conflicts silently; npm 7 and later enforce them. The conflict was almost certainly present before — you are only now being told about it.</p></div>
+              <div class="jp-faq-answer"><p>Node releases ship with npm versions that may resolve peer dependencies differently. npm 6 did not enforce peer conflicts the way npm 7 and later do, so a pre-existing incompatible range can become an installation error after the upgrade.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Should I delete package-lock.json?</h3></summary>
-              <div class="jp-faq-answer"><p>Not routinely — it is what makes builds reproducible. Deleting and regenerating it is a legitimate troubleshooting step when the tree is genuinely corrupt, but it should be a deliberate action followed by a full test run, not a reflex.</p></div>
+              <div class="jp-faq-answer"><p>Not as a routine first step. The lockfile makes installs reproducible. Regenerate it when evidence points to corrupt or incompatible lock data, then review the dependency changes and run the full test suite.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Do yarn or pnpm avoid this?</h3></summary>
               <div class="jp-faq-answer"><p>They handle it differently rather than avoiding it. Yarn Classic warns instead of failing; Yarn Berry and pnpm both enforce peer dependencies, pnpm particularly strictly. The underlying incompatibility exists regardless of which client reports it.</p></div>
@@ -295,15 +296,15 @@ engine-strict=true</code></pre>
   <div class="jp-cards"><a class="jp-card" href="/guides/git-undo-commit/">
         <span class="jp-card-eyebrow"></span>
         <h3>How to undo a Git commit</h3>
-        <p>reset, revert, rebase and reflog — which one to use, and how to recover when you pick wrong.</p>
+        <p>Choose reset, revert, amend or rebase, and use the reflog when a history rewrite goes wrong.</p>
       </a><a class="jp-card" href="/guides/docker-container-exits-immediately/">
         <span class="jp-card-eyebrow"></span>
         <h3>Why your Docker container exits immediately</h3>
-        <p>Exit codes decoded, plus how to get a shell inside an image that will not stay running.</p>
+        <p>Use logs and exit codes to find why a container stopped, then inspect the image without keeping a failed service artificially alive.</p>
       </a><a class="jp-card" href="/guides/react-usestate-not-updating/">
         <span class="jp-card-eyebrow"></span>
         <h3>Why your React useState is not updating</h3>
-        <p>Stale closures, mutation, batching and the setInterval trap — why state logs the old value.</p>
+        <p>Check captured values, state mutation, batching and effect dependencies when a state update seems to disappear.</p>
       </a></div>
 </section>
     </article>
@@ -312,7 +313,7 @@ engine-strict=true</code></pre>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#what-the-error-means">What the error means</a></li><li><a href="#reading-the-conflict-report">Reading the conflict report</a></li><li><a href="#the-four-fixes-best-first">The four fixes, best first</a></li><li><a href="#when-nothing-works-reset-the-tree">When nothing works: reset the tree</a></li><li><a href="#making-ci-behave-the-same-as-your-laptop">Making CI behave the same as your laptop</a></li><li><a href="#preventing-the-next-one">Preventing the next one</a></li></ol>
+  <ol><li><a href="#what-the-error-means">What the error means</a></li><li><a href="#reading-the-conflict-report">Reading the conflict report</a></li><li><a href="#four-resolution-paths">Four resolution paths</a></li><li><a href="#when-nothing-works-reset-the-tree">When nothing works: reset the tree</a></li><li><a href="#making-ci-behave-the-same-as-your-laptop">Making CI behave the same as your laptop</a></li><li><a href="#preventing-the-next-one">Preventing the next one</a></li></ol>
 </nav>
   
   

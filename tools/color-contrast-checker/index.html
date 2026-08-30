@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>Color Contrast Checker — WCAG AA &amp; AAA Ratios</title>
-    <meta name="description" content="Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes." />
+    <title>Color Contrast Checker for WCAG AA and AAA</title>
+    <meta name="description" content="Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option." />
     <link rel="canonical" href="https://junepoint.com/tools/color-contrast-checker/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="Color Contrast Checker — WCAG AA &amp; AAA Ratios" />
-    <meta property="og:description" content="Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes." />
+    <meta property="og:title" content="Color Contrast Checker for WCAG AA and AAA" />
+    <meta property="og:description" content="Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option." />
     <meta property="og:url" content="https://junepoint.com/tools/color-contrast-checker/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-21" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="Color Contrast Checker — WCAG AA &amp; AAA Ratios" />
-    <meta name="twitter:description" content="Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes." />
+    <meta name="twitter:title" content="Color Contrast Checker for WCAG AA and AAA" />
+    <meta name="twitter:description" content="Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -61,15 +62,15 @@
     },
     {
       "@type": "Person",
-      "@id": "https://junepoint.com/about/#alexander-pace",
-      "name": "Alexander Pace",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Alexander works across React and Node.js applications with a focus on backend systems and user experience. He covers front-end technique, CSS and the business-software research on this site.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
-        "https://www.linkedin.com/in/alexander-pace-0648b6270/",
-        "https://github.com/snf-alex",
-        "https://snf-alex.github.io/PortfolioWebsiteV2/"
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
       ]
     },
     {
@@ -99,7 +100,7 @@
       "@type": "SoftwareApplication",
       "@id": "https://junepoint.com/tools/color-contrast-checker/#app",
       "name": "Colour Contrast Checker",
-      "description": "Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes.",
+      "description": "Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option.",
       "url": "https://junepoint.com/tools/color-contrast-checker/",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Any (web browser)",
@@ -118,8 +119,8 @@
       "@type": "TechArticle",
       "@id": "https://junepoint.com/tools/color-contrast-checker/#article",
       "headline": "Colour Contrast Checker",
-      "name": "Color Contrast Checker — WCAG AA & AAA Ratios",
-      "description": "Check any foreground and background colour pair against WCAG 2.2 AA and AAA contrast requirements, with a live preview and suggested fixes.",
+      "name": "Color Contrast Checker for WCAG AA and AAA",
+      "description": "Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option.",
       "datePublished": "2026-04-02",
       "dateModified": "2026-08-21",
       "inLanguage": "en",
@@ -129,7 +130,7 @@
         "@id": "https://junepoint.com/tools/color-contrast-checker/"
       },
       "author": {
-        "@id": "https://junepoint.com/about/#alexander-pace"
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
       },
       "publisher": {
         "@id": "https://junepoint.com/#organization"
@@ -143,10 +144,10 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What contrast ratio do I actually need?",
+          "name": "What contrast ratio do I need?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "4.5:1 for normal text, 3:1 for large text and for UI components such as borders, icons and focus rings. That is WCAG level AA, which is the level referenced by accessibility law in the EU, UK and US."
+            "text": "At level AA, normal text needs 4.5:1. Large text and meaningful UI components such as boundaries, icons and focus indicators need 3:1. Check the specific law or procurement standard that applies to your organization."
           }
         },
         {
@@ -154,7 +155,7 @@
           "name": "Do logos and brand marks need to pass?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. WCAG explicitly exempts logotypes and incidental text. The exemption is narrow, though — it does not extend to a tagline set in body copy, or to navigation styled in brand colours."
+            "text": "Logotypes and incidental text are exempt under WCAG. The exemption does not automatically cover a tagline used as body text or navigation text set in a brand color."
           }
         },
         {
@@ -162,7 +163,7 @@
           "name": "Does contrast apply to dark mode separately?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, and it must be checked separately. Inverting a palette does not preserve contrast ratios, because luminance is non-linear. A pairing that comfortably passes in light mode can fail in dark mode, which is why the swap button above is worth using on every colour pair you ship."
+            "text": "Yes. Check dark mode separately because luminance is nonlinear and an inverted palette does not preserve contrast ratios. Test each foreground and background pair used by the dark theme."
           }
         },
         {
@@ -170,7 +171,7 @@
           "name": "What about text over a photograph?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The ratio has to hold over every part of the image the text sits on, which in practice means adding a semi-transparent scrim or a gradient overlay. Testing against one sampled pixel is not enough — check the lightest region the text crosses."
+            "text": "The required ratio must hold across the full area behind the text. Check the lightest and darkest regions it crosses, and add a scrim, overlay or solid text background when needed."
           }
         },
         {
@@ -178,7 +179,7 @@
           "name": "Is APCA something I should switch to now?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not for compliance. APCA is a substantially better perceptual model and worth understanding, but it is still in development for WCAG 3 and no regulation references it. Design to WCAG 2.2 AA today; treat APCA as a tiebreaker when the 2.x formula gives an answer that plainly contradicts your eyes."
+            "text": "Not as a replacement for current compliance checks. APCA is being developed for WCAG 3, while current regulations and standards reference WCAG 2.x. You can use APCA as additional design information, but still test the applicable WCAG 2.2 criteria."
           }
         }
       ]
@@ -217,8 +218,8 @@
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Accessibility</p>
       <h1>Colour Contrast Checker</h1>
-      <p class="jp-standfirst">Enter two colours and get the exact contrast ratio, which WCAG levels it passes, and a one-click nudge to the nearest shade that passes.</p>
-      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#alexander-pace">Alexander Pace</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published April 2, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 21, 2026</span></div>
+      <p class="jp-standfirst">Enter two colors to calculate their contrast ratio and see which text and interface thresholds they meet.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published April 2, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 21, 2026</span></div>
     </header>
 
     
@@ -227,34 +228,34 @@
   <div class="jp-tool-grid">
     <div>
       <div class="jp-field">
-        <label for="cx-fg">Foreground (text)</label>
+        <label for="cx-fg">Text or foreground color</label>
         <input class="jp-input" type="text" id="cx-fg" value="#6b7f99" spellcheck="false" />
-        <input class="jp-range" type="color" id="cx-fg-picker" value="#6b7f99" aria-label="Pick foreground colour" />
+        <input class="jp-range" type="color" id="cx-fg-picker" value="#6b7f99" aria-label="Choose foreground color" />
       </div>
       <div class="jp-field">
-        <label for="cx-bg">Background</label>
+        <label for="cx-bg">Background color</label>
         <input class="jp-input" type="text" id="cx-bg" value="#ffffff" spellcheck="false" />
-        <input class="jp-range" type="color" id="cx-bg-picker" value="#ffffff" aria-label="Pick background colour" />
+        <input class="jp-range" type="color" id="cx-bg-picker" value="#ffffff" aria-label="Choose background color" />
       </div>
       <div class="jp-toolbar">
-        <button class="jp-btn jp-btn--ghost" type="button" id="cx-swap">Swap</button>
-        <button class="jp-btn" type="button" id="cx-fix">Fix to AA</button>
+        <button class="jp-btn jp-btn--ghost" type="button" id="cx-swap">Swap colors</button>
+        <button class="jp-btn" type="button" id="cx-fix">Adjust foreground to AA</button>
       </div>
       <p class="jp-status" id="cx-fix-note" aria-live="polite">&nbsp;</p>
     </div>
 
     <div>
       <div class="jp-swatch" id="cx-preview" style="height:auto;padding:1rem;display:block">
-        <p style="font-size:1.55rem;font-weight:700;margin:0 0 .4rem">Large heading text</p>
-        <p style="font-size:1rem;font-weight:400;margin:0 0 .4rem">Normal body text at 16px, which is the size most of your interface actually uses.</p>
-        <p style="font-size:.8rem;margin:0">Small print at 12.8px.</p>
+        <p style="font-size:1.55rem;font-weight:700;margin:0 0 .4rem">Large text preview</p>
+        <p style="font-size:1rem;font-weight:400;margin:0 0 .4rem">Normal text preview at 16px.</p>
+        <p style="font-size:.8rem;margin:0">Small text preview at 12.8px.</p>
       </div>
     </div>
 
     <div>
       <div class="jp-stat jp-stat--primary" style="margin-bottom:.75rem">
         <p class="jp-stat-label">Contrast ratio</p>
-        <p class="jp-stat-value" id="cx-ratio">—</p>
+        <p class="jp-stat-value" id="cx-ratio">Not available</p>
         <p class="jp-stat-sub" id="cx-ratio-sub">&nbsp;</p>
       </div>
       <dl class="jp-kv" id="cx-levels"></dl>
@@ -264,21 +265,21 @@
     
 
     <article class="jp-article">
-      <h2 id="the-thresholds-and-what-counts-as-large">The thresholds, and what counts as &quot;large&quot;</h2>
+      <h2 id="wcag-thresholds-and-large-text">WCAG thresholds and large text</h2>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Level</th><th scope="col">Applies to</th><th scope="col">Minimum ratio</th></tr></thead><tbody><tr><th scope="row">AA</th><td>Normal text</td><td>4.5:1</td></tr><tr><th scope="row">AA</th><td>Large text</td><td>3:1</td></tr><tr><th scope="row">AA</th><td>UI components and meaningful graphics</td><td>3:1</td></tr><tr><th scope="row">AAA</th><td>Normal text</td><td>7:1</td></tr><tr><th scope="row">AAA</th><td>Large text</td><td>4.5:1</td></tr></tbody></table></div>
-<p><strong>Large text</strong> means at least 18pt (24px), or 14pt (18.66px) when bold. Below that, the 4.5:1 requirement applies — and this is where most designs fail, because the small grey timestamps, captions and helper text are exactly the elements that get styled by eye late in a project.</p>
-<p>The <strong>3:1 requirement for UI components</strong> is the one teams miss most often. It came in with WCAG 2.1 and covers input borders, focus indicators, toggle states and icons that carry meaning. A form field with a <code>#e5e7eb</code> border on white sits at about 1.2:1 — invisible to a lot of people, and a straightforward failure.</p>
-<h2 id="why-aa-is-the-number-that-matters">Why AA is the number that matters</h2>
-<p>AA is the level written into law. The European Accessibility Act, the EN 301 549 standard behind EU public-sector procurement, Section 508 in the United States and the UK’s Public Sector Bodies Accessibility Regulations all reference WCAG level AA. ADA settlements in the US have consistently used AA as the remediation standard.</p>
-<p>AAA is a worthwhile goal for body text and genuinely helps readers with low vision, but WCAG itself does not recommend it as a blanket requirement for entire sites — some content simply cannot reach it.</p>
-<h2 id="where-designs-usually-fail">Where designs usually fail</h2>
-<ul><li><strong>Placeholder text.</strong> Browser defaults are around 3:1. If a placeholder is doing real work — and it should not be, use a label — it needs to pass.</li><li><strong>Disabled controls.</strong> WCAG exempts them, so they are technically compliant at any contrast. They are still frequently unreadable, and users cannot tell &quot;disabled&quot; from &quot;broken&quot;.</li><li><strong>Text over images.</strong> The ratio changes across the image. A scrim, a gradient overlay or a solid text panel is the reliable fix; picking a colour that works over the average is not.</li><li><strong>Brand colours on white.</strong> A great many corporate blues and greens land between 3:1 and 4.5:1. Darken the shade for text and keep the original for large display type and logos, which are exempt.</li><li><strong>Light-grey secondary text.</strong> <code>#999999</code> on white is 2.85:1 and fails. <code>#767676</code> is 4.54:1 and passes. That is the smallest change that fixes the most common violation on the web.</li><li><strong>Dark mode, assumed rather than checked.</strong> Pure white on pure black is 21:1 and causes halation for readers with astigmatism. Off-white on very dark grey reads better and still passes comfortably.</li></ul>
+<p><strong>Large text</strong> means at least 18pt (24px), or 14pt (18.66px) when bold. Smaller text needs a ratio of at least 4.5:1 at level AA. Check captions, timestamps and helper text as well as body copy.</p>
+<p>WCAG 2.1 added a <strong>3:1 requirement for meaningful UI components and graphics</strong>. It covers elements such as input boundaries, focus indicators, toggle states and informative icons. For example, a <code>#e5e7eb</code> border on white is about 1.2:1 and does not meet that threshold.</p>
+<h2 id="why-level-aa-is-commonly-required">Why level AA is commonly required</h2>
+<p>Several laws and procurement standards reference WCAG level AA, including EN 301 549 for EU public-sector procurement, Section 508 in the United States and the UK Public Sector Bodies Accessibility Regulations. US accessibility settlements also commonly use AA as a remediation target.</p>
+<p>AAA provides stronger contrast for body text, but WCAG does not recommend requiring level AAA across an entire site because some content cannot meet every AAA criterion.</p>
+<h2 id="color-pairs-that-need-attention">Color pairs that need attention</h2>
+<ul><li><strong>Placeholder text.</strong> A placeholder that conveys information must meet the text threshold, but it should not replace a persistent label.</li><li><strong>Disabled controls.</strong> WCAG exempts inactive controls from contrast requirements. They still need enough visual distinction for users to recognize their state.</li><li><strong>Text over images.</strong> Contrast changes across an image. Check every area behind the text and add a scrim, overlay or solid panel when the ratio varies too much.</li><li><strong>Brand colors on white.</strong> Some brand colors fall between 3:1 and 4.5:1. Use a darker variant for normal text while retaining the original color for exempt logos or qualifying large text.</li><li><strong>Light gray secondary text.</strong> <code>#999999</code> on white is 2.85:1 and fails for normal text. <code>#767676</code> is 4.54:1 and passes AA.</li><li><strong>Dark mode.</strong> Recheck each pair rather than inverting the light palette. Pure white on black reaches 21:1 and can produce halation for some readers; off-white on dark gray may be easier to read while still passing.</li></ul>
 <aside class="jp-note jp-note--tip">
-        <p class="jp-note-title">The greys worth memorising (on white)</p>
-        <p><code>#767676</code> = 4.54:1, the lightest grey that passes AA for body text. <code>#595959</code> = 7.0:1, the lightest that passes AAA. <code>#949494</code> = 3.0:1, the lightest usable for large text and UI borders. Anything lighter than #767676 for small text is a failure.</p>
+        <p class="jp-note-title">Reference grays on white</p>
+        <p><code>#767676</code> has a 4.54:1 ratio and passes AA for normal text. <code>#595959</code> reaches 7.0:1 and passes AAA. <code>#949494</code> reaches 3.0:1 for large text and qualifying UI components. Lighter gray values do not meet the corresponding threshold on white.</p>
       </aside>
 <h2 id="how-the-ratio-is-calculated">How the ratio is calculated</h2>
-<p>Contrast ratio is defined as <code>(L1 + 0.05) / (L2 + 0.05)</code>, where L1 and L2 are the relative luminances of the lighter and darker colours. Luminance itself is a weighted sum of the gamma-corrected channels:</p>
+<p>WCAG 2.x defines contrast as <code>(L1 + 0.05) / (L2 + 0.05)</code>, where L1 is the lighter color’s relative luminance and L2 is the darker color’s. Relative luminance is a weighted sum of the gamma-corrected color channels:</p>
 <pre class="jp-code" data-lang="javascript"><code>function luminance([r, g, b]) {
   const [R, G, B] = [r, g, b].map(c =&gt; {
     const s = c / 255;
@@ -286,48 +287,48 @@
   });
   return 0.2126 * R + 0.7152 * G + 0.0722 * B;   // green dominates
 }</code></pre>
-<p>The green coefficient of 0.7152 reflects how much more sensitive human vision is to green than to blue. It also explains a result that surprises people: pure blue <code>#0000ff</code> on white is only 8.6:1, while pure yellow <code>#ffff00</code> on white is 1.07:1 and effectively invisible.</p>
+<p>The green coefficient is larger because human vision is more sensitive to green than blue. As a result, pure blue <code>#0000ff</code> on white has a ratio of about 8.6:1, while pure yellow <code>#ffff00</code> on white is about 1.07:1.</p>
 <p>The ratio ranges from 1:1 (identical colours) to 21:1 (pure black on pure white).</p>
 <aside class="jp-note jp-note--info">
         <p class="jp-note-title">This formula has known flaws</p>
-        <p>WCAG 2.x contrast is a simple model and it is wrong at the edges — it is notably unreliable for dark backgrounds and for thin fonts. <strong>APCA</strong>, the successor being developed for WCAG 3, models perceived lightness far more accurately. It is not yet a standard and not yet a legal requirement, so WCAG 2.x remains what you must comply with today.</p>
+        <p>The WCAG 2.x formula has known perceptual limitations, especially for dark backgrounds and thin type. <strong>APCA</strong> is being developed for WCAG 3 to model perceived contrast differently. It is not yet the applicable compliance standard, so use WCAG 2.x thresholds for current conformance work.</p>
       </aside>
 <h2 id="contrast-is-necessary-but-not-sufficient">Contrast is necessary but not sufficient</h2>
-<p>Passing 4.5:1 does not make an interface accessible. Two adjacent failures commonly ship alongside good contrast:</p>
-<ol><li><strong>Colour used as the only signal.</strong> Red for errors and green for success fails for roughly one in twelve men with colour vision deficiency. Add an icon, a label or a pattern — WCAG 1.4.1 requires it regardless of contrast.</li><li><strong>Missing focus indicators.</strong> Keyboard users need to see where they are. <code>outline: none</code> without a replacement is one of the most damaging single lines of CSS on the web, and the indicator itself must clear 3:1 against the adjacent colour.</li></ol>
+<p>A 4.5:1 text ratio addresses one accessibility requirement. Check these related requirements separately:</p>
+<ol><li><strong>Color used as the only signal.</strong> Do not rely only on red for errors or green for success. Add text, an icon or a pattern as required by WCAG 1.4.1.</li><li><strong>Missing focus indicators.</strong> Keyboard users need a visible focus location. If CSS removes the default outline, provide a replacement that reaches 3:1 against adjacent colors.</li></ol>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
-              <summary><h3>What contrast ratio do I actually need?</h3></summary>
-              <div class="jp-faq-answer"><p>4.5:1 for normal text, 3:1 for large text and for UI components such as borders, icons and focus rings. That is WCAG level AA, which is the level referenced by accessibility law in the EU, UK and US.</p></div>
+              <summary><h3>What contrast ratio do I need?</h3></summary>
+              <div class="jp-faq-answer"><p>At level AA, normal text needs 4.5:1. Large text and meaningful UI components such as boundaries, icons and focus indicators need 3:1. Check the specific law or procurement standard that applies to your organization.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Do logos and brand marks need to pass?</h3></summary>
-              <div class="jp-faq-answer"><p>No. WCAG explicitly exempts logotypes and incidental text. The exemption is narrow, though — it does not extend to a tagline set in body copy, or to navigation styled in brand colours.</p></div>
+              <div class="jp-faq-answer"><p>Logotypes and incidental text are exempt under WCAG. The exemption does not automatically cover a tagline used as body text or navigation text set in a brand color.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Does contrast apply to dark mode separately?</h3></summary>
-              <div class="jp-faq-answer"><p>Yes, and it must be checked separately. Inverting a palette does not preserve contrast ratios, because luminance is non-linear. A pairing that comfortably passes in light mode can fail in dark mode, which is why the swap button above is worth using on every colour pair you ship.</p></div>
+              <div class="jp-faq-answer"><p>Yes. Check dark mode separately because luminance is nonlinear and an inverted palette does not preserve contrast ratios. Test each foreground and background pair used by the dark theme.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What about text over a photograph?</h3></summary>
-              <div class="jp-faq-answer"><p>The ratio has to hold over every part of the image the text sits on, which in practice means adding a semi-transparent scrim or a gradient overlay. Testing against one sampled pixel is not enough — check the lightest region the text crosses.</p></div>
+              <div class="jp-faq-answer"><p>The required ratio must hold across the full area behind the text. Check the lightest and darkest regions it crosses, and add a scrim, overlay or solid text background when needed.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Is APCA something I should switch to now?</h3></summary>
-              <div class="jp-faq-answer"><p>Not for compliance. APCA is a substantially better perceptual model and worth understanding, but it is still in development for WCAG 3 and no regulation references it. Design to WCAG 2.2 AA today; treat APCA as a tiebreaker when the 2.x formula gives an answer that plainly contradicts your eyes.</p></div>
+              <div class="jp-faq-answer"><p>Not as a replacement for current compliance checks. APCA is being developed for WCAG 3, while current regulations and standards reference WCAG 2.x. You can use APCA as additional design information, but still test the applicable WCAG 2.2 criteria.</p></div>
             </details>
       </section>
       <section class="jp-related">
   <h2>Keep reading</h2>
   <div class="jp-cards"><a class="jp-card" href="/guides/css-grid-vs-flexbox/">
         <span class="jp-card-eyebrow"></span>
-        <h3>CSS Grid vs Flexbox</h3>
-        <p>The one-dimensional / two-dimensional rule, plus copy-paste patterns for holy grail, card grids and sidebars.</p>
+        <h3>CSS Grid vs. Flexbox</h3>
+        <p>A practical Grid-or-Flexbox decision rule, with patterns for card grids, sidebars and component layouts.</p>
       </a><a class="jp-card" href="/tools/regex-tester/">
         <span class="jp-card-eyebrow"></span>
         <h3>Regex Tester</h3>
-        <p>Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser.</p>
+        <p>Test JavaScript regular expressions in your browser. Highlight matches, inspect capture groups and load common pattern examples.</p>
       </a><a class="jp-card" href="/guides/http-status-codes-explained/">
         <span class="jp-card-eyebrow"></span>
-        <h3>HTTP status codes, and which to actually use</h3>
-        <p>401 vs 403, 301 vs 308, 400 vs 422 — the distinctions that matter, and the codes worth using.</p>
+        <h3>HTTP status codes for application developers</h3>
+        <p>Choose useful status codes for authentication, validation, redirects, retries and upstream failures.</p>
       </a></div>
 </section>
     </article>
@@ -336,7 +337,7 @@
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#the-thresholds-and-what-counts-as-large">The thresholds, and what counts as &quot;large&quot;</a></li><li><a href="#why-aa-is-the-number-that-matters">Why AA is the number that matters</a></li><li><a href="#where-designs-usually-fail">Where designs usually fail</a></li><li><a href="#how-the-ratio-is-calculated">How the ratio is calculated</a></li><li><a href="#contrast-is-necessary-but-not-sufficient">Contrast is necessary but not sufficient</a></li></ol>
+  <ol><li><a href="#wcag-thresholds-and-large-text">WCAG thresholds and large text</a></li><li><a href="#why-level-aa-is-commonly-required">Why level AA is commonly required</a></li><li><a href="#color-pairs-that-need-attention">Color pairs that need attention</a></li><li><a href="#how-the-ratio-is-calculated">How the ratio is calculated</a></li><li><a href="#contrast-is-necessary-but-not-sufficient">Contrast is necessary but not sufficient</a></li></ol>
 </nav>
   
   
@@ -390,15 +391,15 @@
   }
 
   function badge(pass) {
-    return '<span class="jp-badge jp-badge--' + (pass ? 'pass">PASS' : 'fail">FAIL') + '</span>';
+    return '<span class="jp-badge jp-badge--' + (pass ? 'pass">Pass' : 'fail">Fail') + '</span>';
   }
 
   function render() {
     var f = parse(fg.value), b = parse(bg.value);
     var levels = document.getElementById('cx-levels');
     if (!f || !b) {
-      document.getElementById('cx-ratio').textContent = '—';
-      document.getElementById('cx-ratio-sub').textContent = 'Enter a hex or rgb() colour';
+      document.getElementById('cx-ratio').textContent = 'Not available';
+      document.getElementById('cx-ratio-sub').textContent = 'Enter a hex or rgb() color.';
       levels.innerHTML = '';
       return;
     }
@@ -411,24 +412,24 @@
     var r = ratio(f, b);
     document.getElementById('cx-ratio').textContent = r.toFixed(2) + ':1';
     document.getElementById('cx-ratio-sub').textContent =
-      r >= 7 ? 'Passes everything' : r >= 4.5 ? 'Passes AA for all text' :
-      r >= 3 ? 'Large text and UI only' : 'Fails every threshold';
+      r >= 7 ? 'Passes AAA for normal and large text' : r >= 4.5 ? 'Passes AA for normal text and AAA for large text' :
+      r >= 3 ? 'Passes AA for large text and interface graphics only' : 'Does not pass the listed thresholds';
 
     levels.innerHTML =
-      '<dt>AA · normal text</dt><dd>' + badge(r >= 4.5) + ' needs 4.5:1</dd>' +
-      '<dt>AA · large text</dt><dd>' + badge(r >= 3) + ' needs 3:1</dd>' +
-      '<dt>AA · UI &amp; graphics</dt><dd>' + badge(r >= 3) + ' needs 3:1</dd>' +
-      '<dt>AAA · normal text</dt><dd>' + badge(r >= 7) + ' needs 7:1</dd>' +
-      '<dt>AAA · large text</dt><dd>' + badge(r >= 4.5) + ' needs 4.5:1</dd>';
+      '<dt>AA · normal text</dt><dd>' + badge(r >= 4.5) + ' requires 4.5:1</dd>' +
+      '<dt>AA · large text</dt><dd>' + badge(r >= 3) + ' requires 3:1</dd>' +
+      '<dt>AA · UI &amp; graphics</dt><dd>' + badge(r >= 3) + ' requires 3:1</dd>' +
+      '<dt>AAA · normal text</dt><dd>' + badge(r >= 7) + ' requires 7:1</dd>' +
+      '<dt>AAA · large text</dt><dd>' + badge(r >= 4.5) + ' requires 4.5:1</dd>';
   }
 
-  // Walk the foreground toward black or white — whichever direction the
-  // background is further from — until it clears 4.5:1.
+  // Walk the foreground toward black or white, whichever is farther from the
+  // background, until it clears 4.5:1.
   document.getElementById('cx-fix').addEventListener('click', function () {
     var f = parse(fg.value), b = parse(bg.value);
     var note = document.getElementById('cx-fix-note');
     if (!f || !b) return;
-    if (ratio(f, b) >= 4.5) { note.textContent = 'Already passes AA — nothing to change.'; note.className = 'jp-status jp-status--ok'; return; }
+    if (ratio(f, b) >= 4.5) { note.textContent = 'The current colors already pass AA for normal text.'; note.className = 'jp-status jp-status--ok'; return; }
 
     var target = luminance(b) > 0.5 ? [0, 0, 0] : [255, 255, 255];
     for (var step = 1; step <= 100; step++) {
@@ -437,12 +438,12 @@
       if (ratio(candidate, b) >= 4.5) {
         fg.value = toHex(candidate);
         render();
-        note.textContent = 'Adjusted to ' + toHex(candidate) + ' — nearest shade in the same hue family that passes AA.';
+        note.textContent = 'Adjusted the foreground to ' + toHex(candidate) + '. It now passes AA for normal text.';
         note.className = 'jp-status jp-status--ok';
         return;
       }
     }
-    note.textContent = 'No shade of this colour reaches 4.5:1 on that background. Change the background instead.';
+    note.textContent = 'The foreground could not reach 4.5:1 with this adjustment. Change the background color instead.';
     note.className = 'jp-status jp-status--err';
   });
 

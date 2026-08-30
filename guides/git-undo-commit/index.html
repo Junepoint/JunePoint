@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>How to Undo a Git Commit (Safely, Every Case)</title>
-    <meta name="description" content="Undo the last commit, an old commit, or a pushed commit — with reset, revert and rebase explained. Includes recovering work you thought you destroyed." />
+    <title>How to Undo a Git Commit Without Losing Work</title>
+    <meta name="description" content="Choose between Git reset, revert, amend and rebase based on whether a commit was shared and whether its file changes should be kept." />
     <link rel="canonical" href="https://junepoint.com/guides/git-undo-commit/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="How to Undo a Git Commit (Safely, Every Case)" />
-    <meta property="og:description" content="Undo the last commit, an old commit, or a pushed commit — with reset, revert and rebase explained. Includes recovering work you thought you destroyed." />
+    <meta property="og:title" content="How to Undo a Git Commit Without Losing Work" />
+    <meta property="og:description" content="Choose between Git reset, revert, amend and rebase based on whether a commit was shared and whether its file changes should be kept." />
     <meta property="og:url" content="https://junepoint.com/guides/git-undo-commit/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-27" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="How to Undo a Git Commit (Safely, Every Case)" />
-    <meta name="twitter:description" content="Undo the last commit, an old commit, or a pushed commit — with reset, revert and rebase explained. Includes recovering work you thought you destroyed." />
+    <meta name="twitter:title" content="How to Undo a Git Commit Without Losing Work" />
+    <meta name="twitter:description" content="Choose between Git reset, revert, amend and rebase based on whether a commit was shared and whether its file changes should be kept." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -64,7 +65,7 @@
       "@id": "https://junepoint.com/about/#jackson-abeyta",
       "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He writes the developer tooling and infrastructure coverage here.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
         "https://linkedin.com/in/jackson-abeyta",
@@ -99,8 +100,8 @@
       "@type": "TechArticle",
       "@id": "https://junepoint.com/guides/git-undo-commit/#article",
       "headline": "How to undo a Git commit",
-      "name": "How to Undo a Git Commit (Safely, Every Case)",
-      "description": "Undo the last commit, an old commit, or a pushed commit — with reset, revert and rebase explained. Includes recovering work you thought you destroyed.",
+      "name": "How to Undo a Git Commit Without Losing Work",
+      "description": "Choose between Git reset, revert, amend and rebase based on whether a commit was shared and whether its file changes should be kept.",
       "datePublished": "2026-01-29",
       "dateModified": "2026-08-27",
       "inLanguage": "en",
@@ -127,7 +128,7 @@
           "name": "What is the difference between git reset and git revert?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "reset moves your branch pointer backwards, erasing commits from the branch as though they never happened — it rewrites history and is only safe on unpushed work. revert adds a new commit that undoes an old one, leaving history intact. Use reset locally, revert on anything already shared."
+            "text": "reset moves a branch pointer and can remove commits from that branch’s visible history. Use it for local, unshared work. revert adds a new commit that reverses an earlier one, so it is the usual choice after the original commit has been shared."
           }
         },
         {
@@ -167,7 +168,7 @@
           "name": "Is git rebase -i safe?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "On commits you have not pushed, yes — and abort at any point with git rebase --abort. On shared branches it is genuinely disruptive: everyone who has pulled must reset their local copy. Note also that interactive rebase needs a terminal, so it is unavailable in many automated environments."
+            "text": "It is appropriate for commits you have not pushed, and git rebase --abort can stop an in-progress rebase. Rebasing shared commits requires everyone who pulled them to reconcile a rewritten branch. Interactive rebase also needs an editor, so it is not suitable for many automated environments."
           }
         }
       ]
@@ -206,20 +207,20 @@
     <header class="jp-pagehead">
       <p class="jp-eyebrow">Troubleshooting</p>
       <h1>How to undo a Git commit</h1>
-      <p class="jp-standfirst">Pick the right command for your situation: whether the commit is pushed, whether you want to keep the changes, and how to get your work back if you already ran the wrong one.</p>
+      <p class="jp-standfirst">First decide whether the commit reached a shared branch and whether you still need its changes. Those two answers determine the command and the recovery risk.</p>
       <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published January 29, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 27, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>7 min read</span></div>
     </header>
     <article class="jp-article">
       <aside class="jp-note jp-note--tip">
-        <p class="jp-note-title">The single most important thing on this page</p>
-        <p>Git almost never truly deletes a commit. <code>git reflog</code> records every position <code>HEAD</code> has occupied for at least 30 days, so work that looks destroyed is nearly always recoverable. If you have just run something alarming, jump to <a href="#i-ran-the-wrong-command-getting-your-work-back">the recovery section</a> before doing anything else.</p>
+        <p class="jp-note-title">Committed work is usually recoverable</p>
+        <p><code>git reflog</code> records recent positions of <code>HEAD</code>, including commits no longer named by a branch. Entries for unreachable commits normally remain for at least 30 days. If a reset or rebase just moved the branch unexpectedly, use <a href="#i-ran-the-wrong-command-getting-your-work-back">the recovery section</a> before making more history changes.</p>
       </aside>
 <h2 id="pick-your-situation">Pick your situation</h2>
 <div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Your situation</th><th scope="col">Command</th></tr></thead><tbody><tr><th scope="row">Fix the message of the last commit</th><td><code>git commit --amend</code></td></tr><tr><th scope="row">Undo last commit, keep changes staged</th><td><code>git reset --soft HEAD~1</code></td></tr><tr><th scope="row">Undo last commit, keep changes unstaged</th><td><code>git reset HEAD~1</code></td></tr><tr><th scope="row">Undo last commit, discard changes</th><td><code>git reset --hard HEAD~1</code></td></tr><tr><th scope="row">Undo a commit that is already pushed</th><td><code>git revert &lt;sha&gt;</code></td></tr><tr><th scope="row">Undo an old commit, keep the ones after it</th><td><code>git revert &lt;sha&gt;</code></td></tr><tr><th scope="row">Remove an old commit from history entirely</th><td><code>git rebase -i &lt;sha&gt;~1</code></td></tr><tr><th scope="row">Undo a merge</th><td><code>git revert -m 1 &lt;merge-sha&gt;</code></td></tr><tr><th scope="row">Recover something you destroyed</th><td><code>git reflog</code> then <code>git reset --hard &lt;sha&gt;</code></td></tr></tbody></table></div>
-<h2 id="the-one-rule-that-decides-everything">The one rule that decides everything</h2>
+<h2 id="decide-whether-the-history-is-shared">Decide whether the history is shared</h2>
 <p><strong>Has the commit been pushed to a shared branch?</strong></p>
-<ul><li><strong>No</strong> — you may rewrite history freely. <code>reset</code>, <code>amend</code> and <code>rebase</code> are all fair game.</li><li><strong>Yes</strong> — use <code>revert</code>. Rewriting published history forces everyone else to repair their clones, and on a busy branch it reliably destroys someone’s work.</li></ul>
-<p>That is the whole decision. Everything below is detail.</p>
+<ul><li><strong>No:</strong> <code>reset</code>, <code>amend</code> and <code>rebase</code> can rewrite the local branch without disrupting another clone.</li><li><strong>Yes:</strong> prefer <code>revert</code>. Rewriting published history makes collaborators reconcile their local branches and can discard work during a careless force-push.</li></ul>
+<p>After that, choose whether the original file changes should stay staged, remain unstaged or be discarded.</p>
 <h2 id="fixing-the-last-commit">Fixing the last commit</h2>
 <h3 id="wrong-message-or-you-forgot-a-file">Wrong message, or you forgot a file</h3>
 <pre class="jp-code" data-lang="bash"><code># Reword the message
@@ -228,24 +229,24 @@ git commit --amend -m &quot;fix: correct tax rounding on invoices&quot;
 # Forgot a file? Stage it and fold it into the previous commit
 git add src/tax.ts
 git commit --amend --no-edit</code></pre>
-<p><code>--amend</code> replaces the previous commit with a new one. The SHA changes, so it counts as rewriting history — fine before pushing, and a force-push afterwards.</p>
+<p><code>--amend</code> creates a replacement for the previous commit, so its SHA changes. Use it freely before pushing. After publishing the original commit, updating the remote requires a force-push and coordination with anyone using that branch.</p>
 <h3 id="undo-the-commit-but-keep-the-work">Undo the commit but keep the work</h3>
-<pre class="jp-code" data-lang="bash"><code># Changes go back to the staging area — ready to re-commit
+<pre class="jp-code" data-lang="bash"><code># Changes return to the staging area, ready to re-commit
 git reset --soft HEAD~1
 
-# Changes go back to the working directory — unstaged
+# Changes return to the working directory, unstaged
 git reset HEAD~1          # --mixed is the default
 
 # Changes are destroyed. Nothing is kept.
 git reset --hard HEAD~1</code></pre>
 <p>The three modes differ only in what happens to your files:</p>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Mode</th><th scope="col">Moves branch pointer</th><th scope="col">Staging area</th><th scope="col">Working directory</th></tr></thead><tbody><tr><th scope="row"><code>--soft</code></th><td>Yes</td><td>Keeps your changes</td><td>Untouched</td></tr><tr><th scope="row"><code>--mixed</code> (default)</th><td>Yes</td><td>Cleared</td><td>Keeps your changes</td></tr><tr><th scope="row"><code>--hard</code></th><td>Yes</td><td>Cleared</td><td><strong>Overwritten — work lost</strong></td></tr></tbody></table></div>
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Mode</th><th scope="col">Moves branch pointer</th><th scope="col">Staging area</th><th scope="col">Working directory</th></tr></thead><tbody><tr><th scope="row"><code>--soft</code></th><td>Yes</td><td>Keeps your changes</td><td>Untouched</td></tr><tr><th scope="row"><code>--mixed</code> (default)</th><td>Yes</td><td>Cleared</td><td>Keeps your changes</td></tr><tr><th scope="row"><code>--hard</code></th><td>Yes</td><td>Cleared</td><td><strong>Overwritten; work lost</strong></td></tr></tbody></table></div>
 <aside class="jp-note jp-note--warn">
-        <p class="jp-note-title">--hard is the only genuinely dangerous one</p>
-        <p>It overwrites your working directory. Committed work is recoverable through the reflog, but <strong>uncommitted</strong> changes wiped by <code>--hard</code> are gone for good — they were never in Git’s object store. Run <code>git stash</code> first if there is any doubt.</p>
+        <p class="jp-note-title"><code>--hard</code> also overwrites the working tree</p>
+        <p>A hard reset moves the branch and replaces files in the working tree. Committed work can be found through the reflog, but <strong>uncommitted</strong> changes removed by <code>--hard</code> were never stored in Git’s object database and cannot be restored by Git. Stash uncertain work before running it.</p>
       </aside>
 <h2 id="undoing-a-commit-that-is-already-pushed">Undoing a commit that is already pushed</h2>
-<p><code>git revert</code> creates a <strong>new</strong> commit that applies the inverse of an old one. History is preserved, nothing is rewritten, and collaborators need to do nothing but pull.</p>
+<p><code>git revert</code> creates a <strong>new</strong> commit containing the inverse of an earlier commit. Existing history remains in place, so collaborators can receive the change with an ordinary pull.</p>
 <pre class="jp-code" data-lang="bash"><code># Undo one commit
 git revert a1b2c3d
 
@@ -254,17 +255,17 @@ git revert a1b2c3d b4e5f6a
 
 # Stage the inverse without committing, so you can adjust it
 git revert --no-commit a1b2c3d</code></pre>
-<p>The revert commit shows up in the log as &quot;Revert ...&quot;. Some people dislike the noise. The alternative — force-pushing a rewritten branch that others have pulled — trades a tidy log for a broken afternoon, and it is not a good trade.</p>
+<p>The new commit appears in the log as &quot;Revert ...&quot;. That extra entry records both what happened and how it was corrected. On a shared branch, this trace is preferable to rewriting commits that others may already have based work on.</p>
 <h3 id="reverting-a-merge">Reverting a merge</h3>
 <p>A merge commit has two parents, so Git needs to know which one to treat as the mainline:</p>
-<pre class="jp-code" data-lang="bash"><code># -m 1 means &quot;keep the first parent&quot; — almost always the branch you merged into
+<pre class="jp-code" data-lang="bash"><code># -m 1 means &quot;keep the first parent,&quot; usually the branch you merged into
 git revert -m 1 &lt;merge-sha&gt;</code></pre>
 <aside class="jp-note jp-note--warn">
-        <p class="jp-note-title">Reverting a merge poisons the branch</p>
-        <p>Git now considers those commits already merged. If you fix the feature branch and merge it again, the reverted changes <strong>will not come back</strong> — Git sees no new work. You must revert the revert (<code>git revert &lt;revert-sha&gt;</code>) before re-merging. This surprises people badly, and it is worth knowing before you need it.</p>
+        <p class="jp-note-title">A reverted merge remains part of history</p>
+        <p>Git still considers the original commits merged. Fixing the feature branch and merging it again does <strong>not</strong> restore the reverted changes because those commits are not new work. Revert the revert with <code>git revert &lt;revert-sha&gt;</code> before merging the branch again.</p>
       </aside>
 <h2 id="removing-a-commit-from-the-middle-of-history">Removing a commit from the middle of history</h2>
-<p>Interactive rebase rewrites a range of commits. Only use it on unpushed work, or on a personal branch nobody else has.</p>
+<p>Interactive rebase rewrites every affected commit from the selected point forward. Keep it to unpushed work or a personal branch that no one else is using.</p>
 <pre class="jp-code" data-lang="bash"><code># Rewrite the last five commits
 git rebase -i HEAD~5</code></pre>
 <p>An editor opens with one line per commit. Change the verb at the start of a line to change what happens:</p>
@@ -273,12 +274,12 @@ drop   b4e5f6a  wip: debugging noise        ← delete this commit
 squash c7d8e9f  fix typo                    ← fold into the one above
 reword d0e1f2a  feat: tax rounding          ← change the message only
 edit   e3f4a5b  refactor: extract helper    ← stop here to amend it</code></pre>
-<p>Save and close. If a conflict appears, resolve it, <code>git add</code> the files, then <code>git rebase --continue</code>. To abandon the whole operation at any point: <code>git rebase --abort</code>.</p>
+<p>Save and close the editor to begin. If a conflict appears, resolve it, stage the resolved files with <code>git add</code>, then run <code>git rebase --continue</code>. Use <code>git rebase --abort</code> to return to the pre-rebase state.</p>
 <h2 id="undoing-things-that-are-not-commits">Undoing things that are not commits</h2>
 <pre class="jp-code" data-lang="bash"><code># Unstage a file, keep the edits
 git restore --staged src/app.ts
 
-# Discard uncommitted edits to a file — NOT recoverable
+# Discard uncommitted edits to a file. This is NOT recoverable.
 git restore src/app.ts
 
 # Discard everything uncommitted
@@ -291,9 +292,9 @@ git clean -fd
 # Park your work instead of destroying it
 git stash push -m &quot;half-finished refactor&quot;
 git stash pop</code></pre>
-<p><code>git restore</code> and <code>git switch</code> were introduced in Git 2.23 to split the overloaded <code>git checkout</code> into two clearer commands. <code>git checkout -- file</code> still works, but the newer forms are far harder to misuse.</p>
-<h2 id="i-ran-the-wrong-command-getting-your-work-back">I ran the wrong command — getting your work back</h2>
-<p>The reflog is a local record of every value <code>HEAD</code> has held — including commits that no branch points at any more. This is how you undo a bad <code>reset</code>, a bad <code>rebase</code> or a deleted branch.</p>
+<p>Git 2.23 introduced <code>git restore</code> and <code>git switch</code> to separate file restoration from branch changes. <code>git checkout -- file</code> still works, but <code>restore</code> states the file operation more clearly.</p>
+<h2 id="i-ran-the-wrong-command-getting-your-work-back">Recovering after the wrong command</h2>
+<p>The reflog is a local record of recent <code>HEAD</code> positions, including commits that no branch currently names. Use it to locate the state before a mistaken reset, rebase or branch deletion.</p>
 <pre class="jp-code" data-lang="bash"><code>git reflog
 
 # a1b2c3d HEAD@{0}: reset: moving to HEAD~3      ← the mistake
@@ -311,21 +312,21 @@ git fsck --lost-found</code></pre>
 <p>Reflog entries survive for 90 days by default (30 for unreachable commits) before garbage collection. The practical limit on recovery is therefore time, not permanence.</p>
 <aside class="jp-note jp-note--danger">
         <p class="jp-note-title">What the reflog cannot save</p>
-        <p>Anything never committed. Uncommitted edits destroyed by <code>git reset --hard</code>, <code>git restore</code> or <code>git clean</code> were never written to Git’s object database, so there is nothing to recover. Your editor’s local history may have a copy — that is the only remaining option.</p>
+        <p>The reflog cannot recover content that Git never stored. Uncommitted edits removed by <code>git reset --hard</code>, <code>git restore</code> or <code>git clean</code> are absent from the object database. An editor backup or local-history feature may still have a separate copy.</p>
       </aside>
 <h2 id="force-pushing-without-hurting-anyone">Force-pushing without hurting anyone</h2>
-<p>If you rewrote history on a branch you had already pushed, you must force-push. Use the safe variant:</p>
+<p>If you intentionally rewrote a branch that already exists on the remote, update it with the guarded force option:</p>
 <pre class="jp-code" data-lang="bash"><code># Refuses to push if someone else has pushed since you last fetched
 git push --force-with-lease
 
 # Never do this on a shared branch
 git push --force</code></pre>
-<p><code>--force-with-lease</code> checks that the remote is where you last saw it. If a colleague pushed in the meantime, the push is rejected rather than silently discarding their commits. There is no good reason to prefer plain <code>--force</code>.</p>
+<p><code>--force-with-lease</code> verifies that the remote branch still points where your clone expects. If another push changed it, Git rejects your update instead of overwriting those commits. Plain <code>--force</code> omits that protection.</p>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>What is the difference between git reset and git revert?</h3></summary>
-              <div class="jp-faq-answer"><p>reset moves your branch pointer backwards, erasing commits from the branch as though they never happened — it rewrites history and is only safe on unpushed work. revert adds a new commit that undoes an old one, leaving history intact. Use reset locally, revert on anything already shared.</p></div>
+              <div class="jp-faq-answer"><p>reset moves a branch pointer and can remove commits from that branch’s visible history. Use it for local, unshared work. revert adds a new commit that reverses an earlier one, so it is the usual choice after the original commit has been shared.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>How do I undo the last commit but keep my changes?</h3></summary>
               <div class="jp-faq-answer"><p>git reset --soft HEAD~1 keeps everything staged and ready to re-commit. git reset HEAD~1 keeps the changes but unstages them. Neither touches your files on disk.</p></div>
@@ -340,7 +341,7 @@ git push --force</code></pre>
               <div class="jp-faq-answer"><p>Because reverting a merge commit tells Git those changes are already accounted for. Re-merging the same branch brings nothing new. Revert the revert commit first, then merge again.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Is git rebase -i safe?</h3></summary>
-              <div class="jp-faq-answer"><p>On commits you have not pushed, yes — and abort at any point with git rebase --abort. On shared branches it is genuinely disruptive: everyone who has pulled must reset their local copy. Note also that interactive rebase needs a terminal, so it is unavailable in many automated environments.</p></div>
+              <div class="jp-faq-answer"><p>It is appropriate for commits you have not pushed, and git rebase --abort can stop an in-progress rebase. Rebasing shared commits requires everyone who pulled them to reconcile a rewritten branch. Interactive rebase also needs an editor, so it is not suitable for many automated environments.</p></div>
             </details>
       </section>
       <section class="jp-related">
@@ -348,15 +349,15 @@ git push --force</code></pre>
   <div class="jp-cards"><a class="jp-card" href="/guides/npm-eresolve-error/">
         <span class="jp-card-eyebrow"></span>
         <h3>Fixing npm ERESOLVE dependency conflicts</h3>
-        <p>Read the conflict report properly, then pick between overrides, --legacy-peer-deps and an actual upgrade.</p>
+        <p>Find the incompatible peer range, then choose an upgrade, targeted override or documented temporary policy.</p>
       </a><a class="jp-card" href="/guides/ssh-permission-denied-publickey/">
         <span class="jp-card-eyebrow"></span>
         <h3>Fixing SSH permission denied (publickey)</h3>
-        <p>Read ssh -vvv properly, then fix the cause: wrong key, wrong user, bad permissions or an empty agent.</p>
+        <p>Read the ssh -vvv trace to find a missing key, rejected identity, wrong user, permission problem or legacy algorithm.</p>
       </a><a class="jp-card" href="/guides/fix-cors-errors/">
         <span class="jp-card-eyebrow"></span>
         <h3>How to fix CORS errors</h3>
-        <p>Read the exact error, find the real cause, fix it on the server. Includes the wildcard-plus-credentials trap.</p>
+        <p>Match the browser error to a missing header, failed preflight, origin mismatch or credential conflict.</p>
       </a></div>
 </section>
     </article>
@@ -365,7 +366,7 @@ git push --force</code></pre>
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#pick-your-situation">Pick your situation</a></li><li><a href="#the-one-rule-that-decides-everything">The one rule that decides everything</a></li><li><a href="#fixing-the-last-commit">Fixing the last commit</a></li><li><a href="#undoing-a-commit-that-is-already-pushed">Undoing a commit that is already pushed</a></li><li><a href="#removing-a-commit-from-the-middle-of-history">Removing a commit from the middle of history</a></li><li><a href="#undoing-things-that-are-not-commits">Undoing things that are not commits</a></li><li><a href="#i-ran-the-wrong-command-getting-your-work-back">I ran the wrong command — getting your work back</a></li><li><a href="#force-pushing-without-hurting-anyone">Force-pushing without hurting anyone</a></li></ol>
+  <ol><li><a href="#pick-your-situation">Pick your situation</a></li><li><a href="#decide-whether-the-history-is-shared">Decide whether the history is shared</a></li><li><a href="#fixing-the-last-commit">Fixing the last commit</a></li><li><a href="#undoing-a-commit-that-is-already-pushed">Undoing a commit that is already pushed</a></li><li><a href="#removing-a-commit-from-the-middle-of-history">Removing a commit from the middle of history</a></li><li><a href="#undoing-things-that-are-not-commits">Undoing things that are not commits</a></li><li><a href="#i-ran-the-wrong-command-getting-your-work-back">Recovering after the wrong command</a></li><li><a href="#force-pushing-without-hurting-anyone">Force-pushing without hurting anyone</a></li></ol>
 </nav>
   
   

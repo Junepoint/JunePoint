@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Jackson Abeyta" />
     <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <title>JavaScript async/await Explained (With the Traps)</title>
-    <meta name="description" content="How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them." />
+    <title>JavaScript async/await: Execution, Concurrency and Errors</title>
+    <meta name="description" content="Understand what async and await do, when work is sequential or concurrent, why forEach drops Promises, and how errors propagate." />
     <link rel="canonical" href="https://junepoint.com/guides/javascript-async-await-explained/" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="JunePoint Resources" />
-    <meta property="og:title" content="JavaScript async/await Explained (With the Traps)" />
-    <meta property="og:description" content="How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them." />
+    <meta property="og:title" content="JavaScript async/await: Execution, Concurrency and Errors" />
+    <meta property="og:description" content="Understand what async and await do, when work is sequential or concurrent, why forEach drops Promises, and how errors propagate." />
     <meta property="og:url" content="https://junepoint.com/guides/javascript-async-await-explained/" />
     <meta property="og:image" content="https://junepoint.com/imgs/junepoint.png" />
     <meta property="og:locale" content="en_US" />
@@ -20,8 +21,8 @@
     <meta property="article:modified_time" content="2026-08-09" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@junepoint" />
-    <meta name="twitter:title" content="JavaScript async/await Explained (With the Traps)" />
-    <meta name="twitter:description" content="How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them." />
+    <meta name="twitter:title" content="JavaScript async/await: Execution, Concurrency and Errors" />
+    <meta name="twitter:description" content="Understand what async and await do, when work is sequential or concurrent, why forEach drops Promises, and how errors propagate." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
     <link rel="preload" as="style" href="/assets/jp/site.css?v=1" />
     <link rel="stylesheet" href="/assets/jp/site.css?v=1" />
@@ -61,15 +62,15 @@
     },
     {
       "@type": "Person",
-      "@id": "https://junepoint.com/about/#alexander-pace",
-      "name": "Alexander Pace",
+      "@id": "https://junepoint.com/about/#jackson-abeyta",
+      "name": "Jackson Abeyta",
       "jobTitle": "Full-Stack Developer, JunePoint",
-      "description": "Alexander works across React and Node.js applications with a focus on backend systems and user experience. He covers front-end technique, CSS and the business-software research on this site.",
+      "description": "Jackson builds cross-platform applications with React, React Native, Node.js and PostgreSQL, and has spent two years shipping production software for small businesses and startups. He is the author of JunePoint Resources.",
       "url": "https://junepoint.com/about/",
       "sameAs": [
-        "https://www.linkedin.com/in/alexander-pace-0648b6270/",
-        "https://github.com/snf-alex",
-        "https://snf-alex.github.io/PortfolioWebsiteV2/"
+        "https://linkedin.com/in/jackson-abeyta",
+        "https://github.com/jack-jackk",
+        "https://jackabeyta.com"
       ]
     },
     {
@@ -90,7 +91,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "JavaScript async/await, properly explained",
+          "name": "How JavaScript async/await behaves",
           "item": "https://junepoint.com/guides/javascript-async-await-explained/"
         }
       ]
@@ -98,9 +99,9 @@
     {
       "@type": "TechArticle",
       "@id": "https://junepoint.com/guides/javascript-async-await-explained/#article",
-      "headline": "JavaScript async/await, properly explained",
-      "name": "JavaScript async/await Explained (With the Traps)",
-      "description": "How async/await really works, why await in a loop is slow, why forEach ignores it, and how to handle errors without swallowing them.",
+      "headline": "How JavaScript async/await behaves",
+      "name": "JavaScript async/await: Execution, Concurrency and Errors",
+      "description": "Understand what async and await do, when work is sequential or concurrent, why forEach drops Promises, and how errors propagate.",
       "datePublished": "2026-06-04",
       "dateModified": "2026-08-09",
       "inLanguage": "en",
@@ -110,7 +111,7 @@
         "@id": "https://junepoint.com/guides/javascript-async-await-explained/"
       },
       "author": {
-        "@id": "https://junepoint.com/about/#alexander-pace"
+        "@id": "https://junepoint.com/about/#jackson-abeyta"
       },
       "publisher": {
         "@id": "https://junepoint.com/#organization"
@@ -127,7 +128,7 @@
           "name": "Does await block the main thread?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. It suspends only the async function it appears in and returns control to the event loop, so timers, event handlers and rendering continue. Long synchronous work between awaits does block — await is not a fix for a slow loop."
+            "text": "No. It suspends the current async function and returns control to the event loop, allowing timers, handlers and rendering to continue. Synchronous work between awaits still blocks the thread, so adding await does not make a CPU-heavy loop nonblocking."
           }
         },
         {
@@ -143,7 +144,7 @@
           "name": "Should I use await in a loop?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Only when each iteration depends on the previous one, or when you are deliberately rate-limiting. If the operations are independent, awaiting in a loop turns parallel work into sequential work and multiplies the total time by the number of items."
+            "text": "Use it when an iteration depends on the previous result or when sequential execution is your rate limit. For independent operations, create the Promises together and await them with a bounded concurrency strategy appropriate to the workload."
           }
         },
         {
@@ -159,7 +160,7 @@
           "name": "Why does my fetch not throw on a 404?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "By design — fetch only rejects on network failure. A 404 or 500 is a completed HTTP exchange. Check response.ok and throw yourself, otherwise .json() will attempt to parse an HTML error page and produce a misleading parse error."
+            "text": "Fetch treats a 404 or 500 as a completed HTTP exchange and rejects only when the request fails at the network level. Check response.ok and throw an application error before parsing a success body."
           }
         },
         {
@@ -167,7 +168,7 @@
           "name": "Can I use await at the top level of a file?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, in ES modules — top-level await is supported in modern Node and all current browsers. It is not available in CommonJS files, where you still need an async wrapper function."
+            "text": "Yes, in ES modules. Modern Node releases and current browsers support top-level await there. CommonJS files still need an async wrapper function."
           }
         }
       ]
@@ -200,19 +201,19 @@
     <a href="/">JunePoint Studio</a>
   </nav>
 </header>
-    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">JavaScript async/await, properly explained</li></ol></nav></div>
+    <div class="jp-wrap"><nav class="jp-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Developer Guides</a></li><li aria-current="page">How JavaScript async/await behaves</li></ol></nav></div>
 <div class="jp-layout">
   <main id="main">
     <header class="jp-pagehead">
       <p class="jp-eyebrow">JavaScript</p>
-      <h1>JavaScript async/await, properly explained</h1>
-      <p class="jp-standfirst">Most async bugs come from four misunderstandings. Here they are, with the pattern that fixes each one.</p>
-      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#alexander-pace">Alexander Pace</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published June 4, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 9, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>6 min read</span></div>
+      <h1>How JavaScript async/await behaves</h1>
+      <p class="jp-standfirst">Async code becomes easier to reason about when you track when each Promise starts, who awaits it, and where a rejection can be handled.</p>
+      <div class="jp-byline"><span class="jp-byline-author">By <a href="/about/#jackson-abeyta">Jackson Abeyta</a></span><span class="jp-dot" aria-hidden="true">·</span><span>Published June 4, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>Updated August 9, 2026</span><span class="jp-dot" aria-hidden="true">·</span><span>6 min read</span></div>
     </header>
     <article class="jp-article">
       <h2 id="what-async-and-await-actually-do">What <code>async</code> and <code>await</code> actually do</h2>
-<p><code>async</code> on a function means one thing: <strong>it returns a Promise.</strong> If you return a value, it is wrapped in a resolved Promise; if you throw, you get a rejected one.</p>
-<p><code>await</code> pauses that function until a Promise settles, then unwraps it. Crucially, it pauses <strong>only that function</strong> — the rest of the program continues. JavaScript is still single-threaded, and <code>await</code> never blocks the main thread.</p>
+<p>An <code>async</code> function <strong>always returns a Promise</strong>. Returning an ordinary value fulfills that Promise with the value; throwing rejects it with the error.</p>
+<p><code>await</code> suspends the current async function until its Promise settles, then produces the fulfilled value or throws the rejection. It suspends <strong>only that function</strong>. Other event-loop work continues, and JavaScript remains single-threaded.</p>
 <pre class="jp-code" data-lang="javascript"><code>async function getUser(id) {
   return { id };            // returns Promise&lt;{id}&gt;
 }
@@ -221,28 +222,28 @@
 function getUser(id) {
   return Promise.resolve({ id });
 }</code></pre>
-<h2 id="trap-1-awaiting-in-a-loop-when-you-did-not-need-to">Trap 1: awaiting in a loop when you did not need to</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential — 100 requests × 200ms = 20 seconds
+<h2 id="independent-work-should-not-wait-in-a-line">Independent work should not wait in a line</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential: 100 requests × 200ms = 20 seconds
 const users = [];
 for (const id of ids) {
   users.push(await fetchUser(id));
 }
 
-// ✓ Concurrent — all in flight at once, ~200ms
+// ✓ Concurrent: all in flight at once, ~200ms
 const users = await Promise.all(ids.map(id =&gt; fetchUser(id)));</code></pre>
-<p>The first version waits for each request before starting the next. Since the requests do not depend on each other, that is pure waste. <code>Promise.all</code> starts them all immediately and resolves when the last finishes.</p>
-<p>Sequential is correct when each iteration <strong>depends</strong> on the previous, or when you are deliberately rate-limiting. Otherwise it is a performance bug — and one of the easiest large speedups available in most codebases.</p>
+<p>The loop waits for each request before starting another. When the requests are independent, create all their Promises first and await the group. <code>Promise.all</code> fulfills after every input fulfills and rejects when any input rejects.</p>
+<p>Sequential execution is appropriate when an iteration <strong>depends</strong> on the previous result or when you are intentionally limiting request rate. Otherwise, measure whether unnecessary serialization is contributing to the slow path.</p>
 <aside class="jp-note jp-note--warn">
         <p class="jp-note-title">Do not fire 10,000 requests at once</p>
-        <p><code>Promise.all</code> over a large array will exhaust sockets, trip rate limits or take down the service you are calling. Batch it — with <code>p-limit</code>, a chunked loop, or a small concurrency pool. Concurrency of 5 to 20 is usually the sweet spot for HTTP.</p>
+        <p><code>Promise.all</code> over a large array can exhaust sockets, trigger rate limits or overload the service being called. Use <code>p-limit</code>, a chunked loop or another bounded concurrency pool. For HTTP work, 5 to 20 concurrent requests is a reasonable starting range, but measure against the service’s limits.</p>
       </aside>
-<h2 id="trap-2-foreach-ignores-your-async-callback">Trap 2: <code>forEach</code> ignores your async callback</h2>
+<h2 id="foreach-does-not-consume-callback-promises"><code>forEach</code> does not consume callback Promises</h2>
 <pre class="jp-code" data-lang="javascript"><code>// ✗ Logs &quot;done&quot; immediately; nothing has been saved yet
 items.forEach(async (item) =&gt; {
   await save(item);
 });
 console.log(&#39;done&#39;);</code></pre>
-<p><code>forEach</code> calls your function and discards the return value. Your callback returns a Promise; <code>forEach</code> throws it away. Nothing waits for anything, and — worse — a rejection inside becomes an unhandled rejection that can crash a Node process.</p>
+<p><code>forEach</code> calls its callback and ignores each return value. An async callback therefore creates Promises that the surrounding code neither returns nor awaits. A rejection from one of those Promises can become unhandled and terminate a Node process.</p>
 <pre class="jp-code" data-lang="javascript"><code>// ✓ Concurrent, and awaited
 await Promise.all(items.map(item =&gt; save(item)));
 
@@ -250,17 +251,17 @@ await Promise.all(items.map(item =&gt; save(item)));
 for (const item of items) {
   await save(item);
 }</code></pre>
-<p>The rule: <strong><code>for…of</code> supports <code>await</code>; <code>forEach</code> does not.</strong> The same applies to <code>map</code>, <code>filter</code> and <code>reduce</code> — an async callback gives you an array of Promises, which is fine for <code>map</code> (feed it to <code>Promise.all</code>) and useless for <code>filter</code>.</p>
-<h2 id="trap-3-one-rejection-kills-the-whole-batch">Trap 3: one rejection kills the whole batch</h2>
-<p><code>Promise.all</code> rejects as soon as any input rejects, and you lose the results that did succeed. When partial success is acceptable, use <code>allSettled</code>:</p>
+<p>Use <strong><code>for…of</code> with <code>await</code></strong> for sequential work, or <code>map</code> plus <code>Promise.all</code> for concurrent work. An async callback passed to <code>map</code>, <code>filter</code> or <code>reduce</code> still returns a Promise. That is useful with <code>map</code> when you await the resulting array, but it does not make <code>filter</code> understand asynchronous predicates.</p>
+<h2 id="choose-how-a-group-should-handle-rejection">Choose how a group should handle rejection</h2>
+<p><code>Promise.all</code> rejects when any input rejects, so its result does not contain the fulfilled values from the same batch. When callers need every outcome, use <code>Promise.allSettled</code>:</p>
 <pre class="jp-code" data-lang="javascript"><code>const results = await Promise.allSettled(ids.map(id =&gt; fetchUser(id)));
 
 const users  = results.filter(r =&gt; r.status === &#39;fulfilled&#39;).map(r =&gt; r.value);
 const failed = results.filter(r =&gt; r.status === &#39;rejected&#39;).map(r =&gt; r.reason);
 
 console.warn(`${failed.length} of ${ids.length} failed`);</code></pre>
-<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Combinator</th><th scope="col">Settles when</th><th scope="col">Use for</th></tr></thead><tbody><tr><th scope="row"><code>Promise.all</code></th><td>All fulfil, or any rejects</td><td>All-or-nothing work</td></tr><tr><th scope="row"><code>Promise.allSettled</code></th><td>All settle, whatever the outcome</td><td>Batch jobs where partial success is fine</td></tr><tr><th scope="row"><code>Promise.race</code></th><td>The first one settles, fulfilled or rejected</td><td>Timeouts</td></tr><tr><th scope="row"><code>Promise.any</code></th><td>The first one fulfils</td><td>Redundant sources — try several mirrors</td></tr></tbody></table></div>
-<pre class="jp-code" data-lang="javascript"><code>// A timeout with Promise.race — but prefer AbortSignal, below,
+<div class="jp-table-wrap"><table class="jp-table"><thead><tr><th scope="col">Combinator</th><th scope="col">Settles when</th><th scope="col">Use for</th></tr></thead><tbody><tr><th scope="row"><code>Promise.all</code></th><td>All fulfil, or any rejects</td><td>All-or-nothing work</td></tr><tr><th scope="row"><code>Promise.allSettled</code></th><td>All settle, whatever the outcome</td><td>Batch jobs where partial success is fine</td></tr><tr><th scope="row"><code>Promise.race</code></th><td>The first one settles, fulfilled or rejected</td><td>Timeouts</td></tr><tr><th scope="row"><code>Promise.any</code></th><td>The first one fulfils</td><td>Redundant sources, such as several mirrors</td></tr></tbody></table></div>
+<pre class="jp-code" data-lang="javascript"><code>// Promise.race can implement a timeout, but prefer AbortSignal below
 // because race leaves the losing request running.
 const result = await Promise.race([
   fetchData(),
@@ -269,8 +270,8 @@ const result = await Promise.race([
 
 // Better: actually cancel the request
 const response = await fetch(url, { signal: AbortSignal.timeout(5000) });</code></pre>
-<h2 id="trap-4-error-handling-that-hides-the-failure">Trap 4: error handling that hides the failure</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ Swallows the error and returns undefined — the caller has no idea
+<h2 id="do-not-turn-a-rejection-into-unexplained-undefined">Do not turn a rejection into unexplained undefined</h2>
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Logs the error and returns undefined, leaving the caller uninformed
 async function getUser(id) {
   try {
     return await api.get(`/users/${id}`);
@@ -278,7 +279,7 @@ async function getUser(id) {
     console.error(error);
   }
 }</code></pre>
-<p>The caller receives <code>undefined</code> and carries on. The failure surfaces later as a <code>TypeError</code> somewhere unrelated, with no trace of the original cause. <strong>Only catch an error if you are going to do something about it</strong> — otherwise let it propagate.</p>
+<p>The caller receives <code>undefined</code> and may fail later with an unrelated <code>TypeError</code>. Catch an error where you can recover, translate it for an API boundary or add useful context. Otherwise, allow the rejection to propagate to code that can handle it.</p>
 <pre class="jp-code" data-lang="javascript"><code>// ✓ Add context, keep the original cause attached
 async function getUser(id) {
   try {
@@ -287,16 +288,16 @@ async function getUser(id) {
     throw new Error(`Failed to load user ${id}`, { cause: error });
   }
 }</code></pre>
-<p>The <code>cause</code> option preserves the original error and its stack, so your logs show both the context and the root failure.</p>
+<p>The <code>cause</code> option keeps the original error attached, allowing logs to show both the operation that failed and the lower-level reason.</p>
 <aside class="jp-note jp-note--tip">
         <p class="jp-note-title"><code>return await</code> inside <code>try</code> is not redundant</p>
-        <p>Dropping the <code>await</code> in <code>return await somePromise()</code> inside a <code>try</code> block means the function returns before the Promise settles — so a rejection escapes your <code>catch</code> entirely. Outside a <code>try</code>, the <code>await</code> genuinely is redundant. Inside one, keep it.</p>
+        <p>Without <code>await</code>, returning a Promise from inside <code>try</code> ends the block before that Promise settles, so its later rejection bypasses the local <code>catch</code>. Outside a <code>try</code> that needs to catch the rejection, <code>return await</code> is usually redundant. Inside one, keep it.</p>
       </aside>
-<h2 id="the-fetch-mistake-everyone-makes">The fetch mistake everyone makes</h2>
+<h2 id="fetch-resolves-for-http-error-statuses">Fetch resolves for HTTP error statuses</h2>
 <pre class="jp-code" data-lang="javascript"><code>// ✗ fetch does NOT reject on 404 or 500
 const response = await fetch(&#39;/api/users&#39;);
 const data = await response.json();   // throws a confusing JSON parse error</code></pre>
-<p><code>fetch</code> only rejects on a network failure. A 404 or a 500 is a perfectly successful HTTP transaction as far as it is concerned. You must check <code>response.ok</code> yourself:</p>
+<p><code>fetch</code> rejects for network-level failures, not for an HTTP 404 or 500 response. Check <code>response.ok</code> before parsing a body that assumes success:</p>
 <pre class="jp-code" data-lang="javascript"><code>const response = await fetch(&#39;/api/users&#39;);
 
 if (!response.ok) {
@@ -304,20 +305,20 @@ if (!response.ok) {
 }
 
 const data = await response.json();</code></pre>
-<p>This is why so many apps report &quot;Unexpected token &lt; in JSON at position 0&quot; — the server returned an HTML error page, and <code>json()</code> tried to parse it.</p>
+<p>The familiar &quot;Unexpected token &lt; in JSON at position 0&quot; message often means the server returned an HTML error page and <code>json()</code> attempted to parse it as JSON.</p>
 <h2 id="starting-work-before-you-await-it">Starting work before you await it</h2>
-<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential — 300ms total
+<pre class="jp-code" data-lang="javascript"><code>// ✗ Sequential: 300ms total
 const user  = await fetchUser(id);
 const posts = await fetchPosts(id);
 
-// ✓ Concurrent — 200ms, and neither depends on the other
+// ✓ Concurrent: 200ms, and neither depends on the other
 const userPromise  = fetchUser(id);
 const postsPromise = fetchPosts(id);
 const [user, posts] = [await userPromise, await postsPromise];
 
 // ✓ Equivalent and clearer
 const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);</code></pre>
-<p>A Promise starts executing the moment it is created, not when you await it. Creating both first, then awaiting, overlaps the work. This is worth reaching for whenever two awaits sit next to each other and neither uses the other’s result.</p>
+<p>The operation that produces a Promise starts when you call it, not when you later await its result. Creating both Promises first allows the operations to overlap. Check adjacent awaits for this opportunity when neither call uses the other’s result.</p>
 <h2 id="unhandled-rejections">Unhandled rejections</h2>
 <pre class="jp-code" data-lang="javascript"><code>// Node: crashes the process by default since v15
 process.on(&#39;unhandledRejection&#39;, (reason) =&gt; {
@@ -330,27 +331,27 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
   reportError(event.reason);
   event.preventDefault();   // stop the console noise once reported
 });</code></pre>
-<p>The usual sources are a forgotten <code>await</code>, an async callback passed to <code>forEach</code>, and an async event handler with no internal try/catch. Handlers cannot await your function, so an error inside one has nowhere to go.</p>
+<p>Common sources include a missing <code>await</code>, an async callback passed to <code>forEach</code>, and an async event handler whose returned Promise is ignored. Catch an event-handler error inside the handler or pass its Promise to code that records failures.</p>
 <section class="jp-faq">
         <h2 id="faq">Frequently asked questions</h2>
         <details class="jp-faq-item">
               <summary><h3>Does await block the main thread?</h3></summary>
-              <div class="jp-faq-answer"><p>No. It suspends only the async function it appears in and returns control to the event loop, so timers, event handlers and rendering continue. Long synchronous work between awaits does block — await is not a fix for a slow loop.</p></div>
+              <div class="jp-faq-answer"><p>No. It suspends the current async function and returns control to the event loop, allowing timers, handlers and rendering to continue. Synchronous work between awaits still blocks the thread, so adding await does not make a CPU-heavy loop nonblocking.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why does await not work inside forEach?</h3></summary>
               <div class="jp-faq-answer"><p>forEach discards the return value of its callback, so the Promise your async callback returns is thrown away and nothing waits for it. Use for…of for sequential work, or Promise.all with map for concurrent work.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Should I use await in a loop?</h3></summary>
-              <div class="jp-faq-answer"><p>Only when each iteration depends on the previous one, or when you are deliberately rate-limiting. If the operations are independent, awaiting in a loop turns parallel work into sequential work and multiplies the total time by the number of items.</p></div>
+              <div class="jp-faq-answer"><p>Use it when an iteration depends on the previous result or when sequential execution is your rate limit. For independent operations, create the Promises together and await them with a bounded concurrency strategy appropriate to the workload.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>What is the difference between Promise.all and Promise.allSettled?</h3></summary>
               <div class="jp-faq-answer"><p>Promise.all rejects immediately when any input rejects, discarding successful results. Promise.allSettled always waits for all of them and returns an array describing each outcome. Use allSettled when partial success is useful.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Why does my fetch not throw on a 404?</h3></summary>
-              <div class="jp-faq-answer"><p>By design — fetch only rejects on network failure. A 404 or 500 is a completed HTTP exchange. Check response.ok and throw yourself, otherwise .json() will attempt to parse an HTML error page and produce a misleading parse error.</p></div>
+              <div class="jp-faq-answer"><p>Fetch treats a 404 or 500 as a completed HTTP exchange and rejects only when the request fails at the network level. Check response.ok and throw an application error before parsing a success body.</p></div>
             </details><details class="jp-faq-item">
               <summary><h3>Can I use await at the top level of a file?</h3></summary>
-              <div class="jp-faq-answer"><p>Yes, in ES modules — top-level await is supported in modern Node and all current browsers. It is not available in CommonJS files, where you still need an async wrapper function.</p></div>
+              <div class="jp-faq-answer"><p>Yes, in ES modules. Modern Node releases and current browsers support top-level await there. CommonJS files still need an async wrapper function.</p></div>
             </details>
       </section>
       <section class="jp-related">
@@ -358,15 +359,15 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
   <div class="jp-cards"><a class="jp-card" href="/guides/fix-cors-errors/">
         <span class="jp-card-eyebrow"></span>
         <h3>How to fix CORS errors</h3>
-        <p>Read the exact error, find the real cause, fix it on the server. Includes the wildcard-plus-credentials trap.</p>
+        <p>Match the browser error to a missing header, failed preflight, origin mismatch or credential conflict.</p>
       </a><a class="jp-card" href="/guides/react-usestate-not-updating/">
         <span class="jp-card-eyebrow"></span>
         <h3>Why your React useState is not updating</h3>
-        <p>Stale closures, mutation, batching and the setInterval trap — why state logs the old value.</p>
+        <p>Check captured values, state mutation, batching and effect dependencies when a state update seems to disappear.</p>
       </a><a class="jp-card" href="/guides/http-status-codes-explained/">
         <span class="jp-card-eyebrow"></span>
-        <h3>HTTP status codes, and which to actually use</h3>
-        <p>401 vs 403, 301 vs 308, 400 vs 422 — the distinctions that matter, and the codes worth using.</p>
+        <h3>HTTP status codes for application developers</h3>
+        <p>Choose useful status codes for authentication, validation, redirects, retries and upstream failures.</p>
       </a></div>
 </section>
     </article>
@@ -375,7 +376,7 @@ window.addEventListener(&#39;unhandledrejection&#39;, (event) =&gt; {
   <aside class="jp-side">
   <nav class="jp-toc" aria-labelledby="jp-toc-title">
   <h2 id="jp-toc-title">On this page</h2>
-  <ol><li><a href="#what-async-and-await-actually-do">What `async` and `await` actually do</a></li><li><a href="#trap-1-awaiting-in-a-loop-when-you-did-not-need-to">Trap 1: awaiting in a loop when you did not need to</a></li><li><a href="#trap-2-foreach-ignores-your-async-callback">Trap 2: `forEach` ignores your async callback</a></li><li><a href="#trap-3-one-rejection-kills-the-whole-batch">Trap 3: one rejection kills the whole batch</a></li><li><a href="#trap-4-error-handling-that-hides-the-failure">Trap 4: error handling that hides the failure</a></li><li><a href="#the-fetch-mistake-everyone-makes">The fetch mistake everyone makes</a></li><li><a href="#starting-work-before-you-await-it">Starting work before you await it</a></li><li><a href="#unhandled-rejections">Unhandled rejections</a></li></ol>
+  <ol><li><a href="#what-async-and-await-actually-do">What `async` and `await` actually do</a></li><li><a href="#independent-work-should-not-wait-in-a-line">Independent work should not wait in a line</a></li><li><a href="#foreach-does-not-consume-callback-promises">`forEach` does not consume callback Promises</a></li><li><a href="#choose-how-a-group-should-handle-rejection">Choose how a group should handle rejection</a></li><li><a href="#do-not-turn-a-rejection-into-unexplained-undefined">Do not turn a rejection into unexplained undefined</a></li><li><a href="#fetch-resolves-for-http-error-statuses">Fetch resolves for HTTP error statuses</a></li><li><a href="#starting-work-before-you-await-it">Starting work before you await it</a></li><li><a href="#unhandled-rejections">Unhandled rejections</a></li></ol>
 </nav>
   
   
