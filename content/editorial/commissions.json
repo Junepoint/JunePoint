@@ -1,0 +1,13 @@
+{
+  "_comment": "Curated backlog. The generator takes the first entry with done:false. Add topics deliberately; an empty queue stops the pipeline rather than inventing filler.",
+  "topics": [
+    { "section": "guides", "slug": "cannot-find-module-node", "angle": "Node 'Cannot find module' — resolution order, ESM vs CJS, and the path cases that actually cause it", "done": false },
+    { "section": "guides", "slug": "git-merge-conflict-resolve", "angle": "Resolving a git merge conflict properly, including which side is which and how to verify nothing was dropped", "done": false },
+    { "section": "guides", "slug": "port-already-in-use", "angle": "EADDRINUSE: finding and killing the process, and why it happens after a crash", "done": false },
+    { "section": "guides", "slug": "css-specificity-explained", "angle": "Why your CSS rule is not applying: specificity, cascade layers, and !important", "done": false },
+    { "section": "tools", "slug": "url-encoder-decoder", "angle": "Percent-encoding tool with a component vs full-URL distinction", "done": false },
+    { "section": "tools", "slug": "epoch-timestamp-converter", "angle": "Unix timestamp to date in every timezone, with seconds vs milliseconds detection", "done": false },
+    { "section": "guides", "slug": "sql-join-types-explained", "angle": "INNER, LEFT, RIGHT and FULL joins with the row counts each actually produces", "done": false },
+    { "section": "guides", "slug": "dns-propagation-explained", "angle": "Why a DNS change has not taken effect: TTL, resolver caching, and how to check authoritatively", "done": false }
+  ]
+}

@@ -1,0 +1,50 @@
+name: Draft 
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5'   # 09:00 UTC, weekdays. Deliberately not daily.
+  workflow_dispatch:
+    inputs:
+      count:
+        description: How many to draft
+        default: '2'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm ci || npm install
+
+      - name: Draft 
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CONTENT_MODEL: ${{ vars.CONTENT_MODEL || 'claude-sonnet-5' }}
+        run: node content/editorial/draft.js --count ${{ github.event.inputs.count || '2' }}
+
+      - name: Enforce house style
+        run: node content/editorial/house-style-lint.js
+
+      - name: Build and validate
+        run: |
+          npm run build:content
+          npm run check:content
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: drafts/${{ github.run_number }}
+          delete-branch: true
+          commit-message: 'content: drafts'
+          title: 'drafts'
+          body: 
+            
