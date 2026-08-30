@@ -1,12 +1,12 @@
 module.exports = {
   slug: 'cron-expression-generator',
-  title: 'Cron Expression Generator & Parser (with Next Runs)',
+  title: 'Cron Expression Generator and Next Run Calculator',
   h1: 'Cron Expression Generator',
   eyebrow: 'Developer tool',
   description:
-    'Build or decode a cron schedule, read it in plain English, and see the next ten times it will actually fire. Free and entirely browser-based.',
+    'Build or parse a standard five-field cron expression, read its schedule and calculate the next ten runs in local time.',
   standfirst:
-    'Write a cron expression and get a plain-English description plus the next ten run times — the fastest way to prove a schedule does what you meant.',
+    'Enter a five-field cron expression to inspect each field, read a plain-language summary and check its next ten scheduled times.',
   keywords: ['cron expression generator', 'crontab generator', 'cron parser', 'cron schedule', 'cron next run time'],
   published: '2026-04-16',
   updated: '2026-08-23',
@@ -19,11 +19,11 @@ module.exports = {
     <label for="cr-expr">Cron expression</label>
     <input class="jp-input" type="text" id="cr-expr" value="30 3 * * 1-5" spellcheck="false"
       style="font-family:var(--mono);font-size:1.1rem" />
-    <span class="jp-hint">Five fields: minute, hour, day of month, month, day of week.</span>
+    <span class="jp-hint">Use five fields in this order: minute, hour, day of month, month and day of week.</span>
   </div>
 
   <div class="jp-field">
-    <span class="jp-field-legend" id="cr-presets-label">Common schedules</span>
+    <span class="jp-field-legend" id="cr-presets-label">Example schedules</span>
     <div class="jp-chips" id="cr-presets" role="group" aria-labelledby="cr-presets-label"></div>
   </div>
 
@@ -32,11 +32,11 @@ module.exports = {
   <p class="jp-status" id="cr-status" role="status" aria-live="polite">&nbsp;</p>
 
   <div class="jp-stat jp-stat--primary" style="margin:1rem 0">
-    <p class="jp-stat-label">In plain English</p>
-    <p class="jp-stat-value" id="cr-human" style="font-size:1.15rem;line-height:1.4">—</p>
+    <p class="jp-stat-label">Schedule summary</p>
+    <p class="jp-stat-value" id="cr-human" style="font-size:1.15rem;line-height:1.4">Not available</p>
   </div>
 
-  <h2 class="jp-tool-h">Next ten runs <span style="font-weight:400;color:var(--text-mute);font-size:.85rem">(your local time)</span></h2>
+  <h2 class="jp-tool-h">Next ten runs <span style="font-weight:400;color:var(--text-mute);font-size:.85rem">(browser local time)</span></h2>
   <pre class="jp-out" id="cr-next"></pre>
 </div>`,
 
@@ -61,11 +61,11 @@ module.exports = {
     ['Every 15 minutes', '*/15 * * * *'],
     ['Hourly', '0 * * * *'],
     ['Daily at 03:30', '30 3 * * *'],
-    ['Weekdays 09:00', '0 9 * * 1-5'],
-    ['Weekly, Sunday midnight', '0 0 * * 0'],
-    ['Monthly, 1st at 02:00', '0 2 1 * *'],
-    ['Quarterly', '0 0 1 1,4,7,10 *'],
-    ['Twice daily', '0 6,18 * * *']
+    ['Weekdays at 09:00', '0 9 * * 1-5'],
+    ['Every Sunday at 00:00', '0 0 * * 0'],
+    ['First day of each month at 02:00', '0 2 1 * *'],
+    ['First day of each quarter', '0 0 1 1,4,7,10 *'],
+    ['Daily at 06:00 and 18:00', '0 6,18 * * *']
   ];
 
   var ALIASES = {
@@ -179,10 +179,10 @@ module.exports = {
     var parts = raw.split(' ');
 
     if (parts.length !== 5) {
-      status.textContent = 'Expected 5 fields, found ' + parts.length +
-        (parts.length === 6 ? ' — six-field expressions include seconds and are used by Quartz and Spring, not standard cron.' : '.');
+      status.textContent = 'Expected 5 fields but found ' + parts.length +
+        (parts.length === 6 ? '. Quartz and Spring use six fields with seconds, but standard cron does not.' : '.');
       status.className = 'jp-status jp-status--err';
-      document.getElementById('cr-human').textContent = '—';
+      document.getElementById('cr-human').textContent = 'Not available';
       document.getElementById('cr-next').textContent = '';
       return;
     }
@@ -194,12 +194,12 @@ module.exports = {
     } catch (error) {
       status.textContent = error.message;
       status.className = 'jp-status jp-status--err';
-      document.getElementById('cr-human').textContent = '—';
+      document.getElementById('cr-human').textContent = 'Not available';
       document.getElementById('cr-next').textContent = '';
       return;
     }
 
-    status.textContent = 'Valid expression';
+    status.textContent = 'This is a valid five-field expression.';
     status.className = 'jp-status jp-status--ok';
     document.getElementById('cr-human').textContent = describe(parts, sets);
 
@@ -218,7 +218,7 @@ module.exports = {
             hour: '2-digit', minute: '2-digit', hour12: false
           });
         }).join('\\n')
-      : 'This expression never fires — check for an impossible date such as 31 February.';
+      : 'No run was found in the search window. Check for an impossible date such as 31 February.';
   }
 
   document.getElementById('cr-presets').innerHTML = PRESETS.map(function (p, i) {
@@ -237,7 +237,7 @@ module.exports = {
   },
 
   blocks: [
-    { t: 'h2', x: 'How to read the five fields' },
+    { t: 'h2', x: 'Reading the five fields' },
     {
       t: 'code',
       lang: 'text',
@@ -253,49 +253,49 @@ module.exports = {
       t: 'table',
       head: ['Operator', 'Meaning', 'Example'],
       rows: [
-        ['`*`', 'Every value', '`* * * * *` — every minute'],
-        ['`,`', 'A list', '`0 6,18 * * *` — 06:00 and 18:00'],
-        ['`-`', 'A range', '`0 9-17 * * *` — hourly, 09:00 to 17:00'],
-        ['`/`', 'A step', '`*/15 * * * *` — every 15 minutes'],
-        ['`L`', 'Last (extension)', '`0 0 L * *` — last day of the month, not in standard cron'],
+        ['`*`', 'Every value', '`* * * * *`: every minute'],
+        ['`,`', 'A list', '`0 6,18 * * *`: 06:00 and 18:00'],
+        ['`-`', 'A range', '`0 9-17 * * *`: hourly from 09:00 through 17:00'],
+        ['`/`', 'A step', '`*/15 * * * *`: every 15 minutes'],
+        ['`L`', 'Last (extension)', '`0 0 L * *`: last day of the month; not supported by standard cron'],
       ],
     },
 
     {
       t: 'note',
       kind: 'warn',
-      title: 'The trap that catches everyone: day-of-month and day-of-week are OR, not AND',
-      x: 'When **both** fields are restricted, cron fires if *either* matches. `0 0 1 * 1` does not mean "the 1st, if it is a Monday" — it means "every 1st of the month **and** every Monday". To get the AND behaviour, restrict one field in cron and check the other inside your script.',
+      title: 'Day of month and day of week use OR',
+      x: 'When **both** day fields are restricted, standard cron runs when either field matches. `0 0 1 * 1` means every first day of the month plus every Monday, not only first days that fall on Monday. To require both conditions, restrict one field in cron and check the other in the command or script.',
     },
 
-    { t: 'h2', x: 'Steps do not mean "every N from now"' },
+    { t: 'h2', x: 'Step values start at the field boundary' },
     {
       t: 'p',
-      x: '`*/20 * * * *` fires at :00, :20 and :40 — it steps through the *field’s own range* starting at zero, not from the moment you installed the job. This matters at boundaries: `*/45` gives you :00 and :45, then jumps back to :00 the following hour, so the gap between the second and third run is 15 minutes, not 45.',
+      x: '`*/20 * * * *` runs at :00, :20 and :40 because the step starts at zero in the minute field. It does not start when the job is installed. Likewise, `*/45` runs at :00 and :45, followed by :00 in the next hour, so one interval is only 15 minutes.',
     },
     {
       t: 'p',
-      x: 'If you genuinely need an even interval that does not divide the hour, run more frequently and gate inside the job, or use a scheduler with real interval support such as systemd timers.',
+      x: 'For an even interval that does not divide the hour, run more frequently and check elapsed time inside the job, or use an interval-based scheduler such as a systemd timer.',
     },
 
     { t: 'h2', x: 'Which timezone does cron use?' },
     {
       t: 'p',
-      x: 'System crontabs run in the **server’s** timezone, which on most cloud instances is UTC. This is the single most common cause of "my job ran at the wrong time" — the schedule was written in local time and the box was never in that timezone.',
+      x: 'A system crontab uses the **server’s** configured timezone, which is often UTC on cloud instances. Confirm that timezone before translating a local business time into a cron expression.',
     },
     {
       t: 'ul',
       items: [
-        '**Set it explicitly.** `CRON_TZ=Europe/London` at the top of a crontab (Vixie cron) or `TZ=` in some implementations pins the schedule.',
-        '**Kubernetes CronJobs** support a `.spec.timeZone` field from v1.27. Without it, they follow the controller manager’s timezone.',
-        '**Avoid 01:00–03:00 for daily jobs.** In a spring-forward transition that hour does not exist, so the job is skipped; in autumn it happens twice, so the job runs twice. Schedule at 04:00 and the problem disappears.',
+        '**Set the timezone explicitly.** Vixie cron supports `CRON_TZ=Europe/London` at the top of a crontab, while some other implementations use `TZ=`.',
+        '**Kubernetes CronJobs:** Kubernetes v1.27 and later support `.spec.timeZone`. Without it, scheduling follows the controller manager’s timezone.',
+        '**Account for daylight-saving changes.** Depending on the cron implementation, a time in the transition window may be skipped or repeated. Use UTC or choose a time outside the local transition window for jobs that must run once.',
       ],
     },
 
-    { t: 'h2', x: 'Six-field expressions are a different thing' },
+    { t: 'h2', x: 'Six-field scheduler formats' },
     {
       t: 'p',
-      x: 'Quartz, Spring’s `@Scheduled` and several cloud schedulers use six fields, adding **seconds** at the front. AWS EventBridge uses six fields too, but the extra one is a **year** at the end, and it requires `?` in one of the day fields rather than `*`.',
+      x: 'Quartz and Spring’s `@Scheduled` syntax use six fields by adding **seconds** at the front. AWS EventBridge also uses six fields, but its final field is a **year**, and one of its day fields uses `?` instead of `*`.',
     },
     {
       t: 'code',
@@ -304,9 +304,9 @@ module.exports = {
 Quartz (6)      0 30 3 ? * MON-FRI      leading seconds, ? for unused day field
 EventBridge     30 3 ? * MON-FRI *      trailing year`,
     },
-    { t: 'p', x: 'Pasting one flavour into another is a reliable way to produce a job that silently never runs. This tool validates the standard five-field form.' },
+    { t: 'p', x: 'A valid expression for one scheduler may be invalid or mean something different in another. This tool validates the standard five-field format only.' },
 
-    { t: 'h2', x: 'Writing crontab entries that do not fail silently' },
+    { t: 'h2', x: 'Making cron failures visible' },
     {
       t: 'code',
       lang: 'bash',
@@ -316,7 +316,7 @@ crontab -e
 # List it
 crontab -l
 
-# Redirect output — cron mails it otherwise, and on most servers
+# Redirect output; cron mails it otherwise, and on most servers
 # that mail goes nowhere and the failure is invisible.
 30 3 * * 1-5 /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1
 
@@ -326,18 +326,18 @@ crontab -l
     {
       t: 'ul',
       items: [
-        '**Use absolute paths.** Cron runs with a minimal `PATH` — usually just `/usr/bin:/bin`. A script that works in your shell will fail under cron because a binary is not on that path.',
-        '**Your environment is not loaded.** No `.bashrc`, no `.profile`, no `nvm`, no virtualenv. Source what you need explicitly at the top of the script.',
-        '**Escape `%`.** In a crontab it means newline. An unescaped `date +%Y` truncates the command at that point.',
-        '**End the file with a newline.** Some cron implementations silently ignore a final line without one.',
-        '**Guard against overlap.** If a job can outrun its interval, wrap it in `flock -n /tmp/job.lock` so a slow run does not stack up behind itself.',
+        '**Use absolute paths.** Cron often has a minimal `PATH`, such as `/usr/bin:/bin`. Use full paths for commands that may not be available there.',
+        '**Load required environment explicitly.** Do not assume cron reads `.bashrc`, `.profile`, `nvm` configuration or a virtual environment.',
+        '**Escape `%`.** A percent sign represents a newline in a crontab. An unescaped `date +%Y` can truncate the command.',
+        '**End the file with a newline.** Some cron implementations ignore a final crontab line that has no newline.',
+        '**Prevent overlapping runs.** If a job can exceed its interval, a lock such as `flock -n /tmp/job.lock` can stop another copy from starting.',
       ],
     },
     {
       t: 'note',
       kind: 'tip',
-      title: 'Add a dead-man’s switch',
-      x: 'Cron tells you nothing when a job fails to run at all — a deleted crontab, a full disk or a rebooted box is completely silent. Have the job ping a monitoring endpoint on success and alert when the ping stops. That is the difference between noticing a broken backup today and noticing it during a restore.',
+      title: 'Monitor successful runs',
+      x: 'A deleted crontab, full disk or unavailable host can prevent a job without producing application output. Have important jobs report successful completion to monitoring, and alert when an expected report does not arrive.',
     },
 
     {
@@ -345,23 +345,23 @@ crontab -l
       items: [
         {
           q: 'What does 30 3 * * 1-5 mean?',
-          a: 'It runs at 03:30 every Monday through Friday, in every month. The first field is the minute, the second the hour, and 1-5 in the day-of-week field covers Monday to Friday.',
+          a: 'It runs at 03:30 every Monday through Friday in every month. `30` is the minute, `3` is the hour and `1-5` covers Monday through Friday in the day-of-week field.',
         },
         {
           q: 'Why has my cron job never run?',
-          a: 'In order of likelihood: the command uses a relative path that is not on cron’s minimal PATH; the script is not executable; the crontab file has no trailing newline; the schedule is in a different timezone than you assumed; or an unescaped % truncated the command. Redirect output to a log file and the cause is usually obvious in seconds.',
+          a: 'Check whether the command uses an unavailable relative path, the script is executable, the crontab ends with a newline, the server timezone matches the schedule and each `%` is escaped. Redirect standard output and standard error to a log while diagnosing the failure.',
         },
         {
           q: 'How do I run something every 30 seconds?',
-          a: 'Standard cron cannot — one minute is its finest granularity. Either run every minute and have the script sleep 30 seconds before a second pass, or use systemd timers, which support sub-minute intervals properly.',
+          a: 'Standard cron has one-minute granularity. You can run once per minute and perform a second pass after a 30-second delay, or use a scheduler such as systemd timers that supports sub-minute intervals.',
         },
         {
           q: 'Is 0 the same as 7 for Sunday?',
-          a: 'In most implementations, yes — both mean Sunday, an allowance for the two conventions in circulation. The tool above normalises 7 to 0. Using 0 is safer, since not every scheduler accepts 7.',
+          a: 'Many cron implementations accept both values for Sunday, but support for `7` is not universal. This tool accepts day-of-week values from `0` through `6`, with `0` for Sunday.',
         },
         {
           q: 'What happens to a job scheduled during a daylight-saving change?',
-          a: 'Behaviour varies by implementation and is genuinely inconsistent. Vixie cron tries to run jobs skipped by a spring-forward, and may suppress duplicate runs in autumn — but do not rely on it. Schedule anything important outside the 01:00–03:00 window, or run the server in UTC.',
+          a: 'Behavior varies by implementation. Vixie cron may compensate for a skipped spring-forward time and suppress a repeated autumn run, but other schedulers differ. For important jobs, use UTC or avoid the local transition window.',
         },
       ],
     },

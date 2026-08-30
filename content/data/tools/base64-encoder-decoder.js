@@ -1,12 +1,12 @@
 module.exports = {
   slug: 'base64-encoder-decoder',
-  title: 'Base64 Encoder & Decoder — Unicode Safe, Offline',
+  title: 'Base64 Encoder and Decoder for UTF-8 and Base64url',
   h1: 'Base64 Encoder and Decoder',
   eyebrow: 'Developer tool',
   description:
-    'Encode and decode Base64 and Base64url in your browser, with correct UTF-8 handling for emoji and accented characters. No uploads, no tracking.',
+    'Encode UTF-8 text as Base64 or Base64url, or decode it locally in your browser. Emoji and accented characters are supported.',
   standfirst:
-    'Convert text to Base64 and back, including the URL-safe variant. Handles Unicode properly, which the usual one-line browser trick does not.',
+    'Paste text or Base64 to convert it in either direction. Choose Base64url for values used in URLs and tokens.',
   keywords: ['base64 encode', 'base64 decode', 'base64url', 'base64 converter', 'decode base64 online'],
   published: '2026-03-11',
   updated: '2026-08-18',
@@ -16,28 +16,28 @@ module.exports = {
     html: `
 <div class="jp-tool">
   <div class="jp-toolbar">
-    <button class="jp-btn" type="button" id="b64-encode">Encode &darr;</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="b64-decode">&uarr; Decode</button>
+    <button class="jp-btn" type="button" id="b64-encode">Encode as Base64 &darr;</button>
+    <button class="jp-btn jp-btn--ghost" type="button" id="b64-decode">&uarr; Decode to text</button>
     <button class="jp-btn jp-btn--ghost" type="button" id="b64-swap">Swap</button>
     <button class="jp-btn jp-btn--ghost" type="button" id="b64-clear">Clear</button>
-    <label class="jp-checkline"><input type="checkbox" id="b64-urlsafe" /> URL-safe (Base64url)</label>
-    <label class="jp-checkline"><input type="checkbox" id="b64-wrap" /> Wrap at 76 chars</label>
+    <label class="jp-checkline"><input type="checkbox" id="b64-urlsafe" /> Use Base64url</label>
+    <label class="jp-checkline"><input type="checkbox" id="b64-wrap" /> Wrap lines at 76 characters</label>
   </div>
 
   <div class="jp-field">
-    <label for="b64-plain">Plain text</label>
+    <label for="b64-plain">Text</label>
     <textarea class="jp-textarea" id="b64-plain" spellcheck="false" style="min-height:150px"
       placeholder="Type or paste text here…"></textarea>
   </div>
 
   <div class="jp-field">
-    <label for="b64-encoded">Base64</label>
+    <label for="b64-encoded">Base64 text</label>
     <textarea class="jp-textarea" id="b64-encoded" spellcheck="false" style="min-height:150px"
-      placeholder="…or paste Base64 here and press Decode"></textarea>
+      placeholder="Paste Base64 here to decode it…"></textarea>
   </div>
 
   <div class="jp-toolbar">
-    <button class="jp-btn jp-btn--ghost" type="button" data-copy="b64-plain">Copy plain text</button>
+    <button class="jp-btn jp-btn--ghost" type="button" data-copy="b64-plain">Copy decoded text</button>
     <button class="jp-btn jp-btn--ghost" type="button" data-copy="b64-encoded">Copy Base64</button>
   </div>
 
@@ -78,13 +78,13 @@ module.exports = {
   function showStats(text, b64) {
     var inBytes = new TextEncoder().encode(text).length;
     stats.innerHTML =
-      '<div class="jp-stat"><p class="jp-stat-label">Input</p><p class="jp-stat-value">' + inBytes +
+      '<div class="jp-stat"><p class="jp-stat-label">Text size</p><p class="jp-stat-value">' + inBytes +
         '</p><p class="jp-stat-sub">bytes (' + text.length + ' characters)</p></div>' +
-      '<div class="jp-stat"><p class="jp-stat-label">Base64</p><p class="jp-stat-value">' + b64.length +
+      '<div class="jp-stat"><p class="jp-stat-label">Base64 length</p><p class="jp-stat-value">' + b64.length +
         '</p><p class="jp-stat-sub">characters</p></div>' +
-      '<div class="jp-stat"><p class="jp-stat-label">Overhead</p><p class="jp-stat-value">' +
-        (inBytes ? '+' + Math.round((b64.length / inBytes - 1) * 100) + '%' : '—') +
-        '</p><p class="jp-stat-sub">size increase</p></div>';
+      '<div class="jp-stat"><p class="jp-stat-label">Size increase</p><p class="jp-stat-value">' +
+        (inBytes ? '+' + Math.round((b64.length / inBytes - 1) * 100) + '%' : 'Not available') +
+        '</p><p class="jp-stat-sub">compared with UTF-8 bytes</p></div>';
   }
 
   function encode() {
@@ -95,7 +95,7 @@ module.exports = {
       if (urlsafe.checked) out = out.replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');
       if (wrap.checked) out = out.replace(/.{76}/g, '$&\\n');
       encoded.value = out;
-      setStatus('Encoded ' + new TextEncoder().encode(text).length + ' bytes', 'ok');
+      setStatus('Encoded ' + new TextEncoder().encode(text).length + ' bytes.', 'ok');
       showStats(text, out);
     } catch (error) {
       setStatus('Could not encode: ' + error.message, 'err');
@@ -110,13 +110,13 @@ module.exports = {
     try {
       var text = fromBase64(normalised);
       plain.value = text;
-      setStatus('Decoded successfully', 'ok');
+      setStatus('Decoded Base64 as UTF-8 text.', 'ok');
       showStats(text, raw);
     } catch (error) {
       setStatus(
         /character|atob/i.test(error.message)
-          ? 'Not valid Base64 — check for stray characters, or tick URL-safe if it contains - and _'
-          : 'Decoded bytes are not valid UTF-8 text. This is probably binary data such as an image.',
+          ? 'This is not valid Base64. Remove stray characters, or select Base64url if the value contains - or _.'
+          : 'The decoded bytes are not valid UTF-8 text. The input may contain binary data, such as an image.',
         'err'
       );
     }
@@ -138,26 +138,26 @@ module.exports = {
   },
 
   blocks: [
-    { t: 'h2', x: 'What Base64 is for' },
+    { t: 'h2', x: 'What Base64 does' },
     {
       t: 'p',
-      x: 'Base64 takes arbitrary bytes and represents them using 64 characters that survive text-only channels intact: `A–Z`, `a–z`, `0–9`, `+` and `/`, with `=` as padding. It exists because a great deal of internet plumbing — email headers, JSON, URLs, XML — was designed for text and mangles raw binary.',
+      x: 'Base64 represents arbitrary bytes with characters that text-based systems can carry safely: `A–Z`, `a–z`, `0–9`, `+` and `/`, plus `=` for padding. It is used when formats such as email, JSON, URLs and XML need to carry binary data as text.',
     },
     {
       t: 'p',
-      x: 'Three bytes of input become four characters of output, so **encoded data is about 33% larger** than what went in. That is the price of safe passage, and it is why embedding large images as data URIs is usually a false economy.',
+      x: 'Each three-byte input group becomes four output characters, so **Base64 adds about 33% to the original byte count**. That overhead is one reason large images are usually better served as separate files than embedded as data URIs.',
     },
     {
       t: 'note',
       kind: 'warn',
       title: 'Base64 is not encryption',
-      x: 'It provides zero confidentiality. Anyone can decode it instantly — this page does it without a key. Never use it to "hide" a password, an API key or a token. If it needs to be secret, it needs to be encrypted.',
+      x: 'Base64 provides no confidentiality and requires no key to decode. Do not use it to hide a password, API key or token. Sensitive data needs encryption, not encoding.',
     },
 
-    { t: 'h2', x: 'Base64 vs Base64url' },
+    { t: 'h2', x: 'Base64 and Base64url' },
     {
       t: 'p',
-      x: 'Standard Base64 uses `+` and `/`, both of which have special meaning in URLs, and `=` padding, which is awkward in query strings. Base64url swaps them for `-` and `_` and usually drops the padding entirely.',
+      x: 'Standard Base64 uses `+`, `/` and `=` padding. Those characters can need special handling in URLs. Base64url replaces `+` and `/` with `-` and `_`, and it usually omits the padding.',
     },
     {
       t: 'table',
@@ -171,13 +171,13 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'This is the single most common cause of "invalid Base64" errors: a JWT segment pasted into a standard decoder fails because of the `-` and `_`. Tick the URL-safe box above and it decodes cleanly. The tool also re-adds missing padding automatically.',
+      x: 'A standard Base64 decoder may reject a JWT segment because Base64url uses `-` and `_`. Select **Use Base64url** for that input. The decoder restores omitted padding automatically.',
     },
 
-    { t: 'h2', x: 'The Unicode problem that breaks most encoders' },
+    { t: 'h2', x: 'Why Unicode needs an extra step' },
     {
       t: 'p',
-      x: 'The browser’s built-in `btoa()` only accepts characters in the Latin-1 range. Give it an emoji, a Chinese character or even a curly apostrophe and it throws:',
+      x: 'The browser’s `btoa()` function accepts only Latin-1 characters. Passing an emoji, a Chinese character or a curly apostrophe directly to it throws an error:',
     },
     {
       t: 'code',
@@ -188,7 +188,7 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'The fix is to convert to UTF-8 bytes first, then encode those bytes. That is what this tool does, which is why it round-trips emoji and accented text correctly where many online converters silently corrupt them:',
+      x: 'Convert the text to UTF-8 bytes before encoding it. To decode, reverse those steps and interpret the bytes as UTF-8. This tool follows that process for emoji and accented text:',
     },
     {
       t: 'code',
@@ -207,20 +207,20 @@ function fromBase64(b64) {
 }`,
     },
 
-    { t: 'h2', x: 'Where you will meet it in practice' },
+    { t: 'h2', x: 'Common uses' },
     {
       t: 'ul',
       items: [
-        '**HTTP Basic authentication** — the header is literally `Authorization: Basic ` followed by `username:password` in Base64. That is obfuscation, not security, which is why Basic auth over plain HTTP is indefensible.',
-        '**JWTs** — header and payload are Base64url-encoded JSON. Decode one with the [JWT decoder](/tools/jwt-decoder/) for a proper claims view.',
-        '**Data URIs** — `data:image/png;base64,…` inlines a file into HTML or CSS, saving a request at the cost of 33% more bytes and no separate caching.',
-        '**Email attachments** — MIME has encoded binary parts this way since the early 1990s.',
-        '**Kubernetes secrets** — values in a Secret manifest are Base64. This trips up newcomers constantly: it is encoding for transport, not protection, and anyone with read access to the manifest has the plaintext.',
-        '**SSH keys and certificates** — the body of a PEM file between the header and footer lines is Base64-encoded DER.',
+        '**HTTP Basic authentication:** the `Authorization: Basic ` header contains `username:password` encoded as Base64. It provides no protection without HTTPS.',
+        '**JWTs:** the header and payload are Base64url-encoded JSON. Use the [JWT decoder](/tools/jwt-decoder/) to inspect their claims.',
+        '**Data URIs:** `data:image/png;base64,…` embeds a file in HTML or CSS. It avoids a separate request but adds Base64 overhead and prevents separate caching.',
+        '**Email attachments:** MIME represents binary attachment data as Base64 text.',
+        '**Kubernetes secrets:** values in a Secret manifest are Base64-encoded for transport, not protected. Anyone who can read the manifest can decode them.',
+        '**SSH keys and certificates:** the content between the header and footer of a PEM file is Base64-encoded DER.',
       ],
     },
 
-    { t: 'h2', x: 'Doing it from the command line' },
+    { t: 'h2', x: 'Using Base64 from the command line' },
     {
       t: 'code',
       lang: 'bash',
@@ -243,7 +243,7 @@ kubectl get secret my-secret -o jsonpath='{.data.password}' | base64 --decode`,
       t: 'note',
       kind: 'tip',
       title: 'The `-n` matters',
-      x: 'Without it, `echo` appends a newline that gets encoded along with your text. The result differs from what you expected by exactly one trailing character, which is a genuinely annoying half-hour to debug when comparing against a value generated elsewhere.',
+      x: 'Without `-n`, `echo` appends a newline and encodes it with the text. Use the option when you need the output to match a value created without that trailing newline.',
     },
 
     {
@@ -251,23 +251,23 @@ kubectl get secret my-secret -o jsonpath='{.data.password}' | base64 --decode`,
       items: [
         {
           q: 'Why does my Base64 string end with one or two equals signs?',
-          a: 'Base64 works on three-byte groups. When the input length is not a multiple of three, padding characters bring the final group up to four output characters. One "=" means the input had one byte left over in the final group; two means it had one byte of a three-byte group. Base64url normally omits the padding, and decoders re-add it.',
+          a: 'Base64 processes input in three-byte groups. If the final group is short, `=` characters pad its output to four characters. One `=` means the final group contained two input bytes; two `=` characters mean it contained one. Base64url usually omits this padding, and decoders can restore it.',
         },
         {
           q: 'Why does decoding say the result is not valid UTF-8?',
-          a: 'Because the encoded data is probably binary — an image, an archive or a certificate — rather than text. It decoded fine at the byte level; those bytes simply do not form readable characters. This tool works with text only.',
+          a: 'The Base64 may represent binary data, such as an image, archive or certificate, rather than text. The bytes can be valid even when they do not form valid UTF-8 characters. This tool displays text only.',
         },
         {
           q: 'Is Base64 secure for storing passwords?',
-          a: 'Not at all, in any sense. It is a public, reversible encoding with no key. Passwords should be hashed with a slow, salted algorithm designed for the purpose — bcrypt, scrypt or Argon2 — never encoded, and never encrypted with a key that sits next to the data.',
+          a: 'No. Base64 is a reversible encoding with no key. Store password hashes produced by a slow, salted password-hashing algorithm such as bcrypt, scrypt or Argon2. Do not store an encoded password or an encrypted password beside its key.',
         },
         {
           q: 'Does the tool handle large inputs?',
-          a: 'Text up to a few megabytes converts instantly. It works on strings rather than files, so it is not the right tool for encoding a large binary — use the base64 command line utility for that.',
+          a: 'The tool loads the full value as text in browser memory. For a large binary file, use the `base64` command-line utility instead.',
         },
         {
           q: 'Is anything I paste uploaded?',
-          a: 'No. Encoding and decoding both happen in your browser with the standard TextEncoder, btoa and atob APIs. Nothing is transmitted.',
+          a: 'No. The page encodes and decodes with the browser’s `TextEncoder`, `btoa` and `atob` APIs. The tool does not send the input to a server.',
         },
       ],
     },

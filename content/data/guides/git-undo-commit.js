@@ -1,13 +1,13 @@
 module.exports = {
   slug: 'git-undo-commit',
-  title: 'How to Undo a Git Commit (Safely, Every Case)',
+  title: 'How to Undo a Git Commit Without Losing Work',
   h1: 'How to undo a Git commit',
   eyebrow: 'Troubleshooting',
   schemaType: 'TechArticle',
   description:
-    'Undo the last commit, an old commit, or a pushed commit — with reset, revert and rebase explained. Includes recovering work you thought you destroyed.',
+    'Choose between Git reset, revert, amend and rebase based on whether a commit was shared and whether its file changes should be kept.',
   standfirst:
-    'Pick the right command for your situation: whether the commit is pushed, whether you want to keep the changes, and how to get your work back if you already ran the wrong one.',
+    'First decide whether the commit reached a shared branch and whether you still need its changes. Those two answers determine the command and the recovery risk.',
   keywords: [
     'undo git commit',
     'git reset vs revert',
@@ -20,14 +20,14 @@ module.exports = {
   updated: '2026-08-27',
   author: 'jackson',
   featured: true,
-  cardDesc: 'reset, revert, rebase and reflog — which one to use, and how to recover when you pick wrong.',
+  cardDesc: 'Choose reset, revert, amend or rebase, and use the reflog when a history rewrite goes wrong.',
 
   blocks: [
     {
       t: 'note',
       kind: 'tip',
-      title: 'The single most important thing on this page',
-      x: 'Git almost never truly deletes a commit. `git reflog` records every position `HEAD` has occupied for at least 30 days, so work that looks destroyed is nearly always recoverable. If you have just run something alarming, jump to [the recovery section](#i-ran-the-wrong-command-getting-your-work-back) before doing anything else.',
+      title: 'Committed work is usually recoverable',
+      x: '`git reflog` records recent positions of `HEAD`, including commits no longer named by a branch. Entries for unreachable commits normally remain for at least 30 days. If a reset or rebase just moved the branch unexpectedly, use [the recovery section](#i-ran-the-wrong-command-getting-your-work-back) before making more history changes.',
     },
 
     { t: 'h2', x: 'Pick your situation' },
@@ -47,7 +47,7 @@ module.exports = {
       ],
     },
 
-    { t: 'h2', x: 'The one rule that decides everything' },
+    { t: 'h2', x: 'Decide whether the history is shared' },
     {
       t: 'p',
       x: '**Has the commit been pushed to a shared branch?**',
@@ -55,13 +55,13 @@ module.exports = {
     {
       t: 'ul',
       items: [
-        '**No** — you may rewrite history freely. `reset`, `amend` and `rebase` are all fair game.',
-        '**Yes** — use `revert`. Rewriting published history forces everyone else to repair their clones, and on a busy branch it reliably destroys someone’s work.',
+        '**No:** `reset`, `amend` and `rebase` can rewrite the local branch without disrupting another clone.',
+        '**Yes:** prefer `revert`. Rewriting published history makes collaborators reconcile their local branches and can discard work during a careless force-push.',
       ],
     },
     {
       t: 'p',
-      x: 'That is the whole decision. Everything below is detail.',
+      x: 'After that, choose whether the original file changes should stay staged, remain unstaged or be discarded.',
     },
 
     { t: 'h2', x: 'Fixing the last commit' },
@@ -79,17 +79,14 @@ git commit --amend --no-edit`,
     },
     {
       t: 'p',
-      x: '`--amend` replaces the previous commit with a new one. The SHA changes, so it counts as rewriting history — fine before pushing, and a force-push afterwards.',
+      x: '`--amend` creates a replacement for the previous commit, so its SHA changes. Use it freely before pushing. After publishing the original commit, updating the remote requires a force-push and coordination with anyone using that branch.',
     },
 
     { t: 'h3', x: 'Undo the commit but keep the work' },
     {
       t: 'code',
       lang: 'bash',
-      x: `# Changes go back to the staging area — ready to re-commit
-git reset --soft HEAD~1
-
-# Changes go back to the working directory — unstaged
+      x: `# Changes return to the staging area, ready to re-commit\ngit reset --soft HEAD~1\n\n# Changes return to the working directory, unstaged
 git reset HEAD~1          # --mixed is the default
 
 # Changes are destroyed. Nothing is kept.
@@ -105,20 +102,20 @@ git reset --hard HEAD~1`,
       rows: [
         ['`--soft`', 'Yes', 'Keeps your changes', 'Untouched'],
         ['`--mixed` (default)', 'Yes', 'Cleared', 'Keeps your changes'],
-        ['`--hard`', 'Yes', 'Cleared', '**Overwritten — work lost**'],
+        ['`--hard`', 'Yes', 'Cleared', '**Overwritten; work lost**'],
       ],
     },
     {
       t: 'note',
       kind: 'warn',
-      title: '--hard is the only genuinely dangerous one',
-      x: 'It overwrites your working directory. Committed work is recoverable through the reflog, but **uncommitted** changes wiped by `--hard` are gone for good — they were never in Git’s object store. Run `git stash` first if there is any doubt.',
+      title: '`--hard` also overwrites the working tree',
+      x: 'A hard reset moves the branch and replaces files in the working tree. Committed work can be found through the reflog, but **uncommitted** changes removed by `--hard` were never stored in Git’s object database and cannot be restored by Git. Stash uncertain work before running it.',
     },
 
     { t: 'h2', x: 'Undoing a commit that is already pushed' },
     {
       t: 'p',
-      x: '`git revert` creates a **new** commit that applies the inverse of an old one. History is preserved, nothing is rewritten, and collaborators need to do nothing but pull.',
+      x: '`git revert` creates a **new** commit containing the inverse of an earlier commit. Existing history remains in place, so collaborators can receive the change with an ordinary pull.',
     },
     {
       t: 'code',
@@ -134,7 +131,7 @@ git revert --no-commit a1b2c3d`,
     },
     {
       t: 'p',
-      x: 'The revert commit shows up in the log as "Revert ...". Some people dislike the noise. The alternative — force-pushing a rewritten branch that others have pulled — trades a tidy log for a broken afternoon, and it is not a good trade.',
+      x: 'The new commit appears in the log as "Revert ...". That extra entry records both what happened and how it was corrected. On a shared branch, this trace is preferable to rewriting commits that others may already have based work on.',
     },
 
     { t: 'h3', x: 'Reverting a merge' },
@@ -145,20 +142,20 @@ git revert --no-commit a1b2c3d`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# -m 1 means "keep the first parent" — almost always the branch you merged into
+      x: `# -m 1 means "keep the first parent," usually the branch you merged into
 git revert -m 1 <merge-sha>`,
     },
     {
       t: 'note',
       kind: 'warn',
-      title: 'Reverting a merge poisons the branch',
-      x: 'Git now considers those commits already merged. If you fix the feature branch and merge it again, the reverted changes **will not come back** — Git sees no new work. You must revert the revert (`git revert <revert-sha>`) before re-merging. This surprises people badly, and it is worth knowing before you need it.',
+      title: 'A reverted merge remains part of history',
+      x: 'Git still considers the original commits merged. Fixing the feature branch and merging it again does **not** restore the reverted changes because those commits are not new work. Revert the revert with `git revert <revert-sha>` before merging the branch again.',
     },
 
     { t: 'h2', x: 'Removing a commit from the middle of history' },
     {
       t: 'p',
-      x: 'Interactive rebase rewrites a range of commits. Only use it on unpushed work, or on a personal branch nobody else has.',
+      x: 'Interactive rebase rewrites every affected commit from the selected point forward. Keep it to unpushed work or a personal branch that no one else is using.',
     },
     {
       t: 'code',
@@ -181,7 +178,7 @@ edit   e3f4a5b  refactor: extract helper    ← stop here to amend it`,
     },
     {
       t: 'p',
-      x: 'Save and close. If a conflict appears, resolve it, `git add` the files, then `git rebase --continue`. To abandon the whole operation at any point: `git rebase --abort`.',
+      x: 'Save and close the editor to begin. If a conflict appears, resolve it, stage the resolved files with `git add`, then run `git rebase --continue`. Use `git rebase --abort` to return to the pre-rebase state.',
     },
 
     { t: 'h2', x: 'Undoing things that are not commits' },
@@ -191,7 +188,7 @@ edit   e3f4a5b  refactor: extract helper    ← stop here to amend it`,
       x: `# Unstage a file, keep the edits
 git restore --staged src/app.ts
 
-# Discard uncommitted edits to a file — NOT recoverable
+# Discard uncommitted edits to a file. This is NOT recoverable.
 git restore src/app.ts
 
 # Discard everything uncommitted
@@ -207,13 +204,13 @@ git stash pop`,
     },
     {
       t: 'p',
-      x: '`git restore` and `git switch` were introduced in Git 2.23 to split the overloaded `git checkout` into two clearer commands. `git checkout -- file` still works, but the newer forms are far harder to misuse.',
+      x: 'Git 2.23 introduced `git restore` and `git switch` to separate file restoration from branch changes. `git checkout -- file` still works, but `restore` states the file operation more clearly.',
     },
 
-    { t: 'h2', x: 'I ran the wrong command — getting your work back', id: 'i-ran-the-wrong-command-getting-your-work-back' },
+    { t: 'h2', x: 'Recovering after the wrong command', id: 'i-ran-the-wrong-command-getting-your-work-back' },
     {
       t: 'p',
-      x: 'The reflog is a local record of every value `HEAD` has held — including commits that no branch points at any more. This is how you undo a bad `reset`, a bad `rebase` or a deleted branch.',
+      x: 'The reflog is a local record of recent `HEAD` positions, including commits that no branch currently names. Use it to locate the state before a mistaken reset, rebase or branch deletion.',
     },
     {
       t: 'code',
@@ -245,13 +242,13 @@ git fsck --lost-found`,
       t: 'note',
       kind: 'danger',
       title: 'What the reflog cannot save',
-      x: 'Anything never committed. Uncommitted edits destroyed by `git reset --hard`, `git restore` or `git clean` were never written to Git’s object database, so there is nothing to recover. Your editor’s local history may have a copy — that is the only remaining option.',
+      x: 'The reflog cannot recover content that Git never stored. Uncommitted edits removed by `git reset --hard`, `git restore` or `git clean` are absent from the object database. An editor backup or local-history feature may still have a separate copy.',
     },
 
     { t: 'h2', x: 'Force-pushing without hurting anyone' },
     {
       t: 'p',
-      x: 'If you rewrote history on a branch you had already pushed, you must force-push. Use the safe variant:',
+      x: 'If you intentionally rewrote a branch that already exists on the remote, update it with the guarded force option:',
     },
     {
       t: 'code',
@@ -264,7 +261,7 @@ git push --force`,
     },
     {
       t: 'p',
-      x: '`--force-with-lease` checks that the remote is where you last saw it. If a colleague pushed in the meantime, the push is rejected rather than silently discarding their commits. There is no good reason to prefer plain `--force`.',
+      x: '`--force-with-lease` verifies that the remote branch still points where your clone expects. If another push changed it, Git rejects your update instead of overwriting those commits. Plain `--force` omits that protection.',
     },
 
     {
@@ -272,7 +269,7 @@ git push --force`,
       items: [
         {
           q: 'What is the difference between git reset and git revert?',
-          a: 'reset moves your branch pointer backwards, erasing commits from the branch as though they never happened — it rewrites history and is only safe on unpushed work. revert adds a new commit that undoes an old one, leaving history intact. Use reset locally, revert on anything already shared.',
+          a: 'reset moves a branch pointer and can remove commits from that branch’s visible history. Use it for local, unshared work. revert adds a new commit that reverses an earlier one, so it is the usual choice after the original commit has been shared.',
         },
         {
           q: 'How do I undo the last commit but keep my changes?',
@@ -292,7 +289,7 @@ git push --force`,
         },
         {
           q: 'Is git rebase -i safe?',
-          a: 'On commits you have not pushed, yes — and abort at any point with git rebase --abort. On shared branches it is genuinely disruptive: everyone who has pulled must reset their local copy. Note also that interactive rebase needs a terminal, so it is unavailable in many automated environments.',
+          a: 'It is appropriate for commits you have not pushed, and git rebase --abort can stop an in-progress rebase. Rebasing shared commits requires everyone who pulled them to reconcile a rewritten branch. Interactive rebase also needs an editor, so it is not suitable for many automated environments.',
         },
       ],
     },

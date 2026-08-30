@@ -1,5 +1,5 @@
 /* ==========================================================================
-   JunePoint Resources — shared stylesheet for the generated content network.
+  JunePoint Resources: shared stylesheet for the generated content network.
    One file, no webfonts, no framework. Cached across every page in the network
    so tier-to-tier navigation costs nothing after the first paint.
    ========================================================================== */

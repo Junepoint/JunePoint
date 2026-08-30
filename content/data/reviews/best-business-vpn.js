@@ -6,9 +6,9 @@ module.exports = {
   schemaType: 'Article',
   itemListName: 'Business VPN and ZTNA platforms',
   description:
-    'Why traditional business VPNs are being replaced by zero trust network access, how the main platforms differ, and what to buy for a distributed team.',
+    'A practical comparison of traditional business VPNs and zero trust network access, including where each platform fits a distributed team.',
   standfirst:
-    'A VPN puts a device on your network. Zero trust access gives it one application. That distinction is the whole reason this category is changing — here is what to buy.',
+    'A VPN puts a device on your network; zero trust access can limit it to one application. That distinction shapes both the security model and the buying decision.',
   keywords: [
     'best business vpn',
     'zero trust network access',
@@ -20,23 +20,23 @@ module.exports = {
   published: '2026-07-16',
   updated: '2026-08-19',
   author: 'jackson',
-  cardDesc: 'ZTNA vs traditional VPN, WireGuard-based options, and what a distributed team should actually buy.',
+  cardDesc: 'ZTNA versus traditional VPN, WireGuard-based options, and the trade-offs for a distributed team.',
 
   blocks: [
     {
       t: 'note',
       kind: 'warn',
       title: 'How this guide was made',
-      x: 'Research-based analysis of vendor documentation, published pricing and architecture. We have direct production experience with some of these products and not others, and say which below. See our [editorial policy](/legal/editorial-policy/).',
+      x: 'This guide draws on vendor documentation, published pricing and architecture materials. We have production experience with some products in the list, but not all of them; the relevant entry says when that experience applies. See our [editorial policy](/legal/editorial-policy/).',
     },
 
     {
       t: 'takeaways',
       items: [
-        '**A consumer VPN is a different product.** NordVPN and its peers hide your traffic from your ISP; a business VPN connects you to private resources. They solve unrelated problems.',
-        '**Traditional VPN grants network access. ZTNA grants application access.** After a stolen laptop or credential, that difference determines how far an attacker gets.',
-        'WireGuard-based tools (Tailscale, Netbird) are dramatically simpler to run than legacy IPsec and now perform better.',
-        'If you are buying today for a distributed team, buy ZTNA. The traditional VPN concentrator is a legacy pattern with a poor security record.',
+        '**A consumer VPN is a different product.** Services such as NordVPN hide traffic from an ISP; a business VPN connects staff to private resources.',
+        '**Traditional VPN grants network access. ZTNA grants application access.** If a laptop or credential is stolen, that boundary affects how far an attacker can move.',
+        'WireGuard-based tools such as Tailscale and Netbird are simpler to operate than legacy IPsec and can offer better performance.',
+        'For a distributed team making a new purchase, ZTNA is usually the better starting point. Traditional VPN concentrators retain a role in legacy and site-to-site access, but bring a weaker remote-access security model.',
       ],
     },
 
@@ -55,11 +55,11 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'The security argument is the important one. A traditional VPN makes lateral movement easy: once a device is on the network, it can reach everything the network routing allows. Most significant breaches involve an attacker moving sideways from an initial foothold, and a flat VPN-connected network is ideal terrain for that.',
+      x: 'The main security difference is the scope of access. Once a device joins a traditional VPN, it can reach anything allowed by the network routes. That creates room for lateral movement after an attacker gains an initial foothold, especially on a flat network.',
     },
     {
       t: 'p',
-      x: 'There is also an operational argument. VPN concentrators have been a repeated source of critical, actively exploited vulnerabilities across multiple vendors in recent years — precisely because they are internet-facing appliances that terminate trusted access. Reducing how much you depend on one is prudent regardless of the model you choose.',
+      x: 'There is an operational concern as well. VPN concentrators from several vendors have had critical vulnerabilities exploited in the wild. They are attractive targets because they are internet-facing appliances that terminate trusted access, so reducing dependence on one limits a consequential point of failure.',
     },
 
     { t: 'h2', x: 'The platforms' },
@@ -70,23 +70,23 @@ module.exports = {
       name: 'Tailscale',
       award: 'Easiest to deploy for technical teams',
       summary:
-        'A WireGuard-based mesh network that connects devices directly to each other, authenticated through your existing identity provider. Setup is genuinely measured in minutes.',
+        'A WireGuard-based mesh that connects devices directly and authenticates through an existing identity provider. A small deployment can be running in minutes.',
       price: 'Free for personal use and up to 3 users; business plans from around $6 per user per month',
       bestFor: 'Engineering teams, startups and anyone connecting servers and laptops across environments',
       deployment: 'Client on each device; no gateway hardware or inbound firewall rules',
       body: [
-        'Tailscale builds a peer-to-peer WireGuard mesh, so traffic goes directly between devices rather than through a central concentrator. Practically, that means no inbound firewall rules, NAT traversal that works, and throughput limited by your connection rather than a gateway. Authentication runs through Google, Microsoft, Okta or GitHub, so there are no separate VPN credentials to manage.',
-        'Access control is expressed as policy in a versioned file, which suits teams comfortable with configuration-as-code and less so those wanting a point-and-click console. Its subnet router and exit node features cover the cases where you do need to reach a whole network. This is the one on this list we use ourselves.',
+        'Tailscale builds a peer-to-peer WireGuard mesh, allowing traffic to travel directly between devices instead of through a central concentrator. It handles NAT traversal without inbound firewall rules, and a gateway does not become the throughput bottleneck. Authentication can run through Google, Microsoft, Okta or GitHub, avoiding a separate set of VPN credentials.',
+        'Access rules live in a versioned policy file. That model works well for teams comfortable with configuration as code, but it is less convenient for administrators who want a point-and-click console. Subnet routers and exit nodes cover cases that require access to an entire network. Tailscale is the product on this list that we use ourselves.',
       ],
       pros: [
-        'Fastest setup in the category — minutes, not days',
-        'Peer-to-peer means excellent performance and no bottleneck',
+        'Fastest setup in the category; a small deployment takes minutes, not days',
+        'Peer-to-peer traffic avoids a central throughput bottleneck',
         'No inbound firewall rules or public gateway to attack',
-        'Generous free tier; MagicDNS and SSH access are genuinely useful',
+        'Generous free tier, with MagicDNS and SSH access included',
       ],
       cons: [
         'ACL policy file is code, which suits some teams and not others',
-        'Requires a client on every device — not clientless',
+        'Requires a client on every device; it is not clientless',
         'Coordination server is hosted by Tailscale unless you self-host Headscale',
       ],
     },
@@ -102,11 +102,11 @@ module.exports = {
       bestFor: 'Companies wanting zero trust access managed through a conventional admin interface',
       deployment: 'Lightweight connectors inside your network, client on user devices',
       body: [
-        'Twingate’s connectors make only outbound connections, so there is no listening port on the internet for an attacker to find — architecturally a significant improvement over a VPN appliance. Access is granted per resource rather than per network, and the admin console is designed for someone administering users rather than writing policy files.',
-        'It integrates with the usual identity providers and supports device posture checks, so you can require disk encryption or a running EDR agent before granting access. For an IT team supporting a mixed population of engineers and non-technical staff, it is often a better organisational fit than Tailscale even where the technology overlaps.',
+        'Twingate connectors make outbound connections only, leaving no listening port on the internet. Access is assigned by resource rather than by network, and the admin console is designed for people who manage users without wanting to maintain policy files.',
+        'The service integrates with common identity providers and supports posture checks such as disk encryption or a running EDR agent. For an IT team serving both engineers and non-technical staff, that administration model may fit better than Tailscale even where their capabilities overlap.',
       ],
       pros: [
-        'No public gateway — connectors dial out only',
+        'No public gateway because connectors dial out only',
         'Resource-level access control with a clear admin UI',
         'Device posture checks before access is granted',
         'Straightforward for non-technical end users',
@@ -125,8 +125,8 @@ module.exports = {
       bestFor: 'Organisations needing to grant access to contractors, or already using Cloudflare',
       deployment: 'Tunnel daemon inside your network; browser access or the WARP client',
       body: [
-        'The clientless model is the differentiator. An internal application can be published behind Cloudflare Access with your identity provider in front, and a contractor reaches it in a browser with nothing installed and no network access whatsoever. For third-party access — the population most likely to be a security problem — this is a materially better model than issuing VPN credentials.',
-        'It also brings the rest of Cloudflare’s stack: DNS filtering, browser isolation and CASB features. The counterweight is concentration: a great deal of your access path depends on one provider, and Cloudflare outages, though rare, are widely felt.',
+        'Clientless access is the distinguishing feature. You can publish an internal application behind Cloudflare Access, put your identity provider in front of it, and let a contractor connect through a browser without receiving network access. That narrower grant is preferable to issuing broad VPN credentials to third parties.',
+        'The same service can add DNS filtering, browser isolation and CASB features. The trade-off is concentration: much of the access path then depends on Cloudflare, whose outages are uncommon but affect many customers at once.',
       ],
       pros: [
         'Clientless browser access is ideal for contractors',
@@ -147,17 +147,17 @@ module.exports = {
       name: 'Perimeter 81 (Check Point Harmony SASE)',
       award: 'Best when you need dedicated static IPs',
       summary:
-        'A managed cloud VPN with dedicated gateways and static IP addresses — the pragmatic choice when a third party requires you to connect from a fixed address.',
+        'A managed cloud VPN with dedicated gateways and static IP addresses, suited to third-party systems that require connections from a fixed address.',
       price: 'Typically from around $8–$12 per user per month plus a gateway fee',
       bestFor: 'Teams needing IP allowlisting with vendors, banks or legacy systems',
       deployment: 'Managed cloud gateways with client software',
       body: [
-        'Plenty of real-world integrations still require a static source IP — payment processors, banking portals, partner APIs and older on-premises systems. A dedicated cloud gateway with a fixed address solves that cleanly for a distributed team, and it is the main reason to choose this shape of product over pure ZTNA.',
-        'Architecturally it is closer to a modernised VPN than to true zero trust, with segmentation available but network-level access as the default. Since the Check Point acquisition it has been folded into a broader SASE offering; confirm current packaging and pricing directly, as it has changed.',
+        'Payment processors, banking portals, partner APIs and older on-premises systems may still require a static source IP. A dedicated cloud gateway gives a distributed team that fixed address; this is the clearest reason to choose the product over pure ZTNA.',
+        'The architecture remains closer to a modernised VPN than to strict zero trust: segmentation is available, but network-level access is the default. Check Point has folded Perimeter 81 into a broader SASE offering since the acquisition, so confirm the current packaging and pricing directly.',
       ],
       pros: [
         'Dedicated static IPs for allowlisting',
-        'Fully managed — no gateway hardware',
+        'Fully managed, with no gateway hardware to maintain',
         'Network segmentation and 2FA included',
         'Broad protocol support',
       ],
@@ -178,8 +178,8 @@ module.exports = {
       price: 'Server cost only',
       bestFor: 'Technical teams with a handful of users and an appetite for operating it',
       body: [
-        'For three engineers connecting to a handful of servers, a WireGuard peer on a small VPS is genuinely sufficient. The protocol is excellent — fast, modern, auditable and about 4,000 lines of code compared with hundreds of thousands in legacy IPsec stacks.',
-        'What it does not include is everything that makes access management sustainable: SSO, per-user policy, device posture, audit logging, and key rotation when someone leaves. Those are exactly what Tailscale and Twingate add, and they are also exactly what starts to hurt at around ten users. Tools like wg-easy and Netbird sit between the two extremes.',
+        'For three engineers connecting to a handful of servers, a WireGuard peer on a small VPS can be enough. The protocol is fast, modern and auditable, with about 4,000 lines of code compared with hundreds of thousands in legacy IPsec stacks.',
+        'The protocol does not provide the surrounding access-management layer: SSO, per-user policy, device posture, audit logging or key rotation when someone leaves. Tailscale and Twingate supply those controls, which become increasingly useful at around ten users. Tools such as wg-easy and Netbird occupy the middle ground.',
       ],
       pros: ['Free, fast and cryptographically modern', 'No vendor dependency at all', 'Full control over the entire path'],
       cons: [
@@ -201,19 +201,19 @@ module.exports = {
         ['Perimeter 81', 'Managed cloud VPN', 'No', 'Static IP requirements'],
         ['Self-hosted WireGuard', 'DIY VPN', 'Free', 'Small technical teams'],
       ],
-      caption: 'Indicative as of August 2026. Packaging in this category changes frequently — verify before deciding.',
+      caption: 'Indicative as of August 2026. Packaging in this category changes frequently, so verify it before deciding.',
     },
 
     { t: 'h2', x: 'Business VPN is not the same as a consumer VPN' },
     {
       t: 'p',
-      x: 'This causes real confusion, and buying the wrong one wastes money without solving the problem.',
+      x: 'The shared name causes confusion, but the two products address different requirements.',
     },
     {
       t: 'ul',
       items: [
         '**Consumer VPN** (NordVPN, ExpressVPN, Proton) routes your internet traffic through the provider so your ISP and local network cannot see it, and websites see the provider’s IP. It gives you no access to anything of yours.',
-        '**Business VPN / ZTNA** connects you to *your* private resources — internal applications, databases, servers. That is the actual requirement when someone says "I need a VPN to work from home".',
+        '**Business VPN / ZTNA** connects you to *your* private resources, such as internal applications, databases and servers. That is usually the requirement behind "I need a VPN to work from home".',
       ],
     },
     {
@@ -224,14 +224,14 @@ module.exports = {
       t: 'note',
       kind: 'tip',
       title: 'HTTPS already protects café Wi-Fi',
-      x: 'The "public Wi-Fi is dangerous" argument for consumer VPNs is largely a relic. Essentially all traffic is TLS-encrypted now, and browsers warn loudly when it is not. The genuine remaining benefits are hiding browsing from the network operator and changing your apparent location — both legitimate, neither a corporate security control.',
+      x: 'The familiar "public Wi-Fi is dangerous" case for consumer VPNs is now much narrower because almost all web traffic uses TLS and browsers warn on insecure connections. A consumer VPN can still hide browsing from the network operator or change your apparent location. Those are valid uses, but neither is a corporate access control.',
     },
 
     { t: 'h2', x: 'What to check before buying' },
     {
       t: 'ol',
       items: [
-        '**Identity provider integration.** SSO and SCIM provisioning. Without SCIM, offboarding is a manual step someone will eventually forget — and forgotten access is how former employees retain entry.',
+        '**Identity provider integration.** Look for SSO and SCIM provisioning. Without SCIM, offboarding remains a manual step that can leave former employees with access.',
         '**Device posture checks.** Can you require disk encryption, OS patch level or a running EDR agent before granting access?',
         '**Audit logging.** Who connected to what, and when. You will need this for SOC 2 and for any incident investigation.',
         '**Split tunnelling control.** Routing all internet traffic through a gateway is slow and usually unnecessary. Routing none of it can bypass your DNS filtering. Decide deliberately.',
@@ -257,11 +257,11 @@ module.exports = {
         },
         {
           q: 'Do I still need a VPN if everything is in the cloud?',
-          a: 'Often not, if your SaaS applications are protected by SSO with MFA and conditional access. What still needs private access is infrastructure — databases, admin interfaces, internal tools and SSH to servers. That is exactly where ZTNA fits, and it is a narrower requirement than a full network VPN.',
+          a: 'Often not, provided your SaaS applications use SSO with MFA and conditional access. Databases, admin interfaces, internal tools and SSH endpoints may still need private access. ZTNA can cover that narrower requirement without placing users on the full network.',
         },
         {
           q: 'Is WireGuard secure enough for business use?',
-          a: 'Yes. WireGuard uses modern cryptography, has been formally reviewed, and its small codebase is a genuine security advantage over legacy IPsec implementations. It is what Tailscale and several other commercial products are built on. The gap is not the protocol — it is key management, identity and access control around it.',
+          a: 'Yes. WireGuard uses modern cryptography, has been formally reviewed, and has a much smaller codebase than legacy IPsec implementations. Tailscale and several other commercial products build on it. The operational gap is around the protocol: key management, identity and access control.',
         },
         {
           q: 'What is split tunnelling and should I use it?',

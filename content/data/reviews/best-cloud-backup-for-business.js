@@ -6,9 +6,9 @@ module.exports = {
   schemaType: 'Article',
   itemListName: 'Business cloud backup platforms',
   description:
-    'How to choose business cloud backup: immutability, restore testing, egress fees and the SaaS data gap. Six platforms compared by what they are genuinely best at.',
+    'How to compare business cloud backup across immutability, restore testing, egress fees and SaaS coverage, with six platforms assessed by fit.',
   standfirst:
-    'Backup software is bought on price and judged on one restore. Here is what actually separates these platforms — and the questions that expose a vendor who will fail you when it matters.',
+    'Backup software is easy to price and difficult to judge until a restore. A useful evaluation starts with recovery targets, then tests whether the platform can meet them.',
   keywords: [
     'best cloud backup for business',
     'enterprise cloud backup software',
@@ -19,61 +19,61 @@ module.exports = {
   ],
   published: '2026-02-20',
   updated: '2026-08-28',
-  author: 'alexander',
+  author: 'jackson',
   featured: true,
-  cardDesc: 'Immutability, restore testing and the Microsoft 365 data gap — with six platforms compared on fit.',
+  cardDesc: 'Immutability, restore testing and the Microsoft 365 data gap, with six platforms compared by operational fit.',
 
   blocks: [
     {
       t: 'note',
       kind: 'warn',
       title: 'How this guide was made',
-      x: 'This is **research-based analysis, not a hands-on lab test.** We have not deployed each of these platforms across a thousand endpoints or timed their restores under load. What follows is drawn from vendor documentation, published pricing, security architecture papers and support terms, and it is written to help you ask better questions — not to substitute for a proof of concept. Our [editorial policy](/legal/editorial-policy/) explains the method and its limits in full.',
+      x: 'This is **research-based analysis, not a hands-on lab test.** We have not deployed every platform across a thousand endpoints or timed restores under load. The guide draws on vendor documentation, published pricing, security architecture papers and support terms. Use it to frame a proof of concept, not as a substitute for one. Our [editorial policy](/legal/editorial-policy/) explains the method and its limits in full.',
     },
 
     {
       t: 'takeaways',
       items: [
-        '**Immutability is the single most important feature.** Ransomware now targets backups first. If your backups can be deleted by a compromised admin account, you do not have backups.',
-        '**Microsoft 365 and Google Workspace do not back up your data.** Both operate a shared responsibility model. Retention policies and a recycle bin are not backup, and this gap surprises people badly.',
-        '**Egress and restore fees can exceed the storage cost** during the one event you bought the product for. Get them in writing before you sign.',
-        '**An untested backup is a hypothesis.** Schedule quarterly restore drills and measure how long a full recovery actually takes.',
+        '**Immutability is a core requirement.** Ransomware operators target backup infrastructure, so a compromised administrator account must not be able to delete every recovery copy.',
+        '**Microsoft 365 and Google Workspace use a shared responsibility model.** Native retention and recycle bins do not provide the same protection as an independent backup.',
+        '**Egress and restore fees can exceed storage cost** during a major recovery. Get the full restore cost in writing before signing.',
+        '**A successful backup job does not prove recovery.** Run quarterly restore drills and measure a full recovery against the stated RTO.',
       ],
     },
 
     { t: 'h2', x: 'Start with the two numbers that define your requirement' },
     {
       t: 'p',
-      x: 'Before comparing products, write these down. Every meaningful decision follows from them.',
+      x: 'Write these two targets down before comparing products. They determine the architecture and narrow the shortlist.',
     },
     {
       t: 'ul',
       items: [
-        '**RPO — Recovery Point Objective.** How much data can you afford to lose? Nightly backups mean up to 24 hours of work gone. Continuous replication means minutes. The gap in price between them is large.',
-        '**RTO — Recovery Time Objective.** How long can you be down? Restoring 8 TB over a 500 Mbps link takes about 36 hours at theoretical line rate, and considerably longer in reality. If your RTO is four hours, cloud-only restore cannot meet it and you need a local appliance or seeded recovery.',
+        '**RPO (Recovery Point Objective).** How much data can you afford to lose? Nightly backups allow up to 24 hours of work to disappear; continuous replication reduces that window to minutes, at a higher price.',
+        '**RTO (Recovery Time Objective).** How long can the service be down? Restoring 8 TB over a 500 Mbps link takes about 36 hours at theoretical line rate and longer in practice. A four-hour RTO therefore requires a local appliance or seeded recovery rather than cloud-only restore.',
       ],
     },
     {
       t: 'p',
-      x: 'Most organisations discover their real RTO is far shorter than assumed once someone asks what a full day offline costs in revenue, payroll and reputation. Do that calculation first — it sets your budget more honestly than any feature comparison.',
+      x: 'An RTO often gets shorter once the business prices a full day offline in revenue, payroll and reputation. Do that calculation first; it provides a more defensible budget than a feature list.',
     },
 
-    { t: 'h2', x: 'What actually matters when comparing platforms' },
+    { t: 'h2', x: 'What matters when comparing platforms' },
 
     { t: 'h3', x: 'Immutability and air gap' },
     {
       t: 'p',
-      x: 'Modern ransomware operators spend days inside a network before encrypting anything, and their first target is the backup infrastructure. If an attacker with domain admin can delete your backups, the ransom is unavoidable.',
+      x: 'Ransomware operators may spend days inside a network before encryption and often target backup infrastructure first. If a domain administrator can delete every backup, the attacker can remove the main recovery path and gain substantial leverage.',
     },
     {
       t: 'p',
-      x: 'What you want is **object-lock style immutability**: once written, a backup cannot be modified or deleted by anyone — including your own administrators and including the vendor’s support staff — until its retention period expires. Ask specifically whether immutability is enforced by the storage layer or merely by application-level permissions. Only the former survives a compromised admin account.',
+      x: 'Look for **object-lock style immutability**: once written, a backup cannot be modified or deleted by administrators or vendor support until its retention period expires. Ask whether the storage layer enforces that rule or whether it relies on application permissions. Storage-level enforcement is the version designed to survive a compromised admin account.',
     },
 
     { t: 'h3', x: 'The 3-2-1-1-0 rule' },
     {
       t: 'p',
-      x: 'The old 3-2-1 rule has been extended for the ransomware era, and it is a genuinely useful checklist:',
+      x: 'The extended 3-2-1 rule is a useful checklist for ransomware recovery:',
     },
     {
       t: 'ul',
@@ -82,35 +82,35 @@ module.exports = {
         '**2** different media types',
         '**1** copy offsite',
         '**1** copy immutable or air-gapped',
-        '**0** errors — verified by an actual test restore',
+        '**0** errors, verified by an actual test restore',
       ],
     },
 
     { t: 'h3', x: 'The SaaS data gap' },
     {
       t: 'p',
-      x: 'This is the most commonly overlooked exposure in small and mid-sized organisations. Microsoft and Google both operate a **shared responsibility model**: they guarantee the availability of the service, you remain responsible for your data. Their documentation states this plainly, and third-party backup is recommended in it.',
+      x: 'SaaS data is an easy gap to miss in a small or mid-sized organisation. Microsoft and Google both use a **shared responsibility model**: they provide service availability while customers remain responsible for their data. Their documentation states this and recommends third-party backup.',
     },
     {
       t: 'p',
-      x: 'The recycle bin and retention policies are not backup. They will not save you from a departing employee’s deletions discovered four months later, from ransomware that syncs encrypted files to OneDrive, or from an admin misconfiguration that removes a mailbox. If you run Microsoft 365 or Google Workspace, dedicated SaaS backup is not optional.',
+      x: 'Recycle bins and retention policies are not independent backups. They may not cover a departing employee’s deletions discovered four months later, ransomware that syncs encrypted files to OneDrive, or an admin error that removes a mailbox. Organisations using Microsoft 365 or Google Workspace should include dedicated SaaS backup in the recovery design.',
     },
 
     { t: 'h3', x: 'Restore granularity and speed' },
     {
       t: 'p',
-      x: 'Full-image restore is the least common thing you will do. What you will do weekly is recover one mailbox, one file, one database table. Ask whether the platform supports item-level recovery without staging an entire image first — and whether an "instant recovery" feature runs a VM directly from backup storage while the full restore streams in behind it. That feature is often the difference between meeting a four-hour RTO and missing it.',
+      x: 'Full-image restores may be rare; recovering one mailbox, file or database table is a more routine task. Check whether item-level recovery works without staging an entire image. Also verify whether "instant recovery" can run a VM from backup storage while the full restore streams in, a capability that can determine whether a four-hour RTO is achievable.',
     },
 
     { t: 'h3', x: 'The pricing model, and what is not in it' },
     {
       t: 'p',
-      x: 'Per-workload, per-TB and per-user models produce wildly different bills for the same environment. Beyond the headline number, ask about:',
+      x: 'Per-workload, per-TB and per-user pricing can produce very different bills for the same environment. Ask about the costs outside the headline rate:',
     },
     {
       t: 'ul',
       items: [
-        '**Egress and restore fees.** Some providers charge nothing to restore; others charge per GB retrieved. That charge lands precisely when you are already having your worst week.',
+        '**Egress and restore fees.** Some providers charge nothing to restore; others charge per GB retrieved. A large recovery can therefore create an additional bill during an incident.',
         '**API and retrieval charges on archive tiers.** Cheap cold storage frequently has expensive retrieval and a minimum storage duration.',
         '**Overage handling.** Does exceeding your allowance stop backups, or silently bill you?',
         '**Whether deduplication and compression are counted before or after** when measuring your consumption.',
@@ -119,14 +119,14 @@ module.exports = {
     {
       t: 'note',
       kind: 'tip',
-      title: 'The single most valuable question to ask a vendor',
-      x: '"Walk me through, in writing, exactly what a full restore of our environment costs and how long it takes." A vendor who cannot answer that concretely has told you something important. A vendor who will put a restore-time commitment in the contract has told you something better.',
+      title: 'Ask for the full restore in writing',
+      x: 'Ask: "What will a full restore of our environment cost, and how long will it take?" A vague answer exposes uncertainty in the recovery plan. A contractual restore-time commitment is stronger evidence than a sales estimate.',
     },
 
-    { t: 'h2', x: 'The platforms, and what each is genuinely best at' },
+    { t: 'h2', x: 'The platforms and where each fits' },
     {
       t: 'p',
-      x: 'These are grouped by the buyer they suit rather than ranked, because "best" depends entirely on what you are protecting. Pricing is indicative list pricing as of August 2026 and moves frequently — treat it as a starting point and get a quote.',
+      x: 'The entries are grouped by buyer fit rather than treated as a universal ranking. Pricing is indicative list pricing as of August 2026 and changes frequently, so use it as a starting point and obtain a quote.',
     },
 
     {
@@ -135,19 +135,19 @@ module.exports = {
       name: 'Veeam Data Platform',
       award: 'Best for mixed and hybrid estates',
       summary:
-        'The default choice for organisations running a mixture of on-premises VMs, physical servers, cloud workloads and Microsoft 365 — its breadth of supported workloads is the widest in the category.',
+        'The broadest workload coverage in this comparison, spanning on-premises VMs, physical servers, cloud workloads and Microsoft 365.',
       price: 'Per-workload licensing; Veeam Data Cloud tiers start in the low tens of dollars per user per year for Microsoft 365',
       bestFor: 'IT teams with heterogeneous infrastructure and in-house expertise',
       deployment: 'Self-managed, or Veeam Data Cloud as a managed service',
       body: [
-        'Veeam’s strength is coverage: VMware, Hyper-V, Nutanix, physical Windows and Linux, AWS, Azure, Google Cloud, Microsoft 365, Salesforce and Kubernetes are all first-class rather than bolted on. For an estate that grew organically and now spans several of those, consolidating on one platform has real operational value.',
-        'It also has a well-developed immutability story, with hardened Linux repositories and object-lock support on S3-compatible storage, and its instant-recovery feature is mature. The trade-off is complexity: Veeam is a platform rather than an appliance, and it assumes someone owns it. Small teams without dedicated infrastructure staff often find it heavier than they need.',
+        'Coverage is Veeam’s main advantage. VMware, Hyper-V, Nutanix, physical Windows and Linux, AWS, Azure, Google Cloud, Microsoft 365, Salesforce and Kubernetes are supported as first-class workloads. An estate spanning several of them can reduce operational fragmentation by consolidating on one platform.',
+        'Veeam also supports hardened Linux repositories, object lock on S3-compatible storage and mature instant recovery. That breadth brings complexity: it is a platform that needs an owner, and a small team without dedicated infrastructure staff may find it heavier than necessary.',
       ],
       pros: [
         'The broadest workload coverage in the category',
         'Strong immutability options including hardened repositories',
         'Mature instant-recovery and granular restore',
-        'Storage-agnostic — you are not locked to one cloud',
+        'Storage-agnostic, avoiding dependence on one cloud',
       ],
       cons: [
         'Meaningful learning curve; expects a competent administrator',
@@ -162,13 +162,13 @@ module.exports = {
       name: 'Acronis Cyber Protect',
       award: 'Best all-in-one for small IT teams',
       summary:
-        'Combines backup with endpoint security, patch management and disaster recovery in one agent and one console — attractive when the same one or two people own everything.',
+        'Combines backup, endpoint security, patch management and disaster recovery in one agent and console for small teams with broad responsibilities.',
       price: 'Per-workload subscription, with cloud storage bundled or purchased separately',
       bestFor: 'Small to mid-sized businesses and managed service providers wanting fewer vendors',
       deployment: 'Cloud console with agents; hybrid local storage supported',
       body: [
-        'The integration argument is genuine. One agent doing backup, anti-malware and patching means fewer things to deploy and one place to look. For a two-person IT team supporting 150 staff, that consolidation can matter more than best-of-breed depth in any single area.',
-        'The counter-argument is equally genuine: bundled security is not usually as strong as a dedicated endpoint platform, and consolidating backup and security into one product means one compromise affects both. Evaluate the security component on its own merits rather than treating it as free.',
+        'One agent for backup, anti-malware and patching reduces deployment work and puts status in one console. For a two-person IT team supporting 150 staff, that consolidation may matter more than best-of-breed depth in each category.',
+        'The corresponding risk is concentration. Bundled security may not match a dedicated endpoint platform, and a compromise of one product can affect both backup and security. Evaluate the security component on its own merits rather than treating it as a free extra.',
       ],
       pros: [
         'Backup, anti-malware and patching in a single agent',
@@ -194,8 +194,8 @@ module.exports = {
       bestFor: 'Larger organisations with a formal security programme and budget to match',
       deployment: 'Cloud-native, or appliance-based for on-premises',
       body: [
-        'Rubrik’s architecture treats backup as a security control rather than an IT housekeeping task. Backups are immutable by design rather than by configuration, and the platform analyses backup data for signs of encryption or mass deletion — which helps answer the question that paralyses ransomware recovery: *which restore point is clean?*',
-        'That capability is genuinely differentiated, and so is the price. This is not a small-business product, and the evaluation should involve your security team rather than only IT.',
+        'Rubrik treats backup as a security control. Backups are immutable by design rather than by optional configuration, and the platform analyses backup data for encryption or mass deletion. That analysis helps identify which restore point is clean during ransomware recovery.',
+        'The capability comes with enterprise pricing. This is not positioned as a small-business product, and the evaluation should involve the security team as well as IT.',
       ],
       pros: [
         'Immutable architecture rather than optional immutability',
@@ -205,8 +205,8 @@ module.exports = {
       ],
       cons: [
         'Enterprise pricing puts it out of reach for most SMBs',
-        'Considerable platform to adopt — expect a real implementation project',
-        'Overkill unless ransomware recovery is a board-level concern',
+        'A substantial platform that requires an implementation project',
+        'Too costly and complex unless ransomware recovery is a board-level concern',
       ],
     },
 
@@ -222,16 +222,16 @@ module.exports = {
       deployment: 'S3-compatible object storage; pair with Veeam, Restic, Duplicati or similar',
       body: [
         'For organisations already running backup software, the storage bill is often the dominant cost, and B2 undercuts S3 substantially while remaining S3-compatible and supporting object lock for immutability. Veeam, MSP360, Restic, Duplicati and most other clients integrate with it directly.',
-        'The generous egress allowance deserves emphasis, because egress is where cloud backup economics usually break: a large restore from a hyperscaler can produce a bill that dwarfs a year of storage. What you do not get is a backup application, a support relationship covering your whole recovery process, or anyone to call when a restore fails. You are assembling the solution yourself.',
+        'The egress allowance matters because a large restore from a hyperscaler can cost more than a year of storage. B2 does not include a backup application or end-to-end recovery support, however. Your team selects the client, operates it and owns the restore process.',
       ],
       pros: [
-        'Dramatically cheaper than hyperscaler object storage',
+        'Substantially cheaper than hyperscaler object storage',
         'Free egress up to 3× average monthly stored data',
         'Object Lock immutability supported',
         'S3-compatible, so most backup clients work with it',
       ],
       cons: [
-        'Storage only — you still need and must operate backup software',
+        'Storage only; you still need to operate backup software',
         'Fewer regions than AWS, Azure or Google Cloud',
         'Support covers the storage layer, not your recovery outcome',
       ],
@@ -245,11 +245,11 @@ module.exports = {
       summary:
         'A local appliance plus cloud replication, sold through managed service providers, with the fastest realistic RTO in this list because recovery starts on hardware already in your building.',
       price: 'Sold through partners; appliance plus subscription',
-      bestFor: 'SMBs who buy IT through an MSP and need genuinely fast recovery',
+      bestFor: 'SMBs who buy IT through an MSP and need fast local recovery',
       deployment: 'On-premises appliance with cloud replication',
       body: [
-        'The hybrid appliance model addresses the RTO problem directly. A failed server can be virtualised on the local Datto device in minutes, while the cloud copy provides the offsite and disaster-recovery layer. For a business where a day of downtime is unacceptable but a six-figure enterprise platform is unaffordable, this shape of solution is often the right answer.',
-        'The constraints are structural: you generally buy it through an MSP rather than directly, so your experience depends heavily on that partner’s competence, and there is hardware in your environment to maintain. Since the Kaseya acquisition, some customers have reported pricing and packaging changes — worth raising directly during negotiation.',
+        'The hybrid appliance addresses a short RTO directly. A failed server can be virtualised on the local Datto device in minutes, while the cloud copy supplies the offsite disaster-recovery layer. This model can fit a business that cannot tolerate a day of downtime but cannot fund a six-figure enterprise platform.',
+        'Datto is generally purchased through an MSP, so service quality depends heavily on that partner, and the local appliance still needs maintenance. Some customers have reported pricing and packaging changes since the Kaseya acquisition; raise both points during negotiation.',
       ],
       pros: [
         'Local appliance enables recovery in minutes rather than hours',
@@ -268,15 +268,15 @@ module.exports = {
       t: 'pick',
       rank: 6,
       name: 'Dedicated Microsoft 365 backup (Veeam, AvePoint, Dropsuite)',
-      award: 'The gap almost everyone has',
+      award: 'Best for a common SaaS coverage gap',
       summary:
-        'Whatever else you choose, if you run Microsoft 365 or Google Workspace you need a separate backup for it. This is the cheapest meaningful risk reduction available to most organisations.',
+        'A separate backup for Microsoft 365 or Google Workspace closes a common gap at a relatively low per-user cost.',
       price: 'Typically $3–$8 per user per month',
       bestFor: 'Every organisation using Microsoft 365 or Google Workspace',
       deployment: 'SaaS, usually deployed in under an hour',
       body: [
-        'Exchange Online, SharePoint, OneDrive and Teams data is your responsibility under Microsoft’s shared responsibility model. Native retention protects against Microsoft losing your data — not against you deleting it, an attacker deleting it, or a sync client propagating encryption.',
-        'Microsoft has introduced its own first-party backup offering, which is a reasonable option and worth pricing. Many organisations still prefer a third party on the principle that a backup living in the same tenant, under the same identity provider, shares a failure domain with the thing it is protecting. At a few dollars per user per month, this is the highest return on investment in this guide.',
+        'Exchange Online, SharePoint, OneDrive and Teams data remains the customer’s responsibility under Microsoft’s shared responsibility model. Native retention protects against Microsoft losing data, but not every case of user deletion, attacker deletion or a sync client propagating encryption.',
+        'Microsoft now offers first-party backup and it belongs on the shortlist. Some organisations prefer a third party because a backup in the same tenant and under the same identity provider shares part of the production failure domain. At a few dollars per user per month, either route can close a large gap for modest cost.',
       ],
       pros: [
         'Closes a genuine and widely underestimated gap',
@@ -286,7 +286,7 @@ module.exports = {
       ],
       cons: [
         'Another vendor and another bill',
-        'Teams backup coverage varies notably between products — test it',
+        'Teams backup coverage varies notably between products and needs testing',
         'Restores into a live tenant need care to avoid duplicates',
       ],
     },
@@ -301,26 +301,26 @@ module.exports = {
         ['Rubrik', 'Enterprise ransomware recovery', 'Immutable by architecture', 'Security-led enterprise'],
         ['Backblaze B2', 'Cheap storage layer', 'Object Lock', 'Team with its own software'],
         ['Datto', 'Fast RTO via appliance', 'Cloud-side immutability', 'SMB buying through an MSP'],
-        ['M365 backup', 'The SaaS gap', 'Varies by vendor', 'Everyone on Microsoft 365'],
+        ['M365 backup', 'The SaaS gap', 'Varies by vendor', 'Microsoft 365 customers'],
       ],
       caption:
-        'Indicative positioning based on vendor documentation as of August 2026. Verify current capabilities and pricing directly — this category changes quickly.',
+        'Indicative positioning based on vendor documentation as of August 2026. Verify current capabilities and pricing directly because this category changes quickly.',
     },
 
-    { t: 'h2', x: 'The thing that matters more than which product you pick' },
+    { t: 'h2', x: 'Restore testing matters more than the shortlist' },
     {
       t: 'p',
       x: 'Test your restores. Quarterly, on a schedule, with someone other than the person who built the system doing it.',
     },
     {
       t: 'p',
-      x: 'Backup jobs report success for years while silently excluding a critical volume, or writing to a repository nobody has verified is readable. The failure is discovered during the incident, which is the worst possible moment. A restore drill answers three questions no dashboard can:',
+      x: 'A backup job can report success while excluding a critical volume or writing to a repository nobody has proved readable. A restore drill finds that failure before an incident and answers three questions the dashboard cannot:',
     },
     {
       t: 'ol',
       items: [
-        '**Does the data come back intact?** Not "did the job succeed" — does the restored database actually open and pass a consistency check?',
-        '**How long does it really take?** Measure it. Compare against the RTO you committed to. The gap is usually uncomfortable.',
+        '**Does the data come back intact?** Do not stop at job status; open the restored database and run a consistency check.',
+        '**How long does it take?** Measure the recovery and compare it with the committed RTO.',
         '**Can someone else do it?** If recovery depends on one person’s undocumented knowledge, you have a single point of failure that no amount of redundancy addresses.',
       ],
     },
@@ -328,15 +328,15 @@ module.exports = {
       t: 'note',
       kind: 'danger',
       title: 'Store recovery credentials outside the systems being recovered',
-      x: 'If your backup console password is in a password manager that authenticates through the Active Directory the ransomware just encrypted, you cannot log in to start recovering. Keep offline, tested copies of recovery credentials and runbooks. Organisations discover this constraint at the worst possible time with depressing regularity.',
+      x: 'If the backup console password sits in a password manager that authenticates through an encrypted Active Directory, the recovery team cannot log in. Keep tested offline copies of recovery credentials and runbooks so the recovery path does not depend on the failed system.',
     },
 
     { t: 'h2', x: 'A shortlist process that works' },
     {
       t: 'ol',
       items: [
-        'Write down your RPO and RTO, and what an hour of downtime costs. Everything else follows from these.',
-        'Inventory what needs protecting — servers, endpoints, SaaS, databases, cloud workloads. The SaaS line is the one usually missing.',
+        'Write down your RPO and RTO, and what an hour of downtime costs. Use those figures to assess the remaining choices.',
+        'Inventory servers, endpoints, SaaS, databases and cloud workloads. SaaS is commonly missing from the first list.',
         'Shortlist two or three platforms that cover your actual mix without heavy add-ons.',
         'Run a proof of concept on real data. Restore something. Time it.',
         'Get restore costs, egress fees and support response times **in writing** before signing.',
@@ -353,11 +353,11 @@ module.exports = {
         },
         {
           q: 'What is immutable backup and do I need it?',
-          a: 'Immutable backups cannot be modified or deleted until their retention period expires — not by an attacker, not by an administrator, not by the vendor. Given that ransomware operators specifically target backup infrastructure before encrypting anything, yes: it is the single most important feature in this category.',
+          a: 'Immutable backups cannot be modified or deleted until their retention period expires, including by an attacker, administrator or vendor. Because ransomware operators target backup infrastructure before encryption, immutability should be a core requirement.',
         },
         {
           q: 'How much should business cloud backup cost?',
-          a: 'SaaS backup is typically $3–$8 per user per month. Server and workload backup varies enormously with data volume and retention. As a sanity check, most organisations land between 1% and 3% of their total IT budget. If a quote is dramatically below that, check what is excluded — usually egress and restore charges.',
+          a: 'SaaS backup is typically $3–$8 per user per month. Server and workload backup varies enormously with data volume and retention. As a sanity check, most organisations land between 1% and 3% of their total IT budget. If a quote is far below that, check for excluded egress and restore charges.',
         },
         {
           q: 'How often should I test restores?',
@@ -365,7 +365,7 @@ module.exports = {
         },
         {
           q: 'Is cloud backup enough on its own, or do I need local backup too?',
-          a: 'It depends on your RTO. Restoring several terabytes over a typical business internet connection takes many hours or days. If you cannot tolerate that, you need a local copy for speed and the cloud copy for disaster recovery — which is the hybrid appliance model.',
+          a: 'It depends on your RTO. Restoring several terabytes over a typical business internet connection takes many hours or days. If that is too slow, use a local copy for speed and a cloud copy for disaster recovery; this is the hybrid appliance model.',
         },
         {
           q: 'What is the 3-2-1-1-0 rule?',

@@ -3,7 +3,7 @@
  * Static site generator for the JunePoint content network.
  *
  * Writes plain HTML into `public/`, which Create React App copies verbatim into
- * `build/`. That gives every network page real server-delivered markup — the
+ * `build/`. That gives every network page real server-delivered markup. The
  * React SPA at "/" renders client-side and would be invisible to crawlers, and
  * an empty shell is not a page AdSense can review or Google can rank.
  *
@@ -112,7 +112,7 @@ Sitemap: ${SITE_URL}/sitemap.xml
 
 function adsTxt() {
   if (!adUnits.enabled()) {
-    return `# Authorized Digital Sellers — https://iabtechlab.com/ads-txt/
+    return `# Authorized Digital Sellers: https://iabtechlab.com/ads-txt/
 #
 # Populate this once an AdSense publisher ID exists. The single line below is
 # all AdSense requires; uncomment it and replace the publisher ID.
@@ -121,7 +121,7 @@ function adsTxt() {
 `;
   }
   const publisherId = ads.client.replace(/^ca-/, '');
-  return `# Authorized Digital Sellers — https://iabtechlab.com/ads-txt/
+  return `# Authorized Digital Sellers: https://iabtechlab.com/ads-txt/
 google.com, ${publisherId}, DIRECT, f08c47fec0942fa0
 `;
 }
@@ -149,13 +149,13 @@ function main() {
     written.push(write(`assets/jp/${file}`, fs.readFileSync(path.join(__dirname, 'assets', file))));
   });
 
-  // Tier 3 — tools
+  // Tier 3: tools
   tools.forEach((doc) => {
     written.push(write(pageFile(doc.path), renderers.renderTool(doc, registry)));
     record(doc.path, doc.updated, doc.featured ? '0.9' : '0.8');
   });
 
-  // Tier 2 — guides, Tier 1 — buying guides
+  // Tier 2: guides, Tier 1: buying guides
   [...guides, ...reviews].forEach((doc) => {
     written.push(write(pageFile(doc.path), renderers.renderArticle(doc, registry)));
     record(doc.path, doc.updated, doc.featured ? '0.9' : '0.8');
@@ -186,7 +186,7 @@ function main() {
   //
   // Its sub-routes (/personal-websites, /video-games, …) deliberately are NOT
   // listed. They exist only inside React Router, and GitHub Pages has no SPA
-  // fallback here — a direct request for one returns 404, so submitting them
+  // fallback here. A direct request for one returns 404, so submitting them
   // would be feeding Google known-dead URLs. Adding a public/404.html that
   // serves the app shell would make them reachable; until then they stay out.
   record('/', today, '1.0', 'monthly');
@@ -202,7 +202,7 @@ function main() {
   );
   if (!adUnits.enabled()) {
     console.log(
-      'content: AdSense is not configured — no ad markup emitted. Set ADSENSE_CLIENT=ca-pub-… to enable, ' +
+      'content: AdSense is not configured; no ad markup emitted. Set ADSENSE_CLIENT=ca-pub-… to enable, ' +
         'or AD_PREVIEW=1 to draw placeholder slots.'
     );
   }

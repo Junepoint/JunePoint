@@ -1,13 +1,13 @@
 module.exports = {
   slug: 'http-status-codes-explained',
-  title: 'HTTP Status Codes Explained (And Which to Actually Use)',
-  h1: 'HTTP status codes, and which to actually use',
+  title: 'HTTP Status Codes: A Practical API Reference',
+  h1: 'HTTP status codes for application developers',
   eyebrow: 'Web fundamentals',
   schemaType: 'TechArticle',
   description:
-    'A working reference to HTTP status codes: what each class means, the dozen you will really use, and the ones API developers routinely get wrong.',
+    'A working reference for common HTTP status codes, including authentication, validation, redirects, retries and gateway failures.',
   standfirst:
-    'There are 60-odd status codes and you need about a dozen. Here they are, plus the distinctions that matter — 401 vs 403, 301 vs 308, 400 vs 422.',
+    'Most application code uses a small part of the HTTP status registry. Focus on the codes your clients can act on, especially the distinctions between 401 and 403, 400 and 422, and temporary and permanent redirects.',
   keywords: [
     'http status codes',
     '401 vs 403',
@@ -18,7 +18,7 @@ module.exports = {
   published: '2026-06-25',
   updated: '2026-08-08',
   author: 'jackson',
-  cardDesc: '401 vs 403, 301 vs 308, 400 vs 422 — the distinctions that matter, and the codes worth using.',
+  cardDesc: 'Choose useful status codes for authentication, validation, redirects, retries and upstream failures.',
 
   blocks: [
     { t: 'h2', x: 'The five classes' },
@@ -26,36 +26,36 @@ module.exports = {
       t: 'table',
       head: ['Class', 'Meaning', 'Who should fix it'],
       rows: [
-        ['`1xx`', 'Informational — request received, still processing', 'Nobody; rarely seen'],
+        ['`1xx`', 'Informational; request received, still processing', 'Usually protocol handling; rarely seen in application code'],
         ['`2xx`', 'Success', 'Nobody'],
-        ['`3xx`', 'Redirection — go somewhere else', 'Nobody, if configured correctly'],
-        ['`4xx`', 'Client error — the request was wrong', 'The caller'],
-        ['`5xx`', 'Server error — the request was fine, the server failed', 'You'],
+        ['`3xx`', 'Redirection to another location or cached representation', 'Configuration, if the destination is wrong'],
+        ['`4xx`', 'The request cannot be fulfilled as sent', 'The caller'],
+        ['`5xx`', 'The server failed to complete a valid request', 'The service operator'],
       ],
     },
     {
       t: 'p',
-      x: 'That last distinction is the one that matters operationally. **4xx means the client sent something invalid; 5xx means you broke.** Returning 500 for a validation failure sends your error rate through the roof and pages someone at 3am for a user who typed a bad email address.',
+      x: 'The 4xx and 5xx boundary matters to monitoring and retry behavior. A validation failure belongs in 4xx because the caller can change the request. A 5xx response tells operators and clients that the server failed, so using it for invalid input creates false incident signals.',
     },
 
-    { t: 'h2', x: 'The dozen you will actually use' },
+    { t: 'h2', x: 'The common application codes' },
     {
       t: 'table',
       head: ['Code', 'Name', 'When'],
       rows: [
         ['`200`', 'OK', 'Successful GET, PUT or PATCH with a body'],
-        ['`201`', 'Created', 'POST created a resource — include a `Location` header'],
-        ['`204`', 'No Content', 'Success with nothing to return — DELETE, or a PUT you do not echo'],
+        ['`201`', 'Created', 'POST created a resource; include a `Location` header'],
+        ['`204`', 'No Content', 'Success with nothing to return, such as DELETE or a PUT you do not echo'],
         ['`301`', 'Moved Permanently', 'The URL has changed for good'],
-        ['`302`', 'Found', 'Temporary redirect — but see 307 below'],
+        ['`302`', 'Found', 'Temporary redirect; compare its method behavior with 307'],
         ['`304`', 'Not Modified', 'The cached copy is still good'],
         ['`400`', 'Bad Request', 'Malformed request the server cannot parse'],
-        ['`401`', 'Unauthorized', 'Not authenticated — who are you?'],
+        ['`401`', 'Unauthorized', 'Valid authentication is missing'],
         ['`403`', 'Forbidden', 'Authenticated, but not allowed'],
         ['`404`', 'Not Found', 'No such resource'],
-        ['`409`', 'Conflict', 'State conflict — duplicate, or a concurrent edit'],
+        ['`409`', 'Conflict', 'State conflict, such as a duplicate or concurrent edit'],
         ['`422`', 'Unprocessable Content', 'Well-formed but semantically invalid'],
-        ['`429`', 'Too Many Requests', 'Rate limited — always include `Retry-After`'],
+        ['`429`', 'Too Many Requests', 'Rate limited; include `Retry-After`'],
         ['`500`', 'Internal Server Error', 'You have a bug'],
         ['`503`', 'Service Unavailable', 'Temporarily down or overloaded'],
       ],
@@ -64,33 +64,33 @@ module.exports = {
     { t: 'h2', x: '401 vs 403: authentication vs authorisation' },
     {
       t: 'p',
-      x: 'The naming is genuinely unhelpful — 401 is called "Unauthorized" but means *unauthenticated*.',
+      x: 'The historical name of 401 is misleading. In application terms, 401 means the request is not authenticated, while 403 concerns permission after the caller is known.',
     },
     {
       t: 'ul',
       items: [
-        '**401** — I do not know who you are. No credentials, expired token, invalid signature. Retrying with valid credentials could work. The response **must** include a `WWW-Authenticate` header, though most APIs ignore this requirement.',
-        '**403** — I know who you are and you may not do this. Retrying with the same credentials will never work.',
+        '**401:** no credentials, an expired token or an invalid signature. Supplying valid credentials could change the outcome. The response **must** include a `WWW-Authenticate` header, although many APIs omit it.',
+        '**403:** the server recognizes the caller but does not allow this action. Retrying with the same identity will not change the result.',
       ],
     },
     {
       t: 'note',
       kind: 'tip',
       title: 'When 404 is the better answer than 403',
-      x: 'Returning 403 confirms that a resource exists. For anything where the identifier itself is sensitive — private repositories, other tenants’ records — returning 404 for both "does not exist" and "not yours" avoids leaking existence. GitHub does exactly this on private repositories.',
+      x: 'A 403 response confirms that the target exists. When existence is sensitive, as with private repositories or another tenant’s records, returning 404 for both "not found" and "not visible to this caller" avoids that disclosure. GitHub uses this approach for private repositories.',
     },
 
     { t: 'h2', x: '400 vs 422' },
     {
       t: 'ul',
       items: [
-        '**400** — the server cannot understand the request at all: malformed JSON, a missing required parameter, a broken `Content-Type`.',
-        '**422** — the syntax is fine and the meaning is invalid: an email that is not an email, an end date before the start date, a quantity of −1.',
+        '**400:** the server cannot process the request syntax or basic shape, such as malformed JSON, a missing required parameter or an invalid `Content-Type`.',
+        '**422:** the syntax is valid but the values fail semantic validation, such as a malformed email, an end date before the start date or a quantity of −1.',
       ],
     },
     {
       t: 'p',
-      x: 'This is a genuine grey area and reasonable teams disagree. Many large APIs use 400 for everything and put the detail in the body, which is defensible and simpler. What is not defensible is being inconsistent within one API. Pick a convention, document it, and return machine-readable details either way:',
+      x: 'Reasonable APIs draw this line differently. Some use 400 for both parsing and validation errors, then describe the distinction in the body. Either approach can work if it is documented and consistent within the API. Return machine-readable details so clients do not have to parse prose:',
     },
     {
       t: 'code',
@@ -107,7 +107,7 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'That shape follows RFC 9457 (Problem Details for HTTP APIs), which is worth adopting — it gives clients a documented structure instead of a bespoke one per endpoint.',
+      x: 'This follows RFC 9457, Problem Details for HTTP APIs. Adopting that structure gives clients one documented error format instead of a different shape for each endpoint.',
     },
 
     { t: 'h2', x: 'Redirects: 301, 302, 307, 308' },
@@ -115,32 +115,32 @@ module.exports = {
       t: 'table',
       head: ['Code', 'Duration', 'Method preserved?'],
       rows: [
-        ['`301`', 'Permanent', 'No — POST usually becomes GET'],
-        ['`302`', 'Temporary', 'No — POST usually becomes GET'],
+        ['`301`', 'Permanent', 'No; POST usually becomes GET'],
+        ['`302`', 'Temporary', 'No; POST usually becomes GET'],
         ['`307`', 'Temporary', '**Yes**'],
         ['`308`', 'Permanent', '**Yes**'],
       ],
     },
     {
       t: 'p',
-      x: 'The method-changing behaviour of 301 and 302 was never in the specification — browsers did it, and it became so widespread the standard documented it. 307 and 308 exist to give you the same redirect semantics without the surprise.',
+      x: 'Browsers historically changed POST to GET when following 301 and 302, even though the original specifications did not define that behavior. The standards later documented the established practice. Codes 307 and 308 provide temporary and permanent redirects while preserving the method and body.',
     },
     {
       t: 'ul',
       items: [
         '**Moving a page permanently, for SEO:** use 301. It is the code search engines treat as a signal to transfer ranking and update the index.',
         '**Redirecting an API POST:** use 307 or 308, or the request body will be silently dropped.',
-        '**Post/Redirect/Get after a form submission:** 303 See Other is the correct code — it deliberately converts the follow-up to a GET so a refresh does not resubmit.',
+        '**Post/Redirect/Get after a form submission:** use 303 See Other. It deliberately converts the follow-up request to GET so refreshing the result does not resubmit the form.',
       ],
     },
     {
       t: 'note',
       kind: 'warn',
-      title: '301 responses are cached aggressively and effectively forever',
-      x: 'Browsers cache permanent redirects on disk and may not recheck for months. A 301 pointing at the wrong place is very hard to take back from users who already received it. Test redirect rules with a 302, then switch to 301 once you are certain.',
+      title: 'Test a permanent redirect before publishing it',
+      x: 'Browsers can cache permanent redirects on disk for months. Correcting a bad 301 may not help clients that already stored it. Test the routing rule with a 302, then change it to 301 after confirming the destination.',
     },
 
-    { t: 'h2', x: 'The codes API developers get wrong' },
+    { t: 'h2', x: 'Status-code mistakes that affect clients' },
 
     { t: 'h3', x: 'Returning 200 with an error in the body' },
     {
@@ -151,13 +151,13 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'This breaks everything that reads status codes: HTTP client error handling, retry logic, monitoring, CDN caching, load-balancer health checks. Your error rate looks like zero while users see failures. Use the status line — it exists for this.',
+      x: 'A 200 response tells client libraries, retry code, monitoring, caches and health checks that the request succeeded. Putting an error only in the body hides the failure from each of those layers. Return the error status on the HTTP status line and use the body for detail.',
     },
 
     { t: 'h3', x: 'Using 500 for anything you did not anticipate' },
     {
       t: 'p',
-      x: '500 should mean "there is a bug in my code". If a user sent bad input, that is a 4xx. Conflating the two makes your error dashboards useless: you cannot distinguish a real incident from a client sending nonsense.',
+      x: 'Reserve 500 for an unexpected server failure. Invalid input belongs in 4xx. Keeping those categories separate makes dashboards and alerts reflect service incidents instead of routine client mistakes.',
     },
 
     { t: 'h3', x: 'Forgetting `Retry-After` on 429 and 503' },
@@ -172,13 +172,13 @@ X-RateLimit-Reset: 1767229200`,
     },
     {
       t: 'p',
-      x: 'Without `Retry-After`, well-behaved clients guess — and badly behaved ones retry immediately, turning a rate limit into a self-inflicted denial of service. It accepts either a delay in seconds or an HTTP date.',
+      x: 'Without `Retry-After`, clients must guess when to try again, and immediate retries can increase load during an already constrained period. The header accepts either a delay in seconds or an HTTP date.',
     },
 
     { t: 'h3', x: 'Using 404 for an empty collection' },
     {
       t: 'p',
-      x: '`GET /users?role=admin` matching nothing is a **200 with an empty array**. The collection exists; it happens to be empty. 404 means the endpoint itself does not exist, and clients will treat it as a routing bug.',
+      x: 'When `GET /users?role=admin` finds no matches, return **200 with an empty array**. The collection exists and the filter produced no members. A 404 suggests that the resource or route itself does not exist.',
     },
 
     { t: 'h2', x: 'Which errors are safe to retry' },
@@ -194,7 +194,7 @@ X-RateLimit-Reset: 1767229200`,
     },
     {
       t: 'p',
-      x: '**Add jitter to your backoff.** Without it, every client that failed during an outage retries at the same instants and hammers the service just as it recovers — the thundering herd that turns a brief blip into a long outage.',
+      x: '**Add jitter to exponential backoff.** Without it, clients that failed together also retry together, producing synchronized load while the service is recovering. A random component spreads those attempts over time.',
     },
     {
       t: 'code',
@@ -218,22 +218,22 @@ X-RateLimit-Reset: 1767229200`,
     {
       t: 'ul',
       items: [
-        '**502 Bad Gateway** — the proxy reached your application and got an invalid response, or none. Usually the app crashed or is not listening.',
-        '**503 Service Unavailable** — the server is up but deliberately not serving: maintenance mode, no healthy backends, or a shed load. The only 5xx that is often intentional.',
-        '**504 Gateway Timeout** — the app was reachable but too slow. Look at slow queries and upstream calls, not at the proxy.',
+        '**502 Bad Gateway:** the proxy received an invalid response from the application, or no response at all. Check whether the app crashed or is listening on the expected address.',
+        '**503 Service Unavailable:** the server is available but cannot currently serve the request, for example during maintenance, load shedding or when no healthy backend remains.',
+        '**504 Gateway Timeout:** the upstream application was reachable but did not respond in time. Investigate slow queries and upstream calls as well as configured timeouts.',
       ],
     },
     {
       t: 'p',
-      x: 'The distinction tells you where to look: 502 means "is the process alive?", 504 means "why is it slow?". Guessing between them wastes the first ten minutes of an incident.',
+      x: 'Use the gateway’s observation to choose the first check. For 502, verify that the process is healthy and returning valid HTTP. For 504, trace where the upstream request spent its time.',
     },
 
     { t: 'h2', x: 'Two worth knowing that you rarely see' },
     {
       t: 'ul',
       items: [
-        '**`202 Accepted`** — the request is valid and queued, but not finished. The right answer for anything asynchronous: return 202 with a status URL the client can poll, rather than holding a connection open.',
-        '**`412 Precondition Failed`** — with `If-Match` and `ETag`, this gives you optimistic concurrency control. The client sends the version it read; if the resource has changed since, the update is rejected instead of silently overwriting someone else’s work.',
+        '**`202 Accepted`:** the server accepted the request but has not finished processing it. For asynchronous work, return 202 with a status URL the client can poll instead of holding the original connection open.',
+        '**`412 Precondition Failed`:** use `If-Match` with `ETag` for optimistic concurrency control. The client sends the version it read; if that resource has since changed, the server rejects the update instead of overwriting newer work.',
       ],
     },
 
@@ -242,15 +242,15 @@ X-RateLimit-Reset: 1767229200`,
       items: [
         {
           q: 'What is the difference between 401 and 403?',
-          a: '401 means not authenticated — no valid credentials were supplied, and providing some might work. 403 means authenticated but not permitted — the same credentials will never grant access. The name "Unauthorized" for 401 is a historical misnomer.',
+          a: '401 means the request lacks valid authentication, so supplying valid credentials might work. 403 means the server recognizes the caller but does not grant that identity permission. The name "Unauthorized" for 401 is a historical misnomer.',
         },
         {
           q: 'Should I use 301 or 302 for a redirect?',
-          a: '301 for permanent moves, which is what transfers SEO ranking. 302 for temporary ones. If the request might be a POST, use 308 or 307 instead — 301 and 302 cause browsers to convert POST to GET and drop the body.',
+          a: 'Use 301 for a permanent move and 302 for a temporary one. Search engines use 301 as a signal to update indexing and ranking. If the original request may be a POST, use 308 or 307 to preserve its method and body.',
         },
         {
           q: 'Is it acceptable to return 200 with an error in the body?',
-          a: 'No. It defeats every layer that reads status codes: client libraries, retry logic, monitoring, caching and health checks. Your dashboards will show a zero error rate while users are failing.',
+          a: 'Not for a failed HTTP operation. Client libraries, retry logic, monitoring, caches and health checks all interpret 200 as success. Return an appropriate error status and put the structured details in the response body.',
         },
         {
           q: 'What should an API return when nothing matches a filter?',
@@ -258,11 +258,11 @@ X-RateLimit-Reset: 1767229200`,
         },
         {
           q: 'When should I use 422 instead of 400?',
-          a: '400 when the request cannot be parsed — malformed JSON, missing required fields. 422 when it parses cleanly but the values are invalid. Many APIs use 400 for both and put detail in the body, which is fine as long as it is consistent and documented.',
+          a: 'Use 400 when the request cannot be parsed or is missing its required shape. Use 422 when parsing succeeds but the values fail semantic validation. Some APIs use 400 for both; consistency and a documented error body matter more than forcing this distinction.',
         },
         {
           q: 'Which status codes are safe to retry automatically?',
-          a: '408, 429 and the 5xx family, using exponential backoff with jitter and honouring Retry-After. Never retry 400, 401, 403, 404 or 422 — the request is wrong and repeating it will not help.',
+          a: '408, 429 and transient 5xx responses are typical retry candidates. Use exponential backoff with jitter and honor Retry-After. Do not automatically retry 400, 401, 403, 404 or 422 without changing the request or credentials.',
         },
       ],
     },

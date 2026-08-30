@@ -61,8 +61,8 @@ module.exports = function renderPortal({ tools, guides, reviews }) {
   <div class="jp-wrap">
     <p class="jp-eyebrow">JunePoint Resources</p>
     <h1>Tools, guides and software research</h1>
-    <p class="jp-standfirst">${esc(site.tagline)} Free calculators that run in your browser, troubleshooting
-      guides that start with the fix, and buying research for the software decisions that are expensive to get wrong.</p>
+    <p class="jp-standfirst">${esc(site.tagline)} Browser-based calculators, technical troubleshooting guides
+      and software comparisons based on published documentation, pricing and policies.</p>
     <p><a class="jp-btn" href="/tools/">Browse the tools</a>
        <a class="jp-btn jp-btn--ghost" href="/">See what JunePoint builds</a></p>
   </div>
@@ -84,8 +84,8 @@ module.exports = function renderPortal({ tools, guides, reviews }) {
 
   <section class="jp-cta">
     <h2>JunePoint also builds software</h2>
-    <p>This publication is run by a two-person cross-platform development studio. If you need the app rather than
-      the article, that side of the house is one click away — and it has no ads on it.</p>
+    <p>Jackson Abeyta writes this publication through JunePoint, a cross-platform software studio. JunePoint also
+      builds web and mobile applications, and its studio portfolio carries no advertising.</p>
     <a class="jp-btn" href="/">Visit JunePoint Studio</a>
   </section>
 
@@ -93,7 +93,7 @@ module.exports = function renderPortal({ tools, guides, reviews }) {
 </main>`;
 
   return page({
-    title: 'JunePoint Resources — Free Tools, Guides & Software Research',
+    title: 'JunePoint Resources | Free Tools, Guides & Software Research',
     description: site.description,
     path,
     body,

@@ -6,9 +6,9 @@ module.exports = {
   schemaType: 'Article',
   itemListName: 'Self-employed tax software',
   description:
-    'Schedule C, quarterly estimates and self-employment tax explained, with the software options compared on what freelancers actually need.',
+    'Schedule C, quarterly estimates and self-employment tax explained, with filing options compared for common freelance situations.',
   standfirst:
-    'Self-employment tax is the line that surprises new freelancers. Here is what you owe, when, and which software handles it without charging enterprise prices.',
+    'Self-employment tax is often the unfamiliar line on a first freelance return. The right filing option depends on record quality, state obligations and whether the work now needs tax planning as well as preparation.',
   keywords: [
     'best tax software for freelancers',
     'self employed tax software',
@@ -20,35 +20,35 @@ module.exports = {
   published: '2026-08-06',
   updated: '2026-08-27',
   author: 'jackson',
-  cardDesc: 'Self-employment tax, quarterly estimates and the software that handles Schedule C without enterprise pricing.',
+  cardDesc: 'Self-employment tax, quarterly estimates and the practical differences between Schedule C filing options.',
 
   blocks: [
     {
       t: 'note',
       kind: 'warn',
-      title: 'Not tax advice — and US-specific',
-      x: 'We are software developers, not accountants or enrolled agents. This is research-based analysis of the **tooling**, written to help you choose a product and ask a professional better questions. It covers US federal tax only. Rules change and your situation is specific — consult a CPA or EA. See our [editorial policy](/legal/editorial-policy/).',
+      title: 'Not tax advice; US-specific',
+      x: 'We are software developers, not accountants or enrolled agents. This is research-based analysis of the **tooling**, intended to help you compare products and prepare questions for a professional. It covers US federal tax only. Rules change and individual circumstances differ, so consult a CPA or EA. See our [editorial policy](/legal/editorial-policy/).',
     },
 
     {
       t: 'takeaways',
       items: [
-        '**Self-employment tax is 15.3%** on net earnings — both halves of Social Security and Medicare — and it applies *on top of* income tax.',
+        '**Self-employment tax is 15.3%** on net earnings. It combines both halves of Social Security and Medicare and applies *in addition to* income tax.',
         '**Quarterly estimated payments are required** once you expect to owe $1,000 or more. Missing them means an underpayment penalty even if you pay in full by April.',
-        'Set aside **25–35% of net profit** for taxes from day one. This is the single habit that prevents an April crisis.',
-        'Above roughly $40,000–$60,000 in profit, an S-corporation election can save meaningful self-employment tax — but it adds payroll obligations and cost. Model it with a CPA rather than guessing.',
+        'Setting aside **25–35% of net profit** is a practical default, adjusted for your bracket and state. Moving it as income arrives reduces the risk of an April shortfall.',
+        'Above roughly $40,000–$60,000 in profit, an S-corporation election can reduce self-employment tax, but it also adds payroll obligations and cost. Model it with a CPA before electing.',
       ],
     },
 
-    { t: 'h2', x: 'What you actually owe as a freelancer' },
+    { t: 'h2', x: 'What you owe as a freelancer' },
     {
       t: 'p',
-      x: 'Three separate obligations, which is what makes freelance tax feel harder than it is:',
+      x: 'Freelance income can create three separate tax obligations:',
     },
     {
       t: 'ol',
       items: [
-        '**Income tax** at your marginal rate, on your net profit — the same brackets as anyone else.',
+        '**Income tax** at your marginal rate on net profit, using the same brackets as other individual income.',
         '**Self-employment tax at 15.3%** on net earnings. An employee pays 7.65% and their employer pays the other 7.65%; you are both, so you pay both. Half of it is deductible against income tax, which softens the blow slightly.',
         '**State and local tax**, if applicable. Nine states have no income tax; some cities have their own.',
       ],
@@ -61,7 +61,7 @@ module.exports = {
       t: 'note',
       kind: 'tip',
       title: 'The 20% QBI deduction is worth knowing about',
-      x: 'The Qualified Business Income deduction can remove up to 20% of qualified business income from your taxable income — a substantial benefit that most self-employed people qualify for. Tax software calculates it automatically, but it is worth understanding that it exists, because it materially changes what you should set aside.',
+      x: 'The Qualified Business Income deduction can remove up to 20% of qualified business income from taxable income, and many self-employed people qualify. Tax software calculates it automatically, but the deduction can materially affect the amount you need to set aside.',
     },
 
     { t: 'h2', x: 'Quarterly estimated payments' },
@@ -77,7 +77,7 @@ module.exports = {
       t: 'ul',
       items: [
         '**90%** of the current year’s tax liability, or',
-        '**100%** of last year’s total tax — rising to **110%** if your prior-year adjusted gross income exceeded $150,000.',
+        '**100%** of last year’s total tax, rising to **110%** if your prior-year adjusted gross income exceeded $150,000.',
       ],
     },
     {
@@ -88,13 +88,13 @@ module.exports = {
       t: 'note',
       kind: 'warn',
       title: 'The penalty applies even if you pay in full by April',
-      x: 'Underpayment penalties are charged quarter by quarter, calculated as interest on what should have been paid at each deadline. Paying everything on 15 April does not undo penalties accrued for the earlier quarters — a genuinely common and avoidable surprise in a first freelance year.',
+      x: 'Underpayment penalties are charged quarter by quarter as interest on the amount due at each deadline. Paying everything on 15 April does not remove penalties accrued in earlier quarters, a common surprise in a first freelance year.',
     },
 
     { t: 'h2', x: 'The software' },
     {
       t: 'p',
-      x: 'Indicative pricing for the 2026 filing season, which moves during the season — early filers usually pay less. Note that "free" in this category almost never covers Schedule C.',
+      x: 'Pricing is indicative for the 2026 filing season and changes as the deadline approaches; early filers usually pay less. Most advertised free tiers do not cover Schedule C.',
     },
 
     {
@@ -103,17 +103,17 @@ module.exports = {
       name: 'FreeTaxUSA',
       award: 'Best value by a wide margin',
       summary:
-        'Handles Schedule C, self-employment tax and most freelance situations for free federally, with a low flat fee per state return.',
+        'Includes Schedule C and self-employment tax in the free federal return, with a low flat fee for each state return.',
       price: 'Federal free including Schedule C; state around $15 each',
       bestFor: 'Freelancers with straightforward books who are comfortable with a plainer interface',
       body: [
-        'The pricing is the story. Where the major brands charge $100–$130 for a self-employed federal return, FreeTaxUSA includes Schedule C, self-employment tax, home office and depreciation at no federal cost. It is an IRS-authorised e-file provider and supports prior-year returns and amendments.',
-        'What you give up is polish and hand-holding. The interface is functional rather than pleasant, there is no automatic import from accounting software, and support is more limited than the premium products. If you keep your own books and understand roughly what you are entering, none of that matters much — and the saving is real money.',
+        'Price is the main distinction. Major brands charge $100–$130 for a self-employed federal return, while FreeTaxUSA includes Schedule C, self-employment tax, home office and depreciation at no federal cost. It is an IRS-authorised e-file provider and supports prior-year returns and amendments.',
+        'The trade-off is less guidance and polish. The interface is functional, accounting-software imports are not automatic, and support is more limited than with premium products. Those constraints matter less for someone who keeps clean books and understands the entries.',
       ],
       pros: [
         'Schedule C and self-employment tax included free federally',
         'State returns around $15',
-        'Handles most freelance complexity — home office, depreciation, multiple businesses',
+        'Handles home office, depreciation and multiple businesses',
         'Prior-year and amended returns supported',
       ],
       cons: [
@@ -129,15 +129,15 @@ module.exports = {
       name: 'TurboTax Premium',
       award: 'Best guidance, at a price',
       summary:
-        'The most polished experience with the strongest deduction guidance and import options — and the most expensive by some distance.',
+        'The strongest deduction guidance and import options in this comparison, paired with the highest price.',
       price: 'Roughly $115–$130 federal plus around $60 per state; live expert help costs considerably more',
-      bestFor: 'Freelancers with messy records who want to be walked through it, or with genuinely complex situations',
+      bestFor: 'Freelancers with messy records who want guided filing, or with complex situations',
       body: [
-        'TurboTax’s interview-style flow is the best in the category at surfacing deductions people forget, and it imports from QuickBooks Self-Employed, brokerage accounts and many payroll providers. For someone with untidy records and low confidence, that guidance has real value — and mistakes on a Schedule C are expensive.',
+        'TurboTax’s interview flow is the strongest in this group at prompting for commonly missed deductions. It also imports from QuickBooks Self-Employed, brokerage accounts and many payroll providers. That guidance can justify part of the premium for someone with untidy records or low confidence.',
         'The price is high and rises through the season, and the upsells during the flow are persistent. Intuit also settled with the FTC over advertising of "free" filing, so read what your specific situation costs before starting rather than discovering it at checkout.',
       ],
       pros: [
-        'Best-in-class guidance and deduction discovery',
+        'Strongest guidance and deduction prompts in this comparison',
         'Strong import from QuickBooks and financial institutions',
         'Live expert review available',
         'Audit support included on some tiers',
@@ -159,7 +159,7 @@ module.exports = {
       price: 'Roughly $85–$115 federal plus around $45 per state',
       bestFor: 'Freelancers who want in-person help available as a fallback',
       body: [
-        'The retail office network is the differentiator. If a return turns out to be more complicated than expected — a first year with an S-corp, an unexpected 1099-K, a state you did not know you had a filing obligation in — you can move it to a person without starting again.',
+        'The retail office network is the main distinction. If a first S-corp year, an unexpected 1099-K or an unfamiliar state filing makes the return more complicated than expected, you can transfer the work to an adviser without starting again.',
         'The software itself is capable and slightly cheaper than TurboTax, with generally less aggressive upselling. Neither is close to FreeTaxUSA on price.',
       ],
       pros: [
@@ -181,14 +181,14 @@ module.exports = {
       price: 'Around $20 per month, or an annual plan; filing included',
       bestFor: 'Freelancers who do not keep books and want expenses caught as they happen',
       body: [
-        'Most freelancers overpay not because their return is wrong but because they never recorded deductible expenses in the first place. Keeper attacks that directly by watching transactions through the year and asking about ambiguous ones while you still remember what they were.',
-        'That subscription model costs more annually than a one-off filing product, so the value depends entirely on whether it surfaces deductions you would otherwise miss. If you already keep clean books, it will not — file with FreeTaxUSA instead. If your bookkeeping is a shoebox, it plausibly pays for itself.',
+        'Unrecorded deductible expenses can matter as much as errors on the return. Keeper monitors transactions through the year and asks about ambiguous charges while they are still familiar.',
+        'The subscription costs more over a year than a one-off filing product, so its value depends on finding deductions you would otherwise miss. Someone with clean books can spend less with FreeTaxUSA; someone without a bookkeeping routine may recover the subscription cost through better records.',
       ],
       pros: [
         'Year-round deduction discovery rather than a March scramble',
         'Asks about transactions while you still remember them',
         'Filing included in the subscription',
-        'Genuinely good mobile experience',
+        'Well-designed mobile workflow',
       ],
       cons: [
         'Annual subscription cost exceeds one-off filing software',
@@ -203,22 +203,22 @@ module.exports = {
       name: 'A CPA or enrolled agent',
       award: 'Worth it sooner than most freelancers think',
       summary:
-        'Once there is an S-corp election, multi-state work, significant equipment or an equity component, a professional usually saves more than they cost.',
+        'An S-corp election, multi-state work, significant equipment or equity compensation can justify professional planning as well as return preparation.',
       price: 'Typically $400–$1,500 for a self-employed return, more with an entity',
       bestFor: 'Anyone earning above roughly $75,000, or with any structural complexity',
       body: [
-        'Software applies the rules you enter. A good CPA or EA tells you which rules you should be arranging your affairs around — whether an S-corp election makes sense, how to set a reasonable salary, whether to expense or depreciate equipment, how to handle a state you started working in mid-year.',
-        'The break-even arrives earlier than people expect. If a professional identifies one structural change worth a few thousand dollars a year, a $700 fee is trivially worthwhile. Ask specifically for someone who works with self-employed clients — general preparers vary widely in how much they know about Schedule C planning.',
+        'Software applies rules to the information entered. A CPA or EA can advise on choices before filing: whether an S-corp election makes sense, how to set a reasonable salary, whether to expense or depreciate equipment, and how to handle work started in another state mid-year.',
+        'A professional can cover a $700 fee by identifying one structural change worth a few thousand dollars a year, though that outcome is not guaranteed. Look for someone who regularly serves self-employed clients because Schedule C planning experience varies among general preparers.',
       ],
       pros: [
         'Planning advice, not just compliance',
         'Represents you in an audit',
         'Catches structural savings software cannot',
-        'Removes the annual anxiety entirely',
+        'Reduces the filing work you handle yourself',
       ],
       cons: [
         'Substantially more expensive than software',
-        'Quality varies widely — a referral matters',
+        'Quality varies widely, so a referral matters',
         'Good preparers stop taking new clients in February',
       ],
     },
@@ -227,34 +227,34 @@ module.exports = {
     {
       t: 'ul',
       items: [
-        '**Home office.** The simplified method is $5 per square foot up to 300 sq ft. The space must be used *regularly and exclusively* for business — a corner of a room used only for work qualifies; the kitchen table does not.',
+        '**Home office.** The simplified method is $5 per square foot up to 300 sq ft. The space must be used *regularly and exclusively* for business. A corner used only for work qualifies; the kitchen table does not.',
         '**Health insurance premiums.** Self-employed people can deduct premiums for themselves and family as an above-the-line deduction, subject to limits. Frequently missed and frequently large.',
         '**Retirement contributions.** A SEP-IRA or Solo 401(k) allows far higher contributions than a personal IRA. A Solo 401(k) in particular permits both employee and employer contributions, which can shelter a substantial share of profit.',
         '**Half of self-employment tax**, deducted against income tax automatically.',
-        '**Business mileage** at the standard IRS rate — but only with a contemporaneous log. Reconstructing it after the fact does not satisfy an examiner.',
+        '**Business mileage** at the standard IRS rate, supported by a contemporaneous log. Reconstructing it after the fact does not satisfy an examiner.',
         '**Software, subscriptions and professional development** that relate to your work.',
-        '**The business portion of phone and internet.** A percentage, honestly estimated and documented — not the whole bill.',
+        '**The business portion of phone and internet.** Use a reasonable, documented percentage rather than the whole bill.',
       ],
     },
     {
       t: 'note',
       kind: 'danger',
-      title: 'Contemporaneous records are the whole game',
-      x: 'Deductions are disallowed for lack of documentation far more often than for being illegitimate. Keep receipts, log mileage as you drive, and use a separate business bank account and card. Commingling personal and business spending is the single habit that makes an audit painful and can undermine liability protection if you have an LLC.',
+      title: 'Keep records as expenses occur',
+      x: 'Deductions are often disallowed because documentation is missing rather than because the expense was ineligible. Keep receipts, log mileage as you drive, and use a separate business bank account and card. Mixing personal and business spending makes an audit harder and can undermine liability protection for an LLC.',
     },
 
     { t: 'h2', x: 'When an S-corp starts to make sense' },
     {
       t: 'p',
-      x: 'As a sole proprietor, all net profit is subject to the 15.3% self-employment tax. With an S-corporation election, you pay yourself a reasonable W-2 salary — subject to payroll taxes — and take remaining profit as a distribution, which is not.',
+      x: 'As a sole proprietor, all net profit is subject to the 15.3% self-employment tax. With an S-corporation election, you pay a reasonable W-2 salary that is subject to payroll taxes, while remaining profit can be taken as a distribution that is not.',
     },
     {
       t: 'p',
-      x: 'The saving is real but it is not free. You take on payroll filings, a separate business return, and typically $1,500–$3,000 a year in accounting and payroll costs. The rough consensus is that it starts to pay above roughly $40,000–$60,000 of net profit, but the honest answer depends on your state, your salary level and your circumstances.',
+      x: 'The tax saving comes with additional costs. You take on payroll filings, a separate business return, and typically $1,500–$3,000 a year in accounting and payroll costs. The rough consensus is that it starts to pay above roughly $40,000–$60,000 of net profit, but the result depends on your state, salary level and circumstances.',
     },
     {
       t: 'p',
-      x: '"Reasonable salary" is the part to get right. Setting it artificially low to minimise payroll tax is a known IRS examination area, and adjustments come with back taxes and penalties. This is a decision to make with a CPA, not from a blog post — including this one.',
+      x: 'The reasonable salary is the critical assumption. Setting it artificially low to minimise payroll tax is a known IRS examination area, and an adjustment can bring back taxes and penalties. Make this decision with a CPA rather than relying on a blog post, including this one.',
     },
 
     {
@@ -266,7 +266,7 @@ module.exports = {
         },
         {
           q: 'Do I have to pay quarterly estimated taxes?',
-          a: 'If you expect to owe $1,000 or more for the year, yes. Missing the deadlines produces an underpayment penalty calculated per quarter — so paying in full the following April does not avoid it. The prior-year safe harbour, paying 100% of last year’s total tax (110% above $150,000 AGI), is the simplest way to stay protected.',
+          a: 'If you expect to owe $1,000 or more for the year, yes. Missing the deadlines produces an underpayment penalty calculated per quarter, so paying in full the following April does not avoid it. The prior-year safe harbour, paying 100% of last year’s total tax (110% above $150,000 AGI), is the simplest way to stay protected.',
         },
         {
           q: 'What is the cheapest tax software that handles Schedule C?',
@@ -278,11 +278,11 @@ module.exports = {
         },
         {
           q: 'Should I form an LLC or S-corp as a freelancer?',
-          a: 'An LLC provides liability protection but no tax change by default — a single-member LLC is taxed as a sole proprietorship. An S-corp election can reduce self-employment tax, typically becoming worthwhile above roughly $40,000–$60,000 of net profit, but it adds payroll obligations and $1,500–$3,000 a year in professional costs. Model it with a CPA before electing.',
+          a: 'An LLC provides liability protection but no tax change by default; a single-member LLC is taxed as a sole proprietorship. An S-corp election can reduce self-employment tax, typically becoming worthwhile above roughly $40,000–$60,000 of net profit, but it adds payroll obligations and $1,500–$3,000 a year in professional costs. Model it with a CPA before electing.',
         },
         {
           q: 'What happens if a client does not send a 1099?',
-          a: 'You still report the income. Clients only issue 1099-NEC forms above $600, and some fail to issue them at all, but the obligation to report is yours regardless. Payment platforms also issue 1099-K forms, which can overlap — check carefully that you are not double-counting the same income.',
+          a: 'You still report the income. Clients only issue 1099-NEC forms above $600, and some fail to issue them at all, but the obligation to report is yours regardless. Payment platforms also issue 1099-K forms, which can overlap, so check that the same income is not counted twice.',
         },
       ],
     },

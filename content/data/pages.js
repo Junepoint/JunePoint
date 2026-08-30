@@ -1,7 +1,7 @@
 /**
  * Standalone pages: about, contact and the legal set.
  *
- * AdSense review looks for exactly this cluster — a real About page with named
+ * AdSense review looks for exactly this cluster: a real About page with named
  * humans, a working contact route, a privacy policy that names the ad vendor,
  * and clear terms. A site without them is a common rejection reason.
  */
@@ -31,24 +31,24 @@ module.exports = [
   /* ---------------------------------------------------------------- About */
   {
     path: '/about/',
-    title: 'About JunePoint Resources — Who Writes This',
+    title: 'About JunePoint Resources | Who Writes This',
     h1: 'About JunePoint Resources',
     eyebrow: 'About',
     description:
-      'Who runs JunePoint Resources, how the tools and guides are produced, how the site is funded, and how to reach the people who write it.',
+      'Who writes JunePoint Resources, how the tools and guides are produced, how the site is funded, and how to contact the author.',
     standfirst:
-      'JunePoint Resources is the publishing side of JunePoint, a two-person cross-platform software studio. Here is who writes it and how it is paid for.',
+      'JunePoint Resources is published by JunePoint and written by Jackson Abeyta. This page explains the editorial process and how the site is funded.',
     updated: UPDATED,
     priority: '0.6',
     blocks: [
       { t: 'h2', x: 'What this site is' },
       {
         t: 'p',
-        x: 'JunePoint is a small software studio that builds web and mobile applications. JunePoint Resources is the part of the site where we publish the things we build for ourselves along the way — the calculators we needed, the troubleshooting notes we kept, and the research we did before spending money on business software.',
+        x: 'JunePoint is a software studio that builds web and mobile applications. JunePoint Resources publishes browser-based tools, technical troubleshooting guides and business software research.',
       },
       {
         t: 'p',
-        x: 'It is organised into three sections. [Tools](/tools/) are free browser-based utilities. [Guides](/guides/) are technical explainers and troubleshooting walkthroughs. [Business software](/reviews/) is buying research for categories where the wrong choice is costly to unwind.',
+        x: 'The site has three sections. [Tools](/tools/) contains free browser-based utilities. [Guides](/guides/) covers technical concepts and troubleshooting steps. [Business software](/reviews/) compares products using published documentation, pricing and policies.',
       },
 
       { t: 'h2', x: 'Who writes it' },
@@ -57,33 +57,33 @@ module.exports = [
       { t: 'h2', x: 'How it is funded' },
       {
         t: 'p',
-        x: 'The resource pages carry advertising served through Google AdSense. That is what pays for the time spent writing and maintaining them, and it is why these pages exist at all.',
+        x: 'Resource pages carry advertising served through Google AdSense. That revenue supports writing and maintenance.',
       },
       {
         t: 'p',
-        x: 'Two commitments follow from that. **Advertising never buys coverage or placement** — no advertiser has ever been told what we would write, and none has been given the chance to review it. And **the studio pages carry no advertising at all**; the portfolio at junepoint.com is client-facing work and stays clean. Full detail is in the [advertising disclosure](/legal/disclosure/).',
+        x: '**Advertising does not buy coverage or placement.** Advertisers do not decide what is published or review pages before publication. **The studio pages carry no advertising.** The [advertising disclosure](/legal/disclosure/) explains the policy in full.',
       },
 
       { t: 'h2', x: 'How the content is made' },
       {
         t: 'ul',
         items: [
-          '**Tools** are written and tested by hand. Every calculation is documented on the page, and where a figure is an approximation we say so and show the rate we used.',
-          '**Guides** are drawn from problems we have actually debugged. Commands are run before they are published, and error messages are quoted as they really appear.',
-          '**Buying research** is desk research: documentation, pricing pages, security whitepapers, trust centres and support policies. We do not run hands-on lab tests, and we never pretend otherwise. The [editorial policy](/legal/editorial-policy/) explains what that method can and cannot tell you.',
+          '**Tools** are tested before publication. Calculator pages document their formulas and identify estimates and rates that affect the result.',
+          '**Guides** provide tested commands, quoted error messages and an explanation of why each fix works.',
+          '**Buying research** uses documentation, pricing pages, security whitepapers, trust centres and support policies. It does not include hands-on lab testing. The [editorial policy](/legal/editorial-policy/) explains the limits of that method.',
         ],
       },
       {
         t: 'note',
         kind: 'info',
         title: 'Found something wrong?',
-        x: `Software changes and prices move. If a figure here is out of date or a fix no longer works, email ${site.email} and we will correct the page and update the "last updated" date on it. Corrections are made in place rather than quietly deleted.`,
+        x: `Software and prices change. If a figure is out of date or a fix no longer works, email ${site.email}. Jackson reviews corrections, updates the page where needed and records the new "last updated" date.`,
       },
 
       { t: 'h2', x: 'Contact' },
       {
         t: 'p',
-        x: `General enquiries, corrections and press: [${site.email}](mailto:${site.email}). More routes on the [contact page](/contact/).`,
+        x: `Contact Jackson about editorial questions, corrections or press at [${site.email}](mailto:${site.email}). The [contact page](/contact/) lists what to include.`,
       },
     ],
   },
@@ -95,22 +95,22 @@ module.exports = [
     h1: 'Contact',
     eyebrow: 'Contact',
     description: 'How to reach JunePoint for corrections, editorial enquiries, advertising questions or development work.',
-    standfirst: 'One inbox, read by the two people who write this site.',
+    standfirst: 'One inbox, read by Jackson Abeyta, the author of JunePoint Resources.',
     updated: UPDATED,
     priority: '0.5',
     blocks: [
       {
         t: 'p',
-        x: `Email [${site.email}](mailto:${site.email}). We answer most messages within two business days.`,
+        x: `Email [${site.email}](mailto:${site.email}). Jackson usually replies within two business days.`,
       },
       { t: 'h2', x: 'What to include' },
       {
         t: 'table',
         head: ['Reason for writing', 'Please include'],
         rows: [
-          ['A correction', 'The page URL, the specific claim, and a source we can verify. These get priority.'],
-          ['Editorial enquiry', 'What you would like covered and why it is hard to find good information on today.'],
-          ['Vendor or PR', 'Read the [editorial policy](/legal/editorial-policy/) first — we do not accept sponsored placements, paid links or guest posts.'],
+          ['A correction', 'The page URL, the specific claim and a source that can be checked. Corrections receive priority.'],
+          ['Editorial enquiry', 'The topic you would like covered and the information that is currently missing.'],
+          ['Vendor or PR', 'Read the [editorial policy](/legal/editorial-policy/) first. JunePoint Resources does not accept sponsored placements, paid links or guest posts.'],
           ['Privacy request', 'Your request under GDPR, UK GDPR or CCPA/CPRA. See the [privacy policy](/legal/privacy/) for what we do and do not hold.'],
           ['Development work', 'A description of what you want built and roughly when. That is the studio side of the business.'],
         ],
@@ -120,15 +120,15 @@ module.exports = [
         t: 'ul',
         items: [
           'Publish guest posts, sponsored articles or paid links, in any form, at any price.',
-          'Provide individual financial, legal or tax advice. The calculators are educational tools — talk to a licensed professional about your own situation.',
-          'Offer support for third-party software. If a vendor mentioned here has broken, their support team is the right destination.',
+          'Provide individual financial, legal or tax advice. The calculators are educational tools; consult a licensed professional about your situation.',
+          'Offer support for third-party software. Contact the vendor’s support team for help with its product.',
         ],
       },
       {
         t: 'note',
         kind: 'tip',
         title: 'Looking for the studio?',
-        x: 'Development enquiries are welcome at the same address. The portfolio of what we build lives at [junepoint.com](/).',
+        x: 'Send development enquiries to the same address. JunePoint’s development portfolio is at [junepoint.com](/).',
       },
     ],
   },
@@ -136,13 +136,13 @@ module.exports = [
   /* ---------------------------------------------------------- Privacy */
   {
     path: '/legal/privacy/',
-    title: 'Privacy Policy — JunePoint',
+    title: 'Privacy Policy | JunePoint',
     h1: 'Privacy policy',
     eyebrow: 'Legal',
     parent: legalParent,
     description:
       'What data JunePoint collects, what advertising cookies are used, and how to control or opt out of personalised advertising.',
-    standfirst: 'Short version: the tools never send your input anywhere, and the only third party involved is Google’s ad platform.',
+    standfirst: 'Tool inputs stay in your browser. This policy also covers hosting, email and advertising data.',
     updated: UPDATED,
     priority: '0.3',
     blocks: [
@@ -155,11 +155,11 @@ module.exports = [
       { t: 'h2', x: 'What we collect directly' },
       {
         t: 'p',
-        x: '**Nothing you type into a tool.** Every calculator, formatter and converter on this site runs entirely in your browser using client-side JavaScript. Balances, tokens, JSON payloads and any other input stay on your device. There is no server-side component to receive them, and no request is made carrying them.',
+        x: '**Tool inputs.** The calculators, formatters and converters run in your browser using client-side JavaScript. Balances, tokens, JSON payloads and other input stay on your device. The tools have no server-side component that receives this data.',
       },
       {
         t: 'p',
-        x: '**Local storage.** We store one value in your browser — your light or dark theme preference, under the key `jp-theme`. It never leaves your device and is not an identifier. Clearing site data removes it.',
+        x: '**Local storage.** The site stores one value in your browser: your light or dark theme preference, under the key `jp-theme`. It stays on your device and is not an identifier. Clearing site data removes it.',
       },
       {
         t: 'p',
@@ -173,7 +173,7 @@ module.exports = [
       { t: 'h2', x: 'Advertising' },
       {
         t: 'p',
-        x: 'Resource pages — those under `/tools/`, `/guides/`, `/reviews/` and `/resources/` — display advertising served by **Google AdSense**. The studio pages carry no advertising and load no advertising code.',
+        x: 'Resource pages under `/tools/`, `/guides/`, `/reviews/` and `/resources/` display advertising served by **Google AdSense**. The studio pages carry no advertising and load no advertising code.',
       },
       {
         t: 'ul',
@@ -189,13 +189,13 @@ module.exports = [
         t: 'note',
         kind: 'info',
         title: 'Advertising cookies are set by Google, not by us',
-        x: 'We do not have access to the cookies Google’s ad platform sets, cannot read them, and receive no personally identifiable information from them. What we see is aggregate reporting — impressions, clicks and revenue by page.',
+        x: 'JunePoint cannot access or read the cookies set by Google’s ad platform and receives no personally identifiable information from them. Reporting is aggregated by page and includes impressions, clicks and revenue.',
       },
 
       { t: 'h2', x: 'Analytics' },
       {
         t: 'p',
-        x: 'This site runs no separate analytics product — no Google Analytics, no Plausible, no third-party session recording. Traffic is understood through the aggregate reporting already provided by AdSense and Google Search Console.',
+        x: 'This site runs no separate analytics product. It does not use Google Analytics, Plausible or third-party session recording. Traffic information comes from aggregate reports in AdSense and Google Search Console.',
       },
 
       { t: 'h2', x: 'Your rights' },
@@ -205,7 +205,7 @@ module.exports = [
       },
       {
         t: 'p',
-        x: `Because we do not operate accounts, mailing lists or a database, the only personal data we are likely to hold about you is an email you have sent us. To exercise any right, write to [${site.email}](mailto:${site.email}). For data held by Google in connection with advertising, use Google’s own controls linked above — we cannot action those requests on your behalf.`,
+        x: `JunePoint does not operate accounts, mailing lists or a user database. The only personal data it is likely to hold about you is an email you have sent. To exercise any right, write to [${site.email}](mailto:${site.email}). For data held by Google in connection with advertising, use Google’s controls linked above; JunePoint cannot act on those requests.`,
       },
       {
         t: 'p',
@@ -241,7 +241,7 @@ module.exports = [
   /* ------------------------------------------------------------- Terms */
   {
     path: '/legal/terms/',
-    title: 'Terms of Use — JunePoint',
+    title: 'Terms of Use | JunePoint',
     h1: 'Terms of use',
     eyebrow: 'Legal',
     parent: legalParent,
@@ -292,7 +292,7 @@ module.exports = [
       { t: 'h2', x: 'Limitation of liability' },
       {
         t: 'p',
-        x: 'To the maximum extent permitted by law, JunePoint and its authors are not liable for any indirect, incidental, consequential or punitive damages, or any loss of profits, revenue, data or goodwill, arising from your use of this site or reliance on its content.',
+        x: 'To the maximum extent permitted by law, JunePoint and its author are not liable for any indirect, incidental, consequential or punitive damages, or any loss of profits, revenue, data or goodwill, arising from your use of this site or reliance on its content.',
       },
 
       { t: 'h2', x: 'Third-party links and advertising' },
@@ -309,14 +309,13 @@ module.exports = [
   /* -------------------------------------------------- Editorial policy */
   {
     path: '/legal/editorial-policy/',
-    title: 'Editorial Policy — How We Research and Publish',
+    title: 'Editorial Policy | How Research Is Published',
     h1: 'Editorial policy',
     eyebrow: 'Legal',
     parent: legalParent,
     description:
       'How JunePoint researches buying guides, what our methodology can and cannot tell you, and the rules we hold ourselves to.',
-    standfirst:
-      'We think you should know exactly how something was researched before you act on it — including where the method has limits.',
+    standfirst: 'This policy explains the research behind each buying guide and the limits of that method.',
     updated: UPDATED,
     priority: '0.4',
     blocks: [
@@ -324,18 +323,18 @@ module.exports = [
         t: 'note',
         kind: 'warn',
         title: 'The most important thing on this page',
-        x: 'Our buying guides are **desk research, not hands-on lab testing.** We have not deployed every backup platform to a thousand endpoints or run a year of payroll through each provider. Plenty of sites imply that they have. We would rather tell you what we actually did, so you can weigh it accordingly.',
+        x: 'The buying guides are **desk research, not hands-on lab testing.** They do not include large-scale backup deployments or extended payroll trials. Use the stated method and limitations when weighing the findings.',
       },
 
       { t: 'h2', x: 'What we actually do' },
       {
         t: 'ol',
         items: [
-          '**Define the buyer.** Every guide states who it is for — team size, technical capability, regulatory position. A recommendation with no stated buyer is meaningless.',
-          '**Read the primary sources.** Vendor documentation, published pricing, security whitepapers, trust centres, status-page history, sub-processor lists, DPAs and support SLAs. These are where the real differences show up.',
-          '**Set the criteria before the shortlist.** We write down what matters for that category first, so the criteria are not reverse-engineered to justify a favourite.',
-          '**Say what each option is genuinely best at**, and where it is a poor fit. Every entry gets a trade-offs section, because everything has them.',
-          '**Give you the questions to ask the vendor.** The parts that matter most — real quoted price, migration path, exit terms — are things only the vendor can answer for your situation.',
+          '**Define the buyer.** Each guide identifies the relevant team size, technical capability and regulatory position so readers can judge whether a recommendation fits.',
+          '**Read the primary sources.** Research uses vendor documentation, published pricing, security whitepapers, trust centres, status-page history, sub-processor lists, DPAs and support SLAs.',
+          '**Set the criteria before the shortlist.** Criteria are defined before products are shortlisted so they do not simply justify a preferred option.',
+          '**State strengths and poor fits.** Each entry includes trade-offs rather than treating one product as the default choice.',
+          '**List questions for the vendor.** Quoted price, migration path and exit terms depend on the buyer’s circumstances and require direct confirmation.',
         ],
       },
 
@@ -343,7 +342,7 @@ module.exports = [
       {
         t: 'ul',
         items: [
-          '**Restore reliability under pressure.** No amount of documentation reading tells you whether a backup product restores cleanly at 3am during an incident. Run your own restore test — always, whatever you buy.',
+          '**Restore reliability under pressure.** Documentation cannot show whether a backup product will restore cleanly during an incident. Run a restore test before relying on it.',
           '**Real support quality.** Published SLAs describe the floor, not the experience. Ask for references from customers your size.',
           '**Your negotiated price.** List pricing is a starting position in this market. Mid-market and enterprise deals routinely land well below it.',
           '**Detection efficacy.** For security products, independent testing labs run controlled evaluations we cannot replicate. We point to them rather than pretending to substitute for them.',
@@ -354,8 +353,8 @@ module.exports = [
       {
         t: 'ul',
         items: [
-          '**No paid placement, ever.** No vendor can buy a mention, a position, a link or a favourable line. No sponsored posts, no guest posts, no link insertions. We decline these weekly.',
-          '**No fabricated testing.** We do not invent benchmark scores, star ratings from tests we did not run, or "we spent 40 hours with each product" claims.',
+          '**No paid placement.** Vendors cannot buy mentions, positions, links or favourable coverage. The site does not publish sponsored posts, guest posts or paid link insertions.',
+          '**No fabricated testing.** The site does not publish invented benchmark scores, ratings from tests that were not run or unsupported claims about time spent with products.',
           '**Advertising is separated from editorial.** Ads are served programmatically by Google. We do not know which advertisers appear on a page, and advertisers have no input into content.',
           '**Prices are dated.** Pricing is stated with the date we last verified it and a note to confirm with the vendor, because it moves.',
           '**Corrections are made in place.** When we get something wrong we fix the page, update the date, and note material corrections rather than deleting quietly.',
@@ -365,7 +364,7 @@ module.exports = [
       { t: 'h2', x: 'Affiliate links' },
       {
         t: 'p',
-        x: 'At the time of writing, this site carries **no affiliate links**. Revenue comes from display advertising only. If that changes, affiliate relationships will be disclosed clearly on every affected page and in the [advertising disclosure](/legal/disclosure/) before any such link is published — not retroactively.',
+        x: 'At the time of writing, this site carries **no affiliate links**. Revenue comes from display advertising only. If that changes, affiliate relationships will be disclosed on every affected page and in the [advertising disclosure](/legal/disclosure/) before any affiliate link is published.',
       },
 
       { t: 'h2', x: 'Corrections' },
@@ -379,7 +378,7 @@ module.exports = [
   /* ------------------------------------------------------- Disclosure */
   {
     path: '/legal/disclosure/',
-    title: 'Advertising Disclosure — JunePoint',
+    title: 'Advertising Disclosure | JunePoint',
     h1: 'Advertising disclosure',
     eyebrow: 'Legal',
     parent: legalParent,
@@ -394,29 +393,29 @@ module.exports = [
         x: 'JunePoint Resources is funded by display advertising served through **Google AdSense**. Advertisements are selected and delivered programmatically by Google based on page context and, where you have permitted it, your ad settings. We do not choose individual advertisers and generally do not know which ones appear on a given page.',
       },
 
-      { t: 'h2', x: 'Where ads appear — and where they do not' },
+      { t: 'h2', x: 'Where ads appear and where they do not' },
       {
         t: 'table',
         head: ['Area', 'Advertising'],
         rows: [
-          ['/tools/, /guides/, /reviews/, /resources/', 'Yes — display units within and alongside the content'],
-          ['The JunePoint Studio portfolio at /', 'No — no ad units and no advertising code is loaded'],
+          ['/tools/, /guides/, /reviews/, /resources/', 'Yes. Display units appear within and alongside the content'],
+          ['The JunePoint Studio portfolio at /', 'No. No ad units or advertising code are loaded'],
           ['Legal, about and contact pages', 'No'],
         ],
       },
       {
         t: 'p',
-        x: 'Ad units are labelled "Advertisement", kept out of the navigation, and never styled to resemble editorial links or buttons. If you ever see an ad here that is disguised as content, that is a bug — please report it.',
+        x: 'Ad units are labelled "Advertisement" and kept out of the navigation. They are not styled as editorial links or buttons. Please report any ad that appears to be part of the editorial content.',
       },
 
       { t: 'h2', x: 'What advertising does not buy' },
       {
         t: 'ul',
         items: [
-          'It does not buy coverage. No advertiser has been offered, or given, any say in what we write.',
-          'It does not buy position. Rankings in buying guides are not for sale at any price.',
-          'It does not buy links. We publish no sponsored links, paid guest posts or link insertions.',
-          'It does not buy pre-publication review. No vendor sees a page before it goes live.',
+          'Advertisers cannot pay for coverage or influence what is published.',
+          'Positions in buying guides are not for sale.',
+          'The site does not publish sponsored links, paid guest posts or link insertions.',
+          'Vendors do not receive pages for pre-publication review.',
         ],
       },
 
@@ -429,7 +428,7 @@ module.exports = [
       { t: 'h2', x: 'Free products and vendor relationships' },
       {
         t: 'p',
-        x: 'We have not accepted free licences, hardware, paid travel or gifts in exchange for coverage. Where we have genuine commercial experience with a product — usually because the studio uses it — we say so on the page itself.',
+        x: 'JunePoint has not accepted free licences, hardware, paid travel or gifts in exchange for coverage. When the studio has commercial experience with a product, that relationship is stated on the page.',
       },
 
       { t: 'h2', x: 'Controlling the ads you see' },

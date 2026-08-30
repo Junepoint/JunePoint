@@ -1,5 +1,5 @@
 /**
- * JunePoint content network — global configuration.
+ * JunePoint content network: global configuration.
  *
  * This file drives the static site generator in `content/build.js`. It has no
  * relationship to the React portfolio app in `src/` and is never imported by it.
@@ -15,7 +15,7 @@ const SITE_URL = (process.env.SITE_URL || 'https://junepoint.com').replace(/\/$/
  * markup or the AdSense loader script.
  *
  * Until `client` is a real publisher ID, no ad markup and no loader script are
- * emitted at all — an empty <ins> unit is worse than no unit (it can trip
+ * emitted at all. An empty <ins> unit is worse than no unit (it can trip
  * "low value / broken implementation" flags during AdSense review).
  *
  * Set via env at build time so the ID never has to be committed:
@@ -73,7 +73,7 @@ const sections = {
     title: 'Developer Guides & Troubleshooting',
     tagline: 'Plain-English fixes for the errors that stop a build, and the concepts behind them.',
     description:
-      'Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS — with the reasoning, not just the command.',
+      'Step-by-step developer guides and troubleshooting walkthroughs for CORS, Git, npm, Docker, Postgres, SSH, React and CSS, with the reasoning behind each command.',
     accent: '#0891b2',
   },
   tools: {
@@ -91,6 +91,7 @@ const sections = {
 
 const site = {
   name: 'JunePoint',
+  author: 'Jackson Abeyta',
   /** Publication identity for the network half of the domain. */
   publication: 'JunePoint Resources',
   url: SITE_URL,

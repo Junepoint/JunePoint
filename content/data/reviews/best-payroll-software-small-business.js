@@ -6,9 +6,9 @@ module.exports = {
   schemaType: 'Article',
   itemListName: 'Small business payroll platforms',
   description:
-    'Compare small business payroll providers on tax filing guarantees, multi-state support, contractor handling and the fees that are not on the pricing page.',
+    'A comparison of small-business payroll providers covering tax filing guarantees, multi-state support, contractor handling and less-visible fees.',
   standfirst:
-    'Payroll is the one system where a mistake produces a government penalty. Here is what separates providers, and the questions that matter more than the monthly price.',
+    'Payroll errors can create tax penalties, so the service terms matter alongside the monthly fee. Compare who files, who pays after an error, and what changes when you hire in another state.',
   keywords: [
     'best payroll software small business',
     'gusto vs adp',
@@ -19,31 +19,31 @@ module.exports = {
   ],
   published: '2026-06-11',
   updated: '2026-08-21',
-  author: 'alexander',
-  cardDesc: 'Tax filing guarantees, multi-state registration, and the fees that never appear on the pricing page.',
+  author: 'jackson',
+  cardDesc: 'Tax filing guarantees, multi-state registration and the charges that can sit outside the headline price.',
 
   blocks: [
     {
       t: 'note',
       kind: 'warn',
       title: 'How this guide was made',
-      x: 'Research-based analysis of published pricing, product documentation and service terms. We have not run a year of payroll through each provider, and we are not accountants or tax advisers — talk to a CPA about your specific obligations. See our [editorial policy](/legal/editorial-policy/).',
+      x: 'This guide is based on published pricing, product documentation and service terms. We have not run a year of payroll through each provider, and we are not accountants or tax advisers. Discuss your specific obligations with a CPA. See our [editorial policy](/legal/editorial-policy/).',
     },
 
     {
       t: 'takeaways',
       items: [
-        '**Full-service means the provider files and pays your payroll taxes.** Anything less leaves the liability entirely with you, and the IRS penalises the employer, not the software.',
-        'Ask specifically about the **tax penalty guarantee** — whether the provider pays penalties it caused, and whether that includes interest.',
-        '**Multi-state payroll is the most common source of unexpected cost.** One remote hire in a new state can mean new registrations, new filings and a per-state monthly fee.',
-        'Headline pricing is per month plus per employee. Year-end forms, off-cycle runs and state registrations are frequently extra.',
+        '**Full-service means the provider files and pays your payroll taxes.** A narrower service leaves that work with you, while the IRS still holds the employer responsible.',
+        'Read the **tax penalty guarantee** closely: confirm whether the provider pays penalties caused by its error and whether interest is included.',
+        '**Multi-state payroll commonly adds cost.** One remote hire in a new state can require registrations, filings and a recurring per-state fee.',
+        'Headline pricing is usually a monthly base plus a per-employee charge. Year-end forms, off-cycle runs and state registrations may cost extra.',
       ],
     },
 
     { t: 'h2', x: 'What "full-service payroll" has to include' },
     {
       t: 'p',
-      x: 'The phrase is used loosely. At minimum, insist on all of the following before calling something full-service:',
+      x: 'Providers use the phrase differently. Confirm that a full-service plan includes each of these tasks:',
     },
     {
       t: 'ul',
@@ -58,19 +58,19 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'The distinction matters because payroll tax penalties are personal in a way most business liabilities are not. Failure-to-deposit penalties escalate to 15%, and the IRS Trust Fund Recovery Penalty can be assessed against individual officers personally for unremitted employee withholding. This is not a system to economise on.',
+      x: 'The distinction has direct liability consequences. Failure-to-deposit penalties escalate to 15%, and the IRS Trust Fund Recovery Penalty can be assessed personally against individual officers for unremitted employee withholding. A low price does not compensate for unclear filing responsibility.',
     },
     {
       t: 'note',
       kind: 'tip',
-      title: 'The question that separates providers',
-      x: '"If you file late or file wrong, who pays the penalty and the interest?" Most reputable providers cover penalties arising from their own error. Read the actual terms: some cover the penalty but not the interest, and nearly all exclude errors caused by information you supplied late or incorrectly.',
+      title: 'Ask who pays after a filing error',
+      x: 'Ask: "If you file late or incorrectly, who pays the penalty and interest?" Most established providers cover penalties caused by their own error. The terms still matter: some exclude interest, and nearly all exclude errors caused by information the customer supplied late or incorrectly.',
     },
 
     { t: 'h2', x: 'The providers' },
     {
       t: 'p',
-      x: 'Pricing is indicative US list pricing as of August 2026, and promotional discounts are near-universal in this category. Verify before deciding.',
+      x: 'Pricing is indicative US list pricing as of August 2026. Promotional discounts are common, so verify both the introductory and renewal price before deciding.',
     },
 
     {
@@ -79,15 +79,15 @@ module.exports = {
       name: 'Gusto',
       award: 'Best overall for small businesses',
       summary:
-        'The most approachable full-service payroll for companies without a dedicated HR or finance function, with unlimited payroll runs and clear pricing.',
+        'An approachable full-service option for companies without dedicated HR or finance staff, with unlimited payroll runs and published pricing.',
       price: 'From roughly $49/month + $6 per person; higher tiers add HR features',
       bestFor: 'Businesses with 1–100 employees wanting payroll that does not require training',
       body: [
-        'Gusto’s advantage is that a non-specialist can run payroll correctly without help. Onboarding, benefits administration, contractor payments and filings sit in one clear interface, and unlimited off-cycle runs mean correcting a mistake does not incur a fee — which sounds minor until you need it.',
-        'It handles multi-state payroll, though additional states carry a monthly charge on lower tiers. Its weaknesses appear at scale and complexity: businesses with hundreds of employees, union rules or intricate job costing will find it thin, and phone support is not available on every plan.',
+        'Gusto is designed for a non-specialist to run payroll without extensive training. Onboarding, benefits administration, contractor payments and filings share one interface, and unlimited off-cycle runs let a team correct a mistake without another run fee.',
+        'It supports multi-state payroll, although lower tiers charge monthly for additional states. The product is less suited to hundreds of employees, union rules or intricate job costing, and phone support is not included on every plan.',
       ],
       pros: [
-        'Genuinely easy to operate without payroll expertise',
+        'Easy to operate without dedicated payroll staff',
         'Unlimited payroll runs, including corrections',
         'Contractor payments and 1099s included',
         'Strong employee self-service and onboarding',
@@ -105,15 +105,15 @@ module.exports = {
       name: 'ADP RUN',
       award: 'Best for compliance-heavy or growing businesses',
       summary:
-        'The largest payroll provider, with the deepest compliance coverage and a clear upgrade path as headcount grows into the hundreds.',
+        'A large provider with broad compliance coverage and an upgrade path for businesses growing into the hundreds of employees.',
       price: 'Quote-based; typically higher than the SMB-focused entrants',
       bestFor: 'Businesses in heavily regulated industries, or expecting significant growth',
       body: [
-        'ADP’s scale is the argument. It has handled every payroll edge case that exists, its compliance monitoring across jurisdictions is unmatched, and there is a well-defined path from RUN to Workforce Now as you outgrow the small-business product. For businesses with genuine complexity — multi-state, multi-entity, certified payroll, union agreements — that depth is worth paying for.',
-        'The trade-off is commercial rather than technical. Pricing is quote-based and generally higher, contracts are annual, and users frequently report that add-on fees make the effective cost exceed the initial quote. Get every line item in writing, and ask specifically about year-end and off-cycle charges.',
+        'ADP’s scale supports a wider range of payroll cases and jurisdictional compliance than the smaller providers. There is also a defined path from RUN to Workforce Now. Businesses dealing with multi-state, multi-entity, certified payroll or union agreements may justify the additional cost for that depth.',
+        'The main trade-off is commercial. Pricing is quote-based and generally higher, contracts are annual, and reported add-on fees can push the effective cost above the initial quote. Get every line item in writing, including year-end and off-cycle charges.',
       ],
       pros: [
-        'Deepest compliance coverage available',
+        'Broad compliance coverage across jurisdictions',
         'Scales from a handful of staff to enterprise',
         'Extensive integrations and HR services',
         'Long track record with every edge case',
@@ -132,16 +132,16 @@ module.exports = {
       name: 'Rippling',
       award: 'Best if payroll is part of a wider IT and HR problem',
       summary:
-        'Payroll built on top of an employee-record system that also provisions devices, app accounts and benefits — one onboarding action drives all of it.',
+        'Payroll built on an employee system that can also provision devices, application accounts and benefits from the same onboarding record.',
       price: 'Modular; payroll from around $8 per employee per month plus a platform fee',
       bestFor: 'Tech-forward companies wanting HR, IT and payroll unified',
       body: [
-        'Rippling’s premise is that hiring, device provisioning, app access and payroll are the same workflow. Onboarding a new employee sets up payroll, orders a laptop, creates their Google and Slack accounts and enrols benefits from one form — and offboarding reverses all of it, which is a genuine security control as much as an HR convenience.',
-        'It also handles global employment and contractors in many countries. The modular pricing means the total climbs quickly as you add components, and the platform is more than a company that only needs payroll should be buying.',
+        'Rippling treats hiring, device provisioning, application access and payroll as one workflow. A single onboarding form can set up payroll, order a laptop, create Google and Slack accounts and enrol benefits; offboarding can reverse those actions, which also reduces lingering access.',
+        'The platform also handles global employment and contractors in many countries. Modular pricing rises as components are added, making it more platform than a payroll-only buyer needs.',
       ],
       pros: [
         'Unified HR, IT and payroll workflows',
-        'Offboarding revokes access automatically — a real security benefit',
+        'Offboarding can revoke application access automatically',
         'Strong international contractor and EOR support',
         'Highly configurable approval and policy workflows',
       ],
@@ -162,8 +162,8 @@ module.exports = {
       price: 'From roughly $50/month + $6 per employee, often bundled with QuickBooks',
       bestFor: 'Businesses already running QuickBooks Online, especially with an external bookkeeper',
       body: [
-        'The integration argument is straightforward and real: payroll journal entries land in your books correctly without mapping, syncing or monthly reconciliation. If your accountant works in QuickBooks, this removes a recurring friction that is small each month and irritating over a year.',
-        'As a standalone payroll product it is competent rather than exceptional. Some tax-penalty protections are limited to higher tiers, so read which tier includes what before choosing.',
+        'Payroll journal entries flow into QuickBooks Online without separate mapping, syncing or monthly reconciliation. For a business whose accountant already works in QuickBooks, that removes a recurring administrative task.',
+        'As a standalone payroll product, it offers less differentiation. Some tax-penalty protections are limited to higher tiers, so confirm the exact coverage before choosing a plan.',
       ],
       pros: [
         'Seamless QuickBooks Online integration',
@@ -188,17 +188,17 @@ module.exports = {
       price: 'Full-service from around $37/month + $5 per employee',
       bestFor: 'Micro-businesses with simple, single-state payroll',
       body: [
-        'For a five-person company in one state with no benefits administration, the difference between $37 and $100 a month is worth having, and Patriot covers the essentials properly: tax filing, direct deposit, W-2s and employee self-service.',
-        'You are giving up integrations, HR depth and benefits administration. For simple payroll that is a reasonable trade; as soon as you hire across state lines or want benefits in the same system, you will outgrow it.',
+        'For a five-person company in one state with no benefits administration, the difference between $37 and $100 a month is material. Patriot still covers tax filing, direct deposit, W-2s and employee self-service.',
+        'The lower price comes with fewer integrations and less HR and benefits depth. Hiring across state lines or adding benefits may be the point at which the business outgrows it.',
       ],
-      pros: ['Among the cheapest genuine full-service options', 'Simple and quick to set up', 'US-based support well regarded by small users'],
+      pros: ['Among the cheapest full-service options', 'Simple and quick to set up', 'US-based support well regarded by small users'],
       cons: ['Few integrations', 'Minimal HR and benefits functionality', 'Less suited to multi-state or complex payroll'],
     },
 
-    { t: 'h2', x: 'The multi-state trap' },
+    { t: 'h2', x: 'How multi-state payroll changes the cost' },
     {
       t: 'p',
-      x: 'This is the cost that catches distributed teams, and it is worth understanding before you hire rather than after.',
+      x: 'A distributed hire can create both registration work and recurring charges. Price those obligations before issuing the offer letter.',
     },
     {
       t: 'p',
@@ -207,10 +207,10 @@ module.exports = {
     {
       t: 'ul',
       items: [
-        'Most providers charge a **monthly fee per additional state** — commonly $6–$20.',
+        'Most providers charge a **monthly fee per additional state**, commonly $6–$20.',
         'State registration is often a separate one-off service fee, or your responsibility entirely.',
         'Some states have reciprocity agreements; others, notably New York, apply "convenience of the employer" rules that can create obligations that surprise everyone.',
-        'Local taxes add another layer — Ohio, Pennsylvania and several cities have their own filings.',
+        'Local taxes add another layer. Ohio, Pennsylvania and several cities have their own filings.',
       ],
     },
     {
@@ -220,7 +220,7 @@ module.exports = {
       x: 'Confirm with your provider what a hire in a specific state costs, and whether they handle registration or merely file once you have registered. Discovering after the start date that you are not registered means late filings and penalties from the first payroll.',
     },
 
-    { t: 'h2', x: 'Fees that are not on the pricing page' },
+    { t: 'h2', x: 'Fees to confirm before signing' },
     {
       t: 'table',
       head: ['Charge', 'Typical', 'Ask'],
@@ -240,7 +240,7 @@ module.exports = {
       t: 'ol',
       items: [
         '**Switch at a quarter boundary if possible**, ideally 1 January. Mid-year moves require migrating year-to-date totals, which is where W-2 errors originate.',
-        '**Export everything before cancelling** — pay history, tax filings, employee records. Access frequently ends at cancellation, and you need this for audits.',
+        '**Export everything before cancelling.** Keep pay history, tax filings and employee records. Access often ends at cancellation, and those records are needed for audits.',
         '**Run parallel for one cycle.** Compare gross-to-net for every employee against the old system before committing.',
         '**Confirm who files the final quarter.** Both providers filing, or neither, are equally bad. Get it agreed in writing.',
         '**Verify tax agency accounts transferred.** New provider, new third-party authorisation with each state.',
@@ -260,7 +260,7 @@ module.exports = {
         },
         {
           q: 'Do I need payroll software for one employee?',
-          a: 'You need something. Even a single employee triggers withholding, quarterly 941s, annual 940, state filings and a W-2. Doing this manually is possible but error-prone, and the cheapest full-service providers start around $40 a month — considerably less than a single late-filing penalty.',
+          a: 'Even one employee triggers withholding, quarterly 941s, annual 940, state filings and a W-2. Manual processing is possible but error-prone. The cheapest full-service providers start around $40 a month, which is less than a single late-filing penalty.',
         },
         {
           q: 'What happens if my payroll provider files my taxes late?',
@@ -268,7 +268,7 @@ module.exports = {
         },
         {
           q: 'Can I pay contractors through payroll software?',
-          a: 'Yes. Most platforms handle contractor payments and file 1099-NECs. Some charge per contractor, others include it. Classification remains your responsibility — misclassifying an employee as a contractor carries substantial back-tax and penalty exposure, and the software will not catch it.',
+          a: 'Yes. Most platforms handle contractor payments and file 1099-NECs. Some charge per contractor; others include it. Classification remains your responsibility. Misclassifying an employee as a contractor carries substantial back-tax and penalty exposure, and the software will not catch it.',
         },
         {
           q: 'When is the best time to switch payroll providers?',

@@ -40,7 +40,7 @@ const PLACEMENTS = {
 /**
  * Render one ad unit.
  *
- * Emits nothing at all unless a real publisher ID is configured — a stranded
+ * Emits nothing at all unless a real publisher ID is configured. A stranded
  * <ins> element collapses to zero height and looks like a broken implementation
  * to both users and AdSense review. Set AD_PREVIEW=1 to draw layout
  * placeholders locally instead.

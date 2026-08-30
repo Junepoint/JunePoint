@@ -1,49 +1,49 @@
 module.exports = {
   slug: 'regex-tester',
-  title: 'Regex Tester — Live Match Highlighting & Groups',
+  title: 'JavaScript Regex Tester with Match Highlighting',
   h1: 'Regex Tester',
   eyebrow: 'Developer tool',
   description:
-    'Test JavaScript regular expressions with live highlighting, capture groups, named groups and a library of ready-made patterns. Runs offline in your browser.',
+    'Test JavaScript regular expressions in your browser. Highlight matches, inspect capture groups and load common pattern examples.',
   standfirst:
-    'Write a pattern, see every match highlighted as you type, and inspect capture groups without leaving the page.',
+    'Enter a pattern and test string to see each match, its index and any numbered or named capture groups.',
   keywords: ['regex tester', 'regular expression tester', 'regex101 alternative', 'javascript regex', 'test regex online'],
   published: '2026-04-09',
   updated: '2026-08-16',
-  author: 'alexander',
+  author: 'jackson',
   featured: true,
 
   tool: {
     html: `
 <div class="jp-tool">
   <div class="jp-field">
-    <label for="rx-pattern">Pattern</label>
+    <label for="rx-pattern">Regular expression</label>
     <input class="jp-input" type="text" id="rx-pattern" spellcheck="false" autocapitalize="off"
       style="font-family:var(--mono)" value="(\\w+)@(\\w+)\\.(\\w{2,})" />
   </div>
 
   <div class="jp-toolbar">
-    <label class="jp-checkline"><input type="checkbox" id="rx-g" checked /> <code>g</code> global</label>
-    <label class="jp-checkline"><input type="checkbox" id="rx-i" /> <code>i</code> ignore case</label>
-    <label class="jp-checkline"><input type="checkbox" id="rx-m" /> <code>m</code> multiline</label>
-    <label class="jp-checkline"><input type="checkbox" id="rx-s" /> <code>s</code> dotall</label>
-    <label class="jp-checkline"><input type="checkbox" id="rx-u" /> <code>u</code> unicode</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-g" checked /> <code>g</code> all matches</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-i" /> <code>i</code> ignore letter case</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-m" /> <code>m</code> multiline anchors</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-s" /> <code>s</code> dot matches newlines</label>
+    <label class="jp-checkline"><input type="checkbox" id="rx-u" /> <code>u</code> Unicode mode</label>
   </div>
 
   <div class="jp-field">
-    <span class="jp-field-legend" id="rx-presets-label">Start from a pattern</span>
+    <span class="jp-field-legend" id="rx-presets-label">Example patterns</span>
     <div class="jp-chips" id="rx-presets" role="group" aria-labelledby="rx-presets-label"></div>
   </div>
 
   <div class="jp-field">
     <label for="rx-subject">Test string</label>
     <textarea class="jp-textarea" id="rx-subject" spellcheck="false" style="min-height:150px">Contact ada@example.com or grace@navy.mil before Friday.
-Escalations go to oncall@junepoint.com — do not email root@localhost.</textarea>
+Escalations go to oncall@junepoint.com. Do not email root@localhost.</textarea>
   </div>
 
   <p class="jp-status" id="rx-status" role="status" aria-live="polite">&nbsp;</p>
 
-  <h2 class="jp-tool-h" style="margin-top:1.25rem">Highlighted result</h2>
+  <h2 class="jp-tool-h" style="margin-top:1.25rem">Highlighted matches</h2>
   <div class="jp-out" id="rx-highlight" style="white-space:pre-wrap"></div>
 
   <h2 class="jp-tool-h" style="margin-top:1.25rem">Matches</h2>
@@ -122,13 +122,13 @@ Escalations go to oncall@junepoint.com — do not email root@localhost.</textare
     }
 
     if (!matches.length) {
-      setStatus('No matches', 'err');
+      setStatus('No matches found.', 'err');
       highlight.textContent = text;
-      matchList.innerHTML = '<p style="color:var(--text-mute)">Nothing matched. Check your escaping, and remember the pattern is not anchored unless you add ^ and $.</p>';
+      matchList.innerHTML = '<p style="color:var(--text-mute)">The pattern did not match the test string. Check escaped characters and add ^ or $ only when you need an anchor.</p>';
       return;
     }
 
-    setStatus(matches.length + ' match' + (matches.length === 1 ? '' : 'es') + ' found', 'ok');
+    setStatus(matches.length + ' match' + (matches.length === 1 ? '' : 'es') + ' found.', 'ok');
 
     var out = '';
     var cursor = 0;
@@ -149,16 +149,16 @@ Escalations go to oncall@junepoint.com — do not email root@localhost.</textare
       if (match.groups) {
         Object.keys(match.groups).forEach(function (name) {
           groups += '<dt>&lt;' + escapeHtml(name) + '&gt;</dt><dd>' +
-            (match.groups[name] === undefined ? '—' : escapeHtml(match.groups[name])) + '</dd>';
+            (match.groups[name] === undefined ? 'Not captured' : escapeHtml(match.groups[name])) + '</dd>';
         });
       }
       return '<div class="jp-stat" style="margin-bottom:.6rem">' +
-        '<p class="jp-stat-label">Match ' + (i + 1) + ' · index ' + match.index + '</p>' +
+        '<p class="jp-stat-label">Match ' + (i + 1) + ' at index ' + match.index + '</p>' +
         '<p style="font-family:var(--mono);font-weight:700;margin:.2rem 0 .5rem;word-break:break-all">' +
           escapeHtml(match[0]) + '</p>' +
         (groups ? '<dl class="jp-kv">' + groups + '</dl>' : '') +
       '</div>';
-    }).join('') + (matches.length > 50 ? '<p style="color:var(--text-mute)">Showing the first 50 of ' + matches.length + '.</p>' : '');
+    }).join('') + (matches.length > 50 ? '<p style="color:var(--text-mute)">Only the first 50 of ' + matches.length + ' matches are shown.</p>' : '');
   }
 
   document.getElementById('rx-presets').innerHTML = PRESETS.map(function (p, i) {
@@ -183,11 +183,11 @@ Escalations go to oncall@junepoint.com — do not email root@localhost.</textare
     {
       t: 'note',
       kind: 'info',
-      title: 'This tests the JavaScript flavour',
-      x: 'Regex dialects differ. JavaScript has no lookbehind in older Safari, no possessive quantifiers and no recursion. PCRE, Python’s `re`, Go’s RE2 and Java each vary. A pattern verified here will behave identically in Node and in every current browser — check it separately if the target is another language.',
+      title: 'This tool uses JavaScript regex syntax',
+      x: 'Regular expression syntax differs by engine. Older Safari versions lack lookbehind, and JavaScript does not support possessive quantifiers or recursion. PCRE, Python’s `re`, Go’s RE2 and Java have different features. Test the pattern in its target runtime when that runtime is not the browser.',
     },
 
-    { t: 'h2', x: 'The syntax you will use ninety percent of the time' },
+    { t: 'h2', x: 'Common JavaScript regex syntax' },
     {
       t: 'table',
       head: ['Token', 'Matches', 'Note'],
@@ -198,21 +198,21 @@ Escalations go to oncall@junepoint.com — do not email root@localhost.</textare
         ['`*` `+` `?`', 'Zero or more, one or more, optional', 'Greedy by default'],
         ['`{2,5}`', 'Between two and five times', '`{3}` is exactly three'],
         ['`^` `$`', 'Start and end of string', 'With the `m` flag, start and end of each line'],
-        ['`\\b`', 'Word boundary', 'The fix for matching `cat` inside `concatenate`'],
+        ['`\\b`', 'Word boundary', 'Prevents `cat` from matching inside `concatenate`'],
         ['`(…)`', 'Capture group', '`(?:…)` groups without capturing'],
         ['`(?<name>…)`', 'Named capture group', 'Read it back as `match.groups.name`'],
         ['`(?=…)` `(?!…)`', 'Lookahead, positive and negative', 'Asserts without consuming characters'],
       ],
     },
 
-    { t: 'h2', x: 'Greedy versus lazy: the classic bug' },
+    { t: 'h2', x: 'Greedy and lazy quantifiers' },
     {
       t: 'p',
-      x: 'Quantifiers are greedy — they take as much as possible and give back only when forced. Against `<b>bold</b> and <i>italic</i>`, the pattern `<.+>` matches the **entire string**, not the first tag, because `.+` swallows everything and backtracks just enough for the final `>` to match.',
+      x: 'Quantifiers are greedy by default: they consume as much text as possible and backtrack only as needed. Against `<b>bold</b> and <i>italic</i>`, `<.+>` matches the **entire string** because `.+` consumes through the last `>`.',
     },
     {
       t: 'p',
-      x: 'Adding `?` makes a quantifier lazy: `<.+?>` stops at the first `>` and matches each tag separately. Paste both into the tester above with that string and the difference is immediate.',
+      x: 'Adding `?` makes the quantifier lazy. `<.+?>` stops at the next `>` and matches each tag separately. Compare the three forms below:',
     },
     {
       t: 'code',
@@ -223,13 +223,13 @@ Escalations go to oncall@junepoint.com — do not email root@localhost.</textare
     },
     {
       t: 'p',
-      x: 'The third form is the one to reach for. A negated character class cannot overshoot in the first place, so there is nothing to backtrack — which matters more than elegance, for the reason below.',
+      x: 'The negated character class in the third form cannot cross a `>`, so it avoids the extra backtracking required by a dot quantifier.',
     },
 
-    { t: 'h2', x: 'Catastrophic backtracking, and why it is a security bug' },
+    { t: 'h2', x: 'Catastrophic backtracking and ReDoS' },
     {
       t: 'p',
-      x: 'Nested quantifiers over overlapping character sets can make the engine explore an exponential number of paths before admitting failure. The canonical example is `(a+)+$` against a long run of `a` characters followed by a `!`.',
+      x: 'Nested quantifiers over overlapping character sets can force a backtracking engine to explore an exponential number of paths before it reports failure. A standard example is `(a+)+$` applied to many `a` characters followed by `!`.',
     },
     {
       t: 'code',
@@ -243,32 +243,32 @@ Escalations go to oncall@junepoint.com — do not email root@localhost.</textare
     },
     {
       t: 'p',
-      x: 'This has a name — **ReDoS**, regular expression denial of service — and it has taken down production systems, including a well-known Cloudflare outage in 2019. If a pattern ever runs against user-supplied input, it is attack surface.',
+      x: 'This failure mode is called **regular expression denial of service (ReDoS)**. It has caused production outages, including Cloudflare’s 2019 outage. Treat any pattern that processes user-controlled input as an application security boundary.',
     },
     {
       t: 'ul',
       items: [
         'Avoid nesting quantifiers, especially `(x+)+`, `(x*)*` and `(x|y)*` where `x` and `y` can match the same text.',
-        'Prefer negated character classes (`[^>]+`) to lazy dot (`.+?`) — they cannot backtrack into each other.',
+        'Prefer a constrained character class such as `[^>]+` to a lazy dot such as `.+?` when the delimiter is known.',
         'Anchor patterns with `^` and `$` so failure is detected early instead of retried at every offset.',
-        'On a server, cap input length before matching, or use a linear-time engine such as Go’s RE2 or Rust’s `regex` crate, neither of which can backtrack at all.',
+        'On a server, limit input length before matching or use a non-backtracking engine such as Go’s RE2 or Rust’s `regex` crate.',
       ],
     },
 
-    { t: 'h2', x: 'Things regex should not be used for' },
+    { t: 'h2', x: 'Cases that need a parser instead' },
     {
       t: 'p',
-      x: 'Two rules save a lot of pain. **Do not parse HTML or XML with regex** — they are recursively nested, regular expressions are not, and every attempt eventually meets a nested tag or a comment containing markup. Use a DOM parser.',
+      x: '**Do not parse HTML or XML with a regular expression.** These formats can nest elements and contain markup inside comments or attributes. Use an HTML, XML or DOM parser that understands the document structure.',
     },
     {
       t: 'p',
-      x: '**Do not write a strict email validator.** The full RFC 5322 grammar permits quoted local parts, comments and IP-literal domains; the widely circulated "complete" regex for it runs to several thousand characters and still rejects valid addresses. In practice, check for a single `@` with something on either side, then send a confirmation email. Deliverability is the only validation that means anything.',
+      x: '**Do not use a strict regex as proof that an email address works.** RFC 5322 permits quoted local parts, comments and IP-literal domains. A basic shape check can catch obvious input errors, but a confirmation message is needed to establish that the address can receive mail.',
     },
     {
       t: 'note',
       kind: 'tip',
       title: 'Comment complex patterns',
-      x: 'JavaScript has no `x` (extended) flag, so build long patterns from named pieces and combine them with `new RegExp()`. A pattern you cannot read in six months is a pattern you will rewrite from scratch rather than fix.',
+      x: 'JavaScript has no `x` extended flag. Build a long expression from named string fragments and combine them with `new RegExp()` so each part can be reviewed and changed separately.',
     },
 
     { t: 'h2', x: 'Capture groups in practice' },
@@ -291,7 +291,7 @@ for (const m of text.matchAll(/(\\w+)=(\\w+)/g)) {
     },
     {
       t: 'p',
-      x: 'Named groups are worth the extra characters. `groups.level` survives someone inserting a group in the middle of the pattern; `match[2]` does not.',
+      x: 'Named groups make consumers less dependent on group order. `groups.level` still identifies the intended value if another capture group is inserted earlier in the pattern; `match[2]` may not.',
     },
 
     {
@@ -299,23 +299,23 @@ for (const m of text.matchAll(/(\\w+)=(\\w+)/g)) {
       items: [
         {
           q: 'Why does my global regex skip every other match?',
-          a: 'A regex object with the g flag carries a mutable lastIndex property between calls. Reusing the same object across test() or exec() calls resumes from where the last one stopped. Either create the regex fresh each time, or reset lastIndex to 0 before reusing it — this is one of the most common bugs in JavaScript regex code.',
+          a: 'A regex with the `g` flag keeps a mutable `lastIndex` between calls. Reusing the same object with `test()` or `exec()` resumes from that position. Create a new regex for each run or reset `lastIndex` to `0` before reuse.',
         },
         {
           q: 'How do I match across multiple lines?',
-          a: 'Two different flags, often confused. The s (dotall) flag makes . match newline characters. The m (multiline) flag changes ^ and $ to match at the start and end of each line rather than the whole string. You often want both.',
+          a: 'The `s` flag makes `.` match newline characters. The `m` flag changes `^` and `$` so they match line boundaries instead of only the boundaries of the full string. Use either or both according to the pattern.',
         },
         {
           q: 'Is my test data sent anywhere?',
-          a: 'No. The pattern is compiled and executed by your browser’s own regex engine. Nothing is transmitted, which means you can safely test against log excerpts you would not paste into a hosted service.',
+          a: 'No. The browser compiles the pattern and runs it against the text. This tool does not send the pattern or test string to a server.',
         },
         {
           q: 'Why is a pattern from Stack Overflow failing here?',
-          a: 'Most likely a flavour difference. Lookbehind (?<=…) is unsupported in older Safari; possessive quantifiers (a++) and atomic groups (?>…) do not exist in JavaScript at all; and \\Z, \\A and recursion are PCRE features. This tool tests the JavaScript flavour specifically.',
+          a: 'The pattern may target another regex engine. Older Safari versions do not support lookbehind `(?<=…)`. JavaScript does not support possessive quantifiers such as `a++`, atomic groups such as `(?>…)`, `\\Z`, `\\A` or recursive patterns. This tool uses the browser’s JavaScript engine.',
         },
         {
           q: 'Does the tester protect me from a runaway pattern?',
-          a: 'Partially. Match collection is capped at 5,000 and zero-length matches are advanced so they cannot loop forever. It cannot interrupt catastrophic backtracking inside a single exec call — if the page freezes after you type a nested quantifier, that is exactly the ReDoS behaviour described above, and closing the tab is the fix.',
+          a: 'Only partly. The tool stops collecting after 5,000 matches and advances past zero-length matches to avoid an endless loop. It cannot interrupt catastrophic backtracking inside one `exec()` call. A pathological pattern can still make the browser tab unresponsive.',
         },
       ],
     },

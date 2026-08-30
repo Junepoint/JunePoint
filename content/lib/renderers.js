@@ -18,7 +18,7 @@ function readingTime(list) {
  * Decide where ad units are spliced into an article.
  *
  * In-content units are snapped forward to the next h2 so they land on a section
- * boundary rather than interrupting a paragraph run — better to read, and better
+ * boundary rather than interrupting a paragraph run. This reads better and offers better
  * viewability than a unit stranded mid-argument. Units are kept at least five
  * blocks apart and out of the closing blocks, so the FAQ and the related-links
  * module are not buried under a wall of advertising.
