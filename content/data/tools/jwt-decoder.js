@@ -240,19 +240,19 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQ    ← signature over the first two segme
     { t: 'h3', x: 'The RS256-to-HS256 confusion attack' },
     {
       t: 'p',
-      x: 'A verifier that trusts the header’s algorithm can confuse asymmetric and symmetric verification. An attacker can change `RS256` to `HS256` and use the public RSA key as an HMAC secret. Prevent this by configuring the permitted algorithm independently of the token.',
+      x: 'A verifier that trusts the header’s algorithm can be tricked into confusing asymmetric and symmetric verification, because an attacker who changes `RS256` to `HS256` can then sign a forged token using your public RSA key as the HMAC secret, and the verifier will happily accept it. Pin the algorithm in your own configuration. Never read it from the token.',
     },
 
     { t: 'h3', x: 'Keep lifetimes short' },
     {
       t: 'p',
-      x: 'A stateless access token usually remains usable until it expires unless the system adds a revocation check. Keep access-token lifetimes short and use a refresh-token flow for longer sessions. A stolen token can otherwise remain valid for its full lifetime.',
+      x: 'A stateless access token usually remains usable until the moment it expires, because nothing consults a server-side store that could revoke it early, which means the lifetime you choose is also the size of the window an attacker gets with a stolen copy. Keep it short. Use a refresh-token flow for anything longer.',
     },
 
     { t: 'h3', x: 'Storage' },
     {
       t: 'p',
-      x: 'JavaScript running on the page can read a token in `localStorage`, so an XSS vulnerability can expose it. JavaScript cannot read an `HttpOnly`, `Secure`, `SameSite=Strict` cookie, but cookie-based authentication still needs appropriate CSRF protection. Choose storage based on both risks.',
+      x: 'JavaScript on the page can read anything in `localStorage`, so a single XSS bug exposes every token stored there, whereas an `HttpOnly`, `Secure`, `SameSite=Strict` cookie is unreachable from script entirely but shifts the burden onto CSRF protection instead. Neither option is free. Pick the risk you are better equipped to handle.',
     },
 
     { t: 'h2', x: 'Verifying a JWT on the server' },

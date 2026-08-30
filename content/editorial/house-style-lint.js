@@ -137,9 +137,37 @@ function lint(target, all) {
 }
 
 const all = loadAll();
-const targets = process.argv.length > 2
-  ? all.filter((d) => process.argv.slice(2).some((a) => d.file.endsWith(path.basename(a))))
-  : all;
+
+/**
+ * Files changed in the working tree, per git. Used by --changed so CI gates the
+ * drafts it just produced rather than failing on a pre-existing page. Without
+ * this, one legacy style violation blocks every future run of the pipeline.
+ */
+function changedFiles() {
+  const { execSync } = require('child_process');
+  const root = path.join(__dirname, '..', '..');
+  const out = execSync('git status --porcelain -- content/data', { cwd: root, encoding: 'utf8' });
+  return out
+    .split('\n')
+    .map((line) => line.slice(3).trim())
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => path.join(root, f));
+}
+
+const args = process.argv.slice(2);
+let targets;
+if (args.includes('--changed')) {
+  const changed = new Set(changedFiles());
+  targets = all.filter((d) => changed.has(d.file));
+  if (!targets.length) {
+    console.log('house-style: no changed content files. Nothing to check.');
+    process.exit(0);
+  }
+} else if (args.length) {
+  targets = all.filter((d) => args.some((a) => d.file.endsWith(path.basename(a))));
+} else {
+  targets = all;
+}
 
 let failed = 0;
 for (const target of targets) {
