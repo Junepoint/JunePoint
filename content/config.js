@@ -94,7 +94,7 @@ const site = {
   locale: 'en_US',
   language: 'en',
   twitter: '@junepoint',
-  email: 'info@junepoint.com',
+  email: 'jackson@allwatermarinegroup.com',
   logo: '/imgs/junepoint.png',
   founded: '2025',
   organization: 'JunePoint',
