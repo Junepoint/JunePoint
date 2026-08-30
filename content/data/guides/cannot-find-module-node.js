@@ -368,5 +368,10 @@ module.exports = {
   "schemaType": "TechArticle",
   "published": "2026-08-30",
   "updated": "2026-08-30",
-  "author": "jackson"
+  "author": "jackson",
+  "related": [
+    "/guides/npm-eresolve-error/",
+    "/guides/docker-container-exits-immediately/",
+    "/guides/javascript-async-await-explained/"
+  ]
 };
