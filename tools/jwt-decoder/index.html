@@ -288,11 +288,11 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQ    ← signature over the first two segme
 <h3 id="never-accept-alg-none">Never accept <code>alg: none</code></h3>
 <p>The JWT specification defines an unsigned mode. If a verifier accepts the algorithm named by the token instead of enforcing its own configuration, it may accept <code>alg: none</code> with no signature. Configure the expected algorithm on the server. The decoder flags <code>none</code> as a warning.</p>
 <h3 id="the-rs256-to-hs256-confusion-attack">The RS256-to-HS256 confusion attack</h3>
-<p>A verifier that trusts the header’s algorithm can confuse asymmetric and symmetric verification. An attacker can change <code>RS256</code> to <code>HS256</code> and use the public RSA key as an HMAC secret. Prevent this by configuring the permitted algorithm independently of the token.</p>
+<p>A verifier that trusts the header’s algorithm can be tricked into confusing asymmetric and symmetric verification, because an attacker who changes <code>RS256</code> to <code>HS256</code> can then sign a forged token using your public RSA key as the HMAC secret, and the verifier will happily accept it. Pin the algorithm in your own configuration. Never read it from the token.</p>
 <h3 id="keep-lifetimes-short">Keep lifetimes short</h3>
-<p>A stateless access token usually remains usable until it expires unless the system adds a revocation check. Keep access-token lifetimes short and use a refresh-token flow for longer sessions. A stolen token can otherwise remain valid for its full lifetime.</p>
+<p>A stateless access token usually remains usable until the moment it expires, because nothing consults a server-side store that could revoke it early, which means the lifetime you choose is also the size of the window an attacker gets with a stolen copy. Keep it short. Use a refresh-token flow for anything longer.</p>
 <h3 id="storage">Storage</h3>
-<p>JavaScript running on the page can read a token in <code>localStorage</code>, so an XSS vulnerability can expose it. JavaScript cannot read an <code>HttpOnly</code>, <code>Secure</code>, <code>SameSite=Strict</code> cookie, but cookie-based authentication still needs appropriate CSRF protection. Choose storage based on both risks.</p>
+<p>JavaScript on the page can read anything in <code>localStorage</code>, so a single XSS bug exposes every token stored there, whereas an <code>HttpOnly</code>, <code>Secure</code>, <code>SameSite=Strict</code> cookie is unreachable from script entirely but shifts the burden onto CSRF protection instead. Neither option is free. Pick the risk you are better equipped to handle.</p>
 <h2 id="verifying-a-jwt-on-the-server">Verifying a JWT on the server</h2>
 <p>Applications must verify tokens in code. This Node example uses the <code>jose</code> library:</p>
 <pre class="jp-code" data-lang="javascript"><code>import { jwtVerify, createRemoteJWKSet } from &#39;jose&#39;;
