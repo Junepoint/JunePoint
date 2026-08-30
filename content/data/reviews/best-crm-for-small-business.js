@@ -43,7 +43,7 @@ module.exports = {
     { t: 'h2', x: 'Start with the job the CRM needs to do' },
     {
       t: 'p',
-      x: 'CRM covers several jobs. The products differ most in which of these jobs sits at the centre of the design:',
+      x: 'CRM covers several jobs. The products differ most in which of these jobs sits at the center of the design:',
     },
     {
       t: 'ul',
@@ -103,7 +103,7 @@ module.exports = {
       bestFor: 'Small B2B sales teams whose problem is deal tracking, not marketing',
       body: [
         'Pipedrive is a sales tool rather than a broad business platform. Its drag-and-drop pipeline is easy to understand, data entry is limited, and a new salesperson can be productive in an afternoon. For a team struggling with CRM adoption, that narrow focus is an advantage.',
-        'It is less suited to organisations that need marketing automation, complex service workflows or heavy customisation. Email sequencing and lead scoring, among other useful capabilities, sit behind higher tiers or paid add-ons. Compare the tier you need, not only the entry price.',
+        'It is less suited to organizations that need marketing automation, complex service workflows or heavy customization. Email sequencing and lead scoring, among other useful capabilities, sit behind higher tiers or paid add-ons. Compare the tier you need, not only the entry price.',
       ],
       pros: [
         'Fastest to adopt of the major options',
@@ -129,11 +129,11 @@ module.exports = {
       bestFor: 'Cost-conscious teams needing depth, and businesses wanting a full software suite',
       body: [
         'Zoho CRM includes workflow automation, custom modules, forecasting and analytics at prices below tiers that offer comparable functions elsewhere. Zoho One adds accounting, projects, help desk, email and dozens of other applications at a per-employee price that can undercut two or three separate products.',
-        'The trade-off is consistency. The interface is denser, applications across the suite vary in quality, and configuration takes longer. Teams that prioritise quick adoption over breadth may still prefer Pipedrive at a higher price.',
+        'The trade-off is consistency. The interface is denser, applications across the suite vary in quality, and configuration takes longer. Teams that prioritize quick adoption over breadth may still prefer Pipedrive at a higher price.',
       ],
       pros: [
         'Broad functionality for the price',
-        'Deep customisation and workflow automation',
+        'Deep customization and workflow automation',
         'Zoho One can replace several separate subscriptions',
         'Strong reporting and forecasting at low tiers',
       ],
@@ -156,7 +156,7 @@ module.exports = {
       bestFor: 'Fast-growing companies who will need enterprise CRM within a few years',
       body: [
         'Salesforce offers the broadest extension path in this group, backed by a large app ecosystem and a substantial pool of experienced administrators and consultants. A company that expects to need that platform within two or three years may avoid a difficult migration by starting there.',
-        'Most small businesses do not need that breadth yet. Salesforce expects configuration, benefits from an administrator, and costs more once licences, implementation and necessary add-ons are included. Choosing it only because it is the industry standard can leave a small team paying for a system it has not configured well enough to use.',
+        'Most small businesses do not need that breadth yet. Salesforce expects configuration, benefits from an administrator, and costs more once licenses, implementation and necessary add-ons are included. Choosing it only because it is the industry standard can leave a small team paying for a system it has not configured well enough to use.',
       ],
       pros: [
         'Most extensible platform, with the largest app ecosystem',
@@ -182,7 +182,7 @@ module.exports = {
       price: 'Free',
       bestFor: 'Solo founders and teams closing a handful of deals a month',
       body: [
-        'A CRM earns its place when you cannot hold the pipeline in your head, when more than one person needs the same view, or when follow-ups are being missed. Below that, a spreadsheet with columns for company, contact, stage, value, next action and next action date does the job with no licence and no configuration.',
+        'A CRM earns its place when you cannot hold the pipeline in your head, when more than one person needs the same view, or when follow-ups are being missed. Below that, a spreadsheet with columns for company, contact, stage, value, next action and next action date does the job with no license and no configuration.',
         'Switch when follow-ups start being missed, a second salesperson needs the same view, or history matters more than current state. A clean spreadsheet is straightforward to migrate; three years of inconsistent CRM data is not. Keep the source data tidy while the spreadsheet still fits.',
       ],
       pros: ['Free, immediate and easy to adapt', 'Little adoption overhead for one person', 'Straightforward to export into a CRM later'],
@@ -196,7 +196,7 @@ module.exports = {
       rows: [
         ['HubSpot', 'Seats + marketing contacts', 'Yes, unlimited users', 'Sales plus marketing'],
         ['Pipedrive', 'Per seat', 'Trial only', 'Pipeline-focused sales teams'],
-        ['Zoho CRM', 'Per user', 'Yes, up to 3 users', 'Value and customisation'],
+        ['Zoho CRM', 'Per user', 'Yes, up to 3 users', 'Value and customization'],
         ['Salesforce', 'Per user + add-ons', 'Trial only', 'Companies that will scale up'],
         ['Spreadsheet', 'Not applicable', 'Yes', 'Very small pipelines'],
       ],
@@ -257,7 +257,7 @@ module.exports = {
         },
         {
           q: 'How long does CRM implementation take?',
-          a: 'A simple Pipedrive or HubSpot setup can be running in a day. A properly configured system with cleaned data, defined stages, integrations and trained users is more like two to six weeks. Salesforce with real customisation is a project measured in months.',
+          a: 'A simple Pipedrive or HubSpot setup can be running in a day. A properly configured system with cleaned data, defined stages, integrations and trained users is more like two to six weeks. Salesforce with real customization is a project measured in months.',
         },
         {
           q: 'Can I move my data if I switch later?',

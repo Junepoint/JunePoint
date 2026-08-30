@@ -8,7 +8,7 @@ module.exports = {
   description:
     'What compliance automation covers, what remains manual, the total cost of a SOC 2 report including the auditor, and how the main platforms differ.',
   standfirst:
-    'Compliance platforms collect and organise evidence; they neither operate the controls nor issue the report. The full budget needs to include software, audit fees and internal time.',
+    'Compliance platforms collect and organize evidence; they neither operate the controls nor issue the report. The full budget needs to include software, audit fees and internal time.',
   keywords: [
     'soc 2 compliance software',
     'soc 2 cost',
@@ -76,7 +76,7 @@ module.exports = {
         ['Connect to AWS, GitHub, Okta, HR systems and monitor configuration continuously', 'Fix what it finds; the platform reports but does not remediate'],
         ['Provide policy templates', 'Read, adapt, approve and follow them'],
         ['Track employee security training and policy acceptance', 'Make people complete it'],
-        ['Collect and organise evidence for the auditor', 'Perform the underlying activities: access reviews, incident response, vendor reviews'],
+        ['Collect and organize evidence for the auditor', 'Perform the underlying activities: access reviews, incident response, vendor reviews'],
         ['Map one set of controls to SOC 2, ISO 27001, HIPAA and others', 'Pay for each separate audit'],
         ['Flag drift when a control breaks', 'Own the remediation and the timeline'],
       ],
@@ -115,16 +115,16 @@ module.exports = {
       name: 'Vanta',
       award: 'Most established, largest audit-firm network',
       summary:
-        'The best-known platform in the category, with the widest integration catalogue and a large partner network of audit firms.',
+        'The best-known platform in the category, with the widest integration catalog and a large partner network of audit firms.',
       price: 'Roughly $10,000–$30,000+ per year depending on headcount and frameworks',
       bestFor: 'Startups going through SOC 2 for the first time who want a well-trodden path',
       deployment: 'SaaS, integrations connected via API',
       body: [
-        'Vanta’s advantages are maturity and ecosystem. Its integration catalogue is extensive, the Trust Center gives sales teams a place to direct prospects, and the partner network makes it easier to find an auditor familiar with the evidence format. That familiarity can reduce avoidable back-and-forth during a first audit.',
+        'Vanta’s advantages are maturity and ecosystem. Its integration catalog is extensive, the Trust Center gives sales teams a place to direct prospects, and the partner network makes it easier to find an auditor familiar with the evidence format. That familiarity can reduce avoidable back-and-forth during a first audit.',
         'The platform is priced as the market leader. Some users also find its questionnaire automation and policy tooling less flexible once the environment departs from a standard configuration.',
       ],
       pros: [
-        'Largest integration catalogue in the category',
+        'Largest integration catalog in the category',
         'Extensive network of familiar audit partners',
         'Trust Center supports security reviews in sales cycles',
         'Multi-framework mapping across SOC 2, ISO 27001, HIPAA and GDPR',
@@ -167,7 +167,7 @@ module.exports = {
       deployment: 'SaaS',
       body: [
         'For a 15-person company, the difference between a $8,000 platform and a $25,000 one is material. Sprinto covers the same core categories of evidence collection, policy templates, continuous monitoring and auditor coordination at a lower price point.',
-        'The integration catalogue is smaller and the audit-partner network less extensive, which can mean more manual evidence work. For a straightforward AWS-and-GitHub environment, that gap is often negligible.',
+        'The integration catalog is smaller and the audit-partner network less extensive, which can mean more manual evidence work. For a straightforward AWS-and-GitHub environment, that gap is often negligible.',
       ],
       pros: [
         'Substantially cheaper than the market leaders',
@@ -187,14 +187,14 @@ module.exports = {
       name: 'Doing it without a platform',
       award: 'Viable more often than vendors admit',
       summary:
-        'A spreadsheet, a document repository and a disciplined owner can produce a SOC 2 report. It costs time rather than licence fees.',
+        'A spreadsheet, a document repository and a disciplined owner can produce a SOC 2 report. It costs time rather than license fees.',
       price: 'Auditor fee only',
       bestFor: 'Very small teams with simple infrastructure and someone who has done it before',
       body: [
-        'SOC 2 predates compliance automation, and organisations can still complete an audit without a platform. With fewer than 20 people, one cloud provider and one identity provider, manual evidence collection is tedious but possible; auditors accept screenshots and exports.',
-        'The workload grows with the organisation. Type II requires evidence sampled *throughout* the observation period, so a manual process may require monthly collection for a year. Platforms reduce the risk of missing that schedule, and many teams that begin manually adopt one by the second or third audit.',
+        'SOC 2 predates compliance automation, and organizations can still complete an audit without a platform. With fewer than 20 people, one cloud provider and one identity provider, manual evidence collection is tedious but possible; auditors accept screenshots and exports.',
+        'The workload grows with the organization. Type II requires evidence sampled *throughout* the observation period, so a manual process may require monthly collection for a year. Platforms reduce the risk of missing that schedule, and many teams that begin manually adopt one by the second or third audit.',
       ],
-      pros: ['No licence cost', 'Requires direct understanding of your own controls', 'Acceptable to auditors'],
+      pros: ['No license cost', 'Requires direct understanding of your own controls', 'Acceptable to auditors'],
       cons: [
         'Significant ongoing manual effort, especially for Type II',
         'No continuous monitoring or drift detection',

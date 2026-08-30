@@ -169,7 +169,7 @@ sudo firewall-cmd --reload`,
       t: 'ul',
       items: [
         '**AWS RDS:** the security group needs an inbound rule allowing port 5432 from the client source. Also check "Publicly accessible" when connecting over the public internet; that setting does not replace the security-group rule.',
-        '**Cloud SQL / Azure Database:** add the client IP to the provider’s authorised network rules or connect through the supported proxy.',
+        '**Cloud SQL / Azure Database:** add the client IP to the provider’s authorized network rules or connect through the supported proxy.',
         '**Kubernetes:** a `ClusterIP` service is reachable only from within the cluster. To test from your machine, run `kubectl port-forward svc/postgres 5432:5432`.',
       ],
     },

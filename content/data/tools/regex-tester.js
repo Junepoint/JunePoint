@@ -64,7 +64,7 @@ Escalations go to jackson@allwatermarinegroup.com. Do not email root@localhost.<
     ['URL', 'https?://[\\\\w.-]+(?:/[\\\\w./?%&=-]*)?'],
     ['IPv4', '\\\\b(?:\\\\d{1,3}\\\\.){3}\\\\d{1,3}\\\\b'],
     ['ISO date', '\\\\d{4}-\\\\d{2}-\\\\d{2}'],
-    ['Hex colour', '#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\\\\b'],
+    ['Hex color', '#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\\\\b'],
     ['UK postcode', '[A-Z]{1,2}\\\\d[A-Z\\\\d]?\\\\s?\\\\d[A-Z]{2}'],
     ['US phone', '\\\\(?\\\\d{3}\\\\)?[-.\\\\s]?\\\\d{3}[-.\\\\s]?\\\\d{4}'],
     ['Duplicate words', '\\\\b(\\\\w+)\\\\s+\\\\1\\\\b'],

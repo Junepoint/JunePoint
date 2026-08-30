@@ -61,7 +61,7 @@ module.exports = {
       ],
     },
 
-    { t: 'h2', x: '401 vs 403: authentication vs authorisation' },
+    { t: 'h2', x: '401 vs 403: authentication vs authorization' },
     {
       t: 'p',
       x: 'The historical name of 401 is misleading. In application terms, 401 means the request is not authenticated, while 403 concerns permission after the caller is known.',

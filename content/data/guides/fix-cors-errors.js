@@ -54,7 +54,7 @@ module.exports = {
       t: 'note',
       kind: 'warn',
       title: 'CORS is not a security feature protecting your API',
-      x: 'CORS protects users from cross-origin reads made through their browser. It does not stop direct requests from non-browser clients. A restrictive CORS policy is therefore not a substitute for authentication and authorisation, and a permissive policy does not by itself expose an otherwise public API.',
+      x: 'CORS protects users from cross-origin reads made through their browser. It does not stop direct requests from non-browser clients. A restrictive CORS policy is therefore not a substitute for authentication and authorization, and a permissive policy does not by itself expose an otherwise public API.',
     },
 
     { t: 'h2', x: 'Read the error message first' },

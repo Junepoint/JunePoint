@@ -89,7 +89,7 @@ module.exports = {
     {
       "t": "table",
       "head": [
-        "Behaviour",
+        "Behavior",
         "require() in CommonJS",
         "import in ESM"
       ],
@@ -192,7 +192,7 @@ module.exports = {
     },
     {
       "t": "p",
-      "x": "Because the search walks up from the requiring file, the working directory matters, and so does the shape of the install. In a workspace, npm and Yarn hoist shared dependencies to the repository root, which is why a package you never declared in a given workspace may still import successfully. pnpm’s default layout does not hoist that way, so the same code fails there. Both behaviours are correct. The declaration was missing all along, and only one of the two tools makes you notice."
+      "x": "Because the search walks up from the requiring file, the working directory matters, and so does the shape of the install. In a workspace, npm and Yarn hoist shared dependencies to the repository root, which is why a package you never declared in a given workspace may still import successfully. pnpm’s default layout does not hoist that way, so the same code fails there. Both behaviors are correct. The declaration was missing all along, and only one of the two tools makes you notice."
     },
     {
       "t": "p",
@@ -235,8 +235,8 @@ module.exports = {
     {
       "t": "note",
       "kind": "warn",
-      "title": "Version dependent behaviour",
-      "x": "Newer Node releases can `require()` an ES module when the whole graph being loaded is synchronous, which removes this error in many cases. Support arrived on the Node 22 line and is present in later majors. Check `node -v` against the `require(esm)` section of the Node documentation for your release line before assuming either behaviour, since the details have moved more than once."
+      "title": "Version dependent behavior",
+      "x": "Newer Node releases can `require()` an ES module when the whole graph being loaded is synchronous, which removes this error in many cases. Support arrived on the Node 22 line and is present in later majors. Check `node -v` against the `require(esm)` section of the Node documentation for your release line before assuming either behavior, since the details have moved more than once."
     },
     {
       "t": "p",

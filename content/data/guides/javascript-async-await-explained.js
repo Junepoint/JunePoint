@@ -120,7 +120,7 @@ console.warn(\`\${failed.length} of \${ids.length} failed\`);`,
       t: 'table',
       head: ['Combinator', 'Settles when', 'Use for'],
       rows: [
-        ['`Promise.all`', 'All fulfil, or any rejects', 'All-or-nothing work'],
+        ['`Promise.all`', 'All fulfill, or any rejects', 'All-or-nothing work'],
         ['`Promise.allSettled`', 'All settle, whatever the outcome', 'Batch jobs where partial success is fine'],
         ['`Promise.race`', 'The first one settles, fulfilled or rejected', 'Timeouts'],
         ['`Promise.any`', 'The first one fulfils', 'Redundant sources, such as several mirrors'],

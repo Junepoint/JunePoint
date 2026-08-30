@@ -8,7 +8,7 @@ module.exports = {
   description:
     'Consent management, data mapping, DSAR handling and vendor risk, with guidance on which tools become useful at different levels of complexity.',
   standfirst:
-    'A small organisation may need little more than working consent controls and a documented subject-access process. Broader privacy platforms become useful as systems, vendors and request volume grow.',
+    'A small organization may need little more than working consent controls and a documented subject-access process. Broader privacy platforms become useful as systems, vendors and request volume grow.',
   keywords: [
     'gdpr compliance software',
     'consent management platform',
@@ -54,14 +54,14 @@ module.exports = {
         '**Report qualifying breaches** to your supervisory authority within 72 hours of becoming aware.',
         '**Have data processing agreements** with every processor handling personal data on your behalf.',
         '**Conduct a DPIA** for high-risk processing.',
-        '**Implement appropriate technical and organisational measures**, including encryption, access control and other security basics.',
+        '**Implement appropriate technical and organizational measures**, including encryption, access control and other security basics.',
       ],
     },
     {
       t: 'note',
       kind: 'info',
       title: 'The Article 30 small-business exemption is narrower than people think',
-      x: 'Organisations under 250 employees are exempt from full ROPA **unless** processing is not occasional, risks individual rights or involves special-category data. Regular customer or employee processing is not occasional, so many businesses fall outside the exemption. Verify whether it applies before relying on it.',
+      x: 'Organizations under 250 employees are exempt from full ROPA **unless** processing is not occasional, risks individual rights or involves special-category data. Regular customer or employee processing is not occasional, so many businesses fall outside the exemption. Verify whether it applies before relying on it.',
     },
 
     { t: 'h2', x: 'The four categories of tooling' },
@@ -70,14 +70,14 @@ module.exports = {
       head: ['Category', 'What it does', 'Who needs it'],
       rows: [
         ['**Consent management (CMP)**', 'Cookie banner, consent capture, preference storage, tag blocking', 'Anyone with a website using non-essential cookies'],
-        ['**Data mapping / ROPA**', 'Inventory of processing activities, data flows, retention', 'Anyone above the Article 30 threshold; in practice, many organisations'],
+        ['**Data mapping / ROPA**', 'Inventory of processing activities, data flows, retention', 'Anyone above the Article 30 threshold; in practice, many organizations'],
         ['**DSAR automation**', 'Intake, identity verification, discovery across systems, response', 'Consumer-facing businesses, or anyone above ~10 requests a month'],
-        ['**Vendor risk / TIA**', 'Processor inventory, DPAs, transfer impact assessments', 'Organisations with many sub-processors or international transfers'],
+        ['**Vendor risk / TIA**', 'Processor inventory, DPAs, transfer impact assessments', 'Organizations with many sub-processors or international transfers'],
       ],
     },
     {
       t: 'p',
-      x: 'Few small organisations need four separate products at the outset. A practical sequence is to implement a CMP, maintain the ROPA in a spreadsheet while that remains manageable, and automate DSARs when request volume makes the manual process unreliable.',
+      x: 'Few small organizations need four separate products at the outset. A practical sequence is to implement a CMP, maintain the ROPA in a spreadsheet while that remains manageable, and automate DSARs when request volume makes the manual process unreliable.',
     },
 
     { t: 'h2', x: 'Why consent management is technically difficult' },
@@ -129,16 +129,16 @@ module.exports = {
       summary:
         'A broad enterprise suite covering consent, data mapping, DSAR workflow, vendor risk and assessments, with enterprise pricing and implementation scope.',
       price: 'Enterprise agreements; typically five figures annually and up',
-      bestFor: 'Large organisations with a dedicated privacy function and multi-jurisdiction obligations',
+      bestFor: 'Large organizations with a dedicated privacy function and multi-jurisdiction obligations',
       body: [
-        'OneTrust is the category benchmark for organisations with a DPO, several jurisdictions and personal data processed at scale. Its broad coverage is the main reason to shortlist it.',
-        'That breadth also creates overhead. A small organisation may use only a fraction of the suite while still paying for and implementing the wider platform. The purchase makes sense when the obligations justify that scope, not simply because it is the most complete option.',
+        'OneTrust is the category benchmark for organizations with a DPO, several jurisdictions and personal data processed at scale. Its broad coverage is the main reason to shortlist it.',
+        'That breadth also creates overhead. A small organization may use only a fraction of the suite while still paying for and implementing the wider platform. The purchase makes sense when the obligations justify that scope, not simply because it is the most complete option.',
       ],
       pros: [
         'Broad functional coverage across privacy operations',
         'Handles GDPR, CCPA/CPRA, LGPD and more in one place',
         'Mature DSAR workflow and assessment automation',
-        'Extensive integration catalogue',
+        'Extensive integration catalog',
       ],
       cons: ['Expensive', 'Significant implementation effort', 'Substantially over-scoped for most SMBs'],
     },
@@ -157,7 +157,7 @@ module.exports = {
         'It covers less than OneTrust, in exchange for a faster implementation and lower price. That scope can be enough for a company without a dedicated privacy team.',
       ],
       pros: ['Faster to implement than enterprise suites', 'Vendor privacy monitoring included', 'Covers GDPR and US state laws', 'Transparent pricing'],
-      cons: ['Less depth than OneTrust for complex needs', 'Smaller integration catalogue', 'DSAR automation is more basic'],
+      cons: ['Less depth than OneTrust for complex needs', 'Smaller integration catalog', 'DSAR automation is more basic'],
     },
 
     {
@@ -166,12 +166,12 @@ module.exports = {
       name: 'A spreadsheet, a lawyer and a good CMP',
       award: 'The right answer under about 50 people',
       summary:
-        'For a small organisation with straightforward processing, a compliant consent banner, maintained ROPA spreadsheet and documented DSAR process may be sufficient.',
+        'For a small organization with straightforward processing, a compliant consent banner, maintained ROPA spreadsheet and documented DSAR process may be sufficient.',
       price: 'CMP cost plus a few hours of legal advice',
       bestFor: 'Small businesses with straightforward processing and no special-category data',
       body: [
         'A 20-person B2B company processing customer contact details and employee records may not need a privacy platform. It still needs a working cookie banner, a maintained spreadsheet ROPA, signed DPAs with processors, an accurate privacy notice and a written process for answering a subject access request within one month.',
-        'A few hours with a data protection lawyer can validate lawful bases and review the privacy notice before the same budget goes toward a platform licence. Tooling becomes more useful when the volume of systems, vendors or requests exceeds what one person can track reliably.',
+        'A few hours with a data protection lawyer can validate lawful bases and review the privacy notice before the same budget goes toward a platform license. Tooling becomes more useful when the volume of systems, vendors or requests exceeds what one person can track reliably.',
       ],
       pros: ['Minimal cost', 'Requires direct understanding of your own processing', 'Acceptable to regulators when properly maintained'],
       cons: [
@@ -200,7 +200,7 @@ module.exports = {
     { t: 'h2', x: 'International transfers' },
     {
       t: 'p',
-      x: 'Moving personal data outside the EEA requires a valid transfer mechanism. For the US, the **EU–US Data Privacy Framework** provides adequacy for certified organisations. Check each vendor’s certification rather than assuming it applies; otherwise, Standard Contractual Clauses plus a transfer impact assessment are required.',
+      x: 'Moving personal data outside the EEA requires a valid transfer mechanism. For the US, the **EU–US Data Privacy Framework** provides adequacy for certified organizations. Check each vendor’s certification rather than assuming it applies; otherwise, Standard Contractual Clauses plus a transfer impact assessment are required.',
     },
     {
       t: 'p',
@@ -210,7 +210,7 @@ module.exports = {
     { t: 'h2', x: 'What to buy, by size' },
     {
       t: 'table',
-      head: ['Organisation', 'Sensible spend'],
+      head: ['Organization', 'Sensible spend'],
       rows: [
         ['Under 20 people, simple processing', 'CMP (often free tier) + spreadsheet ROPA + a few hours of legal review'],
         ['20–100 people', 'Paid CMP + a mid-market platform for data mapping, or a well-maintained spreadsheet'],
@@ -224,11 +224,11 @@ module.exports = {
       items: [
         {
           q: 'Do I need GDPR compliance software?',
-          a: 'Many organisations with a website need a consent management platform because prior blocking and consent records are difficult to maintain by hand. Other tooling is driven by scale. A small company with simple processing may meet its obligations with a maintained spreadsheet and documented processes.',
+          a: 'Many organizations with a website need a consent management platform because prior blocking and consent records are difficult to maintain by hand. Other tooling is driven by scale. A small company with simple processing may meet its obligations with a maintained spreadsheet and documented processes.',
         },
         {
           q: 'Does GDPR apply to my US company?',
-          a: 'It applies if you offer goods or services to people in the EU or UK, or monitor their behaviour, including through analytics and advertising. The absence of an EU office does not by itself remove a company from scope. Tracking EU visitors can bring the site within scope.',
+          a: 'It applies if you offer goods or services to people in the EU or UK, or monitor their behavior, including through analytics and advertising. The absence of an EU office does not by itself remove a company from scope. Tracking EU visitors can bring the site within scope.',
         },
         {
           q: 'What are the GDPR fines?',
@@ -244,7 +244,7 @@ module.exports = {
         },
         {
           q: 'Do I need a Data Protection Officer?',
-          a: 'A DPO is mandatory for public authorities, for organisations whose core activities require large-scale regular monitoring of individuals, or large-scale processing of special-category data. Most SMBs do not need one, but should still name someone internally as accountable for privacy.',
+          a: 'A DPO is mandatory for public authorities, for organizations whose core activities require large-scale regular monitoring of individuals, or large-scale processing of special-category data. Most SMBs do not need one, but should still name someone internally as accountable for privacy.',
         },
       ],
     },
