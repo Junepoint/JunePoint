@@ -23,8 +23,8 @@
     <meta name="twitter:title" content="Base64 Encoder and Decoder for UTF-8 and Base64url" />
     <meta name="twitter:description" content="Encode UTF-8 text as Base64 or Base64url, or decode it locally in your browser. Emoji and accented characters are supported." />
     <meta name="twitter:image" content="https://junepoint.com/imgs/junepoint.png" />
-    <link rel="preload" as="style" href="/assets/jp/site.css?v=5" />
-    <link rel="stylesheet" href="/assets/jp/site.css?v=5" />
+    <link rel="preload" as="style" href="/assets/jp/site.css?v=6" />
+    <link rel="stylesheet" href="/assets/jp/site.css?v=6" />
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
@@ -231,12 +231,11 @@
     
 <div class="jp-tool">
   <div class="jp-toolbar">
-    <button class="jp-btn" type="button" id="b64-encode">Encode as Base64 &darr;</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="b64-decode">&uarr; Decode to text</button>
-    <button class="jp-btn jp-btn--ghost" type="button" id="b64-swap">Swap</button>
+    <button class="jp-btn" type="button" id="b64-encode">Encode text</button>
+    <button class="jp-btn jp-btn--ghost" type="button" id="b64-decode">Decode Base64</button>
     <button class="jp-btn jp-btn--ghost" type="button" id="b64-clear">Clear</button>
-    <label class="jp-checkline"><input type="checkbox" id="b64-urlsafe" /> Use Base64url</label>
-    <label class="jp-checkline"><input type="checkbox" id="b64-wrap" /> Wrap lines at 76 characters</label>
+    <label class="jp-checkline"><input type="checkbox" id="b64-urlsafe" /> Encode as Base64url</label>
+    <label class="jp-checkline"><input type="checkbox" id="b64-wrap" /> Wrap Base64 at 76 characters</label>
   </div>
 
   <div class="jp-field">
@@ -419,7 +418,7 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
 
   function encode() {
     var text = plain.value;
-    if (!text) { encoded.value = ''; setStatus(''); stats.innerHTML = ''; return; }
+    if (!text) { setStatus('Enter text to encode.', 'err'); stats.innerHTML = ''; plain.focus(); return; }
     try {
       var out = toBase64(text);
       if (urlsafe.checked) out = out.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -434,7 +433,7 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
 
   function decode() {
     var raw = encoded.value.replace(/\s+/g, '');
-    if (!raw) { plain.value = ''; setStatus(''); stats.innerHTML = ''; return; }
+    if (!raw) { setStatus('Enter Base64 to decode.', 'err'); stats.innerHTML = ''; encoded.focus(); return; }
     var normalised = raw.replace(/-/g, '+').replace(/_/g, '/');
     while (normalised.length % 4) normalised += '=';
     try {
@@ -457,13 +456,16 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
   document.getElementById('b64-clear').addEventListener('click', function () {
     plain.value = ''; encoded.value = ''; setStatus(''); stats.innerHTML = ''; plain.focus();
   });
-  document.getElementById('b64-swap').addEventListener('click', function () {
-    var a = plain.value; plain.value = encoded.value; encoded.value = a;
-  });
-  plain.addEventListener('input', encode);
-  encoded.addEventListener('input', function () { if (document.activeElement === encoded) decode(); });
-  urlsafe.addEventListener('change', encode);
-  wrap.addEventListener('change', encode);
+
+  function clearResult() {
+    setStatus('');
+    stats.innerHTML = '';
+  }
+
+  plain.addEventListener('input', clearResult);
+  encoded.addEventListener('input', clearResult);
+  urlsafe.addEventListener('change', clearResult);
+  wrap.addEventListener('change', clearResult);
 })();</script>
     <footer class="jp-footer">
   <div class="jp-footer-inner">
@@ -500,7 +502,7 @@ kubectl get secret my-secret -o jsonpath=&#39;{.data.password}&#39; | base64 --d
     <p>Tools run locally in your browser. We never receive the data you paste into them.</p>
   </div>
 </footer>
-    <script src="/assets/jp/site.js?v=5" defer></script>
+    <script src="/assets/jp/site.js?v=6" defer></script>
     
   </body>
 </html>
