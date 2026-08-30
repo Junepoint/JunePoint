@@ -30,6 +30,17 @@ jobs:
         run: npm run build
         env:
           CI: false
+          # Ad markup requires the ADSENSE_CLIENT repository secret.
+          # Without it, the site omits all ad markup and loader scripts.
+          # Add it under Settings, Secrets and variables, then Actions.
+          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
+          AD_SLOT_ARTICLE_TOP: ${{ secrets.AD_SLOT_ARTICLE_TOP }}
+          AD_SLOT_IN_CONTENT: ${{ secrets.AD_SLOT_IN_CONTENT }}
+          AD_SLOT_SIDEBAR: ${{ secrets.AD_SLOT_SIDEBAR }}
+          AD_SLOT_FOOTER: ${{ secrets.AD_SLOT_FOOTER }}
+          AD_SLOT_TOOL_TOP: ${{ secrets.AD_SLOT_TOOL_TOP }}
+          AD_SLOT_TOOL_RESULT: ${{ secrets.AD_SLOT_TOOL_RESULT }}
+          AD_SLOT_HUB: ${{ secrets.AD_SLOT_HUB }}
       
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3

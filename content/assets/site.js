@@ -1,26 +1,7 @@
-/* Shared behaviour for JunePoint Resources pages. Deferred, dependency-free. */
+/* Shared behavior for JunePoint Resources pages with no dependencies. */
 (function () {
   'use strict';
 
-  /* ---- Colour theme ---- */
-  var root = document.documentElement;
-  var toggle = document.querySelector('[data-theme-toggle]');
-  if (toggle) {
-    toggle.addEventListener('click', function () {
-      var current =
-        root.dataset.theme ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      var next = current === 'dark' ? 'light' : 'dark';
-      root.dataset.theme = next;
-      try {
-        localStorage.setItem('jp-theme', next);
-      } catch (e) {
-        /* In private mode, the theme just won't persist. */
-      }
-    });
-  }
-
-  /* ---- Mobile navigation ---- */
   var menuButton = document.querySelector('[data-menu-toggle]');
   var mobileNav = document.getElementById('jp-mobile-nav');
   if (menuButton && mobileNav) {
@@ -32,7 +13,6 @@
     });
   }
 
-  /* ---- Table-of-contents scroll spy ---- */
   var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.jp-toc a'));
   if (tocLinks.length && 'IntersectionObserver' in window) {
     var byId = {};
@@ -64,7 +44,6 @@
     });
   }
 
-  /* ---- Copy-to-clipboard for code blocks and tool output ---- */
   document.addEventListener('click', function (event) {
     var button = event.target.closest('[data-copy]');
     if (!button) return;
@@ -84,7 +63,6 @@
     }
   });
 
-  /* ---- Open the FAQ item a visitor deep-links to ---- */
   function openTargetDetails() {
     if (!location.hash) return;
     var target = document.getElementById(location.hash.slice(1));

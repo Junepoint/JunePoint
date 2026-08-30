@@ -62,7 +62,7 @@ module.exports = {
     var padded = segment.replace(/-/g, '+').replace(/_/g, '/');
     while (padded.length % 4) padded += '=';
     var binary = atob(padded);
-    // Recover UTF-8 so non-ASCII names and scopes display correctly.
+    // Decode UTF 8 so every name and scope displays correctly.
     var bytes = new Uint8Array(binary.length);
     for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
     return new TextDecoder('utf-8').decode(bytes);
@@ -268,10 +268,10 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQ    ← signature over the first two segme
 const jwks = createRemoteJWKSet(new URL('https://auth.example.com/.well-known/jwks.json'));
 
 const { payload } = await jwtVerify(token, jwks, {
-  issuer: 'https://auth.example.com',   // pin the issuer
-  audience: 'api.example.com',          // pin the audience
-  algorithms: ['RS256'],                // pin the algorithm; do not trust the header
-  clockTolerance: 30,                   // seconds of allowed skew
+  issuer: 'https://auth.example.com',   // Require this issuer
+  audience: 'api.example.com',          // Require this audience
+  algorithms: ['RS256'],                // Allow only this algorithm
+  clockTolerance: 30,                   // Allow 30 seconds of clock skew
 });`,
     },
     {

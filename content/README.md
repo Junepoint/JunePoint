@@ -23,34 +23,105 @@ content/data/**  →  node content/build.js  →  public/**  →  react-scripts 
 
 ```bash
 npm run build:content    # generate into public/
-npm run build            # build:content, then the React build
+npm run check:content    # validate the generated output (exits non-zero on failure)
+npm run build            # build:content, React build, then the SPA 404 fallback
 npm start                # build:content, then the dev server
 ```
 
 Generated output is gitignored. `content/data/**` is the source of truth.
 
-## Ads
+## Turning ads on
 
-**Ads only ever appear on generated pages.** The React portfolio at `/` and its
-routes receive no ad markup and no loader script. `lib/ads.js` is only reachable
-from this generator.
+Ads are off until `ADSENSE_CLIENT` is set. Nothing is emitted before that: no
+loader script, no `<ins>` units, and `ads.txt` stays commented out. An unfilled
+`<ins>` collapses to zero height and reads as a broken implementation, which is
+worse than no ad at all.
 
-Nothing is emitted until a publisher ID is set, because an unfilled `<ins>`
-collapses to zero height and reads as a broken implementation:
+The order matters, because AdSense will not review a site it cannot verify.
+
+1. **Deploy the content first.** AdSense reviews a live site. The pages must be
+   reachable at junepoint.com and indexed well enough to look like a real
+   publication.
+
+2. **Apply at adsense.google.com** with `junepoint.com` as the site. You get a
+   publisher ID of the form `ca-pub-0000000000000000` immediately, before
+   approval.
+
+3. **Add it as a GitHub Actions secret.** Settings → Secrets and variables →
+   Actions → New repository secret, named `ADSENSE_CLIENT`. The workflow already
+   passes it to the build.
+
+4. **Redeploy.** That publishes two verification signals at once:
+   - `junepoint.com/ads.txt` containing `google.com, pub-…, DIRECT, f08c47fec0942fa0`
+   - a `<meta name="google-adsense-account">` tag on every generated page
+
+   Either satisfies AdSense's ownership check. The ads.txt route is preferred
+   here because it needs no change to the React shell.
+
+   Note the gap this closes: AdSense usually checks the root domain, and
+   `junepoint.com/` is the React portfolio, which deliberately carries no ad
+   code. `ads.txt` sits at the root and solves that. If AdSense insists on the
+   meta tag instead, add this one line to `public/index.html` — it is a
+   verification tag and displays nothing:
+
+   ```html
+   <meta name="google-adsense-account" content="ca-pub-0000000000000000" />
+   ```
+
+5. **Verify in the AdSense console**, then wait for review. This takes anywhere
+   from a few days to several weeks. Units render blank during review; that is
+   expected and not a fault.
+
+6. **On approval, create seven display units** in AdSense and copy each slot ID
+   into a matching secret:
+
+   | Secret | Placement | Suggested unit type |
+   | --- | --- | --- |
+   | `AD_SLOT_ARTICLE_TOP` | after the article intro | Display, responsive |
+   | `AD_SLOT_IN_CONTENT` | between sections (up to 4×) | In-article |
+   | `AD_SLOT_SIDEBAR` | sticky sidebar, desktop only | Display, vertical |
+   | `AD_SLOT_FOOTER` | end of page | Display, responsive |
+   | `AD_SLOT_TOOL_TOP` | above a tool | Display, horizontal |
+   | `AD_SLOT_TOOL_RESULT` | below tool results | Display, responsive |
+   | `AD_SLOT_HUB` | section hubs and portal | Display, responsive |
+
+   Units work without slot IDs, but AdSense cannot report per-placement revenue,
+   so you lose the data needed to optimise.
+
+7. **Redeploy and confirm.** `curl -s https://junepoint.com/tools/json-formatter/ | grep adsbygoogle`
+   should return the `<ins>` markup.
+
+### Local preview
 
 ```bash
-ADSENSE_CLIENT=ca-pub-0000000000000000 npm run build   # enable
-AD_PREVIEW=1 npm run build:content                     # draw placeholder boxes locally
+AD_PREVIEW=1 npm run build:content    # dashed placeholder boxes, no real ads
+ADSENSE_CLIENT=ca-pub-0000000000000000 npm run build:content   # real markup, test ID
 ```
 
-Slot IDs come from `AD_SLOT_*` environment variables (see `config.js`). Add them
-to the GitHub Actions workflow as repository secrets so production builds pick
-them up. `ads.txt` is generated from `ADSENSE_CLIENT` automatically.
+Never leave a test publisher ID in a deployed build.
+
+### Where ads appear
+
+Only on generated pages. `lib/ads.js` is unreachable from `src/`, so the React
+portfolio at `/` and its routes carry no ad markup and no loader script. Legal,
+about and contact pages are also excluded.
 
 Placement is decided in `lib/renderers.js → adPositions()`: one unit after the
 opening blocks, up to four in-content units snapped to section boundaries at
 least seven blocks apart, one sticky sidebar unit (hidden below 1040px), and one
 footer unit.
+
+## The SPA 404 fallback
+
+`content/spa-fallback.js` runs after `react-scripts build` and copies
+`build/index.html` to `build/404.html`. GitHub Pages serves that file for any
+path it cannot resolve, so React routes survive a direct link or a refresh, and
+unknown paths hit the catch-all in `src/App.js`.
+
+The HTTP status remains 404 even though the page renders. That is why the React
+sub-routes are still kept out of `sitemap.xml` — submitting them would feed
+Google URLs that answer 404. Generated pages under `/tools`, `/guides` and
+`/reviews` are real files and return a genuine 200.
 
 ## Adding a page
 
@@ -124,6 +195,8 @@ content/
     portal.js          the /resources/ front door
     pages.js           about, contact, legal
     tools|guides|reviews/
+  validate.js          post-generation checks (npm run check:content)
+  spa-fallback.js      post-build: writes build/404.html
 ```
 
 ## Editorial constraints worth preserving

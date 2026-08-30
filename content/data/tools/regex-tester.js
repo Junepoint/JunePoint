@@ -114,7 +114,7 @@ Escalations go to oncall@junepoint.com. Do not email root@localhost.</textarea>
       var m;
       while ((m = re.exec(text)) !== null && guard++ < 5000) {
         matches.push(m);
-        if (m[0] === '') re.lastIndex++;   // zero-length match would loop forever
+        if (m[0] === '') re.lastIndex++;   // Empty matches would repeat forever
       }
     } else {
       var single = re.exec(text);
@@ -234,11 +234,11 @@ Escalations go to oncall@junepoint.com. Do not email root@localhost.</textarea>
     {
       t: 'code',
       lang: 'javascript',
-      x: `// Innocent-looking. Hangs the thread.
+      x: `// This simple pattern can freeze the thread.
 /(a+)+$/.test('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa!');
 
-// A real-world shape of the same problem: nested quantifier
-// with an overlapping inner set.
+    // The same risk appears in nested quantifiers
+    // whose inner character sets overlap.
 /^(\\s*\\w+)+$/.test('    lots of words here     x');`,
     },
     {
@@ -278,16 +278,16 @@ Escalations go to oncall@junepoint.com. Do not email root@localhost.</textarea>
       x: `const LOG = /^(?<ts>\\S+) \\[(?<level>\\w+)\\] (?<msg>.+)$/;
 
 const { groups } = LOG.exec('2026-08-16T09:14:02Z [ERROR] payment declined');
-groups.level;   // 'ERROR'
-groups.msg;     // 'payment declined'
+      groups.level;   // level is 'ERROR'
+      groups.msg;     // msg is 'payment declined'
 
-// Every match, with position and groups
+      // Iterate through matches with positions and groups
 for (const m of text.matchAll(/(\\w+)=(\\w+)/g)) {
   console.log(m[1], m[2], m.index);
 }
 
-// Reference groups in a replacement
-'2026-08-16'.replace(/(\\d{4})-(\\d{2})-(\\d{2})/, '$3/$2/$1');  // '16/08/2026'`,
+      // Use groups in replacement text
+      '2026-08-16'.replace(/(\\d{4})-(\\d{2})-(\\d{2})/, '$3/$2/$1');  // Produces '16/08/2026'`,
     },
     {
       t: 'p',

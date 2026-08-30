@@ -75,15 +75,14 @@ module.exports = {
   function v4() {
     if (crypto.randomUUID) return crypto.randomUUID();
     var bytes = randomBytes(16);
-    bytes[6] = (bytes[6] & 0x0f) | 0x40;  // version 4
-    bytes[8] = (bytes[8] & 0x3f) | 0x80;  // RFC 4122 variant
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;  // Sets version 4
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;  // Sets the RFC 4122 variant
     return format(bytes);
   }
 
-  // v7: 48-bit big-endian Unix millisecond timestamp, then version, variant and
-  // random. The 12 bits after the version hold a counter (RFC 9562 "method 1")
-  // so that UUIDs minted inside the same millisecond still sort in creation
-  // order. Without it, a bulk generation comes out shuffled.
+  // UUID v7 starts with a 48 bit Unix millisecond timestamp.
+  // The next 12 bits store a counter from RFC 9562 method 1.
+  // This keeps IDs created in one millisecond in sequence.
   var lastMs = 0;
   var counter = 0;
 
@@ -93,10 +92,10 @@ module.exports = {
 
     if (ms === lastMs) {
       counter++;
-      if (counter > 0xfff) { ms = ++lastMs; counter = 0; }  // borrow from the next ms
+      if (counter > 0xfff) { ms = ++lastMs; counter = 0; }  // Uses the next millisecond
     } else {
       lastMs = ms;
-      // Seed low in the range so there is room to count up within this ms.
+      // Start low enough to leave room for increments.
       counter = ((bytes[6] & 0x0f) << 4) | (bytes[7] & 0x0f);
     }
 
@@ -106,9 +105,9 @@ module.exports = {
     bytes[3] = (ms / 65536) & 0xff;
     bytes[4] = (ms / 256) & 0xff;
     bytes[5] = ms & 0xff;
-    bytes[6] = 0x70 | ((counter >> 8) & 0x0f);  // version 7 + counter high bits
-    bytes[7] = counter & 0xff;                  // counter low bits
-    bytes[8] = (bytes[8] & 0x3f) | 0x80;        // variant
+    bytes[6] = 0x70 | ((counter >> 8) & 0x0f);  // Stores high counter bits with version 7
+    bytes[7] = counter & 0xff;                  // Stores low counter bits
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;        // Sets the UUID variant
     return format(bytes);
   }
 
@@ -236,32 +235,32 @@ v7:  019512a3-4f80-7c21-9d3e-1a2b3c4d5e6f   ← 019512a3-4f80 is the timestamp
     {
       t: 'code',
       lang: 'javascript',
-      x: `// JavaScript; built in since 2021, no dependency needed.
-// Requires a secure context (HTTPS or localhost).
+      x: `// Browser API available since 2021
+    // Requires HTTPS or localhost
 const id = crypto.randomUUID();
 
-// Node.js
+    // Node API
 import { randomUUID } from 'node:crypto';
 const id = randomUUID();`,
     },
     {
       t: 'code',
       lang: 'sql',
-      x: `-- PostgreSQL 13+ (v4)
+      x: `-- PostgreSQL 13+ generates v4
 SELECT gen_random_uuid();
 
--- PostgreSQL 18+ adds native v7
+    -- PostgreSQL 18+ includes v7
 SELECT uuidv7();
 
--- MySQL 8+ (v1, not v4; note the difference)
+    -- MySQL 8+ generates v1 rather than v4
 SELECT UUID();`,
     },
     {
       t: 'code',
       lang: 'python',
       x: `import uuid
-uuid.uuid4()          # random
-str(uuid.uuid4())     # canonical string form`,
+    uuid.uuid4()          # Creates a random UUID
+    str(uuid.uuid4())     # Converts to canonical text`,
     },
     {
       t: 'note',

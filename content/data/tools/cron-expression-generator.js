@@ -73,7 +73,7 @@ module.exports = {
     sun:0,mon:1,tue:2,wed:3,thu:4,fri:5,sat:6
   };
 
-  /* Expand one field into the explicit set of values it permits. */
+  /* Convert one field into its allowed values. */
   function expand(spec, field) {
     var values = [];
     spec.split(',').forEach(function (part) {
@@ -166,7 +166,7 @@ module.exports = {
     var cursor = new Date();
     cursor.setSeconds(0, 0);
     cursor.setMinutes(cursor.getMinutes() + 1);
-    // Four years of minutes is enough to prove even a 29 February schedule.
+    // Four years covers every possible 29 February schedule.
     for (var i = 0; i < 2103840 && runs.length < count; i++) {
       if (matches(cursor, sets, parts)) runs.push(new Date(cursor));
       cursor.setMinutes(cursor.getMinutes() + 1);
@@ -310,17 +310,17 @@ EventBridge     30 3 ? * MON-FRI *      trailing year`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Edit the current user's crontab
+      x: `# Open the current user crontab
 crontab -e
 
-# List it
+    # Display the current crontab
 crontab -l
 
-# Redirect output; cron mails it otherwise, and on most servers
-# that mail goes nowhere and the failure is invisible.
+    # Send output to a log because cron mail is often unread
+    # This keeps failures visible
 30 3 * * 1-5 /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1
 
-# Percent signs are special in crontab and must be escaped
+    # Escape percent signs in crontab commands
 0 4 * * * /usr/bin/pg_dump db > /backups/db-$(date +\\%Y\\%m\\%d).sql`,
     },
     {

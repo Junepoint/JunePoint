@@ -34,10 +34,10 @@ module.exports = {
       t: 'code',
       lang: 'javascript',
       x: `async function getUser(id) {
-  return { id };            // returns Promise<{id}>
+  return { id };            // Returns Promise<{id}>
 }
 
-// Identical behaviour, written with the underlying Promise API
+// The Promise API behaves the same way
 function getUser(id) {
   return Promise.resolve({ id });
 }`,
@@ -47,13 +47,13 @@ function getUser(id) {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Sequential: 100 requests × 200ms = 20 seconds
+      x: `// Sequential: 100 requests × 200ms = 20 seconds
 const users = [];
 for (const id of ids) {
   users.push(await fetchUser(id));
 }
 
-// ✓ Concurrent: all in flight at once, ~200ms
+// Concurrent: all requests run together, ~200ms
 const users = await Promise.all(ids.map(id => fetchUser(id)));`,
     },
     {
@@ -75,7 +75,7 @@ const users = await Promise.all(ids.map(id => fetchUser(id)));`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Logs "done" immediately; nothing has been saved yet
+      x: `// Logs "done" before any save finishes
 items.forEach(async (item) => {
   await save(item);
 });
@@ -88,10 +88,10 @@ console.log('done');`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✓ Concurrent, and awaited
+      x: `// Concurrent and awaited
 await Promise.all(items.map(item => save(item)));
 
-// ✓ Sequential, when order matters
+    // Sequential when order matters
 for (const item of items) {
   await save(item);
 }`,
@@ -129,14 +129,14 @@ console.warn(\`\${failed.length} of \${ids.length} failed\`);`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// Promise.race can implement a timeout, but prefer AbortSignal below
-// because race leaves the losing request running.
+      x: `// Promise.race can enforce a timeout
+    // The losing request still runs after the race settles
 const result = await Promise.race([
   fetchData(),
   new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000)),
 ]);
 
-// Better: actually cancel the request
+// AbortSignal also cancels the request
 const response = await fetch(url, { signal: AbortSignal.timeout(5000) });`,
     },
 
@@ -144,7 +144,7 @@ const response = await fetch(url, { signal: AbortSignal.timeout(5000) });`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Logs the error and returns undefined, leaving the caller uninformed
+      x: `// Logs the error and returns undefined
 async function getUser(id) {
   try {
     return await api.get(\`/users/\${id}\`);
@@ -160,7 +160,7 @@ async function getUser(id) {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✓ Add context, keep the original cause attached
+      x: `// Adds context while retaining the original cause
 async function getUser(id) {
   try {
     return await api.get(\`/users/\${id}\`);
@@ -184,9 +184,9 @@ async function getUser(id) {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ fetch does NOT reject on 404 or 500
+      x: `// fetch does not reject for 404 or 500 responses
 const response = await fetch('/api/users');
-const data = await response.json();   // throws a confusing JSON parse error`,
+    const data = await response.json();   // JSON parsing can hide the HTTP error`,
     },
     {
       t: 'p',
@@ -212,16 +212,16 @@ const data = await response.json();`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Sequential: 300ms total
+      x: `// Sequential: 300ms total
 const user  = await fetchUser(id);
 const posts = await fetchPosts(id);
 
-// ✓ Concurrent: 200ms, and neither depends on the other
+// Concurrent: 200ms, and neither depends on the other
 const userPromise  = fetchUser(id);
 const postsPromise = fetchPosts(id);
 const [user, posts] = [await userPromise, await postsPromise];
 
-// ✓ Equivalent and clearer
+// Equivalent and clearer
 const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);`,
     },
     {
@@ -233,16 +233,16 @@ const [user, posts] = await Promise.all([fetchUser(id), fetchPosts(id)]);`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// Node: crashes the process by default since v15
+      x: `// Node exits the process by default since v15
 process.on('unhandledRejection', (reason) => {
   logger.fatal({ reason }, 'unhandled rejection');
   process.exit(1);
 });
 
-// Browser
+// Browser handling
 window.addEventListener('unhandledrejection', (event) => {
   reportError(event.reason);
-  event.preventDefault();   // stop the console noise once reported
+  event.preventDefault();   // prevents duplicate console reporting
 });`,
     },
     {

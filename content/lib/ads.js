@@ -1,9 +1,8 @@
 /**
- * AdSense unit rendering.
+ * Renders AdSense units only for generated resource pages.
  *
- * Scoped entirely to generated network pages. The React portfolio never calls
- * into this module, so /, /personal-websites, /business-websites,
- * /cross-platform-apps, /local-apps and /video-games stay ad-free.
+ * The React portfolio never imports this module, so portfolio routes remain
+ * free of advertising.
  */
 
 const { ads } = require('../config');
@@ -11,7 +10,7 @@ const { esc } = require('./html');
 
 const enabled = () => /^ca-pub-\d{10,}$/.test(ads.client);
 
-/** The loader script, emitted once per page in <head>. */
+/** Return the loader script once per page. */
 function loaderScript() {
   if (!enabled()) return '';
   return `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(
@@ -19,12 +18,18 @@ function loaderScript() {
   )}" crossorigin="anonymous"></script>`;
 }
 
-/** Auto Ads opt-in, only when explicitly turned on. */
+/** Return the Auto Ads script only after explicit activation. */
 function autoAdsScript() {
   if (!enabled() || !ads.auto) return '';
   return `<script>(adsbygoogle=window.adsbygoogle||[]).push({google_ad_client:"${esc(
     ads.client
   )}",enable_page_level_ads:true});</script>`;
+}
+
+/** Return the site ownership verification metadata. */
+function verificationMeta() {
+  if (!ads.client) return '';
+  return `<meta name="google-adsense-account" content="${esc(ads.client)}" />`;
 }
 
 const PLACEMENTS = {
@@ -37,14 +42,7 @@ const PLACEMENTS = {
   hub: { slot: 'hub', format: 'auto', label: 'Hub' },
 };
 
-/**
- * Render one ad unit.
- *
- * Emits nothing at all unless a real publisher ID is configured. A stranded
- * <ins> element collapses to zero height and looks like a broken implementation
- * to both users and AdSense review. Set AD_PREVIEW=1 to draw layout
- * placeholders locally instead.
- */
+/** Render one configured ad placement. */
 function unit(name) {
   const placement = PLACEMENTS[name];
   if (!placement) throw new Error(`Unknown ad placement: ${name}`);
@@ -78,4 +76,4 @@ function unit(name) {
 </div>`;
 }
 
-module.exports = { unit, loaderScript, autoAdsScript, enabled };
+module.exports = { unit, loaderScript, autoAdsScript, verificationMeta, enabled };

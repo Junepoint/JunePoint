@@ -59,8 +59,8 @@ module.exports = {
     status.className = 'jp-status' + (kind ? ' jp-status--' + kind : '');
   }
 
-  // btoa() only handles Latin-1, so anything above U+00FF has to become UTF-8
-  // bytes first. Skipping this step is why "btoa(emoji)" throws.
+  // btoa() accepts only Latin 1 code points.
+  // Encode text as UTF 8 bytes before calling it.
   function toBase64(text) {
     var bytes = new TextEncoder().encode(text);
     var binary = '';
@@ -183,8 +183,8 @@ module.exports = {
       t: 'code',
       lang: 'javascript',
       x: `btoa('café ☕')
-// InvalidCharacterError: The string to be encoded contains
-// characters outside of the Latin1 range.`,
+    // InvalidCharacterError occurs for code points
+    // outside the Latin 1 range.`,
     },
     {
       t: 'p',
@@ -194,7 +194,7 @@ module.exports = {
       t: 'code',
       lang: 'javascript',
       x: `function toBase64(text) {
-  const bytes = new TextEncoder().encode(text);      // UTF-8 bytes
+  const bytes = new TextEncoder().encode(text);      // Encoded UTF 8 bytes
   let binary = '';
   for (const b of bytes) binary += String.fromCharCode(b);
   return btoa(binary);
@@ -224,19 +224,19 @@ function fromBase64(b64) {
     {
       t: 'code',
       lang: 'bash',
-      x: `# Encode a string (the -n stops echo adding a newline to the input)
+      x: `# Encode text without the newline from echo
 echo -n 'hello world' | base64
 
-# Decode
+    # Decode text
 echo 'aGVsbG8gd29ybGQ=' | base64 --decode
 
-# macOS uses -D instead of --decode
+    # macOS uses the capital D option
 echo 'aGVsbG8gd29ybGQ=' | base64 -D
 
-# Encode a file
+    # Encode a file into another file
 base64 -i logo.png -o logo.txt
 
-# Read a Kubernetes secret value
+    # Decode a Kubernetes secret value
 kubectl get secret my-secret -o jsonpath='{.data.password}' | base64 --decode`,
     },
     {

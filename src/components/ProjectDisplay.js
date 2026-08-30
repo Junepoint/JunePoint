@@ -5,7 +5,7 @@ export default function ProjectDisplay({ projects, title, description }) {
   const [carouselIndices, setCarouselIndices] = useState({});
   const [loadedImages, setLoadedImages] = useState({});
 
-  // Carousel auto-rotation
+  // Advance each carousel every four seconds.
   useEffect(() => {
     const interval = setInterval(() => {
       setCarouselIndices((prev) => {
@@ -21,17 +21,17 @@ export default function ProjectDisplay({ projects, title, description }) {
   }, [projects]);
 
   return (
-    <section className="relative py-32 px-6 bg-white min-h-screen">
+    <section className="relative py-32 px-6 bg-white min-h-screen dark:bg-[#0b1220]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900 dark:text-slate-100">
             {title.split(' ').slice(0, -1).join(' ')}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent dark:from-blue-400 dark:to-cyan-300">
               {title.split(' ').slice(-1)}
             </span>
           </h2>
           {description && (
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto dark:text-slate-300">
               {description}
             </p>
           )}
@@ -41,16 +41,14 @@ export default function ProjectDisplay({ projects, title, description }) {
           {projects.map((project, idx) => (
             <div
               key={idx}
-              className="group relative bg-white border border-slate-200 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500"
+              className="group relative bg-white border border-slate-200 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 dark:bg-[#131f36] dark:border-slate-700 dark:hover:shadow-blue-950/40"
               style={{ animation: `fadeInUp 0.6s ease-out ${idx * 0.2}s backwards` }}
             >
               <div className="grid md:grid-cols-2 gap-8">
-                {/* Project Carousel */}
-                <div className="relative h-80 md:h-auto overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  {/* Loading skeleton */}
+                <div className="relative h-80 md:h-auto overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 dark:from-[#0f172a] dark:to-[#131f36]">
                   {!loadedImages[`${idx}-0`] && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
+                      <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin dark:border-slate-700 dark:border-t-blue-400"></div>
                     </div>
                   )}
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
@@ -70,7 +68,6 @@ export default function ProjectDisplay({ projects, title, description }) {
                   <div className="absolute top-4 right-4 px-4 py-2 bg-green-500 text-white text-sm font-bold rounded-full shadow-lg z-10">
                     {project.status}
                   </div>
-                  {/* Carousel indicators */}
                   {project.images.length > 1 && (
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
                       {project.images.map((_, imgIdx) => (
@@ -87,16 +84,15 @@ export default function ProjectDisplay({ projects, title, description }) {
                   )}
                 </div>
 
-                {/* Project Info */}
                 <div className="p-8 md:p-12 flex flex-col justify-center">
-                  <h3 className="text-3xl font-bold mb-4 text-slate-900">{project.title}</h3>
-                  <p className="text-slate-600 text-lg leading-relaxed mb-6">{project.description}</p>
+                  <h3 className="text-3xl font-bold mb-4 text-slate-900 dark:text-slate-100">{project.title}</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed mb-6 dark:text-slate-300">{project.description}</p>
                   
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.tech.map((tech, techIdx) => (
                       <span 
                         key={techIdx}
-                        className="px-3 py-1 bg-blue-50 text-blue-600 text-sm font-medium rounded-full"
+                        className="px-3 py-1 bg-blue-50 text-blue-600 text-sm font-medium rounded-full dark:bg-[#0f172a] dark:text-blue-300 dark:ring-1 dark:ring-inset dark:ring-slate-700"
                       >
                         {tech}
                       </span>
@@ -108,7 +104,7 @@ export default function ProjectDisplay({ projects, title, description }) {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all"
+                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all dark:from-blue-500 dark:to-cyan-400 dark:hover:shadow-blue-400/20"
                     >
                       <ExternalLink className="w-4 h-4" />
                       View Live
@@ -118,7 +114,7 @@ export default function ProjectDisplay({ projects, title, description }) {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 rounded-full font-semibold hover:bg-slate-200 transition-all"
+                        className="flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 rounded-full font-semibold hover:bg-slate-200 transition-all dark:bg-[#0f172a] dark:text-blue-300 dark:hover:bg-slate-800"
                       >
                         <Github className="w-4 h-4" />
                         Source Code

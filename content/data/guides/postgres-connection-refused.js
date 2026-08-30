@@ -45,15 +45,15 @@ module.exports = {
     {
       t: 'code',
       lang: 'bash',
-      x: `# Linux
+      x: `# Linux service
 sudo systemctl status postgresql
 sudo systemctl start postgresql
 
-# macOS (Homebrew)
+    # Homebrew on macOS
 brew services list
 brew services start postgresql@16
 
-# Docker
+    # Docker container
 docker ps -a | grep postgres
 docker logs <container>`,
     },
@@ -64,19 +64,19 @@ docker logs <container>`,
     {
       t: 'code',
       lang: 'bash',
-      x: `sudo tail -50 /var/log/postgresql/postgresql-16-main.log   # Debian/Ubuntu
-tail -50 /usr/local/var/log/postgresql@16.log              # macOS Homebrew`,
+      x: `sudo tail -50 /var/log/postgresql/postgresql-16-main.log   # Debian or Ubuntu log
+    tail -50 /usr/local/var/log/postgresql@16.log              # Homebrew log on macOS`,
     },
 
     { t: 'h2', x: 'Layer 2: is anything listening on 5432?' },
     {
       t: 'code',
       lang: 'bash',
-      x: `# What is bound to the port
+      x: `# Show the process bound to the port
 sudo lsof -i :5432
 sudo ss -tlnp | grep 5432
 
-# Can you reach it at all?
+    # Test whether the port is reachable
 nc -zv localhost 5432`,
     },
     {
@@ -102,12 +102,12 @@ nc -zv localhost 5432`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Find the file the running server is actually using
+      x: `# Find the active configuration file
 psql -U postgres -c 'SHOW config_file;'
 
-# In postgresql.conf
-listen_addresses = '*'          # all interfaces
-# listen_addresses = 'localhost,10.0.1.5'   # or be specific
+    # Settings for postgresql.conf
+    listen_addresses = '*'          # Listen on every interface
+    # listen_addresses = 'localhost,10.0.1.5'   # Bind only selected addresses
 port = 5432`,
     },
     {
@@ -123,7 +123,7 @@ port = 5432`,
     {
       t: 'code',
       lang: 'text',
-      x: `# TYPE  DATABASE  USER  ADDRESS          METHOD
+      x: `# Rule columns: TYPE  DATABASE  USER  ADDRESS          METHOD
 
 local   all       all                    peer
 host    all       all   127.0.0.1/32     scram-sha-256
@@ -139,7 +139,7 @@ hostssl all       all   0.0.0.0/0        scram-sha-256    ← require TLS for th
       t: 'code',
       lang: 'bash',
       x: `sudo systemctl reload postgresql
-# or
+    # Reload through SQL instead
 psql -U postgres -c 'SELECT pg_reload_conf();'`,
     },
     {
@@ -157,11 +157,11 @@ psql -U postgres -c 'SELECT pg_reload_conf();'`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# Ubuntu
+      x: `# Ubuntu firewall
 sudo ufw allow from 10.0.0.0/8 to any port 5432
 sudo ufw status
 
-# RHEL / Fedora
+    # RHEL or Fedora firewall
 sudo firewall-cmd --permanent --add-port=5432/tcp
 sudo firewall-cmd --reload`,
     },
@@ -209,7 +209,7 @@ sudo firewall-cmd --reload`,
     environment:
       POSTGRES_PASSWORD: secret
     ports:
-      - "5432:5432"        # only needed to reach it from the HOST
+      - "5432:5432"        # Publish only for host access
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -218,7 +218,7 @@ sudo firewall-cmd --reload`,
   api:
     build: .
     environment:
-      # 'db' is the service name, not localhost.
+      # Use the db service name instead of localhost
       DATABASE_URL: postgresql://postgres:secret@db:5432/app
     depends_on:
       db:
@@ -244,22 +244,22 @@ sudo firewall-cmd --reload`,
     {
       t: 'code',
       lang: 'bash',
-      x: `# 1. Is the process alive?
+      x: `# 1. Check whether the process is running
 sudo systemctl status postgresql
 
-# 2. Is it listening, and on what address?
+    # 2. Find the listening address
 sudo ss -tlnp | grep 5432
 
-# 3. Can you reach the port from the client machine?
+    # 3. Test the port from the client
 nc -zv db-host 5432
 
-# 4. Local connection as the postgres OS user
+    # 4. Connect locally as the postgres system user
 sudo -u postgres psql -c 'SELECT version();'
 
-# 5. TCP connection with an explicit host; this bypasses the Unix socket
+    # 5. Bypass the Unix socket with an explicit TCP host
 psql -h 127.0.0.1 -p 5432 -U myuser -d mydb
 
-# 6. What does the server think it is configured with?
+    # 6. Read the active server settings
 sudo -u postgres psql -c 'SHOW listen_addresses; SHOW port; SHOW hba_file;'`,
     },
     {

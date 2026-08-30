@@ -88,7 +88,7 @@ module.exports = {
     }).join('');
   }
 
-  // WCAG 2.x relative luminance.
+  // Calculate relative luminance for WCAG 2.x.
   function luminance(rgb) {
     var channels = rgb.map(function (c) {
       var s = c / 255;
@@ -135,8 +135,8 @@ module.exports = {
       '<dt>AAA · large text</dt><dd>' + badge(r >= 4.5) + ' requires 4.5:1</dd>';
   }
 
-  // Walk the foreground toward black or white, whichever is farther from the
-  // background, until it clears 4.5:1.
+  // Move the foreground toward the more distant endpoint.
+  // Stop when contrast reaches 4.5:1.
   document.getElementById('cx-fix').addEventListener('click', function () {
     var f = parse(fg.value), b = parse(bg.value);
     var note = document.getElementById('cx-fix-note');
@@ -235,7 +235,7 @@ module.exports = {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
   });
-  return 0.2126 * R + 0.7152 * G + 0.0722 * B;   // green dominates
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B;   // Green has the greatest weight
 }`,
     },
     {

@@ -1,6 +1,4 @@
-/**
- * Bylines for the network. Keep authorship and scope accurate and identifiable.
- */
+/** Author metadata used for bylines and profiles. */
 
 const authors = {
   jackson: {

@@ -1,4 +1,4 @@
-// All projects and websites organized by category
+// Projects are grouped by service.
 
 export const personalWebsites = [
   {
@@ -124,7 +124,7 @@ export const videoGames = [
   }
 ];
 
-// Combined list for homepage
+// Only app projects appear on the home page.
 export const allProjects = [
   ...crossPlatformApps,
   ...localApps

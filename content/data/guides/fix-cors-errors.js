@@ -83,7 +83,7 @@ module.exports = {
     {
       t: 'code',
       lang: 'javascript',
-      x: `// Express: use maintained middleware rather than assembling headers by hand
+      x: `// Express middleware manages the response headers
 import cors from 'cors';
 
 app.use(cors({
@@ -96,7 +96,7 @@ app.use(cors({
     {
       t: 'code',
       lang: 'python',
-      x: `# FastAPI
+      x: `# FastAPI middleware configuration
 from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
@@ -110,7 +110,7 @@ app.add_middleware(
     {
       t: 'code',
       lang: 'nginx',
-      x: `# Nginx: OPTIONS must return before the request is proxied
+      x: `# Return OPTIONS before proxying the request
 location /api/ {
     if ($request_method = OPTIONS) {
         add_header Access-Control-Allow-Origin  $http_origin always;
@@ -191,7 +191,7 @@ Access-Control-Max-Age: 86400`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// ✗ Fails because the browser rejects this combination\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\n\n// ✓ Return the validated origin and vary the cached response on it\nAccess-Control-Allow-Origin: https://app.example.com\nAccess-Control-Allow-Credentials: true\nVary: Origin`,
+      x: `// Browsers reject this combination\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Credentials: true\n\n// Return the validated origin and vary the cached response\nAccess-Control-Allow-Origin: https://app.example.com\nAccess-Control-Allow-Credentials: true\nVary: Origin`,
     },
     {
       t: 'p',
@@ -240,7 +240,7 @@ Access-Control-Max-Age: 86400`,
     {
       t: 'code',
       lang: 'javascript',
-      x: `// vite.config.js
+      x: `// Vite proxy configuration
 export default {
   server: {
     proxy: {
@@ -256,7 +256,7 @@ export default {
     {
       t: 'code',
       lang: 'json',
-      x: `// Create React App: add this to package.json
+      x: `// Create React App proxy configuration
 {
   "proxy": "http://localhost:8080"
 }`,
