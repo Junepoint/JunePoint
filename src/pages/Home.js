@@ -511,7 +511,7 @@ export default function Home() {
                 Let's collaborate to create a cross-platform digital experience that works beautifully on iOS, Android, and web.
               </p>
               <a 
-                href="mailto:info@junepoint.com" 
+                href="mailto:jackson@allwatermarinegroup.com"
                 className="inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all group dark:from-blue-500 dark:to-cyan-400 dark:hover:shadow-blue-950/60"
               >
                 Let's Talk

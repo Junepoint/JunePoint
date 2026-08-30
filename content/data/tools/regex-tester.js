@@ -38,7 +38,7 @@ module.exports = {
   <div class="jp-field">
     <label for="rx-subject">Test string</label>
     <textarea class="jp-textarea" id="rx-subject" spellcheck="false" style="min-height:150px">Contact ada@example.com or grace@navy.mil before Friday.
-Escalations go to oncall@junepoint.com. Do not email root@localhost.</textarea>
+Escalations go to jackson@allwatermarinegroup.com. Do not email root@localhost.</textarea>
   </div>
 
   <p class="jp-status" id="rx-status" role="status" aria-live="polite">&nbsp;</p>
