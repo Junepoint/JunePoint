@@ -83,6 +83,19 @@ for (const file of files) {
   const dupeIds = ids.filter((id, i) => ids.indexOf(id) !== i);
   if (dupeIds.length) problems.push(`${rel} — duplicate ids: ${[...new Set(dupeIds)].join(', ')}`);
 
+  const idSet = new Set(ids);
+  for (const [, target] of html.matchAll(/\sdata-copy="([^"]+)"/g)) {
+    if (!idSet.has(target)) problems.push(`${rel} — copy button target not found: ${target}`);
+  }
+
+  const buttonIds = [...html.matchAll(/<button[^>]*\sid="([^"]+)"/g)].map((m) => m[1]);
+  for (const id of buttonIds) {
+    const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (!new RegExp(`getElementById\\(['"]${escaped}['"]\\)`).test(html)) {
+      problems.push(`${rel} — button is not referenced by its page script: ${id}`);
+    }
+  }
+
   // Internal link collection
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)"/g)) linkRefs.push({ from: rel, href });
 

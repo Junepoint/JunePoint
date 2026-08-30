@@ -50,17 +50,66 @@
     var source = document.getElementById(button.getAttribute('data-copy'));
     if (!source) return;
     var text = 'value' in source ? source.value : source.textContent;
-    var done = function () {
-      var original = button.dataset.originalLabel || button.textContent;
-      button.dataset.originalLabel = original;
-      button.textContent = 'Copied';
-      setTimeout(function () {
+    var original = button.dataset.originalLabel || button.textContent;
+    button.dataset.originalLabel = original;
+
+    function showResult(label) {
+      clearTimeout(button.copyResetTimer);
+      button.textContent = label;
+      button.copyResetTimer = setTimeout(function () {
         button.textContent = original;
       }, 1400);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () {});
     }
+
+    function copyFallback() {
+      var helper = document.createElement('textarea');
+      helper.value = text;
+      helper.setAttribute('readonly', '');
+      helper.style.position = 'fixed';
+      helper.style.opacity = '0';
+      document.body.appendChild(helper);
+      helper.select();
+      helper.setSelectionRange(0, helper.value.length);
+
+      var copied = false;
+      try {
+        copied = document.execCommand('copy');
+      } catch (error) {
+        copied = false;
+      }
+      helper.remove();
+      showResult(copied ? 'Copied' : 'Copy failed');
+    }
+
+    if (!text) {
+      showResult('Nothing to copy');
+      return;
+    }
+
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      copyFallback();
+      return;
+    }
+
+    var copySettled = false;
+    showResult('Copying');
+    var copyFallbackTimer = setTimeout(function () {
+      if (copySettled) return;
+      copySettled = true;
+      copyFallback();
+    }, 500);
+
+    navigator.clipboard.writeText(text).then(function () {
+      if (copySettled) return;
+      copySettled = true;
+      clearTimeout(copyFallbackTimer);
+      showResult('Copied');
+    }, function () {
+      if (copySettled) return;
+      copySettled = true;
+      clearTimeout(copyFallbackTimer);
+      copyFallback();
+    });
   });
 
   function openTargetDetails() {
