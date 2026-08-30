@@ -69,10 +69,10 @@ function relatedMarkup(paths, registry) {
 </section>`;
 }
 
-function sidebarMarkup({ toc, section, registry, extra = '' }) {
+function sidebarMarkup({ toc, section, registry, currentPath, extra = '' }) {
   const siblings = registry
     .all()
-    .filter((entry) => entry.section === section && entry.type !== 'hub')
+    .filter((entry) => entry.section === section && entry.type !== 'hub' && entry.path !== currentPath)
     .slice(0, 6);
 
   const siblingList = siblings.length
@@ -121,7 +121,7 @@ function renderArticle(doc, registry) {
     </article>
     ${ads.unit('footer')}
   </main>
-  ${sidebarMarkup({ toc: tocMarkup(headings), section: doc.section, registry })}
+  ${sidebarMarkup({ toc: tocMarkup(headings), section: doc.section, registry, currentPath: path })}
 </div>`;
 
   const schema = [
@@ -194,7 +194,7 @@ function renderTool(doc, registry) {
     </article>
     ${ads.unit('footer')}
   </main>
-  ${sidebarMarkup({ toc: tocMarkup(headings), section: 'tools', registry })}
+  ${sidebarMarkup({ toc: tocMarkup(headings), section: 'tools', registry, currentPath: path })}
 </div>
 <script>${doc.tool.js}</script>`;
 

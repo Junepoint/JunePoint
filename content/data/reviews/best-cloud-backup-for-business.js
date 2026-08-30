@@ -89,11 +89,11 @@ module.exports = {
     { t: 'h3', x: 'The SaaS data gap' },
     {
       t: 'p',
-      x: 'SaaS data is an easy gap to miss in a small or mid-sized organisation. Microsoft and Google both use a **shared responsibility model**: they provide service availability while customers remain responsible for their data. Their documentation states this and recommends third-party backup.',
+      x: 'SaaS data is an easy gap to miss in a small or mid-sized organization. Microsoft and Google both use a **shared responsibility model**: they provide service availability while customers remain responsible for their data. Their documentation states this and recommends third-party backup.',
     },
     {
       t: 'p',
-      x: 'Recycle bins and retention policies are not independent backups. They may not cover a departing employee’s deletions discovered four months later, ransomware that syncs encrypted files to OneDrive, or an admin error that removes a mailbox. Organisations using Microsoft 365 or Google Workspace should include dedicated SaaS backup in the recovery design.',
+      x: 'Recycle bins and retention policies are not independent backups. They may not cover a departing employee’s deletions discovered four months later, ransomware that syncs encrypted files to OneDrive, or an admin error that removes a mailbox. Organizations using Microsoft 365 or Google Workspace should include dedicated SaaS backup in the recovery design.',
     },
 
     { t: 'h3', x: 'Restore granularity and speed' },
@@ -191,7 +191,7 @@ module.exports = {
       summary:
         'Built around the assumption that you will be attacked, with immutability by default, anomaly detection on backup data and tooling for identifying a clean recovery point.',
       price: 'Enterprise agreements; expect a substantial annual commitment',
-      bestFor: 'Larger organisations with a formal security programme and budget to match',
+      bestFor: 'Larger organizations with a formal security program and budget to match',
       deployment: 'Cloud-native, or appliance-based for on-premises',
       body: [
         'Rubrik treats backup as a security control. Backups are immutable by design rather than by optional configuration, and the platform analyses backup data for encryption or mass deletion. That analysis helps identify which restore point is clean during ransomware recovery.',
@@ -221,7 +221,7 @@ module.exports = {
       bestFor: 'Teams with their own backup software that need cheap, S3-compatible immutable storage',
       deployment: 'S3-compatible object storage; pair with Veeam, Restic, Duplicati or similar',
       body: [
-        'For organisations already running backup software, the storage bill is often the dominant cost, and B2 undercuts S3 substantially while remaining S3-compatible and supporting object lock for immutability. Veeam, MSP360, Restic, Duplicati and most other clients integrate with it directly.',
+        'For organizations already running backup software, the storage bill is often the dominant cost, and B2 undercuts S3 substantially while remaining S3-compatible and supporting object lock for immutability. Veeam, MSP360, Restic, Duplicati and most other clients integrate with it directly.',
         'The egress allowance matters because a large restore from a hyperscaler can cost more than a year of storage. B2 does not include a backup application or end-to-end recovery support, however. Your team selects the client, operates it and owns the restore process.',
       ],
       pros: [
@@ -272,17 +272,17 @@ module.exports = {
       summary:
         'A separate backup for Microsoft 365 or Google Workspace closes a common gap at a relatively low per-user cost.',
       price: 'Typically $3–$8 per user per month',
-      bestFor: 'Every organisation using Microsoft 365 or Google Workspace',
+      bestFor: 'Every organization using Microsoft 365 or Google Workspace',
       deployment: 'SaaS, usually deployed in under an hour',
       body: [
         'Exchange Online, SharePoint, OneDrive and Teams data remains the customer’s responsibility under Microsoft’s shared responsibility model. Native retention protects against Microsoft losing data, but not every case of user deletion, attacker deletion or a sync client propagating encryption.',
-        'Microsoft now offers first-party backup and it belongs on the shortlist. Some organisations prefer a third party because a backup in the same tenant and under the same identity provider shares part of the production failure domain. At a few dollars per user per month, either route can close a large gap for modest cost.',
+        'Microsoft now offers first-party backup and it belongs on the shortlist. Some organizations prefer a third party because a backup in the same tenant and under the same identity provider shares part of the production failure domain. At a few dollars per user per month, either route can close a large gap for modest cost.',
       ],
       pros: [
         'Closes a genuine and widely underestimated gap',
         'Fast to deploy and inexpensive per user',
         'Item-level restore of mail, files, sites and Teams content',
-        'Retains data beyond the licence lifetime of departed staff',
+        'Retains data beyond the license lifetime of departed staff',
       ],
       cons: [
         'Another vendor and another bill',
@@ -357,7 +357,7 @@ module.exports = {
         },
         {
           q: 'How much should business cloud backup cost?',
-          a: 'SaaS backup is typically $3–$8 per user per month. Server and workload backup varies enormously with data volume and retention. As a sanity check, most organisations land between 1% and 3% of their total IT budget. If a quote is far below that, check for excluded egress and restore charges.',
+          a: 'SaaS backup is typically $3–$8 per user per month. Server and workload backup varies enormously with data volume and retention. As a sanity check, most organizations land between 1% and 3% of their total IT budget. If a quote is far below that, check for excluded egress and restore charges.',
         },
         {
           q: 'How often should I test restores?',

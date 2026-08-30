@@ -1,7 +1,7 @@
 module.exports = {
   slug: 'color-contrast-checker',
   title: 'Color Contrast Checker for WCAG AA and AAA',
-  h1: 'Colour Contrast Checker',
+  h1: 'Color Contrast Checker',
   eyebrow: 'Accessibility',
   description:
     'Check a foreground and background color against WCAG 2.2 AA and AAA contrast thresholds, with a preview and an adjusted foreground option.',
@@ -242,7 +242,7 @@ module.exports = {
       t: 'p',
       x: 'The green coefficient is larger because human vision is more sensitive to green than blue. As a result, pure blue `#0000ff` on white has a ratio of about 8.6:1, while pure yellow `#ffff00` on white is about 1.07:1.',
     },
-    { t: 'p', x: 'The ratio ranges from 1:1 (identical colours) to 21:1 (pure black on pure white).' },
+    { t: 'p', x: 'The ratio ranges from 1:1 (identical colors) to 21:1 (pure black on pure white).' },
 
     {
       t: 'note',

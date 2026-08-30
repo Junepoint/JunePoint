@@ -107,7 +107,7 @@ module.exports = {
       price: 'Federal free including Schedule C; state around $15 each',
       bestFor: 'Freelancers with straightforward books who are comfortable with a plainer interface',
       body: [
-        'Price is the main distinction. Major brands charge $100–$130 for a self-employed federal return, while FreeTaxUSA includes Schedule C, self-employment tax, home office and depreciation at no federal cost. It is an IRS-authorised e-file provider and supports prior-year returns and amendments.',
+        'Price is the main distinction. Major brands charge $100–$130 for a self-employed federal return, while FreeTaxUSA includes Schedule C, self-employment tax, home office and depreciation at no federal cost. It is an IRS-authorized e-file provider and supports prior-year returns and amendments.',
         'The trade-off is less guidance and polish. The interface is functional, accounting-software imports are not automatic, and support is more limited than with premium products. Those constraints matter less for someone who keeps clean books and understands the entries.',
       ],
       pros: [
@@ -177,7 +177,7 @@ module.exports = {
       name: 'Keeper',
       award: 'Best for finding deductions during the year',
       summary:
-        'Monitors your bank and card transactions year-round to identify deductible expenses, then files from what it has categorised.',
+        'Monitors your bank and card transactions year-round to identify deductible expenses, then files from what it has categorized.',
       price: 'Around $20 per month, or an annual plan; filing included',
       bestFor: 'Freelancers who do not keep books and want expenses caught as they happen',
       body: [
@@ -254,7 +254,7 @@ module.exports = {
     },
     {
       t: 'p',
-      x: 'The reasonable salary is the critical assumption. Setting it artificially low to minimise payroll tax is a known IRS examination area, and an adjustment can bring back taxes and penalties. Make this decision with a CPA rather than relying on a blog post, including this one.',
+      x: 'The reasonable salary is the critical assumption. Setting it artificially low to minimize payroll tax is a known IRS examination area, and an adjustment can bring back taxes and penalties. Make this decision with a CPA rather than relying on a blog post, including this one.',
     },
 
     {

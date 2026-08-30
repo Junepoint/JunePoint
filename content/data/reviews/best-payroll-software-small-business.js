@@ -243,7 +243,7 @@ module.exports = {
         '**Export everything before cancelling.** Keep pay history, tax filings and employee records. Access often ends at cancellation, and those records are needed for audits.',
         '**Run parallel for one cycle.** Compare gross-to-net for every employee against the old system before committing.',
         '**Confirm who files the final quarter.** Both providers filing, or neither, are equally bad. Get it agreed in writing.',
-        '**Verify tax agency accounts transferred.** New provider, new third-party authorisation with each state.',
+        '**Verify tax agency accounts transferred.** New provider, new third-party authorization with each state.',
       ],
     },
 

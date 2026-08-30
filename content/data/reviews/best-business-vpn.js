@@ -122,7 +122,7 @@ module.exports = {
       summary:
         'Publishes internal web applications through Cloudflare’s network with SSO in front, so contractors and partners reach them in a browser with no client installed.',
       price: 'Free for up to 50 users; paid plans from around $7 per user per month',
-      bestFor: 'Organisations needing to grant access to contractors, or already using Cloudflare',
+      bestFor: 'Organizations needing to grant access to contractors, or already using Cloudflare',
       deployment: 'Tunnel daemon inside your network; browser access or the WARP client',
       body: [
         'Clientless access is the distinguishing feature. You can publish an internal application behind Cloudflare Access, put your identity provider in front of it, and let a contractor connect through a browser without receiving network access. That narrower grant is preferable to issuing broad VPN credentials to third parties.',
@@ -245,7 +245,7 @@ module.exports = {
       items: [
         {
           q: 'What is the difference between a business VPN and a consumer VPN?',
-          a: 'A consumer VPN routes your internet traffic through a provider to hide it from your ISP and change your apparent location. A business VPN or ZTNA connects you to your organisation’s private resources. They solve entirely different problems, and a consumer product will not give remote staff access to internal systems.',
+          a: 'A consumer VPN routes your internet traffic through a provider to hide it from your ISP and change your apparent location. A business VPN or ZTNA connects you to your organization’s private resources. They solve entirely different problems, and a consumer product will not give remote staff access to internal systems.',
         },
         {
           q: 'Is ZTNA better than a VPN?',
@@ -253,7 +253,7 @@ module.exports = {
         },
         {
           q: 'How much does a business VPN cost?',
-          a: 'Roughly $6–$15 per user per month for most ZTNA platforms, with meaningful free tiers at Tailscale, Twingate and Cloudflare. Products offering dedicated static IPs add a gateway fee. Self-hosted WireGuard costs only the server, but consumes engineering time that usually exceeds the licence saving above about ten users.',
+          a: 'Roughly $6–$15 per user per month for most ZTNA platforms, with meaningful free tiers at Tailscale, Twingate and Cloudflare. Products offering dedicated static IPs add a gateway fee. Self-hosted WireGuard costs only the server, but consumes engineering time that usually exceeds the license saving above about ten users.',
         },
         {
           q: 'Do I still need a VPN if everything is in the cloud?',

@@ -50,7 +50,7 @@ Permission denied (publickey).`,
       rows: [
         ['No `Offering public key` lines at all', 'The client found no usable key to offer; see cause 2'],
         ['`Offering…` then `Authentications that can continue`', 'The server rejected the offered key; see cause 1'],
-        ['`Server accepts key` then failure', 'The key test passed, but a later authentication or authorisation step failed; see cause 5'],
+        ['`Server accepts key` then failure', 'The key test passed, but a later authentication or authorization step failed; see cause 5'],
         ['`Bad permissions`, `UNPROTECTED PRIVATE KEY FILE`', 'The client rejected a key because of its file mode; see cause 3'],
         ['`send_pubkey_test: no mutual signature algorithm`', 'The client and server do not share an allowed signature algorithm; see cause 6'],
       ],

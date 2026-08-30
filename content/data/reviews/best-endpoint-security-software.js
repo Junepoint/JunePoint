@@ -34,8 +34,8 @@ module.exports = {
     {
       t: 'takeaways',
       items: [
-        '**EDR needs someone to watch it.** Untriaged alerts amount to stored evidence rather than an active response. Organisations without 24/7 coverage should compare MDR, not only EDR.',
-        'Signature-based antivirus can stop commodity malware, but living-off-the-land techniques require behavioural detection and investigation.',
+        '**EDR needs someone to watch it.** Untriaged alerts amount to stored evidence rather than an active response. Organizations without 24/7 coverage should compare MDR, not only EDR.',
+        'Signature-based antivirus can stop commodity malware, but living-off-the-land techniques require behavioral detection and investigation.',
         'Use **MITRE ATT&CK Evaluations** alongside vendor material. MITRE publishes raw results and does not rank vendors, so the interpretation still needs scrutiny.',
         'Alert volume matters as much as detection coverage. If a platform produces 400 alerts a day, a small team is unlikely to investigate them consistently.',
       ],
@@ -46,25 +46,25 @@ module.exports = {
       t: 'table',
       head: ['Term', 'What it is', 'Who operates it'],
       rows: [
-        ['**EPP** (antivirus)', 'Blocks known-bad files and behaviours', 'Runs itself'],
-        ['**EDR**', 'Records endpoint activity, detects suspicious behaviour, enables investigation and response', 'Your team; it needs analysts'],
+        ['**EPP** (antivirus)', 'Blocks known-bad files and behaviors', 'Runs itself'],
+        ['**EDR**', 'Records endpoint activity, detects suspicious behavior, enables investigation and response', 'Your team; it needs analysts'],
         ['**XDR**', 'EDR extended across email, identity, cloud and network telemetry', 'You, with more data to correlate'],
         ['**MDR**', 'EDR or XDR plus a vendor security operations team watching it around the clock', 'The vendor'],
       ],
     },
     {
       t: 'p',
-      x: 'The last column often decides the purchase. EDR is an investigation and response tool that assumes a trained analyst will review its output. In many organisations with fewer than a few hundred staff, nobody is assigned to triage alerts at 2am on a Sunday. In that setting, EDR alone may record a breach without prompting a timely response.',
+      x: 'The last column often decides the purchase. EDR is an investigation and response tool that assumes a trained analyst will review its output. In many organizations with fewer than a few hundred staff, nobody is assigned to triage alerts at 2am on a Sunday. In that setting, EDR alone may record a breach without prompting a timely response.',
     },
     {
       t: 'p',
-      x: '**MDR is often the practical fit for a mid-sized business without round-the-clock analysts.** It costs more per endpoint than EDR alone, but much less than staffing a 24/7 security operations centre.',
+      x: '**MDR is often the practical fit for a mid-sized business without round-the-clock analysts.** It costs more per endpoint than EDR alone, but much less than staffing a 24/7 security operations center.',
     },
 
     { t: 'h2', x: 'Why antivirus is no longer sufficient on its own' },
     {
       t: 'p',
-      x: 'Signature detection recognises known-bad files. It cannot cover attacks that use no malicious file at all, including these common patterns:',
+      x: 'Signature detection recognizes known-bad files. It cannot cover attacks that use no malicious file at all, including these common patterns:',
     },
     {
       t: 'ul',
@@ -77,7 +77,7 @@ module.exports = {
     },
     {
       t: 'p',
-      x: '**Behavioural** detection can flag a Word document spawning PowerShell and contacting an unfamiliar host, or a service account suddenly enumerating the domain. EDR is built to record and investigate those sequences; traditional antivirus is not.',
+      x: '**Behavioral** detection can flag a Word document spawning PowerShell and contacting an unfamiliar host, or a service account suddenly enumerating the domain. EDR is built to record and investigate those sequences; traditional antivirus is not.',
     },
 
     { t: 'h2', x: 'How to evaluate detection quality' },
@@ -110,7 +110,7 @@ module.exports = {
       t: 'pick',
       rank: 1,
       name: 'CrowdStrike Falcon',
-      award: 'Best-regarded platform for larger organisations',
+      award: 'Best-regarded platform for larger organizations',
       summary:
         'A lightweight single-agent platform with strong results across independent evaluations and an extensive threat-intelligence operation.',
       price: 'Roughly $60–$185 per endpoint per year by tier; Falcon Complete (MDR) costs substantially more',
@@ -139,7 +139,7 @@ module.exports = {
       name: 'SentinelOne Singularity',
       award: 'Strongest autonomous response',
       summary:
-        'On-agent behavioural detection and response that continues without cloud connectivity, including automated rollback of ransomware encryption.',
+        'On-agent behavioral detection and response that continues without cloud connectivity, including automated rollback of ransomware encryption.',
       price: 'Roughly $70–$200 per endpoint per year by tier',
       bestFor: 'Teams wanting automated response, and estates with disconnected or bandwidth-limited endpoints',
       deployment: 'Cloud console, agent operates autonomously',
@@ -166,13 +166,13 @@ module.exports = {
       name: 'Microsoft Defender for Endpoint',
       award: 'Best value if you already have Microsoft E5',
       summary:
-        'Competitive detection with close Windows and Entra ID integration, bundled for organisations that already hold the relevant Microsoft E5 licence.',
+        'Competitive detection with close Windows and Entra ID integration, bundled for organizations that already hold the relevant Microsoft E5 license.',
       price: 'Included in Microsoft 365 E5; Defender for Business is around $3 per user per month for under 300 seats',
-      bestFor: 'Microsoft-centric organisations, especially those already on E5',
+      bestFor: 'Microsoft-centric organizations, especially those already on E5',
       deployment: 'Built into Windows; agents available for macOS, Linux, iOS and Android',
       body: [
-        'Defender has improved substantially and now performs respectably in independent testing. Its structural advantage is telemetry from Windows, correlated with identity, email and cloud data across a Microsoft estate. For an organisation already paying for E5, the marginal licence cost is effectively zero.',
-        'Defender for Business offers much of this to organisations under 300 seats at a low per-user price. The trade-offs are coverage and concentration: the product is strongest on Windows, and placing the security stack inside one vendor ecosystem carries its own strategic risk.',
+        'Defender has improved substantially and now performs respectably in independent testing. Its structural advantage is telemetry from Windows, correlated with identity, email and cloud data across a Microsoft estate. For an organization already paying for E5, the marginal license cost is effectively zero.',
+        'Defender for Business offers much of this to organizations under 300 seats at a low per-user price. The trade-offs are coverage and concentration: the product is strongest on Windows, and placing the security stack inside one vendor ecosystem carries its own strategic risk.',
       ],
       pros: [
         'Effectively free with Microsoft 365 E5',
@@ -193,16 +193,16 @@ module.exports = {
       name: 'Sophos Intercept X with MDR',
       award: 'Best MDR for small and mid-sized businesses',
       summary:
-        'Strong protection paired with an accessible managed detection and response service, aimed squarely at organisations with no internal security team.',
+        'Strong protection paired with an accessible managed detection and response service, aimed squarely at organizations with no internal security team.',
       price: 'Per-user or per-endpoint subscription; MDR is a modest uplift rather than a multiple',
       bestFor: 'SMBs with no dedicated security staff, and MSP-delivered security',
       deployment: 'Cloud console, with an established partner channel',
       body: [
-        'Sophos targets the mid-market with a relatively clear console, straightforward deployment and an MDR service priced within reach of a 200-person company. That combination matters for organisations that cannot staff EDR monitoring themselves.',
-        'The platform can also use Sophos firewalls to isolate a compromised host at the network layer. This is useful for organisations already running that networking stack and less relevant elsewhere.',
+        'Sophos targets the mid-market with a relatively clear console, straightforward deployment and an MDR service priced within reach of a 200-person company. That combination matters for organizations that cannot staff EDR monitoring themselves.',
+        'The platform can also use Sophos firewalls to isolate a compromised host at the network layer. This is useful for organizations already running that networking stack and less relevant elsewhere.',
       ],
       pros: [
-        'MDR priced for organisations without a security team',
+        'MDR priced for organizations without a security team',
         'Clear, approachable management console',
         'Synchronised Security with Sophos firewalls',
         'Strong partner channel for SMBs',
@@ -225,11 +225,11 @@ module.exports = {
       deployment: 'Lightweight agent, managed service',
       body: [
         'Huntress takes a narrower approach than the full EDR platforms: it looks for footholds and persistence, and an analyst validates each alert before sending it. The resulting alert volume is lower, which makes the service more manageable for a small team.',
-        'It is not a full EDR platform. Huntress is often deployed alongside Defender rather than replacing it, creating a lower-cost option for a small organisation that wants human-reviewed detection.',
+        'It is not a full EDR platform. Huntress is often deployed alongside Defender rather than replacing it, creating a lower-cost option for a small organization that wants human-reviewed detection.',
       ],
       pros: [
         'Every alert is reviewed by a human, reducing the false-positive burden',
-        'Pricing is accessible to small organisations',
+        'Pricing is accessible to small organizations',
         'Excellent MSP tooling and multi-tenancy',
         'Complements rather than replaces existing antivirus',
       ],
@@ -260,8 +260,8 @@ module.exports = {
       t: 'ol',
       items: [
         '**Coverage.** An unprotected endpoint can become the initial foothold. Reconcile agent inventory against asset inventory monthly, including contractors’ machines, where coverage gaps commonly appear.',
-        '**Someone watching.** If nobody in your organisation is paid to triage alerts overnight, MDR is usually a better fit than unmanaged EDR. This decision matters more than a marginal difference between detection engines.',
-        '**Tuning.** Each environment produces benign behaviour that looks suspicious. Reserve time in the first 60 days to suppress it before alert fatigue erodes monitoring.',
+        '**Someone watching.** If nobody in your organization is paid to triage alerts overnight, MDR is usually a better fit than unmanaged EDR. This decision matters more than a marginal difference between detection engines.',
+        '**Tuning.** Each environment produces benign behavior that looks suspicious. Reserve time in the first 60 days to suppress it before alert fatigue erodes monitoring.',
         '**An incident response plan.** Detection only establishes that something may be wrong. Document who is called, who can isolate a host, and who communicates with customers and regulators, then rehearse that plan.',
         '**The rest of the basics.** MFA, patching, least privilege and tested backups remain essential preventive controls. EDR is one layer, not the whole strategy.',
       ],
@@ -278,19 +278,19 @@ module.exports = {
       items: [
         {
           q: 'What is the difference between antivirus and EDR?',
-          a: 'Antivirus blocks known-bad files using signatures and simple heuristics. EDR continuously records endpoint activity and detects suspicious behaviour, which catches attacks using legitimate tools and stolen credentials where no malicious file exists. EDR also gives you the forensic timeline needed to understand what happened. Most modern products include both.',
+          a: 'Antivirus blocks known-bad files using signatures and simple heuristics. EDR continuously records endpoint activity and detects suspicious behavior, which catches attacks using legitimate tools and stolen credentials where no malicious file exists. EDR also gives you the forensic timeline needed to understand what happened. Most modern products include both.',
         },
         {
           q: 'Do I need EDR if I have Microsoft Defender?',
-          a: 'Defender Antivirus, built into Windows, is antivirus only. Defender for Endpoint and Defender for Business are the EDR products and are separate licences. If you hold Microsoft 365 E5, Defender for Endpoint is already included and worth enabling before buying anything else.',
+          a: 'Defender Antivirus, built into Windows, is antivirus only. Defender for Endpoint and Defender for Business are the EDR products and are separate licenses. If you hold Microsoft 365 E5, Defender for Endpoint is already included and worth enabling before buying anything else.',
         },
         {
           q: 'Should I buy EDR or MDR?',
-          a: 'If nobody at your organisation is responsible for triaging alerts outside business hours, MDR is usually the better fit. Unmonitored EDR may provide forensic evidence without prompting a timely response. MDR costs more per endpoint and far less than staffing a 24/7 security operations centre.',
+          a: 'If nobody at your organization is responsible for triaging alerts outside business hours, MDR is usually the better fit. Unmonitored EDR may provide forensic evidence without prompting a timely response. MDR costs more per endpoint and far less than staffing a 24/7 security operations center.',
         },
         {
           q: 'How much does endpoint security cost per user?',
-          a: 'Roughly $30–$60 per endpoint per year for standard EDR at volume, $60–$185 for premium tiers, and meaningfully more for MDR. Microsoft Defender for Business is around $3 per user per month for organisations under 300 seats, and Defender for Endpoint is included in Microsoft 365 E5.',
+          a: 'Roughly $30–$60 per endpoint per year for standard EDR at volume, $60–$185 for premium tiers, and meaningfully more for MDR. Microsoft Defender for Business is around $3 per user per month for organizations under 300 seats, and Defender for Endpoint is included in Microsoft 365 E5.',
         },
         {
           q: 'Which endpoint security product has the best detection rate?',

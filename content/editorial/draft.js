@@ -41,7 +41,12 @@ function published() {
     if (!fs.existsSync(dir)) return [];
     return fs.readdirSync(dir).filter((f) => f.endsWith('.js')).map((f) => {
       const doc = require(path.join(dir, f));
-      return { slug: doc.slug, title: doc.title, keywords: doc.keywords || [] };
+      return {
+        slug: doc.slug,
+        title: doc.title,
+        keywords: doc.keywords || [],
+        path: `/${section}/${doc.slug}/`,
+      };
     });
   });
 }
@@ -138,7 +143,42 @@ function assertShape(doc, topic) {
   if (JSON.stringify(doc).includes('<script')) throw new Error('model output contained a <script> tag');
 }
 
-function serialise(doc, topic) {
+/**
+ * Choose "keep reading" links by keyword overlap with published pages.
+ *
+ * Computed here rather than asked of the model, for two reasons: a model will
+ * happily invent a path that does not exist, which fails the link check and
+ * kills the run; and internal linking is too important to leave to chance. The
+ * page ends up structurally identical to a hand-written one.
+ */
+function pickRelated(doc, existing) {
+  const terms = new Set(
+    [...(doc.keywords || []), doc.title || '']
+      .join(' ')
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((w) => w.length > 3)
+  );
+
+  return existing
+    .map((page) => {
+      const words = new Set(
+        [...(page.keywords || []), page.title || '']
+          .join(' ')
+          .toLowerCase()
+          .split(/[^a-z0-9]+/)
+          .filter((w) => w.length > 3)
+      );
+      const shared = [...words].filter((w) => terms.has(w)).length;
+      return { path: page.path, score: shared };
+    })
+    .filter((r) => r.score > 0 && r.path)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((r) => r.path);
+}
+
+function serialise(doc, topic, existing) {
   const today = new Date().toISOString().slice(0, 10);
   const full = {
     ...doc,
@@ -146,6 +186,7 @@ function serialise(doc, topic) {
     published: doc.published || today,
     updated: today,
     author: doc.author || 'jackson',
+    related: (doc.related && doc.related.length) ? doc.related : pickRelated(doc, existing),
   };
   return `module.exports = ${JSON.stringify(full, null, 2)};\n`;
 }
@@ -189,7 +230,7 @@ async function writeOne(topic, existing) {
       continue;
     }
 
-    fs.writeFileSync(file, serialise(doc, topic));
+    fs.writeFileSync(file, serialise(doc, topic, existing));
     failures = gate(file);
     if (!failures.length) {
       console.log(`  accepted: ${file}`);

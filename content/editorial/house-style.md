@@ -39,4 +39,4 @@ colleague explains something, not the way marketing copy sells something.
 - Prefer the concrete to the abstract. A number, a command, a real error string.
 - Admit trade-offs. Anything that sounds uniformly positive is not being honest.
 - No introductions that restate the title. Start with something useful.
-- British or American spelling is fine, but be consistent within an article.
+- American spelling is fine, but be consistent within an article.
