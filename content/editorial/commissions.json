@@ -23,7 +23,7 @@
       "section": "guides",
       "slug": "css-specificity-explained",
       "angle": "Why your CSS rule is not applying: specificity, cascade layers, and !important",
-      "done": false
+      "done": true
     },
     {
       "section": "tools",
