@@ -20,12 +20,11 @@ const imagesToOptimize = [
   'Burn-2-portrait.png',
   'Burn-3-portrait.png',
   'Burn-4-portrait.png',
-  'iCO-1.png',
-  'iCO-2.png',
-  'iCO-3.png',
-  'iCO-4.png',
-  'iCO-5.png',
-  'iCO-6.png'
+  'Group1.png',
+  'Group2.png',
+  'Group3.png',
+  'Group4.png',
+  'Group5.png'
 ];
 
 async function optimizeImages() {

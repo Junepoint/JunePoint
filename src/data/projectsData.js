@@ -61,12 +61,11 @@ export const crossPlatformApps = [
     title: "iCO Emergency - Safety Tracking App",
     description: "A privacy-based safety tracking application that gives real-time emergency data, constant location tracking, but temporary location sharing, and safety check-ins. Built with React Native for cross-platform deployment on iOS and Android.",
     images: [
-      "/imgs/iCO-1.png",
-      "/imgs/iCO-2.png",
-      "/imgs/iCO-3.png",
-      "/imgs/iCO-4.png",
-      "/imgs/iCO-5.png",
-      "/imgs/iCO-6.png"
+      "/imgs/Group1.png",
+      "/imgs/Group2.png",
+      "/imgs/Group3.png",
+      "/imgs/Group4.png",
+      "/imgs/Group5.png"
     ],
     tech: ["React Native", "Expo", "NeonDB", "Google Cloud Platform"],
     liveUrl: "https://icoemergency.com",
